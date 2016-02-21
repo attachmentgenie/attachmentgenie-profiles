@@ -1,5 +1,5 @@
 class profiles::haproxy () {
-  class { 'haproxy': }
+  class { '::haproxy': }
   haproxy::listen { 'puppetmaster':
     ipaddress => $::ipaddress_eth1,
     ports     => '8140',
