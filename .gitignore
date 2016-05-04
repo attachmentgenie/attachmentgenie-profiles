@@ -1,12 +1,6 @@
 coverage/
-doc/
+Gemfile.lock
 log/
 pkg/
 spec/fixtures/
 vendor/
-.yardoc
-.yardwarns
-checksums
-Gemfile.lock
-object_types
-proxy_types

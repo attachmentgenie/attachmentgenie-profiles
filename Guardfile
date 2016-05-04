@@ -21,5 +21,4 @@ guard 'rake', :task => 'spec' do
   watch(%r{^templates\/.+\.erb$})
   watch(%r{^spec/.+_spec\.rb$})
   watch('spec/spec_helper.rb')  { "spec" }
-  watch('.fixtures.yml')  { "spec" }
 end
