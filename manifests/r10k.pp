@@ -1,7 +1,7 @@
 class profiles::r10k (
   $puppet_repo_url = undef,
 ) {
-  class { 'r10k':
+  class { '::r10k':
     sources           => {
       'puppet' => {
         'remote'  => $puppet_repo_url,

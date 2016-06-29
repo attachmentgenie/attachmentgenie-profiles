@@ -2,7 +2,8 @@ class profiles::selinux (
   $mode = 'disabled',
   $motd = false,
 ) {
-  class { 'selinux':
+
+  class { '::selinux':
     mode => $mode,
   }
 

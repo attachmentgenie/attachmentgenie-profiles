@@ -8,7 +8,7 @@ class profiles::puppet (
   $puppetmaster                = undef,
   $runmode                     = 'service',
   $server                      = false,
-  $server_additional_settings  = {trusted_node_data => true},
+  $server_additional_settings  = {},
   $server_ca                   = true,
   $server_ca_proxy             = undef,
   $server_common_modules_path  = [],
@@ -49,17 +49,11 @@ class profiles::puppet (
     splay                       => $splay,
   }
   if $server {
-    file { $hiera_yaml_datadir:
-      ensure => 'directory',
-      mode   => '0755',
-      owner  => 'puppet',
-      group  => 'puppet',
-    } ->
     file { '/etc/puppet/hiera.yaml':
       mode    => '0644',
       owner   => 'puppet',
       group   => 'puppet',
-      content => template('puppetmaster/hiera.yaml.erb'),
+      content => template('profiles/hiera.yaml.erb'),
     }
     Class['::puppet'] ->
     File['/etc/puppet/hiera.yaml']
@@ -68,7 +62,7 @@ class profiles::puppet (
         mode    => '0644',
         owner   => 'puppet',
         group   => 'puppet',
-        content => template('puppetmaster/autosign.conf.erb'),
+        content => template('profiles/autosign.conf.erb'),
       }
       Class['::puppet'] ->
       File['/etc/puppet/autosign.conf']

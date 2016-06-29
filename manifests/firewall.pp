@@ -2,7 +2,7 @@ class profiles::firewall (
   $ensure = 'running',
   $motd   = false,
 ) {
-  class { 'firewall':
+  class { '::firewall':
     ensure => $ensure,
   }
 
