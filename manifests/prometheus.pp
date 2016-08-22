@@ -1,5 +1,5 @@
 class profiles::prometheus (
-  $prometheus_version = '0.20.0',
+  $prometheus_version = '1.0.1',
   $server             = false,
 ){
   if $server {
