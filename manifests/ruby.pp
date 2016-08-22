@@ -4,16 +4,16 @@ class profiles::ruby (
 
   case $::osfamily {
     'debian': {
-      $developerPackages = ['rubygems','ruby','ruby-devel']
+      $developer_packages = ['rubygems','ruby','ruby-devel']
     }
     'redhat': {
-      $developerPackages = ['rubygems','ruby','ruby-devel']
+      $developer_packages = ['rubygems','ruby','ruby-devel']
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
     }
   }
-  package { $developerPackages: ensure => installed }
+  package { $developer_packages: ensure => installed }
 
   if $motd {
     motd::register{ 'Profile : ruby': }
