@@ -2,12 +2,13 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 
 RSpec.configure do |c|
   c.default_facts = {
+    :architecture              => 'amd64',
     :ipaddress                 => '127.0.0.1',
     :ipaddress_eth1            => '127.0.0.1',
     :is_virtual                => true,
     :kernel                    => 'linux',
     :osfamily                  => 'RedHat',
-    :operatingsystem           => 'centos',
+    :operatingsystem           => 'CentOS',
     :operatingsystemrelease    => '7.2,',
     :operatingsystemmajrelease => '7',
     :os_maj_release            => '7',
@@ -15,6 +16,7 @@ RSpec.configure do |c|
     :processorcount            => 2,
     :puppetversion             => '3.8.7',
     :selinux                   => 'true',
+    :staging_http_get          => 'curl',
   }
   c.after(:suite) do
     RSpec::Puppet::Coverage.report!
