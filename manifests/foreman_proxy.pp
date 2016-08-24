@@ -13,6 +13,7 @@ class profiles::foreman_proxy (
     dns              => false,
     puppetca         => $puppetca,
     puppetrun        => $puppetrun,
+    registered_name  => $foreman_host,
     tftp             => false,
     version          => $version,
   }

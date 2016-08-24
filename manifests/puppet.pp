@@ -16,7 +16,9 @@ class profiles::puppet (
   $server_external_nodes       = '/etc/puppet/node.rb',
   $server_foreman              = false,
   $server_foreman_url          = 'http://foreman',
-  $server_implementation       = 'master',
+  $server_implementation       = 'puppetserver',
+  $server_jvm_max_heap_size    = '512m',
+  $server_jvm_min_heap_size    = '512m',
   $server_passenger            = true,
   $server_parser               = 'current',
   $server_puppetdb_host        = undef,
@@ -27,6 +29,7 @@ class profiles::puppet (
 ) {
   class { '::puppet':
     allow_any_crl_auth          => $allow_any_crl_auth,
+    autosign                    => $autosign,
     dns_alt_names               => $dns_alt_names,
     puppetmaster                => $puppetmaster,
     runmode                     => $runmode,
@@ -40,6 +43,8 @@ class profiles::puppet (
     server_foreman              => $server_foreman,
     server_foreman_url          => $server_foreman_url,
     server_implementation       => $server_implementation,
+    server_jvm_max_heap_size    => $server_jvm_max_heap_size,
+    server_jvm_min_heap_size    => $server_jvm_min_heap_size,
     server_passenger            => $server_passenger,
     server_parser               => $server_parser,
     server_puppetdb_host        => $server_puppetdb_host,
@@ -49,24 +54,19 @@ class profiles::puppet (
     splay                       => $splay,
   }
   if $server {
-    file { '/etc/puppet/hiera.yaml':
+    if versioncmp($::puppetversion, '4.0.0') >= 0 {
+      $hiera_yaml_file = '/etc/puppetlabs/puppet/hiera.yaml'
+    } else {
+      $hiera_yaml_file = '/etc/puppet/hiera.yaml'
+    }
+    file { $hiera_yaml_file:
       mode    => '0644',
       owner   => 'puppet',
       group   => 'puppet',
       content => template('profiles/hiera.yaml.erb'),
     }
     Class['::puppet'] ->
-    File['/etc/puppet/hiera.yaml']
-    if $autosign {
-      file { '/etc/puppet/autosign.conf':
-        mode    => '0644',
-        owner   => 'puppet',
-        group   => 'puppet',
-        content => template('profiles/autosign.conf.erb'),
-      }
-      Class['::puppet'] ->
-      File['/etc/puppet/autosign.conf']
-    }
+    File[$hiera_yaml_file]
     if $foreman_repo {
       foreman::install::repos { 'foreman':
         repo     => 'stable',
