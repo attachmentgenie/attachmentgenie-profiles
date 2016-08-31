@@ -1,7 +1,7 @@
 class profiles::python (
   $python_pips = {},
 ) {
-  class { 'python' :
+  class { '::python' :
     dev         => 'present',
     gunicorn    => 'absent',
     pip         => 'present',
