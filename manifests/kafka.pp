@@ -1,4 +1,6 @@
-class profiles::kafka () {
+class profiles::kafka (
+  $zookeeper_connect
+) {
   yumrepo { 'cloudera-cdh5':
     descr    => "Cloudera's Distribution for Hadoop, Version 5",
     baseurl  => 'http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/',
@@ -22,7 +24,7 @@ class profiles::kafka () {
     manage_repo       => false,
     package_name      => 'kafka-server',
     service_name      => 'kafka-server',
-    zookeeper_connect => ['node1.kafka.vagrant:2181'],
+    zookeeper_connect => $zookeeper_connect,
   }
 
   Yumrepo['cloudera-cdh5'] -> Package['kafka-server']
