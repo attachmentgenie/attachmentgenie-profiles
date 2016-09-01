@@ -1,6 +1,8 @@
 class profiles::kafka (
-  $zookeeper_connect
-) {
+  $zookeeper_connect,
+  $advertised_hostname = $::profiles::kafka::params::advertised_hostname,
+  $hostname            = $::profiles::kafka::params::hostname,
+) inherits profiles::kafka::params {
   yumrepo { 'cloudera-cdh5':
     descr    => "Cloudera's Distribution for Hadoop, Version 5",
     baseurl  => 'http://archive.cloudera.com/cdh5/redhat/6/x86_64/cdh/5/',
@@ -17,7 +19,7 @@ class profiles::kafka (
     ensure => present,
   }
   class { '::kafka':
-    advertised_hostname => $::ipaddress_enp0s8,
+    advertised_hostname => $advertised_hostname,
     broker_id           => 1,
     conf_dir            => '/etc/kafka/conf.dist',
     install_java        => false,
@@ -25,7 +27,7 @@ class profiles::kafka (
     manage_repo         => false,
     package_name        => 'kafka-server',
     service_name        => 'kafka-server',
-    hostname            => $::ipaddress_enp0s8,
+    hostname            => $hostname,
     zookeeper_connect   => $zookeeper_connect,
   }
 
