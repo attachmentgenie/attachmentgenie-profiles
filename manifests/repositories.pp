@@ -11,6 +11,7 @@ class profiles::repositories (
       }
     }
     'redhat': {
+      class { '::epel': }
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
