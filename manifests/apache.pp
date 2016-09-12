@@ -1,8 +1,11 @@
+# This class can be used install apache and web properties
+#
+# @example when declaring the apache class
+#  class { '::profiles::apache': }
+#
+# @param vhosts (Hash)) Vhosts to manage.
 class profiles::apache (
-  $vhosts = {  "${::fqdn}" => {
-      proxy_dest => 'http://127.0.0.1:3000'
-    },
-  }
+  $vhosts = {}
 ) {
 
   include ::apache
