@@ -1,5 +1,7 @@
 class profiles::repositories (
   $motd = false,
+  $epel = true,
+  $remi = true,
 ){
 
   case $::osfamily {
@@ -11,7 +13,18 @@ class profiles::repositories (
       }
     }
     'redhat': {
-      class { '::epel': }
+      if $epel {
+        class { '::epel': }
+      }
+      if $remi {
+        yumrepo { 'remi':
+          descr      => "Remi's RPM repository for Enterprise Linux ${::operatingsystemmajrelease} - \$basearch",
+          baseurl    => 'absent',
+          mirrorlist => "http://rpms.remirepo.net/enterprise/${::operatingsystemmajrelease}/remi/mirror",
+          enabled    => 1,
+          gpgcheck   => 0,
+        }
+      }
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
