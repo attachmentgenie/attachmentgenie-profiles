@@ -10,7 +10,7 @@ class profiles::scala (
   package { 'scala':
     ensure   => present,
     provider => 'rpm',
-    source   => 'http://downloads.lightbend.com/scala/2.11.8/scala-2.11.8.rpm',
+    source   => 'http://downloads.lightbend.com/scala/2.10.6/scala-2.10.6.rpm',
   }
   if $development {
     yumrepo { 'bintray--sbt-rpm':
