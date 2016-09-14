@@ -7,8 +7,9 @@
 class profiles::apache (
   $vhosts = {}
 ) {
-
-  include ::apache
+  class { 'apache':
+    default_vhost => false,
+  }
 
   $vhost_defaults = {
     vhost_name     => '*',

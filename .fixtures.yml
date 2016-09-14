@@ -15,6 +15,7 @@ fixtures:
     kafka: "https://github.com/danielvdende/puppet-kafka.git"
     logstash: "https://github.com/elastic/puppet-logstash.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
+    nginx: "https://github.com/voxpupuli/puppet-nginx.git"
     ntp:  "https://github.com/puppetlabs/puppetlabs-ntp.git"
     prometheus: "https://github.com/brutus333/puppet-prometheus.git"
     python: "https://github.com/stankevich/puppet-python.git"
