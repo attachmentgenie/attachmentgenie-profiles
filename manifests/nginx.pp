@@ -9,7 +9,7 @@ class profiles::nginx (
   $upstreams = {},
   $vhosts = {},
 ) {
-  class { 'nginx': }
+  class { '::nginx': }
 
   create_resources( 'nginx::resource::upstream', $upstreams)
   create_resources( 'nginx::resource::vhost', $vhosts)
