@@ -11,6 +11,7 @@ fixtures:
     gcc: "https://github.com/puppetlabs/puppetlabs-gcc.git"
     grafana: "https://github.com/bfraser/puppet-grafana.git"
     haproxy: "https://github.com/puppetlabs/puppetlabs-haproxy.git"
+    influxdb: "https://github.com/n1tr0g/golja-influxdb.git"
     java: "https://github.com/puppetlabs/puppetlabs-java.git"
     kafka: "https://github.com/danielvdende/puppet-kafka.git"
     logstash: "https://github.com/elastic/puppet-logstash.git"
@@ -25,5 +26,6 @@ fixtures:
     selinux: "https://github.com/jfryman/puppet-selinux.git"
     stacks: "https://github.com/attachmentgenie/attachmentgenie-stacks.git"
     timezone: "https://github.com/attachmentgenie/attachmentgenie-timezone.git"
+    zookeeper: "https://github.com/deric/puppet-zookeeper.git"
   symlinks:
     "profiles": "#{source_dir}"
