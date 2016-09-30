@@ -15,6 +15,7 @@ class profiles::repositories (
     'redhat': {
       if $epel {
         class { '::epel': }
+        Yumrepo['epel'] -> Package <||>
       }
       if $remi {
         yumrepo { 'remi':
