@@ -3,12 +3,14 @@ require 'puppetlabs_spec_helper/module_spec_helper'
 RSpec.configure do |c|
   c.default_facts = {
     :architecture              => 'amd64',
+    :gitlab_systemd            => false,
     :hardwaremodel             => 'x86_64',
     :ipaddress                 => '127.0.0.1',
     :ipaddress_eth0            => '192.168.42.42',
     :ipaddress_eth1            => '192.168.42.43',
     :is_virtual                => true,
     :kernel                    => 'linux',
+    :os                        => '',
     :osfamily                  => 'RedHat',
     :operatingsystem           => 'CentOS',
     :operatingsystemrelease    => '7.2,',

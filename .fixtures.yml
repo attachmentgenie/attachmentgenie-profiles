@@ -9,6 +9,7 @@ fixtures:
     file_concat: "https://github.com/electrical/puppet-lib-file_concat.git"
     firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
     gcc: "https://github.com/puppetlabs/puppetlabs-gcc.git"
+    gitlab: "https://github.com/vshn/puppet-gitlab.git"
     grafana: "https://github.com/bfraser/puppet-grafana.git"
     haproxy: "https://github.com/puppetlabs/puppetlabs-haproxy.git"
     influxdb: "https://github.com/n1tr0g/golja-influxdb.git"
