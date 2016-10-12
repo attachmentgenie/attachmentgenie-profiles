@@ -9,6 +9,7 @@ RSpec.configure do |c|
     :ipaddress_eth0            => '192.168.42.42',
     :ipaddress_eth1            => '192.168.42.43',
     :is_virtual                => true,
+    :jenkins_plugins           => '',
     :kernel                    => 'linux',
     :os                        => '',
     :osfamily                  => 'RedHat',

@@ -5,7 +5,7 @@
 #
 # @param package (String) Package to install.
 class profiles::java (
-  $package = 'java-1.8.0-openjdk',
+  $package = 'java-1.8.0-openjdk-devel',
 ) {
   class { '::java':
     package => $package,
