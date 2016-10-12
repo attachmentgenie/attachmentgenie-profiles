@@ -15,7 +15,7 @@ fixtures:
     influxdb: "https://github.com/n1tr0g/golja-influxdb.git"
     java: "https://github.com/puppetlabs/puppetlabs-java.git"
     jenkins: "https://github.com/jenkinsci/puppet-jenkins.git"
-    kafka: "https://github.com/danielvdende/puppet-kafka.git"
+    kafka: "https://github.com/voxpupuli/puppet-kafka.git"
     logstash: "https://github.com/elastic/puppet-logstash.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
     nginx: "https://github.com/voxpupuli/puppet-nginx.git"
