@@ -7,7 +7,7 @@
 class profiles::jenkins (
   $plugins = {},
 ) {
-  class { 'jenkins':
+  class { '::jenkins':
     configure_firewall => false,
     install_java       => false,
   }
