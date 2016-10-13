@@ -21,6 +21,7 @@ RSpec.configure do |c|
     :processorcount            => 2,
     :puppetversion             => '3.8.7',
     :selinux                   => 'true',
+    :service_provider          => 'systemd',
     :staging_http_get          => 'curl',
   }
   c.after(:suite) do
