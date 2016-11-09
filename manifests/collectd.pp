@@ -23,12 +23,11 @@ class profiles::collectd (
     $additional_packages,
     $plugins,
   )
-  
+
   class { '::collectd':
     manage_repo     => $manage_repo,
     minimum_version => $minimum_version,
   }
-  create_resources( 'package', $additional_packages, { tag => 'collectd' })
-  create_resources( 'class', $plugins, { tag => 'collectd' })
-  Package <| tag == collectd |> -> Class <| tag == collectd |>
+  create_resources( 'package', $additional_packages)
+  create_resources( 'class', $plugins)
 }
