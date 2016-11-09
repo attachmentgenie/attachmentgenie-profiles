@@ -7,10 +7,12 @@
 # @param plugins (Hash) List of plugin to install and their settings.
 class profiles::collectd (
   $additional_packages = {},
+  $manage_repo         = true,
   $minimum_version     = '5.5',
   $plugins             = {},
 ) {
   class { '::collectd':
+    manage_repo     => $manage_repo,
     minimum_version => $minimum_version,
   }
   create_resources( 'package', $additional_packages, { tag => 'collectd' })
