@@ -3,6 +3,8 @@
 # @example when declaring the collectd class
 #  class { '::profiles::collectd': }
 #
+# @param additional_packages (Hash) Extra packages to install to satisfy plugin requirements
+# @param manage_repo (Boolean) Configure upstream rpm repo.
 # @param minimum_version (Boolean)) Install this version or newer.
 # @param plugins (Hash) List of plugin to install and their settings.
 class profiles::collectd (
