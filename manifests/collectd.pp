@@ -13,6 +13,17 @@ class profiles::collectd (
   $minimum_version     = '5.5',
   $plugins             = {},
 ) {
+  validate_bool(
+    $manage_repo,
+  )
+  validate_string(
+    $minimum_version,
+  )
+  validate_hash(
+    $additional_packages,
+    $plugins,
+  )
+  
   class { '::collectd':
     manage_repo     => $manage_repo,
     minimum_version => $minimum_version,
