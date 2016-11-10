@@ -6,7 +6,8 @@
 # @param version (String) version of kafka to install.
 # @param zookeeper_config (Hash) kafka config settings.
 class profiles::kafka (
-  $version           = '0.10.0.1',
+  $package_name     = 'kafka',
+  $version          = '0.10.0.1',
   $zookeeper_config = { 'broker.id'                     => '0',
                         'inter.broker.protocol.version' => '0.10.0.1',
                         'zookeeper.connect'             => 'localhost:2181' }
@@ -17,6 +18,7 @@ class profiles::kafka (
   class { '::kafka::broker':
     config                     => $zookeeper_config,
     install_java               => false,
+    package_name               => $package_name,
     service_requires_zookeeper => false,
     version                    => $version,
   }
