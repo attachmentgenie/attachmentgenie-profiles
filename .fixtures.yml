@@ -1,6 +1,6 @@
 fixtures:
   repositories:
-    accounts: "https://github.com/camptocamp/puppet-accounts.git"
+    accounts: "https://github.com/puppetlabs/puppetlabs-accounts.git"
     apache: "https://github.com/puppetlabs/puppetlabs-apache.git"
     archive: "https://github.com/voxpupuli/puppet-archive.git"
     concat: "https://github.com/puppetlabs/puppetlabs-concat.git"
