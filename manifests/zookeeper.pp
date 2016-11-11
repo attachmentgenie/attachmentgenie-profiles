@@ -3,18 +3,38 @@
 # @example when declaring the zookeeper class
 #  class { '::profiles::zookeeper': }
 #
-# @param version (String) version of zookeeper to install.
 # @param zookeeper_connect (Hash) zookeeper config settings.
 class profiles::zookeeper (
-  $cdhver = '5',
-  $repo   = 'cloudera'
+  $cdhver               = '5',
+  $cfg_dir              = '/opt/zookeeper/conf',
+  $cleanup_sh           = '/opt/zookeeper/bin/zkCleanup.sh',
+  $initialize_datastore = false,
+  $manage_service_file  = true,
+  $packages             = ['zookeeper'],
+  $repo                 = undef,
+  $service_name         = 'zookeeper',
+  $zoo_dir              = '/opt/zookeeper'
 ) {
-  validate_string($cdhver,
-    $repo
+  validate_array(
+    $packages,
   )
+  validate_string(
+    $cdhver,
+  )
+  if $repo != undef {
+    validate_string(
+      $repo,
+    )
+  }
   class { '::zookeeper':
     cdhver               => $cdhver,
-    initialize_datastore => true,
+    cfg_dir              => $cfg_dir,
+    cleanup_sh           => $cleanup_sh,
+    initialize_datastore => $initialize_datastore,
+    manage_service_file  => $manage_service_file,
+    packages             => $packages,
     repo                 => $repo,
+    service_name         => $service_name,
+    zoo_dir              => $zoo_dir,
   }
 }
