@@ -26,14 +26,14 @@ class profiles::grafana (
   $log_level                   = 'Info',
   $log_max_days                = 7,
   $logmode                     = 'console, file',
-  $rpm_iteration               = '1468321182',
+  $manage_package_repo         = false,
+  $rpm_iteration               = '1470047149',
   $secret_key                  = 'inWSYLbKCoLko',
-  $version                     = '3.1.0',
+  $version                     = '3.1.1',
 ){
 
   class { '::grafana':
-    install_method => $install_method,
-    cfg            => {
+    cfg                 => {
       server            => {
         protocol  => 'http',
         http_addr => '127.0.0.1',
@@ -102,7 +102,9 @@ class profiles::grafana (
       },
 
     },
-    rpm_iteration  => $rpm_iteration,
-    version        => $version,
+    install_method      => $install_method,
+    manage_package_repo => $manage_package_repo,
+    rpm_iteration       => $rpm_iteration,
+    version             => $version,
   }
 }

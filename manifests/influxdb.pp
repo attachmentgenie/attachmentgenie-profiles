@@ -3,7 +3,9 @@
 # @example when declaring the influxdb class
 #  class { '::profiles::influxdb': }
 #
-class profiles::influxdb {
+class profiles::influxdb (
+  $manage_repos = false,
+){
   class {'influxdb::server':
     graphite_options => {
       enabled           => true,
@@ -19,5 +21,6 @@ class profiles::influxdb {
       name-schema       => 'type.host.measurement.device',
       templates         => [ '*.app env.service.resource.measurement' ],
     },
+    manage_repos     => $manage_repos,
   }
 }
