@@ -9,7 +9,7 @@
 # @param plugins (Hash) List of plugin to install and their settings.
 class profiles::collectd (
   $additional_packages = {},
-  $manage_repo         = true,
+  $manage_repo         = false,
   $minimum_version     = '5.5',
   $plugins             = {},
 ) {

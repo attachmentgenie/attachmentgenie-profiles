@@ -3,7 +3,15 @@
 # @example when declaring the zookeeper class
 #  class { '::profiles::zookeeper': }
 #
-# @param zookeeper_connect (Hash) zookeeper config settings.
+# @param cdhver (Integer) Cloudera RPM Repo version.
+# @param cfg_dir (String) Zookeeper configuration directory.
+# @param cleanup_sh (String) Location to zkCleanup.sh
+# @param initialize_datastore (Boolean) Create datastore.
+# @param manage_service_file (Boolean) Manage service file.
+# @param packages (Hash) List of pacakages to install.
+# @param repo (String) Repository name.
+# @param service_name (String) Service name.
+# @param zoo_dir (String) Zookeeper directory.
 class profiles::zookeeper (
   $cdhver               = '5',
   $cfg_dir              = '/opt/zookeeper/conf',

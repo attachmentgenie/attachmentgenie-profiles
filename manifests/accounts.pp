@@ -4,7 +4,7 @@
 #  class { '::profiles::accounts': }
 #
 # @param accounts (Hash) User accounts to manage.
-# @param sudo_conf (Hash) Sudo rules to manage.
+# @param sudo_confs (Hash) Sudo rules to manage.
 class profiles::accounts (
   $accounts   = {},
   $sudo_confs = {},
