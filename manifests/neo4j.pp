@@ -15,6 +15,7 @@ class profiles::neo4j (
   )
   class { '::neo4j' :
     edition         => $editon,
+    install_java    => false,
     package_version => $package_version,
   }
 }
