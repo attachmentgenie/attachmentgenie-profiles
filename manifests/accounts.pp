@@ -15,7 +15,7 @@ class profiles::accounts (
   )
   create_resources( 'accounts::user', $accounts)
 
-  class { 'sudo':
+  class { '::sudo':
     config_file_replace => false,
     purge               => false,
   }
