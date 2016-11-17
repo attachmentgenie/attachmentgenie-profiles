@@ -9,7 +9,7 @@
 class profiles::elasticsearch (
   $instances    = { "${::fqdn}" => {} },
   $manage_repo  = false,
-  $repo_version = '2.x',
+  $repo_version = '5.x',
 ) {
   validate_bool(
     $manage_repo,
