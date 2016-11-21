@@ -21,6 +21,7 @@ fixtures:
     kibana4: "https://github.com/lesaux/puppet-kibana4.git"
     kafka: "https://github.com/voxpupuli/puppet-kafka.git"
     logstash: "https://github.com/elastic/puppet-logstash.git"
+    mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
     nginx: "https://github.com/voxpupuli/puppet-nginx.git"
     ntp:  "https://github.com/puppetlabs/puppetlabs-ntp.git"
