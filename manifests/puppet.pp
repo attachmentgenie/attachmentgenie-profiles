@@ -13,7 +13,7 @@ class profiles::puppet (
   $server_ca_proxy             = undef,
   $server_common_modules_path  = [],
   $server_environments         = [],
-  $server_external_nodes       = '/etc/puppet/node.rb',
+  $server_external_nodes       = '/etc/puppetlabs/puppet/node.rb',
   $server_foreman              = false,
   $server_foreman_url          = 'http://foreman',
   $server_implementation       = 'puppetserver',
@@ -26,7 +26,7 @@ class profiles::puppet (
   $server_storeconfigs_backend = undef,
   $show_diff                   = true,
   $splay                       = true,
-) {
+) inherits profiles::puppet::params {
   class { '::puppet':
     allow_any_crl_auth          => $allow_any_crl_auth,
     autosign                    => $autosign,

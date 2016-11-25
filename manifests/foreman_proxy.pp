@@ -2,7 +2,6 @@ class profiles::foreman_proxy (
   $foreman_host = 'foreman',
   $protocol     = 'https',
   $puppetca     = false,
-  $puppetrun    = true,
   $version      = 'present',
 ) {
   class { '::foreman_proxy':
@@ -12,7 +11,6 @@ class profiles::foreman_proxy (
     dhcp             => false,
     dns              => false,
     puppetca         => $puppetca,
-    puppetrun        => $puppetrun,
     registered_name  => $foreman_host,
     tftp             => false,
     version          => $version,
