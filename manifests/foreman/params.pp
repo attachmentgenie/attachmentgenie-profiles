@@ -1,0 +1,1 @@
+class profiles::foreman::params {}
