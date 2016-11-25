@@ -5,10 +5,13 @@
 #
 # @param vhosts (Hash)) Vhosts to manage.
 class profiles::apache (
+  $default_mods  = true,
+  $default_vhost = false,
   $vhosts = {}
 ) {
   class { '::apache':
-    default_vhost => false,
+    default_mods  => $default_mods,
+    default_vhost => $default_vhost,
   }
 
   $vhost_defaults = {
