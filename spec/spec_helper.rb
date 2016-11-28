@@ -1,30 +1,44 @@
 require 'puppetlabs_spec_helper/module_spec_helper'
 
+require 'rspec-puppet-facts'
+include RspecPuppetFacts
+
+# Original fact sources:
+add_custom_fact :concat_basedir, '/tmp'             # puppetlabs-concat
+add_custom_fact :puppetversion, Puppet.version      # Facter, but excluded from rspec-puppet-facts
+
+# Workaround for no method in rspec-puppet to pass undef through :params
+class Undef
+  def inspect; 'undef'; end
+end
+
+# Running tests with the ONLY_OS environment variable set
+# limits the tested platforms to the specified values.
+# Example: ONLY_OS=centos-7-x86_64,ubuntu-14-x86_64
+def only_test_os
+  if ENV.key?('ONLY_OS')
+    ENV['ONLY_OS'].split(',')
+  end
+end
+
+# Running tests with the EXCLUDE_OS environment variable set
+# limits the tested platforms to all but the specified values.
+# Example: EXCLUDE_OS=centos-7-x86_64,ubuntu-14-x86_64
+def exclude_test_os
+  if ENV.key?('EXCLUDE_OS')
+    ENV['EXCLUDE_OS'].split(',')
+  end
+end
+
+# Use the above environment variables to limit the platforms under test
+def on_os_under_test
+  on_supported_os.reject do |os, facts|
+    (only_test_os() && !only_test_os.include?(os)) ||
+        (exclude_test_os() && exclude_test_os.include?(os))
+  end
+end
+
 RSpec.configure do |c|
-  c.default_facts = {
-    :architecture              => 'amd64',
-    :gitlab_systemd            => false,
-    :hardwaremodel             => 'x86_64',
-    :ipaddress                 => '127.0.0.1',
-    :ipaddress_eth0            => '192.168.42.42',
-    :ipaddress_eth1            => '192.168.42.43',
-    :is_virtual                => true,
-    :jenkins_plugins           => '',
-    :kernel                    => 'linux',
-    :os                        => '',
-    :osfamily                  => 'RedHat',
-    :operatingsystem           => 'CentOS',
-    :operatingsystemrelease    => '7.2,',
-    :operatingsystemmajrelease => '7',
-    :os_maj_release            => '7',
-    :path                      => '/usr/bin',
-    :processorcount            => 2,
-    :puppetversion             => '3.8.7',
-    :selinux                   => 'true',
-    :serialnumber              => 'foobazbarbbq',
-    :service_provider          => 'systemd',
-    :staging_http_get          => 'curl',
-  }
   c.after(:suite) do
     RSpec::Puppet::Coverage.report!
   end

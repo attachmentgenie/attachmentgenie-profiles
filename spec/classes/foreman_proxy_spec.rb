@@ -1,6 +1,11 @@
 require 'spec_helper'
-
-describe 'profiles::foreman_proxy', :type => :class do
-  it { is_expected.to compile }
-  it { should contain_class('profiles::foreman_proxy') }
+describe 'profiles::foreman_proxy' do
+  on_os_under_test.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) { facts }
+      context 'with defaults for all parameters' do
+        it { should contain_class('profiles::foreman_proxy') }
+      end
+    end
+  end
 end

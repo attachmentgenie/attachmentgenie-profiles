@@ -20,6 +20,7 @@
 # @param server_ssl_cert (String) SSL cert.
 # @param server_ssl_key (String) SSL key.
 # @param server_ssl_crl (String) SSL crl.
+# @param settings (Hash) List of foreman settings.
 # @param unattended (Boolean) Allow unattended installs.
 class profiles::foreman (
   $configure_epel_repo    = false,

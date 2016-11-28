@@ -3,7 +3,9 @@
 # @example when declaring the apache class
 #  class { '::profiles::apache': }
 #
-# @param vhosts (Hash)) Vhosts to manage.
+# @param default_mods (Boolean|Hash) Modules to install.
+# @param default_vhost (Boolean) Keep default vhost
+# @param vhosts (Hash) Vhosts to manage.
 class profiles::apache (
   $default_mods  = true,
   $default_vhost = false,

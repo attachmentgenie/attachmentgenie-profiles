@@ -3,8 +3,9 @@
 # @example when declaring the logstash class
 #  class { '::profiles::logstash': }
 #
-# @param manage_repo (Boolean)) Setup repository to install logstash from.
 # @param config_files (Hash)) content for logstash input, filters and output.
+# @param manage_repo (Boolean)) Setup repository to install logstash from.
+# @param repo_version (String)) Version family to install from.
 class profiles::logstash (
   $config_files = {},
   $manage_repo  = false,
