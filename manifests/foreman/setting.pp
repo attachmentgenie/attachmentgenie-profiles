@@ -5,7 +5,7 @@
 #    value => 'foo'
 #  }
 #
-# @param value (String) Usetting value.
+# @param value (String) setting value.
 define profiles::foreman::setting (
   $value,
 ) {
