@@ -1,3 +1,10 @@
+# This class can be used install user memcached properties
+#
+# @example when declaring the apache class
+#  class { '::profiles::memcached': }
+#
+# @param listen_ip (String) interface to bind to.
+# @param max_memory (String) Maximum Ram memcached can use.
 class profiles::memcached (
   $listen_ip  = '127.0.0.1',
   $max_memory = '50%',
