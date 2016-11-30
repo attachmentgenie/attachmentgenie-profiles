@@ -37,6 +37,7 @@ fixtures:
     prometheus: "https://github.com/brutus333/puppet-prometheus.git"
     puppet: "https://github.com/theforeman/puppet-puppet.git"
     puppetdb: "https://github.com/puppetlabs/puppetlabs-puppetdb.git"
+    python: "https://github.com/stankevich/puppet-python.git"
     rundeck: "https://github.com/voxpupuli/puppet-rundeck.git"
     selinux: "https://github.com/jfryman/puppet-selinux.git"
     staging: "https://github.com/voxpupuli/puppet-staging.git"
