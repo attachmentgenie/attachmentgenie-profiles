@@ -27,9 +27,9 @@ class profiles::grafana (
   $log_max_days                = 7,
   $logmode                     = 'console, file',
   $manage_package_repo         = false,
-  $rpm_iteration               = '1470047149',
+  $rpm_iteration               = '1480439068',
   $secret_key                  = 'inWSYLbKCoLko',
-  $version                     = '3.1.1',
+  $version                     = '4.0.0',
 ){
 
   class { '::grafana':
