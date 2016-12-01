@@ -4,6 +4,7 @@
 #  class { '::profiles::kibana': }
 #
 # @param manage_repo (Boolean) Let profile install java.
+# @param package_repo_version (String) package repo family to install from.
 # @param version (String) Version to install.
 class profiles::kibana (
   $manage_repo          = false,

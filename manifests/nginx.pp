@@ -3,8 +3,8 @@
 # @example when declaring the nginx class
 #  class { '::profiles::nginx': }
 #
-# @params upstreams (Hash) set(s) of upstream servers to use
-# @params vhosts (Hash) set(s) of vhost to create
+# @param upstreams (Hash) set(s) of upstream servers to use
+# @param vhosts (Hash) set(s) of vhost to create
 class profiles::nginx (
   $upstreams = {},
   $vhosts = {},

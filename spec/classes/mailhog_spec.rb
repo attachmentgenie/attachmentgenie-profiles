@@ -1,6 +1,11 @@
 require 'spec_helper'
-describe 'profiles::mailhog' do
-  context 'with defaults for all parameters' do
-    it { should contain_class('profiles::mailhog') }
+describe 'profiles::accounts' do
+  on_os_under_test.each do |os, facts|
+    context "on #{os}" do
+      let(:facts) { facts }
+      context 'with defaults for all parameters' do
+        it { should contain_class('profiles::accounts') }
+      end
+    end
   end
 end

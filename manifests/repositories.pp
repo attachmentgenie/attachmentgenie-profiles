@@ -1,7 +1,13 @@
+# This class can be used install user repositories properties
+#
+# @example when declaring the apache class
+#  class { '::profiles::repositories': }
+#
+# @param epel (Boolean) Configure epel repository.
+# @param remi (Boolean) Configure remi repository.
 class profiles::repositories (
-  $motd = false,
-  $epel = true,
-  $remi = true,
+  $epel = false,
+  $remi = false,
 ){
 
   case $::osfamily {
@@ -30,9 +36,5 @@ class profiles::repositories (
     default: {
       fail("Unsupported osfamily ${::osfamily}")
     }
-  }
-
-  if $motd {
-    motd::register{ 'Profile : repositories': }
   }
 }

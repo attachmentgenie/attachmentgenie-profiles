@@ -7,6 +7,14 @@
   "source": "https://github.com/attachmentgenie/attachmentgenie-profiles.git",
   "project_page": "https://github.com/attachmentgenie/attachmentgenie-profiles",
   "issues_url": "https://github.com/attachmentgenie/attachmentgenie-profiles/issues",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ],
   "dependencies": [
     { "name": "puppetlabs-stdlib", "version_requirement": ">= 1.0.0 <=4.12.0" }
   ]

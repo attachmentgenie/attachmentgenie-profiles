@@ -3,6 +3,7 @@
 # @example when declaring the influxdb class
 #  class { '::profiles::influxdb': }
 #
+# @param manage_repos (Boolean) Manage repositories.
 class profiles::influxdb (
   $manage_repos = false,
 ){
