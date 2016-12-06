@@ -37,7 +37,7 @@ class profiles::apache (
     purge_vhost_dir => $purge_vhost_dir,
   }
   create_resources( 'apache::mod', $modules)
-  contain ::apache::mod::php
+
   $vhost_defaults = {
     vhost_name     => '*',
     docroot        => '/var/www',
