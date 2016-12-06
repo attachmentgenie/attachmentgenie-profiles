@@ -16,7 +16,7 @@ class profiles::kafka (
   $version          = '0.10.1.0',
   $zookeeper_config = { 'broker.id'                     => '0',
                         'inter.broker.protocol.version' => '0.10.1.0',
-                        'log.dir'                       => '/var/log/kafka-logs',
+                        'log.dir'                       => '/opt/kafka/data',
                         'zookeeper.connect'             => 'localhost:2181' }
 ) {
   validate_string(
