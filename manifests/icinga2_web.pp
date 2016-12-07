@@ -6,6 +6,9 @@
 # @param database_name (String) db name
 # @param database_password (String) db password.
 # @param database_user (String) db user.
+# @param ido_db_name (String) db name
+# @param ido_db_password (String) db password.
+# @param ido_db_user (String) db user.
 # @param initialize (Boolean) Setup basic icinga
 # @param install_method (String) How to install icinga web.
 # @param manage_repo (Boolean) Manage icinga2 web repos.

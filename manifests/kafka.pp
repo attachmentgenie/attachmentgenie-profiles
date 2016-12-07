@@ -4,7 +4,8 @@
 #  class { '::profiles::kafka': }
 #
 # @param install_dir (String) Directory to install to.
-# @param package_name(String) Package to install.
+# @param install_method (String) How to install kafka.
+# @param package (String) Package to install.
 # @param scala_version (String) Version of scala to depend on.
 # @param version (String) version of kafka to install.
 # @param zookeeper_config (Hash) kafka config settings.
