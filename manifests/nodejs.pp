@@ -4,5 +4,5 @@
 #  class { '::profiles::nodejs': }
 #
 class profiles::nodejs {
-  class { 'nodejs': }
+  class { '::nodejs': }
 }
