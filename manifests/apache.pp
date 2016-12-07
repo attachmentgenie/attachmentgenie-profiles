@@ -10,6 +10,7 @@
 # @param purge_configs (Boolean) purge unmanaged config files.
 # @param purge_vhost_dir (Boolean) purge unmanaged vhost files.
 # @param vhosts (Hash) Vhosts to manage.
+# @param vhost_packages (Hash) Packages to manage that contain vhosts files.
 class profiles::apache (
   $default_mods    = true,
   $default_vhost   = false,
@@ -18,6 +19,7 @@ class profiles::apache (
   $purge_configs   = false,
   $purge_vhost_dir = false,
   $vhosts          = {},
+  $vhost_packages  = {},
 ) {
   validate_bool(
     $default_mods,
@@ -28,6 +30,7 @@ class profiles::apache (
   validate_hash(
     $modules,
     $vhosts,
+    $vhost_packages,
   )
   class { '::apache':
     default_mods    => $default_mods,
@@ -38,10 +41,19 @@ class profiles::apache (
   }
   create_resources( 'apache::mod', $modules)
 
+  $package_defaults = {
+    ensure => present,
+    tag    => 'do_a',
+  }
+  create_resources( 'package', $vhost_packages, $package_defaults )
+
   $vhost_defaults = {
-    vhost_name     => '*',
-    docroot        => '/var/www',
-    error_log      => true,
+    docroot    => '/var/www',
+    error_log  => true,
+    tag        => 'do_b',
+    vhost_name => '*',
   }
   create_resources( 'apache::vhost', $vhosts, $vhost_defaults )
+
+  Package<| tag == 'do_a' |> -> Apache::Vhost<| tag == 'do_b' |>
 }
