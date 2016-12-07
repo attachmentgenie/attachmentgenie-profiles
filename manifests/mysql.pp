@@ -1,7 +1,7 @@
-# This class can be used install influxdb
+# This class can be used install mysql
 #
-# @example when declaring the influxdb class
-#  class { '::profiles::influxdb': }
+# @example when declaring the mysql class
+#  class { '::profiles::mysql': }
 #
 # @param databases (Hash) Databases to create.
 # @param root_password (String) root password.

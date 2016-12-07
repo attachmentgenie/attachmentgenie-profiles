@@ -33,6 +33,7 @@ fixtures:
     mysql: "https://github.com/puppetlabs/puppetlabs-mysql.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
     nginx: "https://github.com/voxpupuli/puppet-nginx.git"
+    nodejs: "https://github.com/voxpupuli/puppet-nodejs.git"
     ntp:  "https://github.com/puppetlabs/puppetlabs-ntp.git"
     php: "https://github.com/voxpupuli/puppet-php.git"
     postgresql: "https://github.com/puppetlabs/puppetlabs-postgresql.git"
