@@ -34,7 +34,9 @@ fixtures:
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
     nginx: "https://github.com/voxpupuli/puppet-nginx.git"
     nodejs: "https://github.com/voxpupuli/puppet-nodejs.git"
-    ntp:  "https://github.com/puppetlabs/puppetlabs-ntp.git"
+    ntp:
+      repo: "https://github.com/puppetlabs/puppetlabs-ntp.git"
+      ref: "4.2.0"
     php: "https://github.com/voxpupuli/puppet-php.git"
     postgresql: "https://github.com/puppetlabs/puppetlabs-postgresql.git"
     prometheus: "https://github.com/brutus333/puppet-prometheus.git"
@@ -45,7 +47,9 @@ fixtures:
     selinux: "https://github.com/jfryman/puppet-selinux.git"
     staging: "https://github.com/voxpupuli/puppet-staging.git"
     sudo: "https://github.com/saz/puppet-sudo.git"
-    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    stdlib:
+      repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+      ref: "4.12.0"
     sysctl: "https://github.com/thias/puppet-sysctl.git"
     systemd: "https://github.com/camptocamp/puppet-systemd.git"
     timezone: "https://github.com/attachmentgenie/attachmentgenie-timezone.git"
