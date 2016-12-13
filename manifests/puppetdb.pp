@@ -10,7 +10,7 @@
 # @param ssl_listen_address (String) interface to bind ssl to.
 class profiles::puppetdb (
   $listen_address     = '0.0.0.0',
-  $manage_dbserver    = false,
+  $manage_dbserver    = true,
   $manage_firewall    = false,
   $manage_pg_repo     = false,
   $ssl_listen_address = '0.0.0.0',

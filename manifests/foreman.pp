@@ -6,6 +6,7 @@
 # @param configure_epel_repo (Boolean) Configure epel repository
 # @param custom_repo (Boolean) Inject your own foreman repo to configure.
 # @param db_manage (Boolean) Manage the DB backend.
+# @param db_manage_rake (Boolean) Manage the DB rake jobs.
 # @param foreman_admin_password (String) Foreman admin password.
 # @param foreman_host (String) Foreman fqdn.
 # @param foreman_repo (String) Foreman repo to use.
@@ -25,7 +26,8 @@
 class profiles::foreman (
   $configure_epel_repo    = false,
   $custom_repo            = false,
-  $db_manage              = true,
+  $db_manage              = false,
+  $db_manage_rake         = true,
   $foreman_admin_password = 'secret',
   $foreman_host           = $::fqdn,
   $foreman_repo           = 'stable',
@@ -49,6 +51,7 @@ class profiles::foreman (
     configure_epel_repo   => $configure_epel_repo,
     custom_repo           => $custom_repo,
     db_manage             => $db_manage,
+    db_manage_rake        => $db_manage_rake,
     foreman_url           => $foreman_host,
     locations_enabled     => $locations_enabled,
     organizations_enabled => $organizations_enabled,

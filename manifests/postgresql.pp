@@ -4,10 +4,12 @@
 #  class { '::profiles::influxdb': }
 #
 # @param databases (Hash) Databases to create.
+# @param encoding (String) DB encoding.
 # @param manage_package_repo (Boolean) Manage repository.
 # @param version (String) Version to install.
 class profiles::postgresql (
   $databases            = {},
+  $encoding             = 'UTF-8',
   $manage_package_repo  = false,
   $version              = '9.5',
 ) {
@@ -18,9 +20,11 @@ class profiles::postgresql (
     $databases,
   )
   validate_string(
+    $encoding,
     $version,
   )
   class { '::postgresql::globals':
+    encoding            => $encoding,
     manage_package_repo => $manage_package_repo,
     version             => $version,
   } ->
