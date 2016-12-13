@@ -1,6 +1,7 @@
 fixtures:
   repositories:
     accounts: "https://github.com/puppetlabs/puppetlabs-accounts.git"
+    activemq: "https://github.com/puppetlabs/puppetlabs-activemq.git"
     apache: "https://github.com/puppetlabs/puppetlabs-apache.git"
     archive: "https://github.com/voxpupuli/puppet-archive.git"
     concat: "https://github.com/puppetlabs/puppetlabs-concat.git"
@@ -16,6 +17,7 @@ fixtures:
     foreman: "https://github.com/theforeman/puppet-foreman.git"
     foreman_proxy: "https://github.com/theforeman/puppet-foreman_proxy.git"
     gcc: "https://github.com/puppetlabs/puppetlabs-gcc.git"
+    git: "https://github.com/puppetlabs/puppetlabs-git.git"
     gitlab: "https://github.com/vshn/puppet-gitlab.git"
     grafana: "https://github.com/bfraser/puppet-grafana.git"
     haproxy: "https://github.com/puppetlabs/puppetlabs-haproxy.git"
@@ -29,6 +31,7 @@ fixtures:
     kafka: "https://github.com/voxpupuli/puppet-kafka.git"
     logstash: "https://github.com/elastic/puppet-logstash.git"
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
+    mcollective: "https://github.com/voxpupuli/puppet-mcollective.git"
     memcached: "https://github.com/saz/puppet-memcached.git"
     mysql: "https://github.com/puppetlabs/puppetlabs-mysql.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
@@ -43,6 +46,7 @@ fixtures:
     puppet: "https://github.com/theforeman/puppet-puppet.git"
     puppetdb: "https://github.com/puppetlabs/puppetlabs-puppetdb.git"
     python: "https://github.com/stankevich/puppet-python.git"
+    r10k: "https://github.com/voxpupuli/puppet-r10k.git"
     rundeck: "https://github.com/voxpupuli/puppet-rundeck.git"
     selinux: "https://github.com/jfryman/puppet-selinux.git"
     staging: "https://github.com/voxpupuli/puppet-staging.git"
