@@ -11,6 +11,8 @@
 # @param foreman_host (String) Foreman fqdn.
 # @param foreman_repo (String) Foreman repo to use.
 # @param locations_enabled (Boolean) Enable locations.
+# @param oauth_consumer_key (String) oauth_consumer_key.
+# @param oauth_consumer_secret (String) oauth_consumer_secret.
 # @param organizations_enabled (Boolean) Enable organizations.
 # @param passenger (Boolean) Run behind passenger.
 # @param plugins (Hash) Foreman plugins to install.
@@ -32,6 +34,8 @@ class profiles::foreman (
   $foreman_host           = $::fqdn,
   $foreman_repo           = 'stable',
   $locations_enabled      = false,
+  $oauth_consumer_key     = 'secret',
+  $oauth_consumer_secret  = 'secret',
   $organizations_enabled  = false,
   $passenger              = true,
   $plugins                = {},
@@ -54,6 +58,8 @@ class profiles::foreman (
     db_manage_rake        => $db_manage_rake,
     foreman_url           => $foreman_host,
     locations_enabled     => $locations_enabled,
+    oauth_consumer_key    => $oauth_consumer_key,
+    oauth_consumer_secret => $oauth_consumer_secret,
     organizations_enabled => $organizations_enabled,
     passenger             => $passenger,
     selinux               => $selinux,

@@ -14,7 +14,6 @@
 # @param server (Boolean) Is this a puppetmaster.
 # @param server_additional_settings (Hash) Additional settings
 # @param server_ca (Boolean) Is this a CA.
-# @param server_ca_proxy (String) CA to proxy CSR to.
 # @param server_common_modules_path (Array) List of module directories.
 # @param server_environments (Array) List of environments to support.
 # @param server_external_nodes (String) Location of ENC script.
@@ -42,7 +41,6 @@ class profiles::puppet (
   $server                      = false,
   $server_additional_settings  = {},
   $server_ca                   = true,
-  $server_ca_proxy             = undef,
   $server_common_modules_path  = [],
   $server_environments         = [],
   $server_external_nodes       = '/etc/puppetlabs/puppet/node.rb',
@@ -68,7 +66,6 @@ class profiles::puppet (
     server                      => $server,
     server_additional_settings  => $server_additional_settings,
     server_ca                   => $server_ca,
-    server_ca_proxy             => $server_ca_proxy,
     server_common_modules_path  => $server_common_modules_path,
     server_environments         => $server_environments,
     server_external_nodes       => $server_external_nodes,
