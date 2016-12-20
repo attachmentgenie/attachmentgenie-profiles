@@ -29,7 +29,11 @@ fixtures:
     jenkins: "https://github.com/jenkinsci/puppet-jenkins.git"
     kibana4: "https://github.com/lesaux/puppet-kibana4.git"
     kafka: "https://github.com/voxpupuli/puppet-kafka.git"
-    logstash: "https://github.com/elastic/puppet-logstash.git"
+    logstash:
+      repo: "https://github.com/elastic/puppet-logstash.git"
+      branch: 2.x
+      ref: 5bd53a3
+    mongodb: "https://github.com/puppetlabs/puppetlabs-mongodb.git"
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     mcollective: "https://github.com/voxpupuli/puppet-mcollective.git"
     memcached: "https://github.com/saz/puppet-memcached.git"
