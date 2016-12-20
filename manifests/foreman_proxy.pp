@@ -37,8 +37,9 @@ class profiles::foreman_proxy (
     oauth_consumer_key    => $oauth_consumer_key,
     oauth_consumer_secret => $oauth_consumer_secret,
     puppetca              => $puppetca,
-    registered_name       => $foreman_host,
-    registered_proxy_url  => "${protocol}://${foreman_host}",
+    puppet                => true,
+    registered_name       => $::fqdn,
+    registered_proxy_url  => "${protocol}://${::fqdn}:8443",
     tftp                  => false,
     version               => $version,
   }

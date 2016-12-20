@@ -7,10 +7,12 @@
 # @param autosign (Boolean) Autosigng requests.
 # @param autosign_domains (Array) List of domains to trust while autosigning.
 # @param dns_alt_names (Array) List of additional dns names to sign into certificate.
+# @param environment (String) Environment for node.
 # @param foreman_repo (Boolean) Manage foreman repository,
 # @param hiera_yaml_datadir (String) Hiera directory
 # @param puppetmaster (String) Puppetmaster fqdn
 # @param runmode (String) How to run puppet
+# @param runinterval (String) Run interval.
 # @param server (Boolean) Is this a puppetmaster.
 # @param server_additional_settings (Hash) Additional settings
 # @param server_ca (Boolean) Is this a CA.
@@ -29,15 +31,18 @@
 # @param server_storeconfigs_backend (String) Puppetdb version option.
 # @param show_diff (Boolean) Show diff in puppet report.
 # @param splay (Boolean) Start puppet at random time to spread load.
+# @param splaylimit (String) Splay with this timeframe.
 class profiles::puppet (
   $allow_any_crl_auth          = true,
   $autosign                    = true,
   $autosign_domains            = ['*.vagrant'],
   $dns_alt_names               = [],
+  $environment                 = $::environment,
   $foreman_repo                = false,
   $hiera_yaml_datadir          = '/var/lib/hiera',
   $puppetmaster                = undef,
   $runmode                     = 'service',
+  $runinterval                 = '1800',
   $server                      = false,
   $server_additional_settings  = {},
   $server_ca                   = true,
@@ -56,13 +61,16 @@ class profiles::puppet (
   $server_storeconfigs_backend = undef,
   $show_diff                   = true,
   $splay                       = true,
+  $splaylimit                  = '1800',
 ) inherits profiles::puppet::params {
   class { '::puppet':
     allow_any_crl_auth          => $allow_any_crl_auth,
     autosign                    => $autosign,
     dns_alt_names               => $dns_alt_names,
+    environment                 => $environment,
     puppetmaster                => $puppetmaster,
     runmode                     => $runmode,
+    runinterval                 => $runinterval,
     server                      => $server,
     server_additional_settings  => $server_additional_settings,
     server_ca                   => $server_ca,
@@ -81,6 +89,7 @@ class profiles::puppet (
     server_storeconfigs_backend => $server_storeconfigs_backend,
     show_diff                   => $show_diff,
     splay                       => $splay,
+    splaylimit                  => $splaylimit,
   }
   if $server {
     if versioncmp($::puppetversion, '4.0.0') >= 0 {

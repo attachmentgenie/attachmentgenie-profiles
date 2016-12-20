@@ -3,9 +3,11 @@
 # @example when declaring the apache class
 #  class { '::profiles::r10k': }
 #
+# @param basedir (String) Environments directory.
 # @param mcollective (Boolean) Manage mcollective bindings.
 # @param puppet_repo_url (String) url to git repo where puppet code is stored.
 class profiles::r10k (
+  $basedir         = '/etc/puppetlabs/code/environments',
   $mcollective     = false,
   $puppet_repo_url = undef,
 ) {
@@ -13,6 +15,7 @@ class profiles::r10k (
     $mcollective,
   )
   validate_string(
+    $basedir,
     $puppet_repo_url,
   )
   class { '::r10k':
@@ -21,7 +24,7 @@ class profiles::r10k (
     sources           => {
       'puppet' => {
         'remote'  => $puppet_repo_url,
-        'basedir' => "${::settings::confdir}/environments",
+        'basedir' => $basedir,
         'prefix'  => false,
       }
     },
