@@ -27,20 +27,36 @@ class profiles::foreman_proxy (
     $protocol,
     $version,
   )
+  if $protocol == 'https' {
+    $http = false
+    $port = '8443'
+    $ssl  = true
+  } else {
+    $http = true
+    $port = '8000'
+    $ssl  = false
+  }
   class { '::foreman_proxy':
-    foreman_base_url      => "${protocol}://${foreman_host}",
-    trusted_hosts         => [$::fqdn, $foreman_host],
     bmc                   => false,
     dhcp                  => false,
     dns                   => false,
+    foreman_base_url      => "${protocol}://${foreman_host}",
+    http                  => $http,
+    http_port             => $port,
     logs                  => true,
+    logs_listen_on        => $protocol,
     oauth_consumer_key    => $oauth_consumer_key,
     oauth_consumer_secret => $oauth_consumer_secret,
     puppetca              => $puppetca,
+    puppetca_listen_on    => $protocol,
     puppet                => true,
+    puppet_listen_on      => $protocol,
     registered_name       => $::fqdn,
-    registered_proxy_url  => "${protocol}://${::fqdn}:8443",
+    registered_proxy_url  => "${protocol}://${::fqdn}:${port}",
+    ssl                   => $ssl,
+    ssl_port              => '8443',
     tftp                  => false,
+    trusted_hosts         => [$::fqdn, $foreman_host],
     version               => $version,
   }
 }

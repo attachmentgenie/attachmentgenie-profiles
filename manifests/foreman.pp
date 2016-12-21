@@ -25,6 +25,7 @@
 # @param server_ssl_crl (String) SSL crl.
 # @param settings (Hash) List of foreman settings.
 # @param unattended (Boolean) Allow unattended installs.
+# @param user_groups (Array) List of groups for foreman user to join.
 class profiles::foreman (
   $configure_epel_repo    = false,
   $custom_repo            = false,
@@ -48,6 +49,7 @@ class profiles::foreman (
   $server_ssl_crl         = '/etc/puppetlabs/puppet/ssl/ca/ca_crl.pem',
   $settings               = {},
   $unattended             = true,
+  $user_groups            = ['puppet'],
 ) inherits profiles::foreman::params {
   class { '::foreman':
     admin_password        => $foreman_admin_password,
@@ -71,6 +73,7 @@ class profiles::foreman (
     server_ssl_crl        => $server_ssl_crl,
     repo                  => $foreman_repo,
     unattended            => $unattended,
+    user_groups           => $user_groups,
   }
   class { '::foreman::cli':
     foreman_url => $foreman_host,
@@ -78,5 +81,9 @@ class profiles::foreman (
     password    => $foreman_admin_password,
   }
   create_resources(::foreman::plugin, $plugins)
-  create_resources(::profiles::foreman::setting, $settings)
+  $settings_defaults = {
+    tag    => 'do_a',
+  }
+  create_resources(::profiles::foreman::setting, $settings, $settings_defaults)
+  Service['foreman'] -> Foreman_config_entry <| tag == 'do_a' |>
 }
