@@ -34,7 +34,7 @@ class profiles::foreman (
   $db_host                = 'localhost',
   $db_manage              = false,
   $db_manage_rake         = true,
-  $db_password            = 'UNSET',
+  $db_password            = 'foreman',
   $foreman_admin_password = 'secret',
   $foreman_host           = $::fqdn,
   $foreman_repo           = 'stable',
