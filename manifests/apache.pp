@@ -22,7 +22,6 @@ class profiles::apache (
   $vhost_packages  = {},
 ) {
   validate_bool(
-    $default_mods,
     $default_vhost,
     $purge_configs,
     $purge_vhost_dir,
