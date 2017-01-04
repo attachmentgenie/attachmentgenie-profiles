@@ -11,7 +11,8 @@
 # @param admin_user (String) Admin username
 # @param cookie_username (String) Cookie name
 # @param cookie_remember_name (String) Cookie remember setting
-# @param data_source_proxy_whitelist (String) Proxy Whitelist
+# @param data_source_proxy_whitelist (String) Proxy Whitelist.
+# @param datasources (Hash) List of datasources.
 # @param db_datadir (String) Directory to store data in.
 # @param db_host (String) Db connection string
 # @param db_name (String) DB name.
@@ -39,11 +40,12 @@ class profiles::grafana (
   $allow_org_create            = false,
   $auto_assign_org             = true,
   $auth_assign_org_role        = 'Viewer',
-  $admin_password              = 'changeme',
+  $admin_password              = 'secret',
   $admin_user                  = 'admin',
   $cookie_username             = 'grafana_user',
   $cookie_remember_name        = 'grafana_remember',
   $data_source_proxy_whitelist = '',
+  $datasources                 = {},
   $db_datadir                  = '/var/lib/pgsql/data',
   $db_host                     = '127.0.0.1:5432',
   $db_name                     = 'grafana',
@@ -67,6 +69,9 @@ class profiles::grafana (
   $secret_key                  = 'inWSYLbKCoLko',
   $version                     = '4.0.2',
 ){
+  validate_hash(
+    $datasources,
+  )
 
   class { '::grafana':
     cfg                 => {
@@ -143,4 +148,5 @@ class profiles::grafana (
     rpm_iteration       => $rpm_iteration,
     version             => $version,
   }
+  create_resources(::grafana::grafana_datasource, $datasources)
 }
