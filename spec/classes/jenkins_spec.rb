@@ -5,6 +5,7 @@ describe 'profiles::jenkins' do
       let(:facts) do
         facts.merge({
           jenkins_plugins: '',
+          systemd: true,
         })
       end
       context 'with defaults for all parameters' do

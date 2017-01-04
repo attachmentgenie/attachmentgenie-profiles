@@ -37,7 +37,7 @@ class profiles::alertmanager (
     $install_method,
     $version,
   )
-  class { '::prometheus::alert_manager':
+  class { '::prometheus::alertmanager':
     global         => $global,
     inhibit_rules  => $inhibit_rules,
     install_method => $install_method,

@@ -46,7 +46,7 @@ fixtures:
       ref: "4.2.0"
     php: "https://github.com/voxpupuli/puppet-php.git"
     postgresql: "https://github.com/puppetlabs/puppetlabs-postgresql.git"
-    prometheus: "https://github.com/brutus333/puppet-prometheus.git"
+    prometheus: "https://github.com/voxpupuli/puppet-prometheus.git"
     puppet: "https://github.com/theforeman/puppet-puppet.git"
     puppetdb: "https://github.com/puppetlabs/puppetlabs-puppetdb.git"
     python: "https://github.com/stankevich/puppet-python.git"
@@ -62,6 +62,7 @@ fixtures:
     sysctl: "https://github.com/thias/puppet-sysctl.git"
     systemd: "https://github.com/camptocamp/puppet-systemd.git"
     timezone: "https://github.com/attachmentgenie/attachmentgenie-timezone.git"
+    transition: "https://github.com/puppetlabs/puppetlabs-transition.git"
     zookeeper: "https://github.com/deric/puppet-zookeeper.git"
   symlinks:
     "profiles": "#{source_dir}"
