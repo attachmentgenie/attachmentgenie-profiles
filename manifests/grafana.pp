@@ -68,7 +68,7 @@ class profiles::grafana (
   $rpm_iteration               = '1481203731',
   $secret_key                  = 'inWSYLbKCoLko',
   $version                     = '4.0.2',
-){
+) inherits profiles::grafana::params {
   validate_hash(
     $datasources,
   )
@@ -148,5 +148,10 @@ class profiles::grafana (
     rpm_iteration       => $rpm_iteration,
     version             => $version,
   }
-  create_resources(::grafana::grafana_datasource, $datasources)
+  $datasource_defaults = {
+    grafana_url      => 'http://localhost:3000',
+    grafana_user     => $admin_user,
+    grafana_password => $admin_password,
+  }
+  create_resources(::profiles::grafana::datasource, $datasources, $datasource_defaults)
 }
