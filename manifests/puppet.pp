@@ -66,6 +66,7 @@ class profiles::puppet (
   class { '::puppet':
     allow_any_crl_auth          => $allow_any_crl_auth,
     autosign                    => $autosign,
+    autosign_entries            => $autosign_domains,
     dns_alt_names               => $dns_alt_names,
     environment                 => $environment,
     puppetmaster                => $puppetmaster,
