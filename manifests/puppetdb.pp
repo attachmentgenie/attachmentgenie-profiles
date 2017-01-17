@@ -4,6 +4,7 @@
 #  class { '::profiles::puppetdb': }
 #
 # @param database_host (String) Db host.
+# @param database_password (String) Db password.
 # @param listen_address (String) interface to bind to.
 # @param manage_dbserver (Boolean) Manage postgresql backend.
 # @param manage_firewall (Boolean) Manage firewall entries.
