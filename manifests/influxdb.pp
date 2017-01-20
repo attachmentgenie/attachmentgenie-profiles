@@ -22,6 +22,6 @@ class profiles::influxdb (
       name-schema       => 'type.host.measurement.device',
       templates         => [ '*.app env.service.resource.measurement' ],
     },
-    manage_repo      => $manage_repo,
+    manage_repos     => $manage_repo,
   }
 }
