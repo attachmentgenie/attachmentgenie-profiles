@@ -25,10 +25,10 @@ class profiles::puppetdb (
     $ssl_listen_address,
   )
   class { '::puppetdb::server':
-    database_host       => $database_host,
-    database_password   => $database_password,
-    listen_address      => $listen_address,
-    manage_firewall     => $manage_firewall,
-    ssl_listen_address  => $ssl_listen_address,
+    database_host      => $database_host,
+    database_password  => $database_password,
+    listen_address     => $listen_address,
+    manage_firewall    => $manage_firewall,
+    ssl_listen_address => $ssl_listen_address,
   }
 }
