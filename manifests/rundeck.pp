@@ -31,7 +31,6 @@ class profiles::rundeck (
     grails_server_url => $grails_server_url,
     jvm_args          => $jvm_args,
     manage_repo       => $manage_repo,
-    manage_yum_repo   => $manage_repo,
     package_ensure    => $package,
   }
   create_resources(rundeck::config::project, $projects)

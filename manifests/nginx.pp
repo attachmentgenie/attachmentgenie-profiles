@@ -27,6 +27,6 @@ class profiles::nginx (
   $vhost_defaults = {
     tag        => 'do_b',
   }
-  create_resources( 'nginx::resource::vhost', $vhosts, $vhost_defaults)
+  create_resources( 'nginx::resource::server', $vhosts, $vhost_defaults)
   Package<| tag == 'do_a' |> -> Nginx::Resource::Upstream<| tag == 'do_b' |>
 }

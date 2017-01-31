@@ -4,7 +4,5 @@
 #  class { '::profiles::neo4j': }
 #
 class profiles::neo4j {
-  class { '::neo4j' :
-    install_java   => false,
-  }
+  class { '::neo4j' : }
 }
