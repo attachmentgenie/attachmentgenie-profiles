@@ -3,9 +3,9 @@
 # @example when declaring the influxdb class
 #  class { '::profiles::influxdb': }
 #
-# @param manage_repos (Boolean) Manage repositories.
+# @param manage_repo (Boolean) Manage repositories.
 class profiles::influxdb (
-  $manage_repos = false,
+  $manage_repo = false,
 ){
   class {'influxdb::server':
     graphite_options => {
@@ -22,6 +22,6 @@ class profiles::influxdb (
       name-schema       => 'type.host.measurement.device',
       templates         => [ '*.app env.service.resource.measurement' ],
     },
-    manage_repos     => $manage_repos,
+    manage_repos     => $manage_repo,
   }
 }
