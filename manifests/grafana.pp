@@ -31,7 +31,7 @@
 # @param log_level (String) Loglevel
 # @param log_max_days (Integer) Keep logs for max days.
 # @param logmode (String) Type of logging
-# @param manage_package_repo (Boolean) Manage repo.
+# @param manage_repo (Boolean) Manage repo.
 # @param rpm_iteration (String) RPM iteration to install.
 # @param secret_key (String) Secret key.
 # @param version (String) Version to install.
@@ -64,7 +64,7 @@ class profiles::grafana (
   $log_level                   = 'Info',
   $log_max_days                = 7,
   $logmode                     = 'console, file',
-  $manage_package_repo         = false,
+  $manage_repo                 = false,
   $rpm_iteration               = '1484211277',
   $secret_key                  = 'inWSYLbKCoLko',
   $version                     = '4.1.1',
@@ -144,7 +144,7 @@ class profiles::grafana (
 
     },
     install_method      => $install_method,
-    manage_package_repo => $manage_package_repo,
+    manage_package_repo => $manage_repo,
     rpm_iteration       => $rpm_iteration,
     version             => $version,
   }
