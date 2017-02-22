@@ -53,7 +53,7 @@ fixtures:
     r10k: "https://github.com/voxpupuli/puppet-r10k.git"
     ruby:    "https://github.com/puppetlabs/puppetlabs-ruby.git"
     rundeck: "https://github.com/voxpupuli/puppet-rundeck.git"
-    selinux: "https://github.com/jfryman/puppet-selinux.git"
+    selinux: "https://github.com/voxpupuli/puppet-selinux.git"
     staging: "https://github.com/voxpupuli/puppet-staging.git"
     sudo: "https://github.com/saz/puppet-sudo.git"
     stdlib:
