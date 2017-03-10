@@ -1,7 +1,7 @@
 # This class can be used install time components.
 #
 # @example when declaring the time class
-#  class { '::stacks::time': }
+#  class { '::profiles::time': }
 #
 # @param restrict (Array) Restrict to this list.
 # @param zone (String) Timezone for this node.
@@ -15,10 +15,10 @@ class profiles::time (
   validate_string(
     $zone,
   )
-  class { 'ntp':
+  class { '::ntp':
     restrict => $restrict,
   }
-  class { 'timezone':
+  class { '::timezone':
     zone     => $zone,
   }
 }

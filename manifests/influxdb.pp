@@ -7,21 +7,24 @@
 class profiles::influxdb (
   $manage_repo = false,
 ){
-  class {'influxdb::server':
-    graphite_options => {
-      enabled           => true,
-      database          => 'graphite',
-      bind-address      => ':2003',
-      protocol          => tcp,
-      consistency-level => 'one',
-      name-separator    => '.',
-      batch-size        => 1000,
-      batch-pending     => 5,
-      batch-timeout     => '1s',
-      udp-read-buffer   => 0,
-      name-schema       => 'type.host.measurement.device',
-      templates         => [ '*.app env.service.resource.measurement' ],
+  class {'::influxdb':
+    graphite_config => {
+      'default' => {
+        'enabled'           => true,
+        'database'          => 'graphite',
+        'retention-policy'  => '',
+        'bind-address'      => ':2003',
+        'protocol'          => 'tcp',
+        'consistency-level' => 'one',
+        'batch-size'        => 5000,
+        'batch-pending'     => 10,
+        'batch-timeout'     => '1s',
+        'udp-read-buffer'   => 0,
+        'separator'         => '.',
+        'tags'              => [ 'region=us-east", "zone=1c'],
+        'templates'         => [ '*.app env.service.resource.measurement' ],
+      }
     },
-    manage_repos     => $manage_repo,
+    manage_repos    => $manage_repo,
   }
 }

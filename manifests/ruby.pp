@@ -6,14 +6,17 @@
 class profiles::ruby {
 
   case $::osfamily {
+    'debian': {
+      $packages = ['rubygems-integration','ruby','ruby-dev']
+    }
     'redhat': {
-      $developer_packages = ['rubygems','ruby','ruby-devel']
+      $packages = ['rubygems','ruby','ruby-devel']
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
     }
   }
-  package { $developer_packages:
+  package { $packages:
     ensure => installed,
   }
 }

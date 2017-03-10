@@ -8,20 +8,31 @@
 # @param remi (Boolean) Configure remi repository.
 class profiles::repositories (
   $epel            = false,
+  $keys            = {},
+  $ppas            = {},
   $puppetlabs_deps = false,
+  $purge           = { 'sources.list.d' => true, },
   $remi            = false,
+  $reposities      = {},
 ){
   validate_bool(
     $epel,
     $puppetlabs_deps,
     $remi,
   )
+  validate_hash(
+    $keys,
+    $ppas,
+    $purge,
+    $reposities,
+  )
   case $::osfamily {
     'debian': {
       class { 'apt':
-        purge => {
-          purge_sources_list_d => true,
-        },
+        keys    => $keys,
+        ppas    => $ppas,
+        purge   => $purge,
+        sources => $reposities,
       }
     }
     'redhat': {
