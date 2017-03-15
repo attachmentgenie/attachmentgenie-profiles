@@ -4,8 +4,12 @@
 #  class { '::profiles::repositories': }
 #
 # @param epel (Boolean) Configure epel repository.
+# @param keys (Hash) repositorie keys to import.
+# @param ppas (Hash) ppas to configure.
 # @param puppetlabs_deps (Boolean) Configure puppetlabs_deps repository.
+# @param purge (Boolean) purge unmanaged repositories.
 # @param remi (Boolean) Configure remi repository.
+# @param repositories (Hash) repositories to configure.
 class profiles::repositories (
   $epel            = false,
   $keys            = {},
@@ -13,7 +17,7 @@ class profiles::repositories (
   $puppetlabs_deps = false,
   $purge           = { 'sources.list.d' => true, },
   $remi            = false,
-  $reposities      = {},
+  $repositories      = {},
 ){
   validate_bool(
     $epel,
@@ -24,7 +28,7 @@ class profiles::repositories (
     $keys,
     $ppas,
     $purge,
-    $reposities,
+    $repositories,
   )
   case $::osfamily {
     'debian': {
@@ -32,7 +36,7 @@ class profiles::repositories (
         keys    => $keys,
         ppas    => $ppas,
         purge   => $purge,
-        sources => $reposities,
+        sources => $repositories,
       }
     }
     'redhat': {

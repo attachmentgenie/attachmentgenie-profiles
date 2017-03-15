@@ -5,7 +5,7 @@
 #
 # @param client_package_name (String) client package to install.
 # @param manage_package_repo (Boolean) Manage repository.
-# @mongos_package_name (String) mongos package to install.
+# @param mongos_package_name (String) mongos package to install.
 # @param server_package_name (String) Package to install.
 # @param use_enterprise_repo (Boolean)
 # @param version (String) Version to install.

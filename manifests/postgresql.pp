@@ -15,7 +15,7 @@ class profiles::postgresql (
   $ip_mask_allow_all_users = '127.0.0.1/32',
   $listen_address          = 'localhost',
   $manage_package_repo     = false,
-  $version                 = '9.5',
+  $version                 = '9.6',
 ) {
   validate_bool(
     $manage_package_repo,
