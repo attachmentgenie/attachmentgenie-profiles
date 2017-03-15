@@ -9,9 +9,9 @@
 # @param prometheus_version (String) Version to install
 class profiles::prometheus (
   $client                = true,
-  $node_exporter_version = '0.12.0',
+  $node_exporter_version = '0.13.0',
   $server                = false,
-  $prometheus_version    = '1.3.1',
+  $prometheus_version    = '1.5.2',
 ) {
   validate_bool(
     $client,

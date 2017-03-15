@@ -65,9 +65,9 @@ class profiles::grafana (
   $log_max_days                = 7,
   $logmode                     = 'console, file',
   $manage_repo                 = false,
-  $rpm_iteration               = '1484211277',
+  $rpm_iteration               = '1486989747',
   $secret_key                  = 'inWSYLbKCoLko',
-  $version                     = '4.1.1',
+  $version                     = '4.1.2',
 ) inherits profiles::grafana::params {
   validate_hash(
     $datasources,
