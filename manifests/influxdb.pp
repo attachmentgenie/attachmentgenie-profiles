@@ -21,7 +21,7 @@ class profiles::influxdb (
         'batch-timeout'     => '1s',
         'udp-read-buffer'   => 0,
         'separator'         => '.',
-        'tags'              => [ 'region=us-east", "zone=1c'],
+        'tags'              => [ 'region=us-east', 'zone=1c'],
         'templates'         => [ '*.app env.service.resource.measurement' ],
       }
     },
