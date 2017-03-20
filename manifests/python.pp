@@ -3,19 +3,22 @@
 # @example when declaring the apache class
 #  class { '::profiles::python': }
 #
-# @param python_pips (Hash) List of pip packages to install.
-# @param use_epel (Boolean) Manage epel repository.
+# @param manage_repo (Boolean) Manage epel repository.
+# @param pip_packages (Hash) List of pip packages to install.
+# @param packages (Hash) list of packages to install
 class profiles::python (
-  $python_pips = {},
-  $use_epel    = false
+  $manage_repo = false,
+  $packages = {},
+  $pip_packages = {},
 ) {
   class { '::python' :
     dev         => 'present',
     gunicorn    => 'absent',
     pip         => 'present',
-    python_pips => $python_pips,
+    python_pips => $pip_packages,
     version     => 'system',
-    use_epel    => $use_epel,
+    use_epel    => $manage_repo,
     virtualenv  => 'absent',
   }
+  create_resources('package',$packages)
 }
