@@ -21,6 +21,7 @@ fixtures:
     git: "https://github.com/puppetlabs/puppetlabs-git.git"
     gitlab: "https://github.com/vshn/puppet-gitlab.git"
     grafana: "https://github.com/voxpupuli/puppet-grafana.git"
+    graphite_web: "https://github.com/mlambrichs/puppet-graphite_web.git"
     haproxy: "https://github.com/puppetlabs/puppetlabs-haproxy.git"
     icinga2: "https://github.com/Icinga/puppet-icinga2-rewrite.git"
     icingaweb2: "https://github.com/Icinga/puppet-icingaweb2.git"
