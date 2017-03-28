@@ -4,6 +4,7 @@ fixtures:
     activemq: "https://github.com/puppetlabs/puppetlabs-activemq.git"
     apache: "https://github.com/puppetlabs/puppetlabs-apache.git"
     archive: "https://github.com/voxpupuli/puppet-archive.git"
+    carbon: "https://github.com/mlambrichs/puppet-carbon.git"
     concat: "https://github.com/puppetlabs/puppetlabs-concat.git"
     collectd: "https://github.com/voxpupuli/puppet-collectd.git"
     composer: "https://github.com/willdurand/puppet-composer.git"
