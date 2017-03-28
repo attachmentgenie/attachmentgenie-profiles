@@ -1,6 +1,6 @@
 # This class can be used install user prometheus properties
 #
-# @example when declaring the apache class
+# @example when declaring the prometheus class
 #  class { '::profiles::prometheus': }
 #
 # @param client (Boolean) Install node exporter

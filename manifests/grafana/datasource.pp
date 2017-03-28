@@ -1,6 +1,6 @@
 # Class to manage grafana datasources.
 #
-# @example when declaring the apache class
+# @example when declaring the datasource class
 #  profiles::grafana::datasource { 'example':
 #    value => 'foo'
 #  }

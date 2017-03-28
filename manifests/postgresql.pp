@@ -7,18 +7,18 @@
 # @param encoding (String) DB encoding.
 # @param ip_mask_allow_all_users (String) ip mask for allow.
 # @param listen_address (String) list address
-# @param manage_package_repo (Boolean) Manage repository.
+# @param manage_repo (Boolean) Manage repository.
 # @param version (String) Version to install.
 class profiles::postgresql (
   $databases               = {},
   $encoding                = 'UTF-8',
   $ip_mask_allow_all_users = '127.0.0.1/32',
   $listen_address          = 'localhost',
-  $manage_package_repo     = false,
+  $manage_repo             = false,
   $version                 = '9.6',
 ) {
   validate_bool(
-    $manage_package_repo,
+    $manage_repo,
   )
   validate_hash(
     $databases,
@@ -31,7 +31,7 @@ class profiles::postgresql (
   )
   class { '::postgresql::globals':
     encoding            => $encoding,
-    manage_package_repo => $manage_package_repo,
+    manage_package_repo => $manage_repo,
     version             => $version,
   } ->
   class { '::postgresql::server':

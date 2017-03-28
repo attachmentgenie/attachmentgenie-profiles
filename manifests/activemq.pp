@@ -1,6 +1,6 @@
 # This class can be used install user activemq properties
 #
-# @example when declaring the apache class
+# @example when declaring the activemq class
 #  class { '::profiles::activemq': }
 #
 # @param instance (String) Instance name.

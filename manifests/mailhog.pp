@@ -1,6 +1,6 @@
 # This class can be used install user mailhog properties
 #
-# @example when declaring the apache class
+# @example when declaring the mailhog class
 #  class { '::profiles::mailhog': }
 #
 # @param install_method (String) how to install.

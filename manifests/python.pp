@@ -1,6 +1,6 @@
 # This class can be used install user python properties
 #
-# @example when declaring the apache class
+# @example when declaring the python class
 #  class { '::profiles::python': }
 #
 # @param manage_repo (Boolean) Manage epel repository.

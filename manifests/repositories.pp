@@ -1,6 +1,6 @@
 # This class can be used install user repositories properties
 #
-# @example when declaring the apache class
+# @example when declaring the repositories class
 #  class { '::profiles::repositories': }
 #
 # @param epel (Boolean) Configure epel repository.

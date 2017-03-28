@@ -1,6 +1,6 @@
 # This class can be used install user accounts properties
 #
-# @example when declaring the apache class
+# @example when declaring the accounts class
 #  class { '::profiles::accounts': }
 #
 # @param accounts (Hash) User accounts to manage.

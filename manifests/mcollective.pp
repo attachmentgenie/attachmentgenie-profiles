@@ -1,6 +1,6 @@
 # This class can be used install user mcollective properties
 #
-# @example when declaring the apache class
+# @example when declaring the mcollective class
 #  class { '::profiles::mcollective': }
 #
 # @param client (Boolean) Manage client settings

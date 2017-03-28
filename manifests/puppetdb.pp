@@ -1,6 +1,6 @@
 # This class can be used install user puppetdb properties
 #
-# @example when declaring the apache class
+# @example when declaring the puppetdb class
 #  class { '::profiles::puppetdb': }
 #
 # @param database_host (String) Db host.

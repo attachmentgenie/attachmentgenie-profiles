@@ -1,6 +1,6 @@
 # This class can be used install user foreman properties
 #
-# @example when declaring the apache class
+# @example when declaring the foreman class
 #  class { '::profiles::foreman': }
 #
 # @param configure_epel_repo (Boolean) Configure epel repository

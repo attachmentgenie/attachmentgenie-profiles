@@ -1,6 +1,6 @@
 # This class can be used install user memcached properties
 #
-# @example when declaring the apache class
+# @example when declaring the memcache class
 #  class { '::profiles::memcached': }
 #
 # @param listen_ip (String) interface to bind to.

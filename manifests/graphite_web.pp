@@ -24,7 +24,7 @@ class profiles::graphite_web (
       host     => '127.0.0.1'
     }
   },
-  $debug           = false,
+  $debug           = 'False',
 ) {
 
   class { '::graphite_web':

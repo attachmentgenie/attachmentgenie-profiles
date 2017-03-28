@@ -1,6 +1,6 @@
 # This class can be used install user foreman_proxy properties
 #
-# @example when declaring the apache class
+# @example when declaring the foreman_proxy class
 #  class { '::profiles::foreman_proxy': }
 #
 # @param foreman_host (String) Foreman fqdn.

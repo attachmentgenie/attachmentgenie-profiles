@@ -1,6 +1,6 @@
 # This class can be used install user prometheus properties
 #
-# @example when declaring the apache class
+# @example when declaring the puppet class
 #  class { '::profiles::prometheus': }
 #
 # @param allow_any_crl_auth (Boolean) Allow certificate signing by proxied requests.

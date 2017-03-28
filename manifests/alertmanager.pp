@@ -1,6 +1,6 @@
 # This class can be used install user alertmanager properties
 #
-# @example when declaring the apache class
+# @example when declaring the alertmanager class
 #  class { '::profiles::alertmanager': }
 #
 # @param global (Hash) Global settings

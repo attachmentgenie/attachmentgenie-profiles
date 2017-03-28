@@ -1,6 +1,6 @@
 # This class can be used install user r10k properties
 #
-# @example when declaring the apache class
+# @example when declaring the r10k class
 #  class { '::profiles::r10k': }
 #
 # @param basedir (String) Environments directory.
