@@ -36,7 +36,7 @@ class profiles::carbon (
 ) {
 
   member( ['carbon', 'go-carbon'], $carbon_type )
-  member( ['carbon', 'carbon-c-relay'], $relay_type )
+  member( ['carbon', 'carbon-c-relay','carbon-relay-ng'], $relay_type )
 
   $carbon_relay_enabled = $relay_type ? {
     'carbon' => true,
