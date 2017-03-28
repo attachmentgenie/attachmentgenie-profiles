@@ -63,6 +63,13 @@ class profiles::repositories (
         }
         Yumrepo['remi'] -> Package <||>
       }
+
+      # add extra repositories
+      $yum_defaults = {
+        enabled  => 1,
+        gpgcheck => 1,
+      }
+      create_resources( 'yumrepo', $repositories, $yum_defaults )
     }
     default: {
       fail("Unsupported osfamily ${::osfamily}")
