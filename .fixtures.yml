@@ -68,6 +68,7 @@ fixtures:
     systemd: "https://github.com/camptocamp/puppet-systemd.git"
     timezone: "https://github.com/attachmentgenie/attachmentgenie-timezone.git"
     transition: "https://github.com/puppetlabs/puppetlabs-transition.git"
+    uwsgi: "https://github.com/rvdh/puppet-uwsgi.git"
     zookeeper: "https://github.com/deric/puppet-zookeeper.git"
   symlinks:
     "profiles": "#{source_dir}"
