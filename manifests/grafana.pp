@@ -1,40 +1,48 @@
+# == Class: profiles::grafana
+#
 # This class can be used to setup grafana.
+#
+# === Examples
 #
 # @example when declaring the node role
 #  class { '::profiles::grafana': }
 #
-# @param allow_sign_up (Boolean) Allow users to sign up
-# @param allow_org_create (Boolean) Allow organisations to be setup.
-# @param auto_assign_org (Boolean) Automatically asign an organisation.
-# @param auth_assign_org_role (String) Basic role.
-# @param admin_password (String) Admin password.
-# @param admin_user (String) Admin username
-# @param cookie_username (String) Cookie name
-# @param cookie_remember_name (String) Cookie remember setting
-# @param data_source_proxy_whitelist (String) Proxy Whitelist.
-# @param datasources (Hash) List of datasources.
-# @param db_datadir (String) Directory to store data in.
-# @param db_host (String) Db connection string
-# @param db_name (String) DB name.
-# @param db_password (String) DB password.
-# @param db_path (String) DB path (sqlite only)
-# @param db_type (String) DB type,
-# @param db_user (String) DB user.
-# @param disable_gravatar (Boolean) Disable gravatar downloadingg
-# @param install_method (String) How to install grafana.
-# @param log_buffer_length (Integer) Log bufeer length
-# @param log_rotate (Boolean) Log rotation
-# @param log_max_lines (Integer) Log max size
-# @param log_max_lines_shift (Integer) Log max lines shift
-# @param log_daily_rotate (Boolean) Rotate log daily.
-# @param login_remember_days (Integer) Remember Login.
-# @param log_level (String) Loglevel
-# @param log_max_days (Integer) Keep logs for max days.
-# @param logmode (String) Type of logging
-# @param manage_repo (Boolean) Manage repo.
-# @param rpm_iteration (String) RPM iteration to install.
-# @param secret_key (String) Secret key.
-# @param version (String) Version to install.
+# === Parameters
+#
+# @param allow_sign_up [Boolean] Allow users to sign up
+# @param allow_org_create [Boolean] Allow organisations to be setup.
+# @param auto_assign_org [Boolean] Automatically asign an organisation.
+# @param auth_assign_org_role [String] Basic role.
+# @param admin_password [String] Admin password.
+# @param admin_user [String] Admin username
+# @param cookie_username [String] Cookie name
+# @param cookie_remember_name [String] Cookie remember setting
+# @param dashboards [Hash] Set of dashboards to load
+# @param data_source_proxy_whitelist [String] Proxy Whitelist.
+# @param datasources [Hash] List of datasources.
+# @param db_datadir [String] Directory to store data in.
+# @param db_host [String] Db connection string
+# @param db_name [String] DB name.
+# @param db_password [String] DB password.
+# @param db_path [String] DB path [sqlite only]
+# @param db_type [String] DB type,
+# @param db_user [String] DB user.
+# @param disable_gravatar [Boolean] Disable gravatar downloadingg
+# @param install_method [String] How to install grafana.
+# @param log_buffer_length [Integer] Log bufeer length
+# @param log_rotate [Boolean] Log rotation
+# @param log_max_lines [Integer] Log max size
+# @param log_max_lines_shift [Integer] Log max lines shift
+# @param log_daily_rotate [Boolean] Rotate log daily.
+# @param login_remember_days [Integer] Remember Login.
+# @param log_level [String] Loglevel
+# @param log_max_days [Integer] Keep logs for max days.
+# @param logmode [String] Type of logging
+# @param manage_repo [Boolean] Manage repo.
+# @param rpm_iteration [String] RPM iteration to install.
+# @param secret_key [String] Secret key.
+# @param version [String] Version to install.
+#
 class profiles::grafana (
   $allow_sign_up               = true,
   $allow_org_create            = false,
@@ -45,6 +53,7 @@ class profiles::grafana (
   $cookie_username             = 'grafana_user',
   $cookie_remember_name        = 'grafana_remember',
   $data_source_proxy_whitelist = '',
+  $dashboards                  = {},
   $datasources                 = {},
   $db_datadir                  = '/var/lib/pgsql/data',
   $db_host                     = '127.0.0.1:5432',
@@ -69,7 +78,9 @@ class profiles::grafana (
   $secret_key                  = 'inWSYLbKCoLko',
   $version                     = '4.1.2',
 ) inherits profiles::grafana::params {
+
   validate_hash(
+    $dashboards,
     $datasources,
   )
 
@@ -148,10 +159,13 @@ class profiles::grafana (
     rpm_iteration       => $rpm_iteration,
     version             => $version,
   }
-  $datasource_defaults = {
+
+  $defaults = {
     grafana_url      => 'http://localhost:3000',
     grafana_user     => $admin_user,
     grafana_password => $admin_password,
   }
-  create_resources(::profiles::grafana::datasource, $datasources, $datasource_defaults)
+  create_resources( ::profiles::grafana::dashboard, $dashboards, $defaults )
+
+  create_resources( ::profiles::grafana::datasource, $datasources, $defaults )
 }
