@@ -18,8 +18,8 @@ class profiles::scala (
       baseurl  => 'http://dl.bintray.com/sbt/rpm',
       enabled  => 1,
       gpgcheck => 0,
-    } ->
-    package { 'sbt':
+    }
+    -> package { 'sbt':
       ensure   => present,
     }
   }

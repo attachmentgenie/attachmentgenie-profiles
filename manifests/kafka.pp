@@ -45,8 +45,8 @@ class profiles::kafka (
     package_name  => $package_name,
     scala_version => $scala_version,
     version       => $version,
-  } ->
-  class { '::kafka::broker':
+  }
+  -> class { '::kafka::broker':
     config                     => $zookeeper_config,
     service_requires_zookeeper => false,
   }

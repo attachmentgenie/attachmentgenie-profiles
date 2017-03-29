@@ -104,14 +104,14 @@ class profiles::puppet (
       group   => 'puppet',
       content => template('profiles/hiera.yaml.erb'),
     }
-    Class['::puppet'] ->
-    File[$hiera_yaml_file]
+    Class['::puppet']
+    -> File[$hiera_yaml_file]
     if $foreman_repo {
       foreman::install::repos { 'foreman':
         repo     => 'stable',
       }
-      Foreman::Install::Repos['foreman'] ->
-      Class['::puppet']
+      Foreman::Install::Repos['foreman']
+      -> Class['::puppet']
     }
   }
 }

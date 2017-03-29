@@ -33,8 +33,8 @@ class profiles::postgresql (
     encoding            => $encoding,
     manage_package_repo => $manage_repo,
     version             => $version,
-  } ->
-  class { '::postgresql::server':
+  }
+  -> class { '::postgresql::server':
     ip_mask_allow_all_users => $ip_mask_allow_all_users,
     listen_addresses        => $listen_address,
   }
