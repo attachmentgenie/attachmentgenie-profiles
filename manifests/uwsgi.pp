@@ -45,9 +45,8 @@ class profiles::uwsgi (
 
   group { $gid:
     ensure => present,
-  } ->
-
-  user { $uid:
+  }
+  -> user { $uid:
     ensure => present,
     shell  => '/sbin/nologin',
   }

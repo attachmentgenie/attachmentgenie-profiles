@@ -30,8 +30,8 @@ class profiles::mongodb (
     server_package_name => $server_package_name,
     use_enterprise_repo => $use_enterprise_repo,
     version             => $version,
-  } ->
-  class { '::mongodb::server': }
+  }
+  -> class { '::mongodb::server': }
 
   class { '::mongodb::client': }
 }
