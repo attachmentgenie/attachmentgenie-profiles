@@ -8,7 +8,7 @@
 # @param emperor_options [Hash] extra options to set in the emperor config file
 # @param gid [String] group the service belongs to
 # @param install_pip [Boolean] use pip to install uwsgi
-# @param install_pyton_dev [Boolean] indicates if python-dev package should be installed
+# @param install_python_dev [Boolean] indicates if python-dev package should be installed
 # @param package_name [String] name of uwsgi package
 # @param package_ensure [String] indicates what state the package should be in
 # @param package_provider [String] indicates what backend to use for this package

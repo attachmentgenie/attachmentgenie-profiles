@@ -38,9 +38,15 @@ class profiles::carbon (
   member( ['carbon', 'go-carbon'], $carbon_type )
   member( ['carbon', 'carbon-c-relay','carbon-relay-ng'], $relay_type )
 
-  $carbon_relay_enabled = $relay_type ? {
-    'carbon' => true,
-    default  => false
+  case $relay_type {
+    'carbon': {
+      $carbon_relay_enabled = true
+      $carbon_relay_ensure  = 'running'
+    }
+    'carbon-c-relay','carbon-relay-ng', default: {
+      $carbon_relay_enabled = false
+      $carbon_relay_ensure  = 'stopped'
+    }
   }
 
   case $carbon_type {
@@ -50,6 +56,7 @@ class profiles::carbon (
         carbon_caches             => $carbon_caches,
         carbon_ensure             => $carbon_ensure,
         carbon_relay_enabled      => $carbon_relay_enabled,
+        carbon_relay_ensure       => $carbon_relay_ensure,
         line_receiver_interface   => $line_receiver_interface,
         pickle_receiver_interface => $pickle_receiver_interface,
         protobuf_receiver_enabled => $protobuf_receiver_enabled,
