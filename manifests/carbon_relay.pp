@@ -3,10 +3,16 @@
 # @example when declaring the carbon_relay class
 #  class { '::profiles::carbon_relay': }
 #
-# @param http_address (String) address to bind admin interface too.
+# @param admin_address (String) address to bind the admin interface too (ng only)
+# @param carbon_caches (Hash) List of carbon caches to forward to.
+# @param config_matches (Hash) Forwarding instructions. (c-relay only)
+# @param http_address (String) address to bind admin interface to.
+# @param listen_address (String) addres to bind to.
 # @param relay_type (String)
 class profiles::carbon_relay (
   $admin_address  = '127.0.0.1',
+  $carbon_caches  = {},
+  $config_matches = {},
   $http_address   = '127.0.0.1',
   $listen_address = '0.0.0.0',
   $relay_type     = 'carbon',
@@ -16,7 +22,10 @@ class profiles::carbon_relay (
   case $relay_type {
     'carbon-c-relay': {
       class { '::carbon_c_relay':
-        interface => $listen_address,
+        config_clusters => $carbon_caches,
+        config_matches  => $config_matches,
+        interface       => $listen_address,
+        sorted_matches  => false,
       }
     }
     'carbon-relay-ng': {

@@ -44,7 +44,7 @@
 # @param version [String] Version to install.
 #
 class profiles::grafana (
-  $allow_sign_up               = true,
+  $allow_sign_up               = false,
   $allow_org_create            = false,
   $auto_assign_org             = true,
   $auth_assign_org_role        = 'Viewer',
