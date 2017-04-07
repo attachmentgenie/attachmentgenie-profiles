@@ -1,6 +1,6 @@
 # This class can be used install user accounts properties
 #
-# @example when declaring the accounts class
+# @example when declaring the apache class
 #  class { '::profiles::accounts': }
 #
 # @param accounts (Hash) User accounts to manage.
@@ -13,11 +13,15 @@ class profiles::accounts (
     $accounts,
     $sudo_confs,
   )
-  create_resources( 'accounts::user', $accounts)
-
-  class { '::sudo':
-    config_file_replace => false,
-    purge               => false,
+  if length($accounts) > 0 {
+    create_resources( 'accounts::user', $accounts)
   }
-  create_resources( 'sudo::conf', $sudo_confs)
+
+  if length($sudo_confs) > 0 {
+    class { '::sudo':
+      config_file_replace => false,
+      purge               => false,
+    }
+    create_resources( 'sudo::conf', $sudo_confs)
+  }
 }
