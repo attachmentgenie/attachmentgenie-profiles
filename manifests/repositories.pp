@@ -3,21 +3,23 @@
 # @example when declaring the repositories class
 #  class { '::profiles::repositories': }
 #
-# @param epel (Boolean) Configure epel repository.
+# @param backports (Boolean) Configure backports repository (debian family).
+# @param epel (Boolean) Configure epel repository (redhat family).
 # @param keys (Hash) repositorie keys to import.
-# @param ppas (Hash) ppas to configure.
-# @param puppetlabs_deps (Boolean) Configure puppetlabs_deps repository.
+# @param ppas (Hash) ppas to configure (ubuntu only).
+# @param puppetlabs_deps (Boolean) Configure puppetlabs_deps repository (debian family).
 # @param purge (Boolean) purge unmanaged repositories.
-# @param remi (Boolean) Configure remi repository.
+# @param remi (Boolean) Configure remi repository (redhat family).
 # @param repositories (Hash) repositories to configure.
 class profiles::repositories (
+  $backports       = false,
   $epel            = false,
   $keys            = {},
   $ppas            = {},
   $puppetlabs_deps = false,
   $purge           = { 'sources.list.d' => true, },
   $remi            = false,
-  $repositories      = {},
+  $repositories    = {},
 ){
   validate_bool(
     $epel,
@@ -38,6 +40,15 @@ class profiles::repositories (
         purge   => $purge,
         sources => $repositories,
       }
+      if $backports {
+        class { 'apt::backports':
+          location => 'http://ftp.de.debian.org/debian',
+          release  => "${lsbdistcodename}-backports",
+          repos    => 'main',
+          pin      => 500,
+        }
+      }
+
     }
     'redhat': {
       if $epel {
