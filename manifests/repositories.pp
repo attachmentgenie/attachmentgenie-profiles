@@ -43,7 +43,7 @@ class profiles::repositories (
       if $backports {
         class { 'apt::backports':
           location => 'http://ftp.de.debian.org/debian',
-          release  => "${lsbdistcodename}-backports",
+          release  => "${::lsbdistcodename}-backports",
           repos    => 'main',
           pin      => 500,
         }

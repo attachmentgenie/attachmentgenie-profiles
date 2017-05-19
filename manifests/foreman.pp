@@ -18,6 +18,7 @@
 # @param organizations_enabled (Boolean) Enable organizations.
 # @param passenger (Boolean) Run behind passenger.
 # @param plugins (Hash) Foreman plugins to install.
+# @param protocol (String) Protocol to reach Foreman.
 # @param selinux (Boolean) Install foreman-selinux.
 # @param ssl (Boolean) Enable ssl
 # @param server_ssl_ca (String) SSL ca.
@@ -44,6 +45,7 @@ class profiles::foreman (
   $organizations_enabled  = false,
   $passenger              = true,
   $plugins                = {},
+  $protocol               = 'https',
   $selinux                = false,
   $ssl                    = true,
   $server_ssl_ca          = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
@@ -64,7 +66,7 @@ class profiles::foreman (
     db_manage             => $db_manage,
     db_manage_rake        => $db_manage_rake,
     db_password           => $db_password,
-    foreman_url           => $foreman_host,
+    foreman_url           => "${protocol}://${foreman_host}",
     locations_enabled     => $locations_enabled,
     oauth_consumer_key    => $oauth_consumer_key,
     oauth_consumer_secret => $oauth_consumer_secret,
@@ -82,7 +84,7 @@ class profiles::foreman (
     user_groups           => $user_groups,
   }
   class { '::foreman::cli':
-    foreman_url => $foreman_host,
+    foreman_url => "${protocol}://${foreman_host}",
     username    => 'admin',
     password    => $foreman_admin_password,
   }

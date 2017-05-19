@@ -42,7 +42,7 @@ class profiles::puppet (
   $hiera_yaml_datadir          = '/var/lib/hiera',
   $puppetmaster                = undef,
   $runmode                     = 'service',
-  $runinterval                 = '1800',
+  $runinterval                 = 1800,
   $server                      = false,
   $server_additional_settings  = {},
   $server_ca                   = true,

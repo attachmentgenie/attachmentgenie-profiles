@@ -29,11 +29,11 @@ class profiles::foreman_proxy (
   )
   if $protocol == 'https' {
     $http = false
-    $port = '8443'
+    $port = 8443
     $ssl  = true
   } else {
     $http = true
-    $port = '8000'
+    $port = 8000
     $ssl  = false
   }
   class { '::foreman_proxy':
@@ -54,7 +54,7 @@ class profiles::foreman_proxy (
     registered_name       => $::fqdn,
     registered_proxy_url  => "${protocol}://${::fqdn}:${port}",
     ssl                   => $ssl,
-    ssl_port              => '8443',
+    ssl_port              => 8443,
     tftp                  => false,
     trusted_hosts         => [$::fqdn, $foreman_host],
     version               => $version,

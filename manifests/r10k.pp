@@ -21,6 +21,7 @@ class profiles::r10k (
   class { '::r10k':
     manage_modulepath => false,
     mcollective       => $mcollective,
+    r10k_basedir      => $basedir,
     sources           => {
       'puppet' => {
         'remote'  => $puppet_repo_url,
