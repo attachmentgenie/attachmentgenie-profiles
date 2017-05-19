@@ -15,7 +15,7 @@ guard 'rake', :task => 'strings:generate', :task_args => [''] do
   watch('README.md')
 end
 
-guard 'rake', :task => 'spec' do
+guard 'rake', :task => 'parallel_spec' do
   watch(%r{^examples\/(.+)\.pp$})
   watch(%r{^manifests\/(.+)\.pp$})
   watch(%r{^templates\/(.+)\.erb$})
@@ -24,3 +24,10 @@ guard 'rake', :task => 'spec' do
   watch('.fixtures.yml')
   watch('metadata.json')
 end
+
+=begin
+guard 'rake', :task => 'kitchen:all' do
+  watch(%r{^manifests\/(.+)\.pp$})
+  watch('.kitchen.yml')
+end
+=end
