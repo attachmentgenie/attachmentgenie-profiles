@@ -15,7 +15,7 @@ class profiles::mongodb (
   $mongos_package_name = undef,
   $server_package_name = undef,
   $use_enterprise_repo = false,
-  $version             = '3.4.2',
+  $version             = '3.4.5',
 ) {
   validate_bool(
     $manage_package_repo,
