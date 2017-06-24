@@ -9,7 +9,7 @@ class profiles::influxdb (
 ){
   class {'::influxdb':
     graphite_config => {
-      'default' => {
+        'default' => {
         'enabled'           => true,
         'database'          => 'graphite',
         'retention-policy'  => '',
@@ -21,8 +21,8 @@ class profiles::influxdb (
         'batch-timeout'     => '1s',
         'udp-read-buffer'   => 0,
         'separator'         => '.',
-        'tags'              => [ 'region=us-east', 'zone=1c'],
-        'templates'         => [ '*.app env.service.resource.measurement' ],
+        'tags'              => [],
+        'templates'         => [],
       }
     },
     manage_repos    => $manage_repo,
