@@ -14,9 +14,9 @@
 # @param debug (Boolean) Switch for debugging graphite
 #
 class profiles::graphite_web (
-  $carbon_caches   = {},
-  $database_engine = 'postgresql',
-  $databases       = { default =>
+  $carbon_caches    = {},
+  $database_engine  = 'postgresql',
+  $databases        = { default =>
     { name     => 'graphite',
       engine   => 'django.db.backends.postgresql_psycopg2',
       user     => 'graphite',
@@ -24,7 +24,8 @@ class profiles::graphite_web (
       host     => '127.0.0.1'
     }
   },
-  $debug           = 'False',
+  $debug             = 'False',
+  $memcached_enabled = true
 ) {
 
   class { '::graphite_web':
@@ -32,5 +33,6 @@ class profiles::graphite_web (
     config_debug           => $debug,
     config_database_engine => $database_engine,
     config_databases       => $databases,
+    memcached_enabled      => $memcached_enabled,
   }
 }

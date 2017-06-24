@@ -23,7 +23,7 @@ class profiles::alertmanager (
                       'group_interval'=> '5m',
                       'repeat_interval'=> '3h',
                       'receiver'=> 'Admin' },
-  $version        = '0.5.1'
+  $version        = '0.7.1'
 ){
   validate_array(
     $receivers,
