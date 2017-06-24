@@ -12,6 +12,7 @@
 # @param database_engine (String) Type of database.
 # @param databases (Hash) Containing database connection details
 # @param debug (Boolean) Switch for debugging graphite
+# @param memcached_enabled (Boolean) Use memcache as caching layer
 #
 class profiles::graphite_web (
   $carbon_caches    = {},
