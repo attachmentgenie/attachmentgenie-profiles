@@ -61,7 +61,7 @@ class profiles::puppet (
   $server_storeconfigs_backend = undef,
   $show_diff                   = true,
   $splay                       = true,
-  $splaylimit                  = '1800',
+  $splaylimit                  = '1800s',
 ) inherits profiles::puppet::params {
   class { '::puppet':
     allow_any_crl_auth          => $allow_any_crl_auth,
