@@ -76,7 +76,7 @@ class profiles::grafana (
   $manage_repo                 = false,
   $rpm_iteration               = '1',
   $secret_key                  = 'inWSYLbKCoLko',
-  $version                     = '4.3.2',
+  $version                     = '4.4.1',
 ) inherits profiles::grafana::params {
 
   validate_hash(
