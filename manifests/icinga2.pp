@@ -21,6 +21,5 @@ class profiles::icinga2 (
     import_schema => true,
     password      => $database_password,
     user          => $database_user,
-    require       => Mysql::Db['icinga2'],
   }
 }

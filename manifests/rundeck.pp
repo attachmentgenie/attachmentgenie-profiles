@@ -12,7 +12,7 @@ class profiles::rundeck (
   $grails_server_url = "http://${::fqdn}",
   $jvm_args          = '-Dserver.http.host=127.0.0.1',
   $manage_repo       = false,
-  $package           = present,
+  $package           = '2.6.11',
   $projects          = {},
 ) {
   validate_bool(

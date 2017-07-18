@@ -12,7 +12,7 @@ class profiles::logstash (
   $config_files = {},
   $ensure       = present,
   $manage_repo  = false,
-  $repo_version = '2.4',
+  $repo_version = '5.x',
   $version      = false,
 ){
   validate_bool(

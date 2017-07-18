@@ -32,7 +32,7 @@ fixtures:
     influxdb: "https://github.com/n1tr0g/golja-influxdb.git"
     java: "https://github.com/puppetlabs/puppetlabs-java.git"
     jenkins: "https://github.com/jenkinsci/puppet-jenkins.git"
-    kibana4: "https://github.com/lesaux/puppet-kibana4.git"
+    kibana: "https://github.com/elastic/puppet-kibana.git"
     kafka: "https://github.com/voxpupuli/puppet-kafka.git"
     logstash:
       repo: "https://github.com/elastic/puppet-logstash.git"
