@@ -68,6 +68,7 @@ class profiles::foreman_proxy (
         Foreman::Repos['foreman'] -> Package['foreman-proxy']
       }
     }
+    'RedHat': {}
     default: {
       fail("Unsupported osfamily ${::osfamily}")
     }
