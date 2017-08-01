@@ -10,6 +10,7 @@
 # @param puppetca (Boolean) Is there a CA on this node.
 # @param version (String) What version should be installed.
 class profiles::foreman_proxy (
+  $custom_repo           = false,
   $foreman_host          = 'foreman',
   $oauth_consumer_key    = 'secret',
   $oauth_consumer_secret = 'secret',
@@ -38,6 +39,7 @@ class profiles::foreman_proxy (
   }
   class { '::foreman_proxy':
     bmc                   => false,
+    custom_repo           => $custom_repo,
     dhcp                  => false,
     dns                   => false,
     foreman_base_url      => "${protocol}://${foreman_host}",
@@ -58,5 +60,16 @@ class profiles::foreman_proxy (
     tftp                  => false,
     trusted_hosts         => [$::fqdn, $foreman_host],
     version               => $version,
+  }
+
+  case $::osfamily {
+    'debian': {
+      if $custom_repo {
+        Foreman::Repos['foreman'] -> Package['foreman-proxy']
+      }
+    }
+    default: {
+      fail("Unsupported osfamily ${::osfamily}")
+    }
   }
 }
