@@ -1,5 +1,5 @@
 require 'spec_helper'
-describe 'profiles::grafana::datasource' do
+describe 'profiles::metrics::grafana::datasource' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
