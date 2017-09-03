@@ -17,7 +17,7 @@
 class profiles::metrics::graphite_web (
   Hash $carbon_caches = {},
   String $database_engine = 'postgresql',
-  Hash $databases = { default =>
+  Hash $databases = { 'default' =>
     { name     => 'graphite',
       engine   => 'django.db.backends.postgresql_psycopg2',
       user     => 'graphite',
