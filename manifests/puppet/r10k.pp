@@ -9,7 +9,7 @@
 class profiles::puppet::r10k (
   String $basedir = '/etc/puppetlabs/code/environments',
   Boolean $mcollective = false,
-  Optional[String]$puppet_repo_url = undef,
+  Optional[String] $puppet_repo_url = undef,
 ) {
   class { '::r10k':
     manage_modulepath => false,
