@@ -9,11 +9,11 @@
 # @param repo_version Version family to install from.
 # @param version      Which version of logstash to install.
 class profiles::monitoring::logstash (
-  Hash $config_files           = {},
+  Hash $config_files = {},
   Enum[absent,present] $ensure = present,
-  Boolean $manage_repo         = false,
-  String $repo_version         = '5.x',
-  Boolean $version             = false,
+  Boolean $manage_repo = false,
+  String $repo_version = '5.x',
+  Boolean $version = false,
 ){
   class { '::logstash':
     ensure         => $ensure,

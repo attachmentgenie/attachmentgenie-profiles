@@ -6,7 +6,7 @@
 #
 # @param apps               List of applications that run under uwsgi
 # @param emperor_options    Extra options to set in the emperor config file
-# @param gid                Group the service belongs to
+# @param group              Group the service belongs to
 # @param install_pip        Use pip to install uwsgi
 # @param install_python_dev Indicates if python-dev package should be installed
 # @param package_name       Name of uwsgi package
@@ -18,12 +18,12 @@
 # @param service_name       Name of the running service
 # @param service_provider   The specific backend for this service
 # @param socket             Directory where the sockets will be created
-# @param uid                Indicates the user that runs the service
+# @param user               Indicates the user that runs the service
 #
 class profiles::website::uwsgi (
   Hash $apps = {},
   Hash $emperor_options = {},
-  String $gid = 'uwgsi',
+  String $group = 'uwgsi',
   Boolean $install_pip = false,
   Boolean $install_python_dev = false,
   String $package_name = 'uwsgi',
@@ -35,7 +35,7 @@ class profiles::website::uwsgi (
   String $service_name = 'uwsgi-emperor',
   String $service_provider = 'systemd',
   Optional[String] $socket = undef,
-  String $uid = 'uwgsi',
+  String $user = 'uwgsi',
 ){
 
   # @todo needs to be in class uwsgi
@@ -43,10 +43,10 @@ class profiles::website::uwsgi (
     ensure => present,
   }
 
-  group { $gid:
+  group { $group:
     ensure => present,
   }
-  -> user { $uid:
+  -> user { $user:
     ensure => present,
     shell  => '/sbin/nologin',
   }

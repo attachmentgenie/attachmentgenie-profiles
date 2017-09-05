@@ -5,6 +5,7 @@ describe 'profiles::runtime::golang' do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
         it { should contain_class('profiles::runtime::golang') }
+        it { should contain_package('golang') }
       end
     end
   end

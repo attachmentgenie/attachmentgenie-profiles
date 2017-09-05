@@ -11,5 +11,4 @@ class profiles::database::etcd {
     cluster_enabled             => false,
     proxy                       => 'off'
   }
-  etcd_key { '/inuits.eu/network/config' : value => '{ \"Network\": \"10.254.1.0/16\" }' }
 }

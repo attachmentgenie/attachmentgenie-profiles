@@ -40,10 +40,7 @@ fixtures:
     kafka: "https://github.com/voxpupuli/puppet-kafka.git"
     kubernetes: "https://github.com/cristifalcas/puppet-kubernetes.git"
     letsencrypt: "https://github.com/voxpupuli/puppet-letsencrypt.git"
-    logstash:
-      repo: "https://github.com/elastic/puppet-logstash.git"
-      branch: 2.x
-      ref: 5bd53a3
+    logstash: "https://github.com/elastic/puppet-logstash.git"
     mongodb: "https://github.com/puppetlabs/puppetlabs-mongodb.git"
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     mcollective: "https://github.com/voxpupuli/puppet-mcollective.git"
@@ -52,9 +49,7 @@ fixtures:
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
     nginx: "https://github.com/voxpupuli/puppet-nginx.git"
     nodejs: "https://github.com/voxpupuli/puppet-nodejs.git"
-    ntp:
-      repo: "https://github.com/puppetlabs/puppetlabs-ntp.git"
-      ref: "4.2.0"
+    ntp: "https://github.com/puppetlabs/puppetlabs-ntp.git"
     php: "https://github.com/voxpupuli/puppet-php.git"
     postgresql: "https://github.com/puppetlabs/puppetlabs-postgresql.git"
     prometheus: "https://github.com/voxpupuli/puppet-prometheus.git"
@@ -75,6 +70,7 @@ fixtures:
     timezone: "https://github.com/attachmentgenie/attachmentgenie-timezone.git"
     transition: "https://github.com/puppetlabs/puppetlabs-transition.git"
     uwsgi: "https://github.com/rvdh/puppet-uwsgi.git"
+    wget: "https://github.com/maestrodev/puppet-wget.git"
     zookeeper: "https://github.com/deric/puppet-zookeeper.git"
   symlinks:
     "profiles": "#{source_dir}"

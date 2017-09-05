@@ -5,6 +5,7 @@ describe 'profiles::testing::develop' do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
         it { should contain_class('profiles::testing::develop') }
+        it { should contain_package('git') }
       end
     end
   end

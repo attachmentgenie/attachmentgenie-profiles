@@ -9,39 +9,39 @@
 #
 # === Parameters
 #
-# @param allow_sign_up [Boolean] Allow users to sign up
-# @param allow_org_create [Boolean] Allow organisations to be setup.
-# @param auto_assign_org [Boolean] Automatically asign an organisation.
-# @param auth_assign_org_role [String] Basic role.
-# @param admin_password [String] Admin password.
-# @param admin_user [String] Admin username
-# @param cookie_username [String] Cookie name
-# @param cookie_remember_name [String] Cookie remember setting
-# @param dashboards [Hash] Set of dashboards to load
-# @param data_source_proxy_whitelist [String] Proxy Whitelist.
-# @param datasources [Hash] List of datasources.
-# @param db_datadir [String] Directory to store data in.
-# @param db_host [String] Db connection string
-# @param db_name [String] DB name.
-# @param db_password [String] DB password.
-# @param db_path [String] DB path [sqlite only]
-# @param db_type [String] DB type,
-# @param db_user [String] DB user.
-# @param disable_gravatar [Boolean] Disable gravatar downloadingg
-# @param install_method [String] How to install grafana.
-# @param log_buffer_length [Integer] Log bufeer length
-# @param log_rotate [Boolean] Log rotation
-# @param log_max_lines [Integer] Log max size
-# @param log_max_lines_shift [Integer] Log max lines shift
-# @param log_daily_rotate [Boolean] Rotate log daily.
-# @param login_remember_days [Integer] Remember Login.
-# @param log_level [String] Loglevel
-# @param log_max_days [Integer] Keep logs for max days.
-# @param logmode [String] Type of logging
-# @param manage_repo [Boolean] Manage repo.
-# @param rpm_iteration [String] RPM iteration to install.
-# @param secret_key [String] Secret key.
-# @param version [String] Version to install.
+# @param allow_sign_up               Allow users to sign up
+# @param allow_org_create            Allow organisations to be setup.
+# @param auto_assign_org             Automatically asign an organisation.
+# @param auth_assign_org_role        Basic role.
+# @param admin_password              Admin password.
+# @param admin_user                  Admin username
+# @param cookie_username             Cookie name
+# @param cookie_remember_name        Cookie remember setting
+# @param dashboards                  Set of dashboards to load
+# @param data_source_proxy_whitelist Proxy Whitelist.
+# @param datasources                 List of datasources.
+# @param db_datadir                  Directory to store data in.
+# @param db_host                     Db connection string
+# @param db_name                     DB name.
+# @param db_password                 DB password.
+# @param db_path                     DB path [sqlite only]
+# @param db_type                     DB type,
+# @param db_user                     DB user.
+# @param disable_gravatar            Disable gravatar downloadingg
+# @param install_method              How to install grafana.
+# @param log_buffer_length           Log bufeer length
+# @param log_rotate                  Log rotation
+# @param log_max_lines               Log max size
+# @param log_max_lines_shift         Log max lines shift
+# @param log_daily_rotate            Rotate log daily.
+# @param login_remember_days         Remember Login.
+# @param log_level                   Loglevel
+# @param log_max_days                Keep logs for max days.
+# @param logmode                     Type of logging
+# @param manage_repo                 Manage repo.
+# @param rpm_iteration               RPM iteration to install.
+# @param secret_key                  Secret key.
+# @param version                     Version to install.
 #
 class profiles::metrics::grafana (
   Boolean $allow_sign_up = false,
@@ -77,7 +77,7 @@ class profiles::metrics::grafana (
   String $rpm_iteration = '1',
   String $secret_key = 'inWSYLbKCoLko',
   String $version = '4.4.3',
-) inherits profiles::metrics::grafana::params {
+) {
   class { '::grafana':
     cfg                 => {
       server            => {

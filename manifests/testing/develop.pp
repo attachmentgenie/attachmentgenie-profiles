@@ -5,8 +5,8 @@
 #
 # @param packages Packages to install.
 class profiles::testing::develop (
-  Array $packages = $profiles::testing::develop::params::packages,
-) inherits profiles::testing::develop::params {
+  Array $packages = ['git'],
+) {
   package { $packages:
     ensure => 'installed',
   }

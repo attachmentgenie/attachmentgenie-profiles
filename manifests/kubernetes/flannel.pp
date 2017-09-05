@@ -6,7 +6,7 @@
 class profiles::kubernetes::flannel {
   class {'flannel':
     etcd_endpoints => 'http://localhost:2379',
-    etcd_prefix    => '/inuits.eu/network',
+    etcd_prefix    => '/example.com/network',
     iface          => 'enp0s8',
   }
 }

@@ -5,6 +5,7 @@ describe 'profiles::tools::package' do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
         it { should contain_class('profiles::tools::package') }
+        it { should contain_package('fpm') }
       end
     end
   end
