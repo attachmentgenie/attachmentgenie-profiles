@@ -21,7 +21,6 @@ class profiles::testing::jenkins (
     config_hash        => $config_hash,
     configure_firewall => false,
     default_plugins    => $default_plugins,
-    executors          => $executors,
     install_java       => false,
     lts                => $lts,
     purge_plugins      => $purge_plugins,
