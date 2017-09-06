@@ -5,7 +5,6 @@
 #
 # @param config_hash     Config settings
 # @param default_plugins Always install these plugins.
-# @param executors       Amount of executors to start.
 # @param lts             Install the lts version.
 # @param manage_repo     Manage rpm repository.
 # @param plugins         Plugins to install.
@@ -13,7 +12,6 @@
 class profiles::testing::jenkins (
   Hash $config_hash = { 'JENKINS_LISTEN_ADDRESS' => { 'value' => '127.0.0.1' }},
   Array $default_plugins = [],
-  Integer $executors = 2,
   Boolean $lts = true,
   Boolean $manage_repo = false,
   Hash $plugins = {},
@@ -29,5 +27,6 @@ class profiles::testing::jenkins (
     purge_plugins      => $purge_plugins,
     repo               => $manage_repo,
   }
+
   create_resources(::jenkins::plugin, $plugins)
 }
