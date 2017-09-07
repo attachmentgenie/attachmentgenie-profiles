@@ -42,7 +42,7 @@ class profiles::bootstrap::puppet (
   String $environment = $::environment,
   Boolean $foreman_repo = false,
   Boolean $install_toml = false,
-  Optional[String] $puppetmaster = undef,
+  Optional[String] $puppetmaster ='puppet',
   String $runmode = 'service',
   Integer $runinterval = 1800,
   Boolean $server = false,
