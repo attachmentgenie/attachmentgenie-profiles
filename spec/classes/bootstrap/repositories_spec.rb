@@ -4,7 +4,7 @@ describe 'profiles::bootstrap::repositories' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::bootstrap::repositories') }
+        it { is_expected.to contain_class('profiles::bootstrap::repositories') }
       end
     end
   end

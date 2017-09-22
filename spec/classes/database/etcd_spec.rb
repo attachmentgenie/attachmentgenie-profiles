@@ -4,7 +4,7 @@ describe 'profiles::database::etcd' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::database::etcd') }
+        it { is_expected.to contain_class('profiles::database::etcd') }
       end
     end
   end

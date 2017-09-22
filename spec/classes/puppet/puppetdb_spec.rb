@@ -4,7 +4,7 @@ describe 'profiles::puppet::puppetdb' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::puppet::puppetdb') }
+        it { is_expected.to contain_class('profiles::puppet::puppetdb') }
       end
     end
   end

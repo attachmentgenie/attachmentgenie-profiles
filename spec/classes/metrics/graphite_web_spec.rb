@@ -4,7 +4,7 @@ describe 'profiles::metrics::graphite_web' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::metrics::graphite_web') }
+        it { is_expected.to contain_class('profiles::metrics::graphite_web') }
       end
     end
   end

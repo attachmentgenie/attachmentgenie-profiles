@@ -4,7 +4,7 @@ describe 'profiles::alerting::icinga2' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::alerting::icinga2') }
+        it { is_expected.to contain_class('profiles::alerting::icinga2') }
       end
     end
   end

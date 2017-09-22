@@ -4,7 +4,7 @@ describe 'profiles::kubernetes::flannel' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::kubernetes::flannel') }
+        it { is_expected.to contain_class('profiles::kubernetes::flannel') }
       end
     end
   end

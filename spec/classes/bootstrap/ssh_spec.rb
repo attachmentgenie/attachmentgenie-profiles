@@ -4,7 +4,7 @@ describe 'profiles::bootstrap::ssh' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::bootstrap::ssh') }
+        it { is_expected.to contain_class('profiles::bootstrap::ssh') }
       end
     end
   end

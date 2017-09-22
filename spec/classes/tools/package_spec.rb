@@ -4,8 +4,8 @@ describe 'profiles::tools::package' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::tools::package') }
-        it { should contain_package('fpm') }
+        it { is_expected.to contain_class('profiles::tools::package') }
+        it { is_expected.to contain_package('fpm') }
       end
     end
   end

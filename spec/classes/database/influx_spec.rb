@@ -4,7 +4,7 @@ describe 'profiles::database::influxdb' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::database::influxdb') }
+        it { is_expected.to contain_class('profiles::database::influxdb') }
       end
     end
   end

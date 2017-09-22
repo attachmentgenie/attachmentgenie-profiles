@@ -4,7 +4,7 @@ describe 'profiles::website::nginx' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::website::nginx') }
+        it { is_expected.to contain_class('profiles::website::nginx') }
       end
     end
   end

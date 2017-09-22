@@ -5,8 +5,8 @@ describe 'profiles::metrics::grafana::datasource' do
       let(:facts) { facts }
       context 'with foo set to bar' do
         let(:title) { 'influxdb' }
-        let(:params) { {:type => 'influxdb'} }
-        it { should contain_grafana_datasource('influxdb').with_type('influxdb') }
+        let(:params) { { type: 'influxdb' } }
+        it { is_expected.to contain_grafana_datasource('influxdb').with_type('influxdb') }
       end
     end
   end

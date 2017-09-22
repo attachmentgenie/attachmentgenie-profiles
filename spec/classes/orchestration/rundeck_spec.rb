@@ -4,7 +4,7 @@ describe 'profiles::orchestration::rundeck' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::orchestration::rundeck') }
+        it { is_expected.to contain_class('profiles::orchestration::rundeck') }
       end
     end
   end

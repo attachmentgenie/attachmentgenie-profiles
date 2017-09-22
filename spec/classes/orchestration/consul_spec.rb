@@ -4,8 +4,8 @@ describe 'profiles::orchestration::consul' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::orchestration::consul') }
-        it { should contain_package('unzip') }
+        it { is_expected.to contain_class('profiles::orchestration::consul') }
+        it { is_expected.to contain_package('unzip') }
       end
     end
   end

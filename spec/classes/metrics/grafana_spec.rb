@@ -4,7 +4,7 @@ describe 'profiles::metrics::grafana' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::metrics::grafana') }
+        it { is_expected.to contain_class('profiles::metrics::grafana') }
       end
     end
   end

@@ -4,7 +4,7 @@ describe 'profiles::repo::aptly' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::repo::aptly') }
+        it { is_expected.to contain_class('profiles::repo::aptly') }
       end
     end
   end

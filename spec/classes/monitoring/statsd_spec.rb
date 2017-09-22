@@ -4,7 +4,7 @@ describe 'profiles::monitoring::statsd' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::monitoring::statsd') }
+        it { is_expected.to contain_class('profiles::monitoring::statsd') }
       end
     end
   end

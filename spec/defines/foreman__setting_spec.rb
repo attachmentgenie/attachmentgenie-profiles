@@ -5,8 +5,8 @@ describe 'profiles::puppet::foreman::setting' do
       let(:facts) { facts }
       context 'with foo set to bar' do
         let(:title) { 'foo' }
-        let(:params) { {:value => 'bar'} }
-        it { should contain_foreman_config_entry('foo').with_value('bar') }
+        let(:params) { { value: 'bar' } }
+        it { is_expected.to contain_foreman_config_entry('foo').with_value('bar') }
       end
     end
   end

@@ -4,9 +4,9 @@ describe 'profiles::website::uwsgi' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::website::uwsgi') }
-        it { should contain_group('uwgsi').with_ensure('present') }
-        it { should contain_user('uwgsi').with_ensure('present') }
+        it { is_expected.to contain_class('profiles::website::uwsgi') }
+        it { is_expected.to contain_group('uwgsi').with_ensure('present') }
+        it { is_expected.to contain_user('uwgsi').with_ensure('present') }
       end
     end
   end

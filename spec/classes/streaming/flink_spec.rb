@@ -4,7 +4,7 @@ describe 'profiles::streaming::flink' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::streaming::flink') }
+        it { is_expected.to contain_class('profiles::streaming::flink') }
       end
     end
   end

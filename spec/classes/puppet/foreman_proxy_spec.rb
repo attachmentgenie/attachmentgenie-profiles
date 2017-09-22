@@ -4,7 +4,7 @@ describe 'profiles::puppet::foreman_proxy' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::puppet::foreman_proxy') }
+        it { is_expected.to contain_class('profiles::puppet::foreman_proxy') }
       end
     end
   end

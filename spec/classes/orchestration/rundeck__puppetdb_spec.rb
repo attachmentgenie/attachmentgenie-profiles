@@ -5,12 +5,12 @@ describe 'profiles::orchestration::rundeck::puppetdb' do
       let(:facts) { facts }
       let :params do
         {
-            version: '0.9.5',
+          version: '0.9.5'
         }
       end
-      context "It should not contain any resources" do
-        it { should contain_class('profiles::orchestration::rundeck::puppetdb') }
-        it { should contain_wget__fetch('install puppetdb plugin') }
+      context 'It should not contain any resources' do
+        it { is_expected.to contain_class('profiles::orchestration::rundeck::puppetdb') }
+        it { is_expected.to contain_wget__fetch('install puppetdb plugin') }
       end
     end
   end

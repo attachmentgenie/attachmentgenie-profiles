@@ -4,7 +4,7 @@ describe 'profiles::runtime::php' do
     context "on #{os}" do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
-        it { should contain_class('profiles::runtime::php') }
+        it { is_expected.to contain_class('profiles::runtime::php') }
       end
     end
   end
