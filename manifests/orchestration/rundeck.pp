@@ -12,6 +12,7 @@
 # @param projects          Projects to manage
 # @param puppetdb          Install puppetdb plugin
 # @param puppetdb_version  What version to install.
+# @param rundeck_user      Username for the rundeck user.
 class profiles::orchestration::rundeck (
   Hash $auth_config         = {
     'file' => {
@@ -23,26 +24,30 @@ class profiles::orchestration::rundeck (
   },
   Array $auth_types         = ['file'],
   String $grails_server_url = "http://${::fqdn}",
+  String $group             = 'rundeck',
   String $jvm_args          = '-Dserver.http.host=127.0.0.1',
   Boolean $manage_repo      = false,
   String $package           = '2.9.3',
   Hash $projects            = {},
   Boolean $puppetdb         = false,
+  String $puppetdb_template = 'profiles/defaultMapping.json.erb',
   String $puppetdb_version  = '0.9.5',
+  String $rundeck_user      = 'rundeck',
+  String $user              = 'rundeck',
 ) {
   class { '::rundeck':
     auth_config       => $auth_config,
     auth_types        => $auth_types,
     grails_server_url => $grails_server_url,
+    group             => $group,
     jvm_args          => $jvm_args,
     manage_repo       => $manage_repo,
     package_ensure    => $package,
+    user              => $user,
   }
   create_resources(rundeck::config::project, $projects)
 
   if $puppetdb {
-    class { 'profiles::orchestration::rundeck::puppetdb':
-      version => $puppetdb_version,
-    }
+    class { 'profiles::orchestration::rundeck::puppetdb': }
   }
 }

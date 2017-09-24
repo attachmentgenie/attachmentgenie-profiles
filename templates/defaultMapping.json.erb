@@ -1,0 +1,42 @@
+{
+  "osFamily": {
+    "path": "facts.os.family"
+  },
+  "osArch": {
+    "path": "facts.architecture"
+  },
+  "osVersion": {
+    "path": "facts.kernelversion"
+  },
+  "osName": {
+    "path": "facts.os.name"
+  },
+  "nodename": {
+    "path": "certname"
+  },
+  "username": {
+    "default": "<%= @rundeck_access_user %>"
+  },
+  "hostname": {
+    "path": "facts.ipaddress"
+  },
+  "description": {
+    "default": "this is a cool an amazing description"
+  },
+  "attributes": {
+    "firstAttribute": {
+      "path": "facts.hardwareisa"
+    },
+    "thirdAttribute": {
+      "path": "facts.os.distro.codename"
+    }
+  },
+  "tags": [
+    {
+      "path": "facts.hardwareisa"
+    },
+    {
+      "path": "facts.os.distro.codename"
+    }
+  ]
+}
