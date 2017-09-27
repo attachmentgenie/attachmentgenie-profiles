@@ -9,20 +9,20 @@
 #
 # === Parameters
 #
-# @param ntp_servers List of ntp servers.
-# @param restrict    Restrict to this list.
-# @param zone        Timezone for this node.
+# @param default_timezone Timezone for this node.
+# @param ntp_servers      List of ntp servers.
+# @param restrict         Restrict to this list.
 #
 class profiles::bootstrap::time (
-  Array $ntp_servers = [],
-  Array $restrict    = [],
-  String $zone       = 'Europe/Amsterdam',
+  String $default_timezone = 'Europe/Amsterdam',
+  Array $ntp_servers       = [],
+  Array $restrict          = [],
 ) {
   class { '::ntp':
     servers  => $ntp_servers,
     restrict => $restrict,
   }
   class { '::timezone':
-    zone     => $zone,
+    default_timezone => $default_timezone,
   }
 }

@@ -5,6 +5,7 @@ describe 'profiles::repo::aptly' do
       let(:facts) { facts }
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::repo::aptly') }
+        it { is_expected.to contain_file('aptly mount point') }
       end
     end
   end

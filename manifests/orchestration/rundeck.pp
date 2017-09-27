@@ -6,13 +6,16 @@
 # @param auth_config       Authentication config.
 # @param auth_types        The method(s) used to authenticate to rundeck.
 # @param grails_server_url External url.
+# @param group             Rundeck user.
 # @param jvm_args          Additional rundeck jvm arguments.
 # @param manage_repo       Manage rpm repository.
 # @param package           Package to install.
 # @param projects          Projects to manage
 # @param puppetdb          Install puppetdb plugin
+# @param puppetdb_template template to create mapping file.
 # @param puppetdb_version  What version to install.
 # @param rundeck_user      Username for the rundeck user.
+# @param user              Rundeck user
 class profiles::orchestration::rundeck (
   Hash $auth_config         = {
     'file' => {
@@ -48,6 +51,11 @@ class profiles::orchestration::rundeck (
   create_resources(rundeck::config::project, $projects)
 
   if $puppetdb {
-    class { 'profiles::orchestration::rundeck::puppetdb': }
+    class { 'profiles::orchestration::rundeck::puppetdb':
+      group    => $group,
+      template => $puppetdb_template,
+      version  => $puppetdb_version,
+      user     => $user,
+    }
   }
 }
