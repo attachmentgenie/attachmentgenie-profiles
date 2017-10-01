@@ -12,7 +12,7 @@ class profiles::orchestration::consul (
     'datacenter' => 'vagrant1',
   },
   String $options = '-enable-script-checks -syslog',
-  String $version = '0.9.2',
+  String $version = '0.9.3',
 ) {
   package { 'unzip':
     ensure => present,

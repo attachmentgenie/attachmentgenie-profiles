@@ -1,14 +1,14 @@
 # This class can be used install user prometheus properties
 #
 # @example when declaring the prometheus class
-#  class { '::profiles::metrics::prometheus': }
+#  class { '::profiles::monitoring::prometheus': }
 #
 # @param client                Install node exporter
 # @param node_exporter_version Version to install
 # @param scrape_configs        Which nodes to monitor
 # @param server                Install Server.
 # @param prometheus_version    Version to install
-class profiles::metrics::prometheus (
+class profiles::monitoring::prometheus (
   Boolean $client = true,
   String $node_exporter_version = '0.14.0',
   Array $scrape_configs = [ {
@@ -18,7 +18,7 @@ class profiles::metrics::prometheus (
       'static_configs'=> [{'targets'=>['localhost:9090'], 'labels'=> { 'alias'=>'Prometheus'}}]
     } ],
   Boolean $server = false,
-  String $prometheus_version = '1.7.1',
+  String $prometheus_version = '1.7.2',
 ) {
   if $client {
     class { '::prometheus::node_exporter':

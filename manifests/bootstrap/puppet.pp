@@ -9,6 +9,7 @@
 # @param dns_alt_names               List of additional dns names to sign into certificate.
 # @param environment                 Environment for node.
 # @param foreman_repo                Manage foreman repository,
+# @param hiera_yaml_datadir (String) Hiera directory
 # @param install_toml                Install toml gem.
 # @param puppetmaster                Puppetmaster fqdn
 # @param runmode                     How to run puppet
@@ -41,6 +42,7 @@ class profiles::bootstrap::puppet (
   Array $dns_alt_names = [],
   String $environment = $::environment,
   Boolean $foreman_repo = false,
+  String $hiera_yaml_datadir = '/var/lib/hiera',
   Boolean $install_toml = false,
   Optional[String] $puppetmaster ='puppet',
   String $runmode = 'service',
@@ -99,6 +101,16 @@ class profiles::bootstrap::puppet (
     use_srv_records             => $use_srv_records,
   }
   if $server {
+    file { 'hiera.yaml':
+      mode    => '0644',
+      owner   => 'puppet',
+      group   => 'puppet',
+      content => template('profiles/hiera.yaml.erb'),
+      path    => '/etc/puppetlabs/puppet/hiera.yaml',
+    }
+    Class['::puppet']
+    -> File['hiera.yaml']
+
     if $foreman_repo {
       foreman::install::repos { 'foreman':
         repo     => 'stable',

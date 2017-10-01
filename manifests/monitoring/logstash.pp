@@ -5,20 +5,24 @@
 #
 # @param config_files Content for logstash input, filters and output.
 # @param ensure       Present or absent.
+# @param group        Logstash group.
 # @param manage_repo  Setup repository to install logstash from.
 # @param repo_version Version family to install from.
+# @param user         Logstash user.
 # @param version      Which version of logstash to install.
 class profiles::monitoring::logstash (
   Hash $config_files = {},
   Enum[absent,present] $ensure = present,
+  String $group = 'root',
   Boolean $manage_repo = false,
   String $repo_version = '5.x',
+  String $user = 'root',
   Boolean $version = false,
 ){
   class { '::logstash':
     ensure         => $ensure,
-    logstash_group => 'root',
-    logstash_user  => 'root',
+    logstash_group => $group,
+    logstash_user  => $user,
     manage_repo    => $manage_repo,
     repo_version   => $repo_version,
     version        => $version,
