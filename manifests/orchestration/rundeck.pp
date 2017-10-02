@@ -52,10 +52,11 @@ class profiles::orchestration::rundeck (
 
   if $puppetdb {
     class { 'profiles::orchestration::rundeck::puppetdb':
-      group    => $group,
-      template => $puppetdb_template,
-      version  => $puppetdb_version,
-      user     => $user,
+      group        => $group,
+      template     => $puppetdb_template,
+      rundeck_user => $rundeck_user,
+      version      => $puppetdb_version,
+      user         => $user,
     }
   }
 }

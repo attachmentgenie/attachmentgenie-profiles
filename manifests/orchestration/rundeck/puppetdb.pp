@@ -2,13 +2,15 @@
 #
 # Dont include this class directly.
 #
-# @param group    Rundeck user.
-# @param template template to create mapping file.
-# @param version  What version to install.
-# @param user     Rundeck user
+# @param group            Rundeck group.
+# @param template         Template to create mapping file.
+# @param rundeck_user     Rundeck user
+# @param version          What version to install.
+# @param user             Rundeck user
 class profiles::orchestration::rundeck::puppetdb (
   $group,
   $template,
+  $rundeck_user,
   $user,
   $version,
 ){
@@ -19,7 +21,7 @@ class profiles::orchestration::rundeck::puppetdb (
     verbose     => false,
   }
 
-  $rundeck_access_user = $user
+  $rundeck_access_user = $rundeck_user
   file { 'rundeck puppetdb node mapping':
     path    => '/etc/rundeck/defaultMapping.json',
     content => template($template),

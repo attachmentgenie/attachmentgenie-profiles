@@ -9,6 +9,7 @@
 # @param manage_repo      Manage repo.
 # @param packages         List of packages to install
 # @param settings         PHP conf settings.
+# @param version          Version to install.
 class profiles::runtime::php (
   Hash $extensions = {
     'intl'     => {},
@@ -27,8 +28,13 @@ class profiles::runtime::php (
   Hash $settings = {
     'Date/date.timezone' => 'Europe/Amsterdam'
   },
+  String $version = '7.0',
 ){
-  class { '::php':
+  class { '::php::globals':
+    php_version => $version,
+    config_root => "/etc/php/${version}",
+  }
+  -> class { '::php':
     manage_repos => $manage_repo,
     fpm          => $install_fpm,
     composer     => false,

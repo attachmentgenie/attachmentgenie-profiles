@@ -3,6 +3,7 @@ fixtures:
     accounts: "https://github.com/puppetlabs/puppetlabs-accounts.git"
     activemq: "https://github.com/puppetlabs/puppetlabs-activemq.git"
     apache: "https://github.com/puppetlabs/puppetlabs-apache.git"
+    apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
     aptly: "https://github.com/gds-operations/puppet-aptly.git"
     archive: "https://github.com/voxpupuli/puppet-archive.git"
     carbon: "https://github.com/mlambrichs/puppet-carbon.git"
