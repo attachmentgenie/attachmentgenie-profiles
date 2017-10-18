@@ -32,4 +32,15 @@ class profiles::orchestration::consul (
   create_resources(::consul::check, $checks)
   create_resources(::consul::service, $services)
   create_resources(::consul::watch, $watches)
+
+  class { '::dnsmasq': }
+  dnsmasq::conf { 'consul':
+    ensure  => present,
+    content => 'server=/consul/127.0.0.1#8600',
+  }
+
+  class { 'resolv_conf':
+    domainname  => $::domain,
+    nameservers => ['127.0.0.1', '10.0.2.3'],
+  }
 }

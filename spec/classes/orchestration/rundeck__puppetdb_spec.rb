@@ -5,11 +5,11 @@ describe 'profiles::orchestration::rundeck::puppetdb' do
       let(:facts) { facts }
       let :params do
         {
-            group: 'rundeck',
-            template: 'profiles/defaultMapping.json.erb',
-            rundeck_user: 'rundeck',
-            version: '0.9.5',
-            user: 'rundeck'
+          group: 'rundeck',
+          template: 'profiles/defaultMapping.json.erb',
+          rundeck_user: 'rundeck',
+          version: '0.9.5',
+          user: 'rundeck'
         }
       end
       context 'It should not contain any resources' do
