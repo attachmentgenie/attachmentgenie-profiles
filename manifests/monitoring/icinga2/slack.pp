@@ -17,6 +17,7 @@ class profiles::monitoring::icinga2::slack (
   icinga2::object::user { $username:
     display_name => 'slack',
     groups       => [ "icingaadmins" ],
+    target       => '/etc/icinga2/zones.d/global-templates/users.conf',
   }
 
   file { '/etc/icinga2/conf.d/slack-notifications/slack-notifications-user-configuration.conf':
