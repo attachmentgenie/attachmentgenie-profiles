@@ -229,24 +229,24 @@ class profiles::monitoring::icinga2 (
     ::icinga2::object::timeperiod{ '24x7':
       target => '/etc/icinga2/zones.d/global-templates/timeperiods.conf',
       ranges => {
-        "monday"    => "00:00-24:00",
-        "tuesday"   => "00:00-24:00",
-        "wednesday" => "00:00-24:00",
-        "thursday"  => "00:00-24:00",
-        "friday"    => "00:00-24:00",
-        "saturday"  => "00:00-24:00",
-        "sunday"    => "00:00-24:00",
+        'monday'    => '00:00-24:00',
+        'tuesday'   => '00:00-24:00',
+        'wednesday' => '00:00-24:00',
+        'thursday'  => '00:00-24:00',
+        'friday'    => '00:00-24:00',
+        'saturday'  => '00:00-24:00',
+        'sunday'    => '00:00-24:00',
       }
     }
 
     ::icinga2::object::timeperiod{ '9to5':
       target => '/etc/icinga2/zones.d/global-templates/timeperiods.conf',
       ranges => {
-        "monday"    => "09:00-17:00",
-        "tuesday"   => "09:00-17:00",
-        "wednesday" => "09:00-17:00",
-        "thursday"  => "09:00-17:00",
-        "friday"    => "09:00-17:00",
+        'monday'    => '09:00-17:00',
+        'tuesday'   => '09:00-17:00',
+        'wednesday' => '09:00-17:00',
+        'thursday'  => '09:00-17:00',
+        'friday'    => '09:00-17:00',
       }
     }
 

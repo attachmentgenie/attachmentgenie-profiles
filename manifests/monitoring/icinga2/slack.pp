@@ -16,7 +16,7 @@ class profiles::monitoring::icinga2::slack (
 
   icinga2::object::user { $username:
     display_name => 'slack',
-    groups       => [ "icingaadmins" ],
+    groups       => [ 'icingaadmins' ],
     target       => '/etc/icinga2/zones.d/global-templates/users.conf',
   }
 
