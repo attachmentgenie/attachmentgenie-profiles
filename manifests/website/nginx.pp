@@ -11,16 +11,22 @@
 #
 # @param daemon_user    User that runs nginx
 # @param upstreams      Set(s) of upstream servers to use
+# @param stream         Enable streaming hosts.
+# @param streams        Set(s) of streams.
 # @param vhosts         Set(s) of vhost to create
 # @param vhost_packages Packages to manage that contain vhosts files.
 class profiles::website::nginx (
   String $daemon_user = 'nginx',
   Hash $upstreams = {},
+  Boolean $stream = false,
+  Hash $streams = {},
   Hash $vhosts = {},
   Hash $vhost_packages = {},
 ) {
   class { '::nginx':
-    daemon_user => $daemon_user,
+    daemon_user       => $daemon_user,
+    nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'] },
+    stream            => $stream,
   }
 
   $package_defaults = {
@@ -33,8 +39,10 @@ class profiles::website::nginx (
     tag        => 'do_b',
   }
   create_resources( 'nginx::resource::server', $vhosts, $resource_defaults )
+  create_resources( 'nginx::resource::streamhost', $streams, $resource_defaults )
   create_resources( 'nginx::resource::upstream', $upstreams, $resource_defaults )
 
   Package<| tag == 'do_a' |> -> Nginx::Resource::Server<| tag == 'do_b' |>
+  Package<| tag == 'do_a' |> -> Nginx::Resource::Streamhost<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Upstream<| tag == 'do_b' |>
 }
