@@ -101,15 +101,17 @@ class profiles::bootstrap::puppet (
     use_srv_records             => $use_srv_records,
   }
   if $server {
-    file { 'hiera.yaml':
-      mode    => '0644',
-      owner   => 'puppet',
-      group   => 'puppet',
-      content => template('profiles/hiera.yaml.erb'),
-      path    => '/etc/puppetlabs/puppet/hiera.yaml',
+    if versioncmp($::puppetversion, '4.0.0') <= 0 {
+      file { 'hiera.yaml':
+        mode    => '0644',
+        owner   => 'puppet',
+        group   => 'puppet',
+        content => template('profiles/hiera.yaml.erb'),
+        path    => '/etc/puppetlabs/puppet/hiera.yaml',
+      }
+      Class['::puppet']
+      -> File['hiera.yaml']
     }
-    Class['::puppet']
-    -> File['hiera.yaml']
 
     if $foreman_repo {
       foreman::install::repos { 'foreman':

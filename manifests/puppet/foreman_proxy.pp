@@ -59,7 +59,9 @@ class profiles::puppet::foreman_proxy (
   case $::osfamily {
     'debian': {
       if $custom_repo {
-        Foreman::Repos['foreman'] -> Yumrepo[foreman]
+        if $::osfamily == 'RedHat' {
+          Foreman::Repos['foreman'] -> Yumrepo[foreman]
+        }
       }
     }
     'RedHat': {}
