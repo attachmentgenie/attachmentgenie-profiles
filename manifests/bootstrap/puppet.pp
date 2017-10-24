@@ -68,7 +68,7 @@ class profiles::bootstrap::puppet (
   String $splaylimit = '1800s',
   String $srv_domain = 'example.org',
   Boolean $use_srv_records = false,
-) inherits profiles::bootstrap::puppet::params {
+) {
   class { '::puppet':
     allow_any_crl_auth          => $allow_any_crl_auth,
     autosign                    => $autosign,

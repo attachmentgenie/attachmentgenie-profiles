@@ -20,6 +20,7 @@ fixtures:
     epel: "https://github.com/stahnma/puppet-module-epel.git"
     etcd: "https://github.com/cristifalcas/puppet-etcd.git"
     extlib: "https://github.com/voxpupuli/puppet-extlib.git"
+    fail2ban: "https://github.com/dhoppe/puppet-fail2ban.git"
     file_concat: "https://github.com/electrical/puppet-lib-file_concat.git"
     firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
     flannel: "https://github.com/cristifalcas/puppet-flannel.git"
