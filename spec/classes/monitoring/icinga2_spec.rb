@@ -12,6 +12,8 @@ describe 'profiles::monitoring::icinga2' do
       let(:params) { { parent_endpoints: { 'icinga.example.org' => { host: '192.168.42.42' } } } }
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::monitoring::icinga2') }
+        it { is_expected.to contain_class('profiles::monitoring::icinga2::Params') }
+        it { is_expected.to contain_package('nagios-plugins-all') }
       end
     end
   end

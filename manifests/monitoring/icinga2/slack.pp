@@ -2,6 +2,11 @@
 #
 # Dont include this class directly.
 #
+# @param icinga_endpoint  Icinga url
+# @param slack_webhook    Slack url
+# @param package          Packagename
+# @param slack_channel    Slack channel
+# @param username         Username
 class profiles::monitoring::icinga2::slack (
   $icinga_endpoint,
   $slack_webhook,
