@@ -3,22 +3,30 @@
 # @example when declaring the consul class
 #  class { '::profiles::orchestration::consul': }
 #
-# @param checks   Consul checks,
-# @param config   Consul config,
-# @param options  Additional consul start up flags.
-# @param services Consul services.
-# @param version  Version of consul to install.
-# @param watches  Consul watches.
+# @param checks       Consul checks,
+# @param config       Consul config,
+# @param domain       Resolv.conf domain
+# @param name_servers Name servers to use in resolv.conf
+# @param options      Additional consul start up flags.
+# @param resolv       Configure resolv.conf to use consul.
+# @param searchpath   Resolv.conf searchpath.
+# @param services     Consul services.
+# @param version      Version of consul to install.
+# @param watches      Consul watches.
 class profiles::orchestration::consul (
-  Hash $checks    = {},
-  Hash $config    = {
+  Hash $checks = {},
+  Hash $config = {
     'data_dir'   => '/opt/consul',
     'datacenter' => 'vagrant',
   },
+  Optional[String] $domain = undef,
+  Array $name_servers = ['127.0.0.1'],
   String $options = '-enable-script-checks -syslog',
-  Hash $services  = {},
-  String $version = '0.9.3',
-  Hash $watches   = {},
+  Boolean $resolv = false,
+  Array $searchpath = [],
+  Hash $services = {},
+  String $version = '1.0.0',
+  Hash $watches = {},
 ) {
   package { 'unzip':
     ensure => present,
@@ -33,14 +41,17 @@ class profiles::orchestration::consul (
   create_resources(::consul::service, $services)
   create_resources(::consul::watch, $watches)
 
-  class { '::dnsmasq': }
-  dnsmasq::conf { 'consul':
-    ensure  => present,
-    content => 'server=/consul/127.0.0.1#8600',
-  }
+  if $resolv {
+    class { '::dnsmasq': }
+    dnsmasq::conf { 'consul':
+      ensure  => present,
+      content => 'server=/consul/127.0.0.1#8600',
+    }
 
-  class { 'resolv_conf':
-    domainname  => $::domain,
-    nameservers => ['127.0.0.1', '10.0.2.3'],
+    class { 'resolv_conf':
+      domainname  => $domain,
+      nameservers => $name_servers,
+      searchpath  => $searchpath,
+    }
   }
 }
