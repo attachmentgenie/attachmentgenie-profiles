@@ -15,7 +15,6 @@
       ]
     }
   ],
-  "data_provider": "hiera",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
