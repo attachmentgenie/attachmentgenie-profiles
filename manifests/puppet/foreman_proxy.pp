@@ -57,14 +57,12 @@ class profiles::puppet::foreman_proxy (
   }
 
   case $::osfamily {
-    'debian': {
+    'debian': {}
+    'RedHat': {
       if $custom_repo {
-        if $::osfamily == 'RedHat' {
-          Foreman::Repos['foreman'] -> Yumrepo[foreman]
-        }
+        Foreman::Repos['foreman'] -> Package[foreman-proxy]
       }
     }
-    'RedHat': {}
     default: {
       fail("Unsupported osfamily ${::osfamily}")
     }
