@@ -1,7 +1,7 @@
 ---
 version: 5
 hierarchy:
-  - name: "Shared data"
+  - name: "Shared data for all nodes"
     path: "common.yaml"
 defaults:
   data_hash: yaml_data

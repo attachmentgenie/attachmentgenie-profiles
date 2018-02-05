@@ -16,7 +16,9 @@ fixtures:
     datacat: "https://github.com/richardc/puppet-datacat.git"
     docker: "https://github.com/garethr/garethr-docker.git"
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
-    elasticsearch: "https://github.com/elastic/puppet-elasticsearch.git"
+    elasticsearch:
+      repo: "https://github.com/elastic/puppet-elasticsearch.git"
+      ref: "5.4.3"
     epel: "https://github.com/stahnma/puppet-module-epel.git"
     etcd: "https://github.com/cristifalcas/puppet-etcd.git"
     extlib: "https://github.com/voxpupuli/puppet-extlib.git"
@@ -40,10 +42,14 @@ fixtures:
     java: "https://github.com/puppetlabs/puppetlabs-java.git"
     jenkins: "https://github.com/jenkinsci/puppet-jenkins.git"
     kibana: "https://github.com/elastic/puppet-kibana.git"
-    kafka: "https://github.com/voxpupuli/puppet-kafka.git"
+    kafka:
+      repo: "https://github.com/voxpupuli/puppet-kafka.git"
+      ref: 48f95c1
     kubernetes: "https://github.com/cristifalcas/puppet-kubernetes.git"
     letsencrypt: "https://github.com/voxpupuli/puppet-letsencrypt.git"
-    logstash: "https://github.com/elastic/puppet-logstash.git"
+    logstash:
+      repo: "https://github.com/elastic/puppet-logstash.git"
+      ref: "5.3.0"
     mongodb: "https://github.com/puppetlabs/puppetlabs-mongodb.git"
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     mcollective: "https://github.com/voxpupuli/puppet-mcollective.git"
