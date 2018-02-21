@@ -15,16 +15,16 @@
 # @param ido_database_user     Ido user.
 # @param manage_repo           Manage icinga2 web repos.
 class profiles::alerting::icingaweb2 (
-  String $api_password = 'icinga',
-  String $api_user = 'root',
-  String $database_host = '127.0.0.1',
-  String $database_name = 'icingaweb2',
-  String $database_password = 'icingaweb2',
-  String $database_user = 'icingaweb2',
-  String $ido_database_host = 'localhost',
-  String $ido_database_name = 'icinga2',
-  String $ido_database_password = 'icinga2',
-  String $ido_database_user = 'icinga2',
+  String  $api_password = 'icinga',
+  String  $api_user = 'root',
+  String  $database_host = '127.0.0.1',
+  String  $database_name = 'icingaweb2',
+  String  $database_password = 'icingaweb2',
+  String  $database_user = 'icingaweb2',
+  String  $ido_database_host = 'localhost',
+  String  $ido_database_name = 'icinga2',
+  String  $ido_database_password = 'icinga2',
+  String  $ido_database_user = 'icinga2',
   Boolean $manage_repo = false,
 ) {
   class {'icingaweb2':
@@ -36,6 +36,16 @@ class profiles::alerting::icingaweb2 (
     db_port       => 5432,
     db_username   => $database_user,
     db_password   => $database_password,
+    require       => Package['centos-release-scl-rh'],
+  }
+
+  package { 'centos-release-scl-rh':
+    ensure => 'present',
+  }
+
+  service { 'rh-php71-php-fpm': 
+    ensure  => 'running',
+    require => Package['centos-release-scl-rh']
   }
 
   class {'icingaweb2::module::monitoring':
