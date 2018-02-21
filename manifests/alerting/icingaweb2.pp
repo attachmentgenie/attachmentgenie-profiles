@@ -43,7 +43,7 @@ class profiles::alerting::icingaweb2 (
     ensure => 'present',
   }
 
-  service { 'rh-php71-php-fpm': 
+  service { 'rh-php71-php-fpm':
     ensure  => 'running',
     require => Package['centos-release-scl-rh']
   }
