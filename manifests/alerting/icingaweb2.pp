@@ -15,16 +15,16 @@
 # @param ido_database_user     Ido user.
 # @param manage_repo           Manage icinga2 web repos.
 class profiles::alerting::icingaweb2 (
-  String  $api_password = 'icinga',
-  String  $api_user = 'root',
-  String  $database_host = '127.0.0.1',
-  String  $database_name = 'icingaweb2',
-  String  $database_password = 'icingaweb2',
-  String  $database_user = 'icingaweb2',
-  String  $ido_database_host = 'localhost',
-  String  $ido_database_name = 'icinga2',
-  String  $ido_database_password = 'icinga2',
-  String  $ido_database_user = 'icinga2',
+  String $api_password = 'icinga',
+  String $api_user = 'root',
+  String $database_host = '127.0.0.1',
+  String $database_name = 'icingaweb2',
+  String $database_password = 'icingaweb2',
+  String $database_user = 'icingaweb2',
+  String $ido_database_host = 'localhost',
+  String $ido_database_name = 'icinga2',
+  String $ido_database_password = 'icinga2',
+  String $ido_database_user = 'icinga2',
   Boolean $manage_repo = false,
 ) {
   class {'icingaweb2':
