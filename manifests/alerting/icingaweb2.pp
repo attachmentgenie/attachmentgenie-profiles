@@ -36,6 +36,16 @@ class profiles::alerting::icingaweb2 (
     db_port       => 5432,
     db_username   => $database_user,
     db_password   => $database_password,
+    require       => Package['centos-release-scl-rh'],
+  }
+
+  package { 'centos-release-scl-rh':
+    ensure => 'present',
+  }
+
+  service { 'rh-php71-php-fpm':
+    ensure  => 'running',
+    require => Package['centos-release-scl-rh']
   }
 
   class {'icingaweb2::module::monitoring':
