@@ -156,6 +156,7 @@ class profiles::monitoring::icinga2 (
           service_name     => 'apt',
           apply            => true,
           check_command    => 'apt',
+          check_period     => '9to5',
           command_endpoint => 'host.name',
           assign           => ['NodeName'],
           target           => '/etc/icinga2/zones.d/global-templates/services.conf',
