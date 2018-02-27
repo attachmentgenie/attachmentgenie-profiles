@@ -5,6 +5,7 @@
 #
 # @param api_endpoint      Public API endpoint.
 # @param api_password      Api password.
+# @param api_pki           Cypher to use for api certs.
 # @param api_user          Api user.
 # @param client            Is this a icinga client.
 # @param confd             Include conf.d directory or specify your own.
@@ -29,6 +30,7 @@ class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
   String $api_password = 'icinga',
+  String $api_pki = 'puppet',
   String $api_user = 'root',
   Boolean $client = true,
   Variant[Boolean,String] $confd = false,
@@ -83,6 +85,7 @@ class profiles::monitoring::icinga2 (
   class { '::icinga2::feature::api':
     accept_config   => true,
     accept_commands => true,
+    pki             => $api_pki,
     zones           => $zones,
   }
 
