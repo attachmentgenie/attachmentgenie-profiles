@@ -18,7 +18,7 @@ fixtures:
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
     elasticsearch:
       repo: "https://github.com/elastic/puppet-elasticsearch.git"
-      ref: "5.4.3"
+      ref: "5.5.0"
     epel: "https://github.com/stahnma/puppet-module-epel.git"
     etcd: "https://github.com/cristifalcas/puppet-etcd.git"
     extlib: "https://github.com/voxpupuli/puppet-extlib.git"
