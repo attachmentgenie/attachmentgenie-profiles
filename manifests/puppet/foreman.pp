@@ -69,6 +69,7 @@ class profiles::puppet::foreman (
     db_manage             => $db_manage,
     db_manage_rake        => $db_manage_rake,
     db_password           => $db_password,
+    dynflow_in_core       => false,
     foreman_url           => "${protocol}://${foreman_host}",
     locations_enabled     => $locations_enabled,
     oauth_consumer_key    => $oauth_consumer_key,
