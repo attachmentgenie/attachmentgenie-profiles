@@ -1,8 +1,18 @@
 # This class is used to setup the director module on icingaweb2.
 #
+# It manages all the needed dependencies for setting up the director module
+# and executes the kickstart.
+#
 # @example when including it
 #   class { '::profiles::alerting::icingaweb2::director': }
 #
+# @param db_name      Database name for the director db
+# @param db_username  User for the database
+# @param db_password  The password for the user
+# @param db_host      The host where the database lives
+# @param api_user     User for connecting to the api
+# @param api_password The api user's password
+# @param api_host     The host where the api lives
 class profiles::alerting::icingaweb2::director (
   String $db_name      = 'director',
   String $db_username  = 'director',
