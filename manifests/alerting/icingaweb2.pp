@@ -14,6 +14,7 @@
 # @param ido_database_password Ido password.
 # @param ido_database_user     Ido user.
 # @param manage_repo           Manage icinga2 web repos.
+# @param modules               Include other icingaweb2 modules.
 class profiles::alerting::icingaweb2 (
   String $api_password = 'icinga',
   String $api_user = 'root',
@@ -26,6 +27,7 @@ class profiles::alerting::icingaweb2 (
   String $ido_database_password = 'icinga2',
   String $ido_database_user = 'icinga2',
   Boolean $manage_repo = false,
+  Array $modules = [],
 ) {
   class {'icingaweb2':
     manage_repo   => $manage_repo,
@@ -53,4 +55,12 @@ class profiles::alerting::icingaweb2 (
     ido_db_username   => $ido_database_user,
     ido_db_password   => $ido_database_password,
   }
+
+  notify { "Modules: $modules":;}
+  if ( $modules != [] ) {
+    $modules.each | $module | {
+      class { "::profiles::alerting::icingaweb2::$module":; }
+    }
+  }
+
 }

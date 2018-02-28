@@ -1,0 +1,55 @@
+# This class is used to setup the director module on icingaweb2.
+#
+# @example when including it
+#   class { '::profiles::alerting::icingaweb2::director': }
+#
+class profiles::alerting::icingaweb2::director (
+  String $db_name      = 'director',
+  String $db_username  = 'director',
+  String $db_password  = 'director',
+  String $db_host      = 'localhost',
+  String $api_user     = $::profiles::alerting::icingaweb2::api_user,
+  String $api_password = $::profiles::alerting::icingaweb2::api_password,
+  String $api_host     = 'localhost',
+) inherits profiles::alerting::icingaweb2 {
+
+  postgresql::server::db { $db_name:
+    user     => $db_username,
+    password => $db_password,
+  }
+
+  package { 'git':
+    ensure => present,
+  }
+
+  # Endpoint is needed
+  icinga2::object::endpoint {'director':
+    endpoint_name => 'director',
+    host          => 'localhost',
+    port          => '5665',
+  }
+
+  icinga2::object::zone {'director':
+    endpoints => ['director'],
+  }
+
+  class {'icingaweb2::module::director':
+    db_name       => $db_name,
+    db_username   => $db_username,
+    db_password   => $db_password,
+    db_host       => $db_host,
+    db_type       => 'pgsql',
+    db_port       => 5432,
+    api_username  => $api_user,
+    api_password  => $api_password,
+    api_host      => $api_host,
+    import_schema => true,
+    kickstart     => true,
+    endpoint      => 'director',
+    require       => [
+      Package['git'],
+      Postgresql::Server::Db[$db_name],
+      Icinga2::Object::Endpoint['director'],
+    ],
+  }
+}
