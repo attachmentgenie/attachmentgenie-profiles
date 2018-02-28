@@ -56,10 +56,9 @@ class profiles::alerting::icingaweb2 (
     ido_db_password   => $ido_database_password,
   }
 
-  notify { "Modules: $modules":;}
   if ( $modules != [] ) {
     $modules.each | $module | {
-      class { "::profiles::alerting::icingaweb2::$module":; }
+      class { "::profiles::alerting::icingaweb2::${module}":; }
     }
   }
 
