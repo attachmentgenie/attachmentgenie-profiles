@@ -23,11 +23,6 @@ class profiles::alerting::icingaweb2::director (
   String $api_host     = 'localhost',
 ) inherits profiles::alerting::icingaweb2 {
 
-  postgresql::server::db { $db_name:
-    user     => $db_username,
-    password => $db_password,
-  }
-
   # Endpoint is needed
   icinga2::object::endpoint {'director':
     endpoint_name => 'director',
