@@ -28,10 +28,6 @@ class profiles::alerting::icingaweb2::director (
     password => $db_password,
   }
 
-  package { 'git':
-    ensure => present,
-  }
-
   # Endpoint is needed
   icinga2::object::endpoint {'director':
     endpoint_name => 'director',
