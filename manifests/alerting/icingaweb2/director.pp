@@ -23,17 +23,6 @@ class profiles::alerting::icingaweb2::director (
   String $api_host     = 'localhost',
 ) inherits profiles::alerting::icingaweb2 {
 
-  # Endpoint is needed
-  icinga2::object::endpoint {'director':
-    endpoint_name => 'director',
-    host          => 'localhost',
-    port          => '5665',
-  }
-
-  icinga2::object::zone {'director':
-    endpoints => ['director'],
-  }
-
   class {'icingaweb2::module::director':
     db_name       => $db_name,
     db_username   => $db_username,
@@ -46,11 +35,10 @@ class profiles::alerting::icingaweb2::director (
     api_host      => $api_host,
     import_schema => true,
     kickstart     => true,
-    endpoint      => 'director',
+    endpoint      => $::fqdn,
     require       => [
       Package['git'],
       Postgresql::Server::Db[$db_name],
-      Icinga2::Object::Endpoint['director'],
     ],
   }
 }
