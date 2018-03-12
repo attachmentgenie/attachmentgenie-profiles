@@ -1,23 +1,5 @@
 # This class is used to setup the grafana module on icingaweb2.
 #
-# Hieradata example:
-#
-# profiles::database::influxdb: true
-# profiles::database::influxdb::manage_repo: true
-#
-# influxdb::graphite_config:
-#   default:
-#     enabled: false
-# influxdb::retention_config:
-#   enabled: true
-#   check_interval: '10m0s'
-# influxdb::http_config:
-#   default:
-#     enabled: true
-#     bind-address: ':8086'
-#     auth-enabled: true
-#     log-enabled: true
-#     https-enabled: false
 #
 class profiles::alerting::icingaweb2::grafana (
   String $grafana_host       = 'localhost',
