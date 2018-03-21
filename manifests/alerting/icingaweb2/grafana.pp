@@ -18,7 +18,7 @@ class profiles::alerting::icingaweb2::grafana (
     'grafana'    => {
       'target'   => "${module_conf_dir}/grafana.ini",
       'settings' => {
-        'host'                    => $grafana_host:$grafana_port,
+        'host'                    => "${grafana_host}:${grafana_port}",
         'username'                => $grafana_username,
         'password'                => $grafana_password,
         'datasource'              => $grafana_datasource,
