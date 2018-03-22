@@ -61,7 +61,9 @@ fixtures:
     ntp: "https://github.com/puppetlabs/puppetlabs-ntp.git"
     php: "https://github.com/voxpupuli/puppet-php.git"
     postgresql: "https://github.com/puppetlabs/puppetlabs-postgresql.git"
-    prometheus: "https://github.com/voxpupuli/puppet-prometheus.git"
+    prometheus:
+      repo: "https://github.com/voxpupuli/puppet-prometheus.git"
+      ref: ada6930
     puppet: "https://github.com/theforeman/puppet-puppet.git"
     puppet_authorization: "https://github.com/puppetlabs/puppetlabs-puppet_authorization.git"
     puppetdb: "https://github.com/puppetlabs/puppetlabs-puppetdb.git"
