@@ -63,6 +63,7 @@ class profiles::metrics::grafana (
   String $db_type = 'sqlite3',
   String $db_user = '',
   Boolean $disable_gravatar = false,
+  String $http_addr = '127.0.0.1',
   String $install_method = 'repo',
   Integer $log_buffer_length = 10000,
   Boolean $log_rotate = true,
@@ -82,7 +83,7 @@ class profiles::metrics::grafana (
     cfg                 => {
       server            => {
         protocol  => 'http',
-        http_addr => '127.0.0.1',
+        http_addr => $http_addr,
       },
       'auth.anonymous'  => {
         enabled  => true,
