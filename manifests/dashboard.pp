@@ -6,8 +6,12 @@
 # @param smashing Manage smashing on this node.
 class profiles::dashboard (
   Boolean $smashing = false,
+  Boolean $icinga2 = false,
 ) {
   if $smashing {
     class { '::profiles::dashboard::smashing': }
+  }
+  if $icinga2 {
+    class { '::profiles::dashboard::icinga2': }
   }
 }
