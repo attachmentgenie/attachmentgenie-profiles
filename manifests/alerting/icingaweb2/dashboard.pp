@@ -12,6 +12,6 @@ class profiles::alerting::icingaweb2::dashboard (
 
   ::icinga2::object::apiuser { $api_username:
     password    => $api_password,
-    permissions => [ "status/query", "objects/query/*" ],
+    permissions => [ 'status/query', 'objects/query/*' ],
   }
 }
