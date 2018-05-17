@@ -15,6 +15,7 @@
 # @param ido_database_user     Ido user.
 # @param manage_repo           Manage icinga2 web repos.
 # @param modules               Include other icingaweb2 modules.
+# @param roles                 Additional roles.
 class profiles::alerting::icingaweb2 (
   String $api_password = 'icinga',
   String $api_user = 'root',
@@ -28,6 +29,7 @@ class profiles::alerting::icingaweb2 (
   String $ido_database_user = 'icinga2',
   Boolean $manage_repo = false,
   Array $modules = [],
+  Hash $roles = {},
 ) {
   class {'icingaweb2':
     manage_repo   => $manage_repo,
@@ -61,6 +63,10 @@ class profiles::alerting::icingaweb2 (
       ensure_packages( ['git'], { 'ensure' => 'present' })
       class { "::profiles::alerting::icingaweb2::${module}":; }
     }
+  }
+
+  if ( $roles!= {} ) {
+    create_resources( ::icingaweb2::config::role, $roles )
   }
 
 }
