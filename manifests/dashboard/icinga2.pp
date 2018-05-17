@@ -41,7 +41,7 @@ class profiles::dashboard::icinga2 (
 
   if ( $runmode == 'docker' ) {
     $container_name = 'icinga2dashboard'
-    $env_dir = "/etc/docker/env_files"
+    $env_dir = '/etc/docker/env_files'
     $env_file = "${env_dir}/${container_name}"
 
     concat { $env_file:
@@ -53,8 +53,9 @@ class profiles::dashboard::icinga2 (
       concat::fragment { "docker env file ${parameter}":
         target  => $env_file,
         order   => '10',
-        content => "$u_key=${docker_env_parameters[$parameter]}\n",
+        content => "${u_key}=${docker_env_parameters[$parameter]}\n",
       }
+    }
 
     docker::image { $docker_image: }
 
@@ -62,10 +63,13 @@ class profiles::dashboard::icinga2 (
       image    => $docker_image,
       ports    => '3030:3030',
       env_file => [ $env_file ],
-      require  => Docker::Image[$docker_image],
-      require  => File[$env_file],
+      require  => [
+        Docker::Image[$docker_image],
+        File[$env_file],
+      ],
     }
   }
+
   @@::icinga2::object::apiuser { $api_username:
     password    => $api_password,
     target      => '/etc/icinga2/zones.d/master/api-users.conf',
