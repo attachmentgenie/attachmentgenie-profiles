@@ -22,10 +22,10 @@
 class profiles::dashboard::icinga2 (
   String $api_password,
   String $api_username = 'icingadashboard',
-  Optional[String] $runmode,
-  Optional[String] $package_name,
-  Optional[String] $service_name,
-  Optional[String] $docker_image,
+  Optional[String] $runmode = undef,
+  Optional[String] $package_name = undef,
+  Optional[String] $service_name = undef,
+  Optional[String] $docker_image = undef,
   Optional[Hash] $docker_env_parameters,
 ){
 
