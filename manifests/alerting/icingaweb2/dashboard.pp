@@ -12,7 +12,7 @@ class profiles::alerting::icingaweb2::dashboard (
 
   ::icinga2::object::apiuser { $api_username:
     password    => $api_password,
-    target      => '/etc/icingaweb2/dashboard.ini',
+    target      => '/etc/icinga2/zones.d/master/api-users.conf',
     permissions => [ 'status/query', 'objects/query/*' ],
   }
 }
