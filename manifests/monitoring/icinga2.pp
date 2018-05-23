@@ -120,7 +120,7 @@ class profiles::monitoring::icinga2 (
       display_name => $::hostname,
       import       => ['linux-host'],
       target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
-      vars         => $vars,
+      vars         => lookup( 'profiles::monitoring::icinga2::vars', Hash, 'deep' ),
     }
   }
 
