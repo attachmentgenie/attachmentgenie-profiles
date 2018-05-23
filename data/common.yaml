@@ -24,3 +24,8 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
+  profiles::monitoring::icinga2::vars:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
