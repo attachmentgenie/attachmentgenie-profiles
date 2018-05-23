@@ -3,10 +3,14 @@
 #
 # This so that these aren't forced on the user.
 #
-class :: profiles::monitoring::icinga2::global_templates (
-  Boolean $services = true;
-  Boolean $usergroups = true;
-  Boolean $timeperiods = true;
+# @param services    Include services
+# @param usergroups  Include usergroups
+# @param timeperiods Include timeperiods
+#
+class profiles::monitoring::icinga2::global_templates (
+  Boolean $services = true,
+  Boolean $usergroups = true,
+  Boolean $timeperiods = true,
 ) {
   if ($services) {
     case $::osfamily {
