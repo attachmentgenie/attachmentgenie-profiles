@@ -15,7 +15,7 @@ class profiles::database::postgresql (
   $ip_mask_allow_all_users = '127.0.0.1/32',
   $listen_address          = 'localhost',
   $manage_repo             = false,
-  $version                 = '9.6',
+  $version                 = '10',
 ) {
   class { '::postgresql::globals':
     encoding            => $encoding,
