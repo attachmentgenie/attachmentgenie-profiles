@@ -39,7 +39,6 @@ class profiles::monitoring::icinga2 (
   String $database_password = 'icinga2',
   String $database_user = 'icinga2',
   Array $features = [ 'checker', 'command', 'mainlog', 'notification' ],
-  Boolean $global_templates = true,
   String $group = $::profiles::monitoring::icinga2::params::group,
   String $ipaddress = $::ipaddress,
   Boolean $manage_repo = false,
@@ -50,6 +49,10 @@ class profiles::monitoring::icinga2 (
   Boolean $slack = false,
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
+  Hash $checkcommands = {},
+  Hash $services = {},
+  Hash $timeperiods = {},
+  Hash $usergroups = {},
   Hash $vars = {},
 ) inherits profiles::monitoring::icinga2::params {
   if $server {
@@ -150,10 +153,6 @@ class profiles::monitoring::icinga2 (
       tag    => 'icinga2::config::file',
     }
 
-    if $global_templates {
-      include ::profiles::monitoring::icinga2::global_templates
-    }
-
     if $slack {
       class { '::profiles::monitoring::icinga2::slack':
         icinga_endpoint => $api_endpoint,
@@ -162,11 +161,17 @@ class profiles::monitoring::icinga2 (
       }
     }
 
+    # Generate objects
+    ensure_resources( ::icinga2::object::checkcommand, $checkcommands )
+    ensure_resources( ::icinga2::object::service, $services )
+    ensure_resources( ::icinga2::object::timeperiod, $timeperiods )
+    ensure_resources( ::icinga2::object::usergroup, $usergroups )
+
     # Collect objects
-    ::Icinga2::Object::Endpoint <<| |>>
-    ::Icinga2::Object::Zone <<| |>>
-    ::Icinga2::Object::Host <<| |>>
     ::Icinga2::Object::Apiuser <<| |>>
+    ::Icinga2::Object::Endpoint <<| |>>
+    ::Icinga2::Object::Host <<| |>>
+    ::Icinga2::Object::Zone <<| |>>
 
     # Static config files
     file { '/etc/icinga2/zones.d/global-templates/templates.conf':

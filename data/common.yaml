@@ -24,8 +24,104 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
+  profiles::monitoring::icinga2::checkcommands:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profiles::monitoring::icinga2::services:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
   profiles::monitoring::icinga2::vars:
     merge:
       strategy: deep
       merge_hash_arrays: true
+
+profiles::monitoring::icinga2::services:
+  linux_icinga:
+    import:
+      - generic-service
+    service_name: icinga
+    apply: true
+    check_command: icinga
+    command_endpoint: host.name
+    assign:
+      - NodeName
+    target: /etc/icinga2/zones.d/global-templates/services.conf
+  linux_procs:
+    import:
+      - generic-service
+    service_name: procs
+    apply: true
+    check_command: procs
+    command_endpoint: host.name
+    assign:
+      - NodeName
+    target: /etc/icinga2/zones.d/global-templates/services.conf
+  linux_users:
+    import:
+      - generic-service
+    service_name: users
+    apply: true
+    check_command: users
+    command_endpoint: host.name
+    assign:
+      - NodeName
+    target: /etc/icinga2/zones.d/global-templates/services.conf
+  linux_load:
+    import:
+      - generic-service
+    service_name: load
+    apply: true
+    check_command: load
+    command_endpoint: host.name
+    assign:
+      - NodeName
+    target: /etc/icinga2/zones.d/global-templates/services.conf
+  linux_ssh:
+    import:
+      - generic-service
+    service_name: ssh
+    apply: true
+    check_command: ssh
+    command_endpoint: host.name
+    assign:
+      - NodeName
+    target: /etc/icinga2/zones.d/global-templates/services.conf
+  linux_disks:
+    import:
+      - generic-service
+    service_name: disks
+    apply: 'disk_name => config in host.vars.disks'
+    check_command: disk
+    command_endpoint: host.name
+    vars: 'vars + config'
+    assign:
+      - NodeName
+    target: /etc/icinga2/zones.d/global-templates/services.conf
+
+profiles::monitoring::icinga2::usergroups:
+  icingaadmins:
+    display_name: 'Icinga 2 Admin Group'
+    target: /etc/icinga2/zones.d/global-templates/usergroups.conf
+
+profiles::monitoring::icinga2::timeperiods:
+  9to5:
+    target: /etc/icinga2/zones.d/global-templates/timeperiods.conf
+    ranges:
+      'monday': '09:00-17:00'
+      'tuesday': '09:00-17:00'
+      'wednesday': '09:00-17:00'
+      'thursday': '09:00-17:00'
+      'friday': '09:00-17:00'
+  24x7:
+    target: /etc/icinga2/zones.d/global-templates/timeperiods.conf
+    ranges:
+      'monday': '00:00-24:00'
+      'tuesday': '00:00-24:00'
+      'wednesday': '00:00-24:00'
+      'thursday': '00:00-24:00'
+      'friday': '00:00-24:00'
+      'saturday': '00:00-24:00'
+      'sunday': '00:00-24:00'
 
