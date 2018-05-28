@@ -39,8 +39,8 @@ define profiles::monitoring::icinga2::service (
   $template               = false,
   $order                  = '60',
 ) {
-  $_config_hash               => {
-    $title                    => {
+  $_config_hash               = {
+    $service_name             => {
       'target'                => $target,
       'ensure'                => $ensure,
       'service_name'          => $service_name,

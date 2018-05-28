@@ -173,7 +173,7 @@ class profiles::monitoring::icinga2 (
     ::Icinga2::Object::Host <<| |>>
     ::Icinga2::Object::Zone <<| |>>
 
-    ::profiles::monitoring::icinga2::services <<| |>>
+    ::Profiles::Monitoring::Icinga2::Service <<| |>>
 
     # Static config files
     file { '/etc/icinga2/zones.d/global-templates/templates.conf':
