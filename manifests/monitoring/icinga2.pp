@@ -169,8 +169,10 @@ class profiles::monitoring::icinga2 (
 
     # Collect objects
     ::Icinga2::Object::Apiuser <<| |>>
+    ::Icinga2::Object::Checkcommand <<| |>>
     ::Icinga2::Object::Endpoint <<| |>>
     ::Icinga2::Object::Host <<| |>>
+    ::Icinga2::Object::Service <<| |>>
     ::Icinga2::Object::Zone <<| |>>
 
     # Static config files
