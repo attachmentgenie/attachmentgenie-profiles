@@ -169,13 +169,11 @@ class profiles::monitoring::icinga2 (
 
     # Collect objects
     ::Icinga2::Object::Apiuser <<| |>>
+    ::Icinga2::Object::Checkcommand <<| |>>
     ::Icinga2::Object::Endpoint <<| |>>
     ::Icinga2::Object::Host <<| |>>
     ::Icinga2::Object::Service <<| |>>
     ::Icinga2::Object::Zone <<| |>>
-
-    ::Profiles::Monitoring::Icinga2::Service <<| |>>
-    ::Profiles::Monitoring::Icinga2::Checkcommand <<| |>>
 
     # Static config files
     file { '/etc/icinga2/zones.d/global-templates/templates.conf':
