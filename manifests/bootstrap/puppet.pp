@@ -127,6 +127,10 @@ class profiles::bootstrap::puppet (
         provider => puppetserver_gem,
       }
     }
+
+    profiles::bootstrap::firewall::entry { '100 allow puppetmaster':
+      port => 8140,
+    }
   }
 
   file { 'csr_attributes.yaml':

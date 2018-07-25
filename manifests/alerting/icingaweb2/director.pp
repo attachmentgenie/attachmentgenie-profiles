@@ -13,6 +13,7 @@
 # @param api_user     User for connecting to the api
 # @param api_password The api user's password
 # @param api_host     The host where the api lives
+# @param endpoint     Endpoint to bind to
 class profiles::alerting::icingaweb2::director (
   String $db_name      = 'director',
   String $db_username  = 'director',

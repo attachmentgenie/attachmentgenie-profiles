@@ -29,6 +29,7 @@
 # @param db_user                     DB user.
 # @param disable_gravatar            Disable gravatar downloadingg
 # @param install_method              How to install grafana.
+# @param http_addr                   Address to bing to.
 # @param log_buffer_length           Log bufeer length
 # @param log_rotate                  Log rotation
 # @param log_max_lines               Log max size
@@ -77,7 +78,7 @@ class profiles::metrics::grafana (
   Boolean $manage_repo = false,
   String $rpm_iteration = '1',
   String $secret_key = 'inWSYLbKCoLko',
-  String $version = '4.6.3',
+  String $version = '5.2.2',
 ) {
   class { '::grafana':
     cfg                 => {

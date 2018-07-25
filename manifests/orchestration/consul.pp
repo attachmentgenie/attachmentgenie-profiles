@@ -10,9 +10,11 @@
 # @param options      Additional consul start up flags.
 # @param resolv       Configure resolv.conf to use consul.
 # @param searchpath   Resolv.conf searchpath.
+# @param server       Run as Server.
 # @param services     Consul services.
 # @param version      Version of consul to install.
 # @param watches      Consul watches.
+# @param ui           Enable UI.
 class profiles::orchestration::consul (
   Hash $checks = {},
   Hash $config = {
@@ -24,8 +26,10 @@ class profiles::orchestration::consul (
   String $options = '-enable-script-checks -syslog',
   Boolean $resolv = false,
   Array $searchpath = [],
+  Boolean $server = false,
   Hash $services = {},
-  String $version = '1.0.0',
+  String $version = '1.2.1',
+  Boolean $ui = false,
   Hash $watches = {},
 ) {
   package { 'unzip':
@@ -35,6 +39,17 @@ class profiles::orchestration::consul (
     config_hash   => $config,
     extra_options => $options,
     version       => $version,
+  }
+
+  if $server {
+    profiles::bootstrap::firewall::entry { '100 allow consul gossip':
+      port => 8301,
+    }
+  }
+  if $ui {
+    profiles::bootstrap::firewall::entry { '100 allow consul ui':
+      port => 8500,
+    }
   }
 
   create_resources(::consul::check, $checks)

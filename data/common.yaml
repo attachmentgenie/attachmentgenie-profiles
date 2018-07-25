@@ -12,6 +12,10 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
+  profiles::bootstrap::firewall::entries:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
   profiles::bootstrap::repositories::repositories:
     merge:
       strategy: deep

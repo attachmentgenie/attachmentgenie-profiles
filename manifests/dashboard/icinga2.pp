@@ -18,7 +18,6 @@
 #   ICINGA2_API_USERNAME: icingadashboard
 #   ICINGA2_API_PASSWORD: verylongandsecurepw
 #   ICINGAWEB2_URL: 'http://192.168.20.60/icingaweb2'
-
 class profiles::dashboard::icinga2 (
   String $api_password,
   String $api_username = 'icingadashboard',

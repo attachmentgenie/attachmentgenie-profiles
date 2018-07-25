@@ -4,6 +4,7 @@
 #  class { '::profiles::dashboard': }
 #
 # @param smashing Manage smashing on this node.
+# @param icinga2  Mange icinga2web on this node.
 class profiles::dashboard (
   Boolean $smashing = false,
   Boolean $icinga2 = false,

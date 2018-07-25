@@ -13,6 +13,7 @@ fixtures:
     consul: "https://github.com/solarkennedy/puppet-consul.git"
     collectd: "https://github.com/voxpupuli/puppet-collectd.git"
     composer: "https://github.com/willdurand/puppet-composer.git"
+    cron: "https://github.com/voxpupuli/puppet-cron.git"
     datacat: "https://github.com/richardc/puppet-datacat.git"
     docker: "https://github.com/garethr/garethr-docker.git"
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
@@ -41,7 +42,9 @@ fixtures:
     influxdb: "https://github.com/n1tr0g/golja-influxdb.git"
     java: "https://github.com/puppetlabs/puppetlabs-java.git"
     jenkins: "https://github.com/jenkinsci/puppet-jenkins.git"
-    kibana: "https://github.com/elastic/puppet-kibana.git"
+    kibana:
+      repo: "https://github.com/elastic/puppet-kibana.git"
+      ref: 3ab626d
     kafka:
       repo: "https://github.com/voxpupuli/puppet-kafka.git"
       ref: 48f95c1

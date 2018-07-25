@@ -22,4 +22,8 @@ class profiles::puppet::puppetdb (
     manage_firewall    => $manage_firewall,
     ssl_listen_address => $ssl_listen_address,
   }
+
+  profiles::bootstrap::firewall::entry { '100 allow puppetdb':
+    port => 8081,
+  }
 }

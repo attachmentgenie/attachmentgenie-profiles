@@ -45,4 +45,8 @@ class profiles::website::apache (
   create_resources( 'apache::vhost', $vhosts, $vhost_defaults )
 
   Package<| tag == 'do_a' |> -> Apache::Vhost<| tag == 'do_b' |>
+
+  profiles::bootstrap::firewall::entry { '200 allow HTTP and HTTPS':
+    port => [80,443],
+  }
 }

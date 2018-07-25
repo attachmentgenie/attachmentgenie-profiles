@@ -1,6 +1,12 @@
 # This class is used to setup the grafana module on icingaweb2.
 #
 #
+# @param grafana_host         Host grafana listens on
+# @param grafana_port         Port grafana listens on
+# @param grafana_username     Grafana user
+# @param grafana_password     Grafana credentials
+# @param grafana_datasource   Grafana datasource
+# @param git_url              git repo to pull the plugin from
 class profiles::alerting::icingaweb2::grafana (
   String $grafana_host       = 'localhost',
   String $grafana_port       = '3000',

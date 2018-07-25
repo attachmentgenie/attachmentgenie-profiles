@@ -45,4 +45,8 @@ class profiles::website::nginx (
   Package<| tag == 'do_a' |> -> Nginx::Resource::Server<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Streamhost<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Upstream<| tag == 'do_b' |>
+
+  profiles::bootstrap::firewall::entry { '200 allow HTTP and HTTPS':
+    port => [80,443],
+  }
 }

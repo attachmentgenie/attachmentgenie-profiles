@@ -7,6 +7,7 @@
 # @param api_password      Api password.
 # @param api_pki           Cypher to use for api certs.
 # @param api_user          Api user.
+# @param checkcommands     List of checks
 # @param client            Is this a icinga client.
 # @param confd             Include conf.d directory or specify your own.
 # @param database_host     Db host.
@@ -22,9 +23,12 @@
 # @param parent_zone       Icinga zone.
 # @param plugins_package   Package with plugins to install.
 # @param server            Is this a icinga masters.
+# @param services          services
 # @param slack             Slack integration.
 # @param slack_channel     Slack channel to send notifications to.
 # @param slack_webhook     Slack webhook url.
+# @param timeperiods       Timeperiods
+# @param usergroups        User groups
 # @param vars              Icinga vars.
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,

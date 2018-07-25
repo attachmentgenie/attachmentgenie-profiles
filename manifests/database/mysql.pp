@@ -16,4 +16,8 @@ class profiles::database::mysql (
   create_resources(mysql::db, $databases)
 
   class { '::mysql::client': }
+
+  profiles::bootstrap::firewall::entry { '200 allow mysql':
+    port => 3306,
+  }
 }
