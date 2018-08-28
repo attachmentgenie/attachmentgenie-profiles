@@ -31,6 +31,7 @@ class profiles::website::nginx (
     daemon_user       => $daemon_user,
     nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'] },
     server_purge      => $purge_configs,
+    server_tokens     => 'off',
     stream            => $stream,
   }
 

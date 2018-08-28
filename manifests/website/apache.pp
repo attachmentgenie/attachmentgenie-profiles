@@ -22,11 +22,13 @@ class profiles::website::apache (
   Hash $vhost_packages = {},
 ) {
   class { '::apache':
-    default_mods    => $default_mods,
-    default_vhost   => $default_vhost,
-    mpm_module      => $mpm_module,
-    purge_configs   => $purge_configs,
-    purge_vhost_dir => $purge_vhost_dir,
+    default_mods     => $default_mods,
+    default_vhost    => $default_vhost,
+    mpm_module       => $mpm_module,
+    purge_configs    => $purge_configs,
+    purge_vhost_dir  => $purge_vhost_dir,
+    server_signature => 'Off',
+    server_tokens    => 'Prod',
   }
   create_resources( 'apache::mod', $modules)
 
