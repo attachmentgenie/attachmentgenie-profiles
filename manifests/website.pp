@@ -13,6 +13,7 @@
 # @param haproxy     Manage haproxy on this node.
 # @param letsencrypt Manage letsencrypt certificates on this node.
 # @param nginx       Manage nginx on this node.
+# @param traefik     Manage nginx on this node.
 # @param uwsgi       Manage uwsgi on this node.
 #
 class profiles::website (
@@ -20,6 +21,7 @@ class profiles::website (
   Boolean $haproxy     = false,
   Boolean $letsencrypt = false,
   Boolean $nginx       = false,
+  Boolean $traefik     = false,
   Boolean $uwsgi       = false,
 ){
   if $apache {
@@ -36,6 +38,10 @@ class profiles::website (
 
   if $nginx {
     class { '::profiles::website::nginx': }
+  }
+
+  if $traefik {
+    class { '::profiles::website::traefik': }
   }
 
   if $uwsgi {

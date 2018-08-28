@@ -6,12 +6,13 @@
 # @param address    Ip to bind to.
 # @param port       Port to bind to.
 define profiles::runtime::php::pool (
-  Stdlib::Ip_address $address = '127.0.0.1',
+  Stdlib::IP::Address $address = '127.0.0.1',
   Stdlib::Port::Unprivileged $port = 9000,
 ) {
   php::fpm::pool { $name:
-    listen => "${address}:${port}",
-  }
+    listen         => "${address}:${port}",
+    pm_status_path => '/status'
+,  }
 
   if $address != '127.0.0.1' {
     profiles::bootstrap::firewall::entry { "100 allow fpm pool ${port}":

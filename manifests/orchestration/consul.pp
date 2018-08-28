@@ -28,7 +28,7 @@ class profiles::orchestration::consul (
   Array $searchpath = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.2.1',
+  String $version = '1.2.2',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
@@ -42,8 +42,14 @@ class profiles::orchestration::consul (
   }
 
   if $server {
-    profiles::bootstrap::firewall::entry { '100 allow consul gossip':
+    profiles::bootstrap::firewall::entry { '100 allow consul rpc':
+      port => 8300,
+    }
+    profiles::bootstrap::firewall::entry { '100 allow consul serf LAN':
       port => 8301,
+    }
+    profiles::bootstrap::firewall::entry { '100 allow consul serf WAN':
+      port => 8302,
     }
   }
   if $ui {

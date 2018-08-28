@@ -122,9 +122,10 @@ class profiles::bootstrap::puppet (
     }
 
     if $install_toml {
-      package { 'toml':
+      package { 'toml-rb':
         ensure   => present,
         provider => puppetserver_gem,
+        notify   => Service['puppetserver'],
       }
     }
 

@@ -29,4 +29,8 @@ class profiles::database::postgresql (
   create_resources(postgresql::server::db, $databases)
 
   class { '::postgresql::client': }
+
+  profiles::bootstrap::firewall::entry { '200 allow pgsql':
+    port => 5432,
+  }
 }
