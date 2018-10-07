@@ -8,6 +8,6 @@ class profiles::security (
   Boolean $selinux = false,
 ) {
   if $selinux {
-    class { '::profiles::selinux': }
+    class { '::profiles::security::selinux': }
   }
 }
