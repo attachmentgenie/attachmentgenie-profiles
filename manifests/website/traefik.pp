@@ -74,26 +74,4 @@ class profiles::website::traefik (
       'filePath' => '/var/log/traefik/traefik.log'
     }
   }
-
-  class { 'traefik::config::file':
-    filename => 'rules.toml',
-    watch    => true
-  }
-  traefik::config::file_rule { 'proxy':
-    frontend => {
-      entryPoints => ['er'],
-      'routes'    => {
-        'test_1' => {
-          'rule' => 'Host:proxy.website.vagrant'
-        }
-      }
-    },
-    backend  => {
-      'servers' => {
-        'server1' => {
-          'url'    => 'http://192.168.49.45',
-        },
-      }
-    }
-  }
 }

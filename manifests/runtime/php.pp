@@ -9,8 +9,9 @@
 # @param fpm_package          Fpm package to install.
 # @param fpm_pools            Fpm pools to to setup.
 # @param fpm_service_name     Fpm service name.
-# @param install_fpm          Install fpm.
+# @param install_cachetool    Install cachetool.
 # @param install_composer     Install composer.
+# @param install_fpm          Install fpm.
 # @param manage_repo          Manage repo.
 # @param modules              PHP modules to install
 # @param settings             PHP conf settings.
@@ -32,6 +33,7 @@ class profiles::runtime::php (
       },
       'settings_prefix' => 'apc',
     },
+    'gd'       => {},
     'intl'     => {},
     'json'     => {},
     'mbstring' => {},
@@ -44,8 +46,7 @@ class profiles::runtime::php (
         'interned_strings_buffer' => 8,
         'max_accelerated_files'   => 20000,
         'memory_consumption'      => 256,
-        'validate_timestamps'     => 0,
-        'revalidate_freq'         => 60,
+        'revalidate_freq'         => 60 ,
       },
       'zend'            => true,
     },
@@ -55,8 +56,9 @@ class profiles::runtime::php (
   Optional[String] $fpm_package = undef,
   Hash $fpm_pools = { 'www' => {} },
   Optional[String] $fpm_service_name = undef,
-  Boolean $install_fpm = true,
+  Boolean $install_cachetool = true,
   Boolean $install_composer = false,
+  Boolean $install_fpm = true,
   Boolean $manage_repo = false,
   Array $modules = [],
   Hash $settings = {},
@@ -67,13 +69,16 @@ class profiles::runtime::php (
     'PHP/error_reporting'        => 'E_ALL',
     'PHP/expose_php'             => 'Off',
     'PHP/log_errors'             => 'On',
-    'PHP/max_execution_time'     => '90',
-    'PHP/max_input_time'         => '300',
-    'PHP/memory_limit'           => '64M',
+    'PHP/max_execution_time'     => '3600',
+    'PHP/max_input_time'         => '3600',
+    'PHP/memory_limit'           => '128M',
     'PHP/post_max_size'          => '32M',
     'PHP/realpath_cache_size'    => '4096K',
     'PHP/realpath_cache_ttl'     => '600',
+    'PHP/file_uploads'           => 1,
+    'PHP/upload_tmp_dir'         => '/var/tmp',
     'PHP/upload_max_filesize'    => '32M',
+    'PHP/max_file_uploads'       => 5,
   },
   String $version = '72',
   Boolean $xdebug = false,
@@ -89,7 +94,7 @@ class profiles::runtime::php (
     'remote_autostart'              => 0,
     'remote_enable'                 => 1,
     'remote_host'                   => 'localhost',
-    'remote_port'                   => 9000,
+    'remote_port'                   => 9090,
     'scream'                        => 0,
   },
 ) {
@@ -106,15 +111,19 @@ class profiles::runtime::php (
 
   if $xdebug {
     $extension_xdebug_config = {
-      'xdebug'       => {
-        'ini_prefix'      => '15-',
-        'package_prefix'  => 'php-pecl-',
-        'settings'        => $xdebug_config,
-        'zend'            => true,
+      'xdebug' => {
+        'ini_prefix'     => '15-',
+        'package_prefix' => 'php-pecl-',
+        'settings'       => $xdebug_config,
+        'zend'           => true,
       },
     }
   } else {
-    $extension_xdebug_config = {}
+    # @todo make php module uninstall module config properly.
+    file { 'xdebug config':
+      ensure => 'absent',
+      path   => '/etc/php.d/15-xdebug.ini',
+    }
   }
 
   class { '::php':
@@ -128,6 +137,10 @@ class profiles::runtime::php (
     pear             => false,
     settings         => deep_merge($settings_default, $settings),
   }
+
+  if $install_cachetool {
+    include ::profiles::runtime::php::cachetool
+  }
   if $install_composer {
     class { '::composer':
       target_dir => '/usr/bin',
@@ -138,5 +151,10 @@ class profiles::runtime::php (
     ensure => present,
   }
 
-  create_resources('::profiles::runtime::php::pool', $fpm_pools)
+  $pool_defaults = {
+    'cachetool_config' => $install_cachetool,
+    'tag'              => $::environment,
+  }
+  create_resources('::profiles::runtime::php::pool', $fpm_pools, $pool_defaults)
+  Profiles::Runtime::Php::Pool <<| env == $::environment |>>
 }

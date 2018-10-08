@@ -26,13 +26,16 @@ class profiles::website::nginx (
   Hash $vhost_packages = {},
 ) {
   class { '::nginx':
-    confd_only        => true,
-    confd_purge       => $purge_configs,
-    daemon_user       => $daemon_user,
-    nginx_cfg_prepend => { 'include' => ['/etc/nginx/modules-enabled/*.conf'] },
-    server_purge      => $purge_configs,
-    server_tokens     => 'off',
-    stream            => $stream,
+    client_body_buffer_size => '1k',
+    client_max_body_size    => '1k',
+    confd_only              => true,
+    confd_purge             => $purge_configs,
+    daemon_user             => $daemon_user,
+    global_mode             => '0600',
+    nginx_cfg_prepend       => { 'include' => ['/etc/nginx/modules-enabled/*.conf'] },
+    server_purge            => $purge_configs,
+    server_tokens           => 'off',
+    stream                  => $stream,
   }
 
   $package_defaults = {

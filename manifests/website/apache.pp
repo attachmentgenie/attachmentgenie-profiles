@@ -14,7 +14,10 @@
 class profiles::website::apache (
   Boolean $default_mods = true,
   Boolean $default_vhost = false,
-  Hash $modules = {},
+  Hash $modules = {
+    'proxy' => {},
+    'proxy_fcgi' => {},
+  },
   String $mpm_module = 'prefork',
   Boolean $purge_configs = false,
   Boolean $purge_vhost_dir = false,
@@ -24,6 +27,7 @@ class profiles::website::apache (
   class { '::apache':
     default_mods     => $default_mods,
     default_vhost    => $default_vhost,
+    file_mode        => '0640',
     mpm_module       => $mpm_module,
     purge_configs    => $purge_configs,
     purge_vhost_dir  => $purge_vhost_dir,
