@@ -1,6 +1,6 @@
 # This class can be used to install cachetool
 #
-# @cachetool when declaring the firewall class
+# @example when declaring the firewall class
 #  class { '::profiles::runtime::php::cachetool': }
 #
 # @param group            Group of file

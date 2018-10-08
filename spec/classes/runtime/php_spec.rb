@@ -3,6 +3,7 @@ describe 'profiles::runtime::php' do
   on_os_under_test.each do |os, facts|
     context "on #{os}" do
       let(:facts) { facts }
+      let(:params) { { 'fpm_pools' => { 'www' => {} } } }
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::runtime::php') }
         it { is_expected.to contain_profiles__runtime__php__pool('www') }

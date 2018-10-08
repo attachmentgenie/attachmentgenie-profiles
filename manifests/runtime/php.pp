@@ -54,7 +54,7 @@ class profiles::runtime::php (
     'xml'      => {},
   },
   Optional[String] $fpm_package = undef,
-  Hash $fpm_pools = { 'www' => {} },
+  Hash $fpm_pools = {},
   Optional[String] $fpm_service_name = undef,
   Boolean $install_cachetool = true,
   Boolean $install_composer = false,
@@ -120,6 +120,7 @@ class profiles::runtime::php (
     }
   } else {
     # @todo make php module uninstall module config properly.
+    $extension_xdebug_config = {}
     file { 'xdebug config':
       ensure => 'absent',
       path   => '/etc/php.d/15-xdebug.ini',
