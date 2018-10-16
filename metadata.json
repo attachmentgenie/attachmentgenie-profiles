@@ -7,6 +7,12 @@
   "source": "https://github.com/attachmentgenie/attachmentgenie-profiles.git",
   "project_page": "https://github.com/attachmentgenie/attachmentgenie-profiles",
   "issues_url": "https://github.com/attachmentgenie/attachmentgenie-profiles/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_requirement": ">= 4.13.1 <6.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "CentOS",
@@ -15,10 +21,13 @@
       ]
     }
   ],
-  "dependencies": [
+  "requirements": [
     {
-      "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.13.1 <6.0.0"
+      "name": "puppet",
+      "version_requirement": ">= 4.7.0 < 6.0.0"
     }
-  ]
+  ],
+  "pdk-version": "1.5.0",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git",
+  "template-ref": "1.5.0-0-gd1b3eca"
 }

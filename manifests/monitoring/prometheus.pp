@@ -20,7 +20,7 @@ class profiles::monitoring::prometheus (
     'static_configs'=> [{'targets'=>['localhost:9090'], 'labels'=> { 'alias'=>'Prometheus'}}]
   } ],
   Boolean $server = false,
-  String $prometheus_version = '2.0.0',
+  String $prometheus_version = '2.4.2',
 ) {
   if $client {
     class { '::prometheus::node_exporter':

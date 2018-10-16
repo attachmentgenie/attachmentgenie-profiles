@@ -30,7 +30,7 @@ class profiles::orchestration::rundeck (
   String $group             = 'rundeck',
   String $jvm_args          = '-Dserver.http.host=127.0.0.1',
   Boolean $manage_repo      = false,
-  String $package           = '2.10.6',
+  String $package           = '3.0.6',
   Hash $projects            = {},
   Boolean $puppetdb         = false,
   String $puppetdb_template = 'profiles/defaultMapping.json.erb',

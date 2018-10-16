@@ -14,7 +14,7 @@ platforms:
   - name: ubuntu-14.04
   - name: ubuntu-16.04
   - name: debian-8.10
-  - name: debian-9.3
+  - name: debian-9.4
   - name: centos-6.9
   - name: centos-7.4
 suites:

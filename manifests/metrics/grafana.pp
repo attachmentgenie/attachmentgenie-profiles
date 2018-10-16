@@ -78,7 +78,7 @@ class profiles::metrics::grafana (
   Boolean $manage_repo = false,
   String $rpm_iteration = '1',
   String $secret_key = 'inWSYLbKCoLko',
-  String $version = '5.2.2',
+  String $version = '5.2.4',
 ) {
   class { '::grafana':
     cfg                 => {
