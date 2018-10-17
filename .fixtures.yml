@@ -6,6 +6,7 @@ fixtures:
     apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
     aptly: "https://github.com/gds-operations/puppet-aptly.git"
     archive: "https://github.com/voxpupuli/puppet-archive.git"
+    augeas_core: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
     carbon: "https://github.com/mlambrichs/puppet-carbon.git"
     carbon_c_relay: "https://github.com/mlambrichs/puppet-carbon_c_relay.git"
     carbon_relay_ng: "https://github.com/mlambrichs/puppet-carbon_relay_ng.git"
@@ -14,6 +15,7 @@ fixtures:
     collectd: "https://github.com/voxpupuli/puppet-collectd.git"
     composer: "https://github.com/willdurand/puppet-composer.git"
     cron: "https://github.com/voxpupuli/puppet-cron.git"
+    cron_core: "https://github.com/puppetlabs/puppetlabs-cron_core.git"
     datacat: "https://github.com/richardc/puppet-datacat.git"
     docker: "https://github.com/garethr/garethr-docker.git"
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
@@ -88,6 +90,7 @@ fixtures:
     transition: "https://github.com/puppetlabs/puppetlabs-transition.git"
     uwsgi: "https://github.com/rvdh/puppet-uwsgi.git"
     wget: "https://github.com/maestrodev/puppet-wget.git"
+    yumrepo_core: "https://github.com/puppetlabs/puppetlabs-yumrepo_core.git"
     zookeeper: "https://github.com/deric/puppet-zookeeper.git"
   symlinks:
     "profiles": "#{source_dir}"
