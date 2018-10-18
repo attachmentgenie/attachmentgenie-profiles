@@ -5,16 +5,25 @@
 #
 # @param instances    ES instances to start.
 # @param manage_repo  Let profile install java.
-# @param repo_version Version family to install.
+# @param oss          Use purely OSS package and repository.
+# @param version      Specific version to install.
 class profiles::logging::elasticsearch (
-  Hash $instances = { "${::fqdn}" => {} },
+  Hash $instances      = { "${::fqdn}" => {} },
   Boolean $manage_repo = false,
-  String $repo_version = '5.x',
+  Boolean $oss         = true,
+  String $version      = '5.6.12',
 ) {
+
+  if $manage_repo {
+    class { '::elastic_stack::repo':
+      oss     => $oss,
+      version => split($version,'.')[0]
+    }
+  }
+
   class { '::elasticsearch':
-    java_install      => false,
-    manage_repo       => $manage_repo,
-    repo_version      => $repo_version,
+    oss               => $oss,
+    version           => $version,
     restart_on_change => true
   }
   create_resources('elasticsearch::instance', $instances)

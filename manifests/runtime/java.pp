@@ -11,6 +11,6 @@ class profiles::runtime::java (
 ) {
   class { '::java':
     package         => $package,
-    package_options => $package_options,
+    package_options => $package_options
   }
 }
