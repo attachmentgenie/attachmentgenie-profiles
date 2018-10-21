@@ -4,6 +4,7 @@
 #  class { '::profiles::monitoring::prometheus': }
 #
 # @param client                   Install node exporter
+# @param install_method           The install method to use
 # @param node_exporter_collectors Metrics to collect.
 # @param node_exporter_version    Version to install
 # @param scrape_configs           Which nodes to monitor
@@ -11,6 +12,7 @@
 # @param prometheus_version       Version to install
 class profiles::monitoring::prometheus (
   Boolean $client = true,
+  Enum['url', 'package', 'none'] $install_method = 'none',
   Array $node_exporter_collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
   String $node_exporter_version = '0.15.2',
   Array $scrape_configs = [ {
@@ -29,7 +31,8 @@ class profiles::monitoring::prometheus (
     }
   }
   if $server {
-    class { '::prometheus':
+    class { '::prometheus::server':
+      install_method => $install_method,
       scrape_configs => $scrape_configs,
       version        => $prometheus_version,
     }
