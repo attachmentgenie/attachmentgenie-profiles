@@ -12,8 +12,8 @@ describe 'profiles::runtime::php::cachetool' do
         context 'with install_method set to package' do
           let(:params) do
             {
-                install_method: 'package',
-                package_name: 'cachetool',
+              install_method: 'package',
+              package_name: 'cachetool',
             }
           end
 
@@ -23,8 +23,8 @@ describe 'profiles::runtime::php::cachetool' do
         context 'with package_name set to specialpackage' do
           let(:params) do
             {
-                install_method: 'package',
-                package_name: 'specialpackage',
+              install_method: 'package',
+              package_name: 'specialpackage',
             }
           end
 
@@ -34,9 +34,9 @@ describe 'profiles::runtime::php::cachetool' do
         context 'with package_version set to 42.42.42' do
           let(:params) do
             {
-                install_method: 'package',
-                package_name: 'cachetool',
-                package_version: '42.42.42',
+              install_method: 'package',
+              package_name: 'cachetool',
+              package_version: '42.42.42',
             }
           end
 
