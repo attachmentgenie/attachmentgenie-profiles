@@ -6,7 +6,9 @@ fixtures:
     apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
     aptly: "https://github.com/gds-operations/puppet-aptly.git"
     archive: "https://github.com/voxpupuli/puppet-archive.git"
-    augeas_core: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
+    augeas_core:
+      repo: "https://github.com/puppetlabs/puppetlabs-augeas_core.git"
+      puppet_version: ">= 6.0.0"
     carbon: "https://github.com/mlambrichs/puppet-carbon.git"
     carbon_c_relay: "https://github.com/mlambrichs/puppet-carbon_c_relay.git"
     carbon_relay_ng: "https://github.com/mlambrichs/puppet-carbon_relay_ng.git"
@@ -15,7 +17,9 @@ fixtures:
     collectd: "https://github.com/voxpupuli/puppet-collectd.git"
     composer: "https://github.com/willdurand/puppet-composer.git"
     cron: "https://github.com/voxpupuli/puppet-cron.git"
-    cron_core: "https://github.com/puppetlabs/puppetlabs-cron_core.git"
+    cron_core:
+      repo: "https://github.com/puppetlabs/puppetlabs-cron_core.git"
+      puppet_version: ">= 6.0.0"
     datacat: "https://github.com/richardc/puppet-datacat.git"
     docker: "https://github.com/garethr/garethr-docker.git"
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
@@ -56,7 +60,9 @@ fixtures:
       repo: "https://github.com/elastic/puppet-logstash.git"
       ref: "5.3.0"
     lvm: "https://github.com/puppetlabs/puppetlabs-lvm.git"
-    mongodb: "https://github.com/puppetlabs/puppetlabs-mongodb.git"
+    mongodb:
+      repo: "https://github.com/voxpupuli/puppet-mongodb.git"
+      ref: 950a7c9
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     mcollective: "https://github.com/voxpupuli/puppet-mcollective.git"
     memcached: "https://github.com/saz/puppet-memcached.git"
@@ -90,7 +96,9 @@ fixtures:
     transition: "https://github.com/puppetlabs/puppetlabs-transition.git"
     uwsgi: "https://github.com/rvdh/puppet-uwsgi.git"
     wget: "https://github.com/maestrodev/puppet-wget.git"
-    yumrepo_core: "https://github.com/puppetlabs/puppetlabs-yumrepo_core.git"
+    yumrepo_core:
+      repo: "git://github.com/puppetlabs/puppetlabs-yumrepo_core"
+      puppet_version: ">= 6.0.0"
     zookeeper: "https://github.com/deric/puppet-zookeeper.git"
   symlinks:
     "profiles": "#{source_dir}"
