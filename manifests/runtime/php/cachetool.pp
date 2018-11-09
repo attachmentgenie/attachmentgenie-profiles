@@ -28,6 +28,7 @@ class profiles::runtime::php::cachetool (
     }
     'archive': {
       wget::fetch { 'cachetool':
+        cache_dir   => '/usr/local/tmp',
         destination => "${install_dir}/cachetool",
         execuser    => $user,
         mode        => '0755',

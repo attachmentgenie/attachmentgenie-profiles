@@ -3,7 +3,7 @@
 # @example when declaring the php class
 #  class { '::profiles::runtime::package': }
 #
-
+# @param collect_resources    Collect Exported Resources.
 # @param extensions           Extensions to install.
 # @param extensions_default   Extensions to install.
 # @param fpm_package          Fpm package to install.
@@ -14,12 +14,14 @@
 # @param install_fpm          Install fpm.
 # @param manage_repo          Manage repo.
 # @param modules              PHP modules to install
+# @param resource_tag         Only export resources that are using this tag.
 # @param settings             PHP conf settings.
 # @param settings_default     PHP conf settings.
 # @param version              Version to install.
 # @param xdebug               Install xdebug extension.
 # @param xdebug_config        Xdebug settings.
 class profiles::runtime::php (
+  Boolean $collect_resources = true,
   Hash $extensions = {},
   Hash $extensions_default = {
     'apcu'     => {
@@ -61,6 +63,7 @@ class profiles::runtime::php (
   Boolean $install_fpm = true,
   Boolean $manage_repo = false,
   Array $modules = [],
+  String $resource_tag = $::fqdn,
   Hash $settings = {},
   Hash $settings_default = {
     'Date/date.timezone'         => 'Europe/Amsterdam',
@@ -144,7 +147,7 @@ class profiles::runtime::php (
   }
   if $install_composer {
     class { '::composer':
-      target_dir => '/usr/bin',
+      target_dir => '/usr/local/bin',
     }
   }
 
@@ -154,8 +157,12 @@ class profiles::runtime::php (
 
   $pool_defaults = {
     'cachetool_config' => $install_cachetool,
-    'tag'              => $::environment,
+    'tag'              => $resource_tag,
   }
   create_resources('::profiles::runtime::php::pool', $fpm_pools, $pool_defaults)
-  Profiles::Runtime::Php::Pool <<| env == $::environment |>>
+
+  if $collect_resources {
+    Profiles::Runtime::Php::Pool <<| tag == $resource_tag and env == $::environment |>>
+  }
 }
+
