@@ -42,6 +42,10 @@
 # @param manage_repo                 Manage repo.
 # @param rpm_iteration               RPM iteration to install.
 # @param secret_key                  Secret key.
+# @param smtp_enable                 Enable smtp.
+# @param smtp_from_address           Address used when sending out emails.
+# @param smtp_from_name              Name to be used when sending out emails.
+# @param smtp_host                   SMTP-server to use.
 # @param version                     Version to install.
 #
 class profiles::metrics::grafana (
@@ -78,6 +82,10 @@ class profiles::metrics::grafana (
   Boolean $manage_repo = false,
   String $rpm_iteration = '1',
   String $secret_key = 'inWSYLbKCoLko',
+  Boolean $smtp_enable = false,
+  String $smtp_from_address = 'admin@grafana.localhost',
+  String $smtp_from_name = 'Grafana',
+  String $smtp_host = 'localhost:25',
   String $version = '5.2.4',
 ) {
   class { '::grafana':
@@ -141,6 +149,12 @@ class profiles::metrics::grafana (
         cookie_remember_name        => $cookie_remember_name,
         disable_gravatar            => $disable_gravatar,
         data_source_proxy_whitelist => $data_source_proxy_whitelist,
+      },
+      smtp              => {
+        enabled      => $smtp_enable,
+        from_address => $smtp_from_address,
+        from_name    => $smtp_from_name,
+        host         => $smtp_host,
       },
       users             => {
         allow_sign_up        => $allow_sign_up,
