@@ -19,8 +19,8 @@
 # @param vhosts                  Set(s) of vhost to create
 # @param vhost_packages          Packages to manage that contain vhosts files.
 class profiles::website::nginx (
-  String client_body_buffer_size = '1k',
-  String client_max_body_size = '1k',
+  String $client_body_buffer_size = '1k',
+  String $client_max_body_size = '1k',
   String $daemon_user = 'nginx',
   Hash $upstreams = {},
   Boolean $purge_configs = true,
