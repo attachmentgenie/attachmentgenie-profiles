@@ -187,5 +187,9 @@ class profiles::monitoring::icinga2 (
       mode   => '0640',
       source => 'puppet:///modules/profiles/monitoring/icinga2/templates.conf',
     }
+
+    profiles::bootstrap::firewall::entry { '200 allow icinga':
+      port => 5665,
+    }
   }
 }
