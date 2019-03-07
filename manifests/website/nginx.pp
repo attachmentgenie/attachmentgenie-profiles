@@ -9,14 +9,18 @@
 #
 # === Parameters
 #
-# @param daemon_user    User that runs nginx
-# @param upstreams      Set(s) of upstream servers to use
-# @param purge_configs   Purge unmanaged config files.
-# @param stream         Enable streaming hosts.
-# @param streams        Set(s) of streams.
-# @param vhosts         Set(s) of vhost to create
-# @param vhost_packages Packages to manage that contain vhosts files.
+# @param client_body_buffer_size Sets buffer size for reading client request body.
+# @param client_max_body_size    Sets the maximum allowed size of the client request body.
+# @param daemon_user             User that runs nginx
+# @param upstreams               Set(s) of upstream servers to use
+# @param purge_configs           Purge unmanaged config files.
+# @param stream                  Enable streaming hosts.
+# @param streams                 Set(s) of streams.
+# @param vhosts                  Set(s) of vhost to create
+# @param vhost_packages          Packages to manage that contain vhosts files.
 class profiles::website::nginx (
+  String client_body_buffer_size = '1k',
+  String client_max_body_size = '1k',
   String $daemon_user = 'nginx',
   Hash $upstreams = {},
   Boolean $purge_configs = true,
@@ -26,8 +30,8 @@ class profiles::website::nginx (
   Hash $vhost_packages = {},
 ) {
   class { '::nginx':
-    client_body_buffer_size => '1k',
-    client_max_body_size    => '1k',
+    client_body_buffer_size => $client_body_buffer_size,
+    client_max_body_size    => $client_max_body_size,
     confd_only              => true,
     confd_purge             => $purge_configs,
     daemon_user             => $daemon_user,
