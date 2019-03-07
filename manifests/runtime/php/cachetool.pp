@@ -35,6 +35,7 @@ class profiles::runtime::php::cachetool (
         group       => $group,
         source      => $phar_source,
         timeout     => 0,
+        unless      => "test -f ${install_dir}/cachetool",
       }
     }
     default: {
