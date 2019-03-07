@@ -11,14 +11,14 @@
 #
 # @param carbon_cache_enabled
 # @param carbon_caches
-# @param carbon_ensure 
-# @param carbon_type 
-# @param line_receiver_interface 
-# @param pickle_receiver_interface 
+# @param carbon_ensure
+# @param carbon_type
+# @param line_receiver_interface
+# @param pickle_receiver_interface
 # @param protobuf_receiver_enabled
-# @param relay_type 
+# @param relay_type
 # @param udp_listener_enabled
-# @param udp_receiver_interface 
+# @param udp_receiver_interface
 # @param use_whitelist
 class profiles::metrics::carbon (
   Boolean $carbon_cache_enabled = true,
@@ -46,6 +46,10 @@ class profiles::metrics::carbon (
       $carbon_relay_enabled = false
       $carbon_relay_ensure  = 'stopped'
     }
+  }
+
+  profiles::bootstrap::firewall::entry { '200 allow carbon':
+    port => 2003,
   }
 
   case $carbon_type {
