@@ -37,7 +37,7 @@ class profiles::monitoring::icinga2 (
   String $api_password = 'icinga',
   String $api_pki = 'puppet',
   String $api_user = 'root',
-  Hash $api_users = undef,
+  Optional[Hash] $api_users = undef,
   Boolean $client = true,
   Variant[Boolean,String] $confd = false,
   String $database_host = '127.0.0.1',
