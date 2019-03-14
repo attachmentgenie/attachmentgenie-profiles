@@ -28,6 +28,7 @@
 # @param db_type                     DB type,
 # @param db_user                     DB user.
 # @param disable_gravatar            Disable gravatar downloadingg
+# @param domain                      Part of the root_url.
 # @param install_method              How to install grafana.
 # @param http_addr                   Address to bing to.
 # @param log_buffer_length           Log bufeer length
@@ -41,6 +42,7 @@
 # @param logmode                     Type of logging
 # @param manage_repo                 Manage repo.
 # @param rpm_iteration               RPM iteration to install.
+# @param root_url                    Full URL used to access Grafana from a web browser.
 # @param secret_key                  Secret key.
 # @param smtp_enable                 Enable smtp.
 # @param smtp_from_address           Address used when sending out emails.
@@ -68,6 +70,7 @@ class profiles::metrics::grafana (
   String $db_type = 'sqlite3',
   String $db_user = '',
   Boolean $disable_gravatar = false,
+  String $domain = 'localhost',
   String $http_addr = '127.0.0.1',
   String $install_method = 'repo',
   Integer $log_buffer_length = 10000,
@@ -81,6 +84,7 @@ class profiles::metrics::grafana (
   String $logmode = 'console, file',
   Boolean $manage_repo = false,
   String $rpm_iteration = '1',
+  String $root_url = '%(protocol)s://%(domain)s/',
   String $secret_key = 'inWSYLbKCoLko',
   Boolean $smtp_enable = false,
   String $smtp_from_address = 'admin@grafana.localhost',
@@ -91,8 +95,10 @@ class profiles::metrics::grafana (
   class { '::grafana':
     cfg                 => {
       server            => {
+        domain    => $domain,
         protocol  => 'http',
         http_addr => $http_addr,
+        root_url  => $root_url,
       },
       'auth.anonymous'  => {
         enabled  => true,
