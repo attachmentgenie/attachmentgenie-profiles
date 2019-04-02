@@ -9,13 +9,15 @@
 # @param listen_address (String) list address
 # @param manage_repo (Boolean) Manage repository.
 # @param version (String) Version to install.
+# @param hba_rules (Hash) Extra hba rules to setup.
 class profiles::database::postgresql (
-  $databases               = {},
-  $encoding                = 'UTF-8',
-  $ip_mask_allow_all_users = '127.0.0.1/32',
-  $listen_address          = 'localhost',
-  $manage_repo             = false,
-  $version                 = '10',
+  $databases                = {},
+  $encoding                 = 'UTF-8',
+  $ip_mask_allow_all_users  = '127.0.0.1/32',
+  $listen_address           = 'localhost',
+  $manage_repo              = false,
+  $version                  = '10',
+  Optional[Hash] $hba_rules = undef,
 ) {
   class { '::postgresql::globals':
     encoding            => $encoding,
@@ -32,5 +34,9 @@ class profiles::database::postgresql (
 
   profiles::bootstrap::firewall::entry { '200 allow pgsql':
     port => 5432,
+  }
+
+  if $hba_rules and $hba_rules != {} {
+    create_resources(postgresql::server::pg_hba_rule, $hba_rules, { 'postgresql_version' => $version })
   }
 }
