@@ -1,7 +1,7 @@
 template Host "generic-host" {
-  max_check_attempts = 3
-  check_interval = 1m
-  retry_interval = 30s
+  max_check_attempts = <%= @generic_host_check_attempts %>
+  check_interval = <%= @generic_host_check_interval %>
+  retry_interval = <%= @generic_host_retry_interval %>
 
   check_command = "hostalive"
   vars.slack_notifications = "enabled"
@@ -17,9 +17,9 @@ template Host "linux-host" {
 }
 
 template Service "generic-service" {
-  max_check_attempts = 5
-  check_interval = 1m
-  retry_interval = 30s
+  max_check_attempts = <%= @generic_service_check_attempts %>
+  check_interval = <%= @generic_service_check_interval %>
+  retry_interval = <%= @generic_service_retry_interval %>
 
   vars.slack_notifications = "enabled"
 }
