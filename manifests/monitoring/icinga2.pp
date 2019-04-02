@@ -60,6 +60,12 @@ class profiles::monitoring::icinga2 (
   Hash $timeperiods = {},
   Hash $usergroups = {},
   Hash $vars = {},
+  String $generic_host_check_attempts = '5',
+  String $generic_host_check_interval = '1m',
+  String $generic_host_retry_interval = '30s',
+  String $generic_service_check_attempts = '3',
+  String $generic_service_check_interval = '1m',
+  String $generic_service_retry_interval = '30s',
 ) inherits profiles::monitoring::icinga2::params {
   if $server {
     $constants = {
@@ -192,11 +198,11 @@ class profiles::monitoring::icinga2 (
 
     # Static config files
     file { '/etc/icinga2/zones.d/global-templates/templates.conf':
-      ensure => file,
-      owner  => 'icinga',
-      group  => 'icinga',
-      mode   => '0640',
-      source => 'puppet:///modules/profiles/monitoring/icinga2/templates.conf',
+      ensure  => file,
+      owner   => 'icinga',
+      group   => 'icinga',
+      mode    => '0640',
+      content => template('profiles/monitoring/icinga2/template.conf.erb'),
     }
 
     profiles::bootstrap::firewall::entry { '200 allow icinga':
