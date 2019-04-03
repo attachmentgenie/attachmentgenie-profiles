@@ -3,34 +3,40 @@
 # @example when declaring the node role
 #  class { '::profiles::monitoring::icinga2': }
 #
-# @param api_endpoint      Public API endpoint.
-# @param api_password      Api password.
-# @param api_pki           Cypher to use for api certs.
-# @param api_user          Api user.
-# @param api_users         Hash of api users to generate.
-# @param checkcommands     List of checks
-# @param client            Is this a icinga client.
-# @param confd             Include conf.d directory or specify your own.
-# @param database_host     Db host.
-# @param database_name     Db name.
-# @param database_password Db password.
-# @param database_user     Db user.
-# @param features          Enabled features.
-# @param group             Group
-# @param ipaddress         Primary ipaddress.
-# @param manage_repo       Manage icinga repository.
-# @param owner             Owner
-# @param parent_endpoints  Icinga parents.
-# @param parent_zone       Icinga zone.
-# @param plugins_package   Package with plugins to install.
-# @param server            Is this a icinga masters.
-# @param services          services
-# @param slack             Slack integration.
-# @param slack_channel     Slack channel to send notifications to.
-# @param slack_webhook     Slack webhook url.
-# @param timeperiods       Timeperiods
-# @param usergroups        User groups
-# @param vars              Icinga vars.
+# @param api_endpoint                   Public API endpoint.
+# @param api_password                   Api password.
+# @param api_pki                        Cypher to use for api certs.
+# @param api_user                       Api user.
+# @param api_users                      Hash of api users to generate.
+# @param checkcommands                  List of checks
+# @param client                         Is this a icinga client.
+# @param confd                          Include conf.d directory or specify your own.
+# @param database_host                  Db host.
+# @param database_name                  Db name.
+# @param database_password              Db password.
+# @param database_user                  Db user.
+# @param features                       Enabled features.
+# @param generic_host_check_attempts    The amount of check attempts for the generic_host object.
+# @param generic_host_check_interval    The check interval for the generic_host object.
+# @param generic_host_retry_interval    The retry interval for the generic_host object.
+# @param generic_service_check_attempts The amount of check attempts for the generic_service object.
+# @param generic_service_check_interval The check interval for the generic_service object.
+# @param generic_service_retry_interval The retry interval for the generic_service object.
+# @param group                          Group
+# @param ipaddress                      Primary ipaddress.
+# @param manage_repo                    Manage icinga repository.
+# @param owner                          Owner
+# @param parent_endpoints               Icinga parents.
+# @param parent_zone                    Icinga zone.
+# @param plugins_package                Package with plugins to install.
+# @param server                         Is this a icinga masters.
+# @param services                       services
+# @param slack                          Slack integration.
+# @param slack_channel                  Slack channel to send notifications to.
+# @param slack_webhook                  Slack webhook url.
+# @param timeperiods                    Timeperiods
+# @param usergroups                     User groups
+# @param vars                           Icinga vars.
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
@@ -45,6 +51,12 @@ class profiles::monitoring::icinga2 (
   String $database_password = 'icinga2',
   String $database_user = 'icinga2',
   Array $features = [ 'checker', 'command', 'mainlog', 'notification' ],
+  String $generic_host_check_attempts = '3',
+  String $generic_host_check_interval = '1m',
+  String $generic_host_retry_interval = '30s',
+  String $generic_service_check_attempts = '5',
+  String $generic_service_check_interval = '1m',
+  String $generic_service_retry_interval = '30s',
   String $group = $::profiles::monitoring::icinga2::params::group,
   String $ipaddress = $::ipaddress,
   Boolean $manage_repo = false,
@@ -60,12 +72,6 @@ class profiles::monitoring::icinga2 (
   Hash $timeperiods = {},
   Hash $usergroups = {},
   Hash $vars = {},
-  String $generic_host_check_attempts = '5',
-  String $generic_host_check_interval = '1m',
-  String $generic_host_retry_interval = '30s',
-  String $generic_service_check_attempts = '3',
-  String $generic_service_check_interval = '1m',
-  String $generic_service_retry_interval = '30s',
 ) inherits profiles::monitoring::icinga2::params {
   if $server {
     $constants = {
@@ -202,7 +208,7 @@ class profiles::monitoring::icinga2 (
       owner   => 'icinga',
       group   => 'icinga',
       mode    => '0640',
-      content => template('profiles/monitoring/icinga2/template.conf.erb'),
+      content => template('profiles/monitoring/icinga2/templates.conf.erb'),
     }
 
     profiles::bootstrap::firewall::entry { '200 allow icinga':
