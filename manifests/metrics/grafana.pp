@@ -29,6 +29,7 @@
 # @param db_user                     DB user.
 # @param disable_gravatar            Disable gravatar downloadingg
 # @param domain                      Part of the root_url.
+# @param extra_cfg                   Additional configuration to pass to grafana
 # @param install_method              How to install grafana.
 # @param http_addr                   Address to bing to.
 # @param log_buffer_length           Log bufeer length
@@ -71,6 +72,7 @@ class profiles::metrics::grafana (
   String $db_user = '',
   Boolean $disable_gravatar = false,
   String $domain = 'localhost',
+  Hash $extra_cfg = {},
   String $http_addr = '127.0.0.1',
   String $install_method = 'repo',
   Integer $log_buffer_length = 10000,
@@ -92,84 +94,88 @@ class profiles::metrics::grafana (
   String $smtp_host = 'localhost:25',
   String $version = '5.2.4',
 ) {
-  class { '::grafana':
-    cfg                 => {
-      server            => {
-        domain    => $domain,
-        protocol  => 'http',
-        http_addr => $http_addr,
-        root_url  => $root_url,
-      },
-      'auth.anonymous'  => {
-        enabled  => true,
-        org_name => 'ArthurJames',
-        org_role => 'Viewer'
-      },
-      'auth.basic'      => {
-        enabled => true
-      },
-      'auth.proxy'      => {
-        enabled         => false,
-        header_name     => 'X-WEBAUTH-USER',
-        header_property => 'username',
-        auto_sign_up    => true,
-      },
-      event_publisher   => {
-        enabled      => false,
-        rabbitmq_url => '',
-        exchange     => 'grafana_events',
-      },
-      'dashboards.json' => {
-        enabled => false,
-        path    => '/var/lib/grafana/dashboards',
-      },
-      database          => {
-        host     => $db_host,
-        name     => $db_name,
-        password => $db_password,
-        path     => $db_path,
-        'type'   => $db_type,
-        user     => $db_user,
-      },
-      log               => {
-        mode       => $logmode,
-        buffer_len => $log_buffer_length,
-        level      => $log_level,
-      },
-      'log.console'     => {
-        level => '',
-      },
-      'log.file'        => {
-        log_rotate      => $log_rotate,
-        max_lines       => $log_max_lines,
-        max_lines_shift => $log_max_lines_shift,
-        daily_rotate    => $log_daily_rotate,
-        max_days        => $log_max_days,
-      },
-      security          => {
-        admin_user                  => $admin_user,
-        admin_password              => $admin_password,
-        secret_key                  => $secret_key,
-        login_remember_days         => $login_remember_days,
-        cookie_username             => $cookie_username,
-        cookie_remember_name        => $cookie_remember_name,
-        disable_gravatar            => $disable_gravatar,
-        data_source_proxy_whitelist => $data_source_proxy_whitelist,
-      },
-      smtp              => {
-        enabled      => $smtp_enable,
-        from_address => $smtp_from_address,
-        from_name    => $smtp_from_name,
-        host         => $smtp_host,
-      },
-      users             => {
-        allow_sign_up        => $allow_sign_up,
-        allow_org_create     => $allow_org_create,
-        auto_assign_org      => $auto_assign_org,
-        auth_assign_org_role => $auth_assign_org_role,
-      },
-
+  $default_cfg        =  {
+    server            => {
+      domain    => $domain,
+      protocol  => 'http',
+      http_addr => $http_addr,
+      root_url  => $root_url,
     },
+    'auth.anonymous'  => {
+      enabled  => true,
+      org_name => 'ArthurJames',
+      org_role => 'Viewer'
+    },
+    'auth.basic'      => {
+      enabled => true
+    },
+    'auth.proxy'      => {
+      enabled         => false,
+      header_name     => 'X-WEBAUTH-USER',
+      header_property => 'username',
+      auto_sign_up    => true,
+    },
+    event_publisher   => {
+      enabled      => false,
+      rabbitmq_url => '',
+      exchange     => 'grafana_events',
+    },
+    'dashboards.json' => {
+      enabled => false,
+      path    => '/var/lib/grafana/dashboards',
+    },
+    database          => {
+      host     => $db_host,
+      name     => $db_name,
+      password => $db_password,
+      path     => $db_path,
+      'type'   => $db_type,
+      user     => $db_user,
+    },
+    log               => {
+      mode       => $logmode,
+      buffer_len => $log_buffer_length,
+      level      => $log_level,
+    },
+    'log.console'     => {
+      level => '',
+    },
+    'log.file'        => {
+      log_rotate      => $log_rotate,
+      max_lines       => $log_max_lines,
+      max_lines_shift => $log_max_lines_shift,
+      daily_rotate    => $log_daily_rotate,
+      max_days        => $log_max_days,
+    },
+    security          => {
+      admin_user                  => $admin_user,
+      admin_password              => $admin_password,
+      secret_key                  => $secret_key,
+      login_remember_days         => $login_remember_days,
+      cookie_username             => $cookie_username,
+      cookie_remember_name        => $cookie_remember_name,
+      disable_gravatar            => $disable_gravatar,
+      data_source_proxy_whitelist => $data_source_proxy_whitelist,
+    },
+    smtp              => {
+      enabled      => $smtp_enable,
+      from_address => $smtp_from_address,
+      from_name    => $smtp_from_name,
+      host         => $smtp_host,
+    },
+    users             => {
+      allow_sign_up        => $allow_sign_up,
+      allow_org_create     => $allow_org_create,
+      auto_assign_org      => $auto_assign_org,
+      auth_assign_org_role => $auth_assign_org_role,
+    },
+
+  }
+
+  $cfg = $default_cfg + $extra_cfg
+
+  class { '::grafana':
+    cfg                 => $cfg,
     install_method      => $install_method,
     manage_package_repo => $manage_repo,
     rpm_iteration       => $rpm_iteration,
