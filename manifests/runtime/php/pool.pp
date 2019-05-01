@@ -47,7 +47,7 @@ define profiles::runtime::php::pool (
     }
     file {'cachetool config':
       ensure  => 'present',
-      content => template('profiles/runtime/php/cachetool.yml.erb'),
+      content => template('profiles/runtime/php/cachetool.yml.epp'),
       path    => $config_path,
     }
   }
