@@ -17,6 +17,7 @@
 # @param ui           Enable UI.
 class profiles::orchestration::consul (
   Hash $checks = {},
+  Stdlib::Host $client_address= '127.0.0.1',
   Hash $config = {
     'data_dir'   => '/opt/consul',
     'datacenter' => 'vagrant',
@@ -66,7 +67,7 @@ class profiles::orchestration::consul (
     class { '::dnsmasq': }
     dnsmasq::conf { 'consul':
       ensure  => present,
-      content => 'server=/consul/127.0.0.1#8600',
+      content => "server=/consul/${client_address}#8600",
     }
 
     class { 'resolv_conf':
