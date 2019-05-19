@@ -18,14 +18,11 @@
 # @param server_additional_settings  Additional settings
 # @param server_ca                   Is this a CA.
 # @param server_common_modules_path  List of module directories.
-# @param server_environments         List of environments to support.
 # @param server_external_nodes       Location of ENC script.
 # @param server_foreman              Send reports to a foreman instance.
 # @param server_foreman_url          foreman url.
-# @param server_implementation       Puppet master type.
 # @param server_jvm_max_heap_size    JVM max heap setting.
 # @param server_jvm_min_heap_size    JVM min heap setting.
-# @param server_passenger            Run puppetmaster behind passenger.
 # @param server_parser               Puppet parser name.
 # @param server_puppetdb_host        Puppetdb fqdn.
 # @param server_reports              How to store reports.
@@ -51,14 +48,11 @@ class profiles::bootstrap::puppet (
   Hash $server_additional_settings = {},
   Boolean $server_ca = true,
   Array $server_common_modules_path = [],
-  Array $server_environments = [],
   String $server_external_nodes = '/etc/puppetlabs/puppet/node.rb',
   Boolean $server_foreman = false,
   String $server_foreman_url = 'http://foreman',
-  String $server_implementation = 'puppetserver',
   String $server_jvm_max_heap_size = '512m',
   String $server_jvm_min_heap_size = '512m',
-  Boolean $server_passenger = true,
   String $server_parser = 'current',
   Optional[String] $server_puppetdb_host = undef,
   String $server_reports = 'store',
@@ -82,14 +76,11 @@ class profiles::bootstrap::puppet (
     server_additional_settings  => $server_additional_settings,
     server_ca                   => $server_ca,
     server_common_modules_path  => $server_common_modules_path,
-    server_environments         => $server_environments,
     server_external_nodes       => $server_external_nodes,
     server_foreman              => $server_foreman,
     server_foreman_url          => $server_foreman_url,
-    server_implementation       => $server_implementation,
     server_jvm_max_heap_size    => $server_jvm_max_heap_size,
     server_jvm_min_heap_size    => $server_jvm_min_heap_size,
-    server_passenger            => $server_passenger,
     server_parser               => $server_parser,
     server_puppetdb_host        => $server_puppetdb_host,
     server_reports              => $server_reports,

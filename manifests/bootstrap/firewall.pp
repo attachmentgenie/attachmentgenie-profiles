@@ -27,31 +27,5 @@ class profiles::bootstrap::firewall (
     ],
   }
 
-  profiles::bootstrap::firewall::entry { '001 accept all icmp':
-    protocol => 'icmp',
-  }
-
-  profiles::bootstrap::firewall::entry { '002 accept all to lo interface':
-    interface => 'lo',
-    protocol  => 'all',
-  }
-
-  profiles::bootstrap::firewall::entry { '999 reject everything else':
-    action   => 'reject',
-    protocol => 'all',
-    require  => Profiles::Bootstrap::Firewall::Entry['000 related,established'],
-  }
-
-  profiles::bootstrap::firewall::entry { '001 accept all icmp FORWARD':
-    chain    => 'FORWARD',
-    protocol => 'icmp',
-  }
-
-  profiles::bootstrap::firewall::entry { '999 reject everything else FORWARD':
-    action   => 'reject',
-    chain    => 'FORWARD',
-    protocol => 'all',
-  }
-
   create_resources( '::profiles::bootstrap::firewall::entry', $entries)
 }

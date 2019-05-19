@@ -21,7 +21,7 @@ fixtures:
       repo: "https://github.com/puppetlabs/puppetlabs-cron_core.git"
       puppet_version: ">= 6.0.0"
     datacat: "https://github.com/richardc/puppet-datacat.git"
-    docker: "https://github.com/garethr/garethr-docker.git"
+    docker: "https://github.com/puppetlabs/puppetlabs-docker.git"
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
     elasticsearch:
       repo: "https://github.com/elastic/puppet-elasticsearch.git"
@@ -32,7 +32,6 @@ fixtures:
     fail2ban: "https://github.com/dhoppe/puppet-fail2ban.git"
     file_concat: "https://github.com/electrical/puppet-lib-file_concat.git"
     firewall: "https://github.com/puppetlabs/puppetlabs-firewall.git"
-    flannel: "https://github.com/cristifalcas/puppet-flannel.git"
     flink: "https://github.com/attachmentgenie/attachmentgenie-flink.git"
     foreman: "https://github.com/theforeman/puppet-foreman.git"
     foreman_proxy: "https://github.com/theforeman/puppet-foreman_proxy.git"
@@ -54,7 +53,6 @@ fixtures:
     kafka:
       repo: "https://github.com/voxpupuli/puppet-kafka.git"
       ref: 48f95c1
-    kubernetes: "https://github.com/cristifalcas/puppet-kubernetes.git"
     letsencrypt: "https://github.com/voxpupuli/puppet-letsencrypt.git"
     logstash:
       repo: "https://github.com/elastic/puppet-logstash.git"

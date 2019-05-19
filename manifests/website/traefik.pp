@@ -16,20 +16,27 @@
 # @param vhosts         Set(s) of vhost to create
 # @param vhost_packages Packages to manage that contain vhosts files.
 class profiles::website::traefik (
+  String $consul_domain = 'consul',
+  String $consul_endpoint = '127.0.0.1:8500',
   String $daemon_user = 'traefik',
   Hash $upstreams = {},
   Boolean $stream = false,
   Hash $streams = {},
+  String $version = '1.7.11',
   Hash $vhosts = {},
   Hash $vhost_packages = {},
 ) {
   class { 'traefik':
-    version     => '1.6.6',
-    config_hash => {
-      'defaultEntryPoints' => ['consul'],
-      'logLevel'           => 'DEBUG'
-    },
+    version     => $version,
+    config_hash => {},
   }
+
+  traefik::config::section { 'traefikLog':
+    hash => {
+      'filePath' => '/var/log/traefik/traefik.log'
+    }
+  }
+
   traefik::config::section { 'accessLog':
     hash => {
       'filePath' => '/var/log/traefik/access.log',
@@ -40,22 +47,6 @@ class profiles::website::traefik (
       'dashboard'  => true,
     },
   }
-  traefik::config::section { 'consulCatalog':
-    hash => {
-      'domain'           => $::domain,
-      'exposedByDefault' => false
-    },
-  }
-  traefik::config::section { 'entryPoints':
-    hash => {
-      'consul' => {
-        'address' => ':8030'
-      },
-      'er'     => {
-        'address' => ':8031'
-      },
-    }
-  }
   traefik::config::section { 'metrics':
     hash => {
       'prometheus' => {},
@@ -65,13 +56,21 @@ class profiles::website::traefik (
     hash => {},
   }
 
-  profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
-    port => [8080],
+  traefik::config::section { 'consulCatalog':
+    hash => {
+      'domain'           => $consul_domain,
+      'endpoint'         => $consul_endpoint,
+      'exposedByDefault' => false
+    },
   }
 
-  traefik::config::section { 'traefikLog':
-    hash => {
-      'filePath' => '/var/log/traefik/traefik.log'
-    }
+  profiles::bootstrap::firewall::entry { '200 allow Traefik 80':
+    port => [80],
+  }
+  profiles::bootstrap::firewall::entry { '200 allow Traefik 443':
+    port => [443],
+  }
+  profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
+    port => [8080],
   }
 }

@@ -14,7 +14,7 @@ define profiles::bootstrap::firewall::entry (
   Profiles::FirewallAction $action = 'accept',
   Profiles::FirewallChain $chain = 'INPUT',
   Optional[String] $interface = undef,
-  Optional[Variant[Integer, Array[Integer]]] $port = undef,
+  Optional[Variant[Integer, Array[Integer],Array[String]]] $port = undef,
   Profiles::FirewallProtocol $protocol = 'tcp',
   Profiles::FirewallProvider $provider = 'iptables',
   Optional[Variant[Profiles::FirewallState, Array[Profiles::FirewallState]]] $state = undef,

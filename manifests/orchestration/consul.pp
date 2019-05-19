@@ -28,7 +28,7 @@ class profiles::orchestration::consul (
   Array $searchpath = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.2.2',
+  String $version = '1.5.0',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
