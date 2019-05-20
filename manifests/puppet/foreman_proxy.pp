@@ -3,7 +3,6 @@
 # @example when declaring the foreman_proxy class
 #  class { '::profiles::puppet::foreman_proxy': }
 #
-# @param custom_repo           Install using custom repo.
 # @param foreman_host          Foreman fqdn.
 # @param oauth_consumer_key    oauth_consumer_key.
 # @param oauth_consumer_secret oauth_consumer_secret.
@@ -12,7 +11,6 @@
 # @param puppetca              Is there a CA on this node.
 # @param version               What version should be installed.
 class profiles::puppet::foreman_proxy (
-  Boolean $custom_repo = false,
   String $foreman_host = 'foreman',
   Boolean $manage_sudoersd = true,
   String$oauth_consumer_key = 'secret',
@@ -32,7 +30,6 @@ class profiles::puppet::foreman_proxy (
   }
   class { '::foreman_proxy':
     bmc                   => false,
-    custom_repo           => $custom_repo,
     dhcp                  => false,
     dns                   => false,
     foreman_base_url      => "${protocol}://${foreman_host}",
@@ -58,11 +55,7 @@ class profiles::puppet::foreman_proxy (
 
   case $::osfamily {
     'debian': {}
-    'RedHat': {
-      if $custom_repo {
-        Foreman::Repos['foreman'] -> Package[foreman-proxy]
-      }
-    }
+    'RedHat': {}
     default: {
       fail("Unsupported osfamily ${::osfamily}")
     }

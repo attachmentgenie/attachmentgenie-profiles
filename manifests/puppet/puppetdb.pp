@@ -23,8 +23,10 @@ class profiles::puppet::puppetdb (
     ssl_listen_address => $ssl_listen_address,
   }
 
-  package { 'puppet-client-tools':
-    ensure => installed,
+  if versioncmp($::puppetversion, '6.0.0') <= 0 {
+    package { 'puppet-client-tools':
+      ensure => installed,
+    }
   }
 
   profiles::bootstrap::firewall::entry { '100 allow puppetdb':
