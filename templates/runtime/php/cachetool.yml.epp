@@ -1,7 +1,4 @@
-<%- |
-  Optional[Stdlib::Absolutepath] $fpm_listen,
-| -%>
-    # Managed by Puppet
+# Managed by Puppet
 ---
 adapter: fastcgi
 fastcgi: <%= $fpm_listen %>

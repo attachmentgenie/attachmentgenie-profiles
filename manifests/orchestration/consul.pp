@@ -33,10 +33,12 @@ class profiles::orchestration::consul (
   Boolean $ui = false,
   Hash $watches = {},
 ) {
-  package { 'unzip':
-    ensure => present,
+  if ! defined(Package['unzip']) {
+    package { 'unzip':
+      ensure => present,
+    }
   }
-  -> class { '::consul':
+  class { '::consul':
     config_hash   => $config,
     extra_options => $options,
     version       => $version,

@@ -64,11 +64,8 @@ class profiles::website::traefik (
     },
   }
 
-  profiles::bootstrap::firewall::entry { '200 allow Traefik 80':
-    port => [80],
-  }
-  profiles::bootstrap::firewall::entry { '200 allow Traefik 443':
-    port => [443],
+  profiles::bootstrap::firewall::entry { '200 allow Traefik HTTP and HTTPS':
+    port => [80,443],
   }
   profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
     port => [8080],

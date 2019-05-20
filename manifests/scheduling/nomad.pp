@@ -11,6 +11,11 @@ class profiles::scheduling::nomad (
   String $job_port_range = '20000-32000',
   String $version = '0.9.1',
 ){
+  if ! defined(Package['unzip']) {
+    package { 'unzip':
+      ensure => present,
+    }
+  }
   class {'nomad':
     config_hash => $config,
     version     => $version,
