@@ -11,6 +11,7 @@
 # @param foreman_repo                Manage foreman repository,
 # @param hiera_yaml_datadir (String) Hiera directory
 # @param install_toml                Install toml gem.
+# @param install_vault                Install toml gem.
 # @param puppetmaster                Puppetmaster fqdn
 # @param runmode                     How to run puppet
 # @param runinterval                 Run interval.
@@ -41,6 +42,7 @@ class profiles::bootstrap::puppet (
   Boolean $foreman_repo = false,
   String $hiera_yaml_datadir = '/var/lib/hiera',
   Boolean $install_toml = false,
+  Boolean $install_vault = false,
   Optional[String] $puppetmaster ='puppet',
   String $runmode = 'service',
   Integer $runinterval = 1800,
@@ -114,6 +116,14 @@ class profiles::bootstrap::puppet (
 
     if $install_toml {
       package { 'toml-rb':
+        ensure   => present,
+        provider => puppetserver_gem,
+        notify   => Service['puppetserver'],
+      }
+    }
+
+    if $install_vault {
+      package { 'hiera-vault':
         ensure   => present,
         provider => puppetserver_gem,
         notify   => Service['puppetserver'],

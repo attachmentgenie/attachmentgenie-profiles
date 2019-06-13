@@ -4,12 +4,14 @@
 #  class { '::profiles::scheduling::nomad': }
 #
 class profiles::scheduling::nomad (
-  Hash $config = {
-    'data_dir'   => '/opt/consul',
+  Hash $config = {},
+  Hash $config_defaults = {
+    'data_dir'   => '/var/lib/nomad',
     'datacenter' => 'vagrant',
   },
+  Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
   String $job_port_range = '20000-32000',
-  String $version = '0.9.1',
+  String $version = '0.9.2',
 ){
   if ! defined(Package['unzip']) {
     package { 'unzip':
@@ -17,8 +19,10 @@ class profiles::scheduling::nomad (
     }
   }
   class {'nomad':
-    config_hash => $config,
-    version     => $version,
+    config_defaults => $config_defaults,
+    config_dir      => $config_dir,
+    config_hash     => $config,
+    version         => $version,
   }
 
   # https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports

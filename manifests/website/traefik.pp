@@ -16,19 +16,21 @@
 # @param vhosts         Set(s) of vhost to create
 # @param vhost_packages Packages to manage that contain vhosts files.
 class profiles::website::traefik (
+  Stdlib::Absolutepath $config_dir = '/etc/traefik.d',
   String $consul_domain = 'consul',
   String $consul_endpoint = '127.0.0.1:8500',
   String $daemon_user = 'traefik',
   Hash $upstreams = {},
   Boolean $stream = false,
   Hash $streams = {},
-  String $version = '1.7.11',
+  String $version = '1.7.12',
   Hash $vhosts = {},
   Hash $vhost_packages = {},
 ) {
   class { 'traefik':
-    version     => $version,
+    config_dir  => $config_dir,
     config_hash => {},
+    version     => $version,
   }
 
   traefik::config::section { 'traefikLog':

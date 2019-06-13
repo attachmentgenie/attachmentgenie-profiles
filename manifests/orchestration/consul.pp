@@ -17,11 +17,13 @@
 # @param ui           Enable UI.
 class profiles::orchestration::consul (
   Hash $checks = {},
+  Hash $config = {},
   Stdlib::Host $client_address= '127.0.0.1',
-  Hash $config = {
-    'data_dir'   => '/opt/consul',
+  Hash $config_defaults = {
+    'data_dir'   => '/var/lib/consul',
     'datacenter' => 'vagrant',
   },
+  Stdlib::Absolutepath $config_dir = '/etc/consul.d',
   Optional[String] $domain = undef,
   Array $name_servers = ['127.0.0.1'],
   String $options = '-enable-script-checks -syslog',
@@ -29,7 +31,7 @@ class profiles::orchestration::consul (
   Array $searchpath = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.5.0',
+  String $version = '1.5.1',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
@@ -38,10 +40,12 @@ class profiles::orchestration::consul (
       ensure => present,
     }
   }
-  class { '::consul':
-    config_hash   => $config,
-    extra_options => $options,
-    version       => $version,
+  -> class { '::consul':
+    config_defaults => $config_defaults,
+    config_dir      => $config_dir,
+    config_hash     => $config,
+    extra_options   => $options,
+    version         => $version,
   }
 
   if $server {
@@ -59,6 +63,9 @@ class profiles::orchestration::consul (
     profiles::bootstrap::firewall::entry { '100 allow consul ui':
       port => 8500,
     }
+  }
+  profiles::bootstrap::firewall::entry { '100 allow consul DNS':
+    port => 8600,
   }
 
   create_resources(::consul::check, $checks)
