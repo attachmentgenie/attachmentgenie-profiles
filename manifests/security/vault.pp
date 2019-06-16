@@ -8,8 +8,9 @@ class profiles::security::vault (
   $enable_ui = true,
   Variant[Hash, Array[Hash]] $listener = {
     'tcp' => {
-      'address'     => '127.0.0.1:8200',
-      'tls_disable' => 1,
+      'address'         => '127.0.0.1:8200',
+      'cluster_address' => '127.0.0.1:8201',
+      'tls_disable'     => 1,
     },
   },
   Hash $extra_config = { 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' => 'https://127.0.0.1:8201' },
