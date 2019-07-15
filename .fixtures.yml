@@ -21,6 +21,7 @@ fixtures:
       repo: "https://github.com/puppetlabs/puppetlabs-cron_core.git"
       puppet_version: ">= 6.0.0"
     datacat: "https://github.com/richardc/puppet-datacat.git"
+    dns: "https://github.com/theforeman/puppet-dns.git"
     docker: "https://github.com/puppetlabs/puppetlabs-docker.git"
     dnsmasq: "https://github.com/saz/puppet-dnsmasq.git"
     elasticsearch:
@@ -64,7 +65,7 @@ fixtures:
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     mcollective:
       repo: "https://github.com/voxpupuli/puppet-mcollective.git"
-      ref: "v3.1.2"
+      ref: 10c5154
     memcached: "https://github.com/saz/puppet-memcached.git"
     mysql: "https://github.com/puppetlabs/puppetlabs-mysql.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
@@ -97,6 +98,7 @@ fixtures:
     traefik: "https://github.com/attachmentgenie/puppet-traefik.git"
     transition: "https://github.com/puppetlabs/puppetlabs-transition.git"
     uwsgi: "https://github.com/rvdh/puppet-uwsgi.git"
+    vault: "https://github.com/jsok/puppet-vault.git"
     wget: "https://github.com/maestrodev/puppet-wget.git"
     yumrepo_core:
       repo: "git://github.com/puppetlabs/puppetlabs-yumrepo_core"

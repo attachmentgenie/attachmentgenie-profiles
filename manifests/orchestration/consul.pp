@@ -6,9 +6,7 @@
 # @param checks       Consul checks,
 # @param config       Consul config,
 # @param domain       Resolv.conf domain
-# @param name_servers Name servers to use in resolv.conf
 # @param options      Additional consul start up flags.
-# @param resolv       Configure resolv.conf to use consul.
 # @param searchpath   Resolv.conf searchpath.
 # @param server       Run as Server.
 # @param services     Consul services.
@@ -18,20 +16,15 @@
 class profiles::orchestration::consul (
   Hash $checks = {},
   Hash $config = {},
-  Stdlib::Host $client_address= '127.0.0.1',
   Hash $config_defaults = {
     'data_dir'   => '/var/lib/consul',
     'datacenter' => 'vagrant',
   },
   Stdlib::Absolutepath $config_dir = '/etc/consul.d',
-  Optional[String] $domain = undef,
-  Array $name_servers = ['127.0.0.1'],
   String $options = '-enable-script-checks -syslog',
-  Boolean $resolv = false,
-  Array $searchpath = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.5.1',
+  String $version = '1.5.2',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
@@ -71,18 +64,4 @@ class profiles::orchestration::consul (
   create_resources(::consul::check, $checks)
   create_resources(::consul::service, $services)
   create_resources(::consul::watch, $watches)
-
-  if $resolv {
-    class { '::dnsmasq': }
-    dnsmasq::conf { 'consul':
-      ensure  => present,
-      content => "server=/consul/${client_address}#8600",
-    }
-
-    class { 'resolv_conf':
-      domainname  => $domain,
-      nameservers => $name_servers,
-      searchpath  => $searchpath,
-    }
-  }
 }

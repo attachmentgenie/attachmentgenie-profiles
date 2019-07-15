@@ -12,6 +12,7 @@
 # @param ssh      Manage ssh on this node.
 class profiles::bootstrap (
   Boolean $accounts = false,
+  Boolean $dnsmasq = false,
   Boolean $fail2ban = false,
   Boolean $firewall = false,
   Boolean $ntp      = false,
@@ -21,6 +22,9 @@ class profiles::bootstrap (
 ) {
   if $accounts{
     class { '::profiles::bootstrap::accounts': }
+  }
+  if $dnsmasq {
+    class { '::profiles::bootstrap::dnsmasq': }
   }
   if $firewall {
     if $fail2ban {

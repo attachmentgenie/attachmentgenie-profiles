@@ -1,7 +1,7 @@
 # This class can be used install influxdb
 #
 # @example when declaring the influxdb class
-#  class { '::profiles::database::influxdb': }
+#  class { '::profiles::database::postgresql': }
 #
 # @param databases (Hash) Databases to create.
 # @param encoding (String) DB encoding.

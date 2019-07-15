@@ -6,6 +6,9 @@
 class profiles::scheduling::nomad (
   Hash $config = {},
   Hash $config_defaults = {
+    'consul' => {
+      'address' => '127.0.0.1:8500',
+    },
     'data_dir'   => '/var/lib/nomad',
     'datacenter' => 'vagrant',
   },
