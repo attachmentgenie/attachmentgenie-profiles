@@ -12,12 +12,13 @@
 # @param ssh      Manage ssh on this node.
 class profiles::bootstrap (
   Boolean $accounts = false,
-  Boolean $dnsmasq = false,
+  Boolean $dnsmasq  = false,
   Boolean $fail2ban = false,
   Boolean $firewall = false,
   Boolean $ntp      = false,
   Boolean $puppet   = false,
   Boolean $repos    = false,
+  Boolean $resolv   = false,
   Boolean $ssh      = false,
 ) {
   if $accounts{
@@ -40,6 +41,9 @@ class profiles::bootstrap (
   }
   if $repos {
     class { '::profiles::bootstrap::repositories': }
+  }
+  if $resolv {
+    class { '::profiles::bootstrap::resolv': }
   }
   if $ssh {
     class { '::profiles::bootstrap::ssh': }

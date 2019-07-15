@@ -1,11 +1,15 @@
 # Changelog
 
+## 3.1.0
+
+- Splitting resolv from dnsmasq.
+
 ## 3.0.0
 
 - Conversion to PDK 1.11.
 - Bumping version to $lastest for several technologies.
 - Adding puppet 6 support.
-- New bind,  nomad, traefik and vault profiles.
+- New bind, nomad, traefik and vault profiles.
 - Adding data lookup options.
 - Adding icingaweb auth, director and grafana functionality
 - Adding fail2ban to firewall
