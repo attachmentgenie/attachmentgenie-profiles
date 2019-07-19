@@ -60,9 +60,6 @@ class profiles::website::traefik (
       hash => {
         'http'  => {
           'address'  => ':80',
-          'redirect' => {
-            'entryPoint' => 'https',
-          }
         },
       },
     }
