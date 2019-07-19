@@ -7,36 +7,48 @@
 # @example when declaring the traefik class
 #  class { '::profiles::website::traefik': }
 #
-# === Parameters
-#
-# @param daemon_user    User that runs traefik
-# @param upstreams      Set(s) of upstream servers to use
-# @param stream         Enable streaming hosts.
-# @param streams        Set(s) of streams.
-# @param vhosts         Set(s) of vhost to create
-# @param vhost_packages Packages to manage that contain vhosts files.
 class profiles::website::traefik (
   Stdlib::Absolutepath $config_dir = '/etc/traefik.d',
+  Hash $config = {
+    'debug' => false,
+    'logLevel' => 'ERROR',
+    'defaultEntryPoints' => ['https','http']
+  },
   String $consul_domain = 'consul',
   String $consul_endpoint = '127.0.0.1:8500',
-  String $daemon_user = 'traefik',
-  Hash $upstreams = {},
-  Boolean $stream = false,
-  Hash $streams = {},
+  Hash $entrypoints = {
+    'http'  => {
+      'address' => ':80',
+      'redirect' => {
+        'entryPoint' => 'https',
+      }
+    },
+    'https' => {
+      'address' => ':443',
+      'tls'     => {},
+    },
+  },
   String $version = '1.7.12',
-  Hash $vhosts = {},
-  Hash $vhost_packages = {},
 ) {
   class { 'traefik':
     config_dir  => $config_dir,
-    config_hash => {},
+    config_hash => $config,
     version     => $version,
   }
 
-  traefik::config::section { 'traefikLog':
+  traefik::config::section { 'entryPoints':
+    hash => $entrypoints,
+  }
+
+  traefik::config::section { 'acme':
     hash => {
-      'filePath' => '/var/log/traefik/traefik.log'
-    }
+      'storage'       => "${config_dir}/acme.json",
+      'onHostRule'    => true,
+      'entryPoint'    => 'https',
+      'httpChallenge' => {
+        'entryPoint' => 'http',
+      }
+    },
   }
 
   traefik::config::section { 'accessLog':
@@ -49,6 +61,15 @@ class profiles::website::traefik (
       'dashboard'  => true,
     },
   }
+
+  traefik::config::section { 'consulCatalog':
+    hash => {
+      'domain'           => $consul_domain,
+      'endpoint'         => $consul_endpoint,
+      'exposedByDefault' => false
+    },
+  }
+
   traefik::config::section { 'metrics':
     hash => {
       'prometheus' => {},
@@ -57,13 +78,14 @@ class profiles::website::traefik (
   traefik::config::section { 'ping':
     hash => {},
   }
+  traefik::config::section { 'retry':
+    hash => {},
+  }
 
-  traefik::config::section { 'consulCatalog':
+  traefik::config::section { 'traefikLog':
     hash => {
-      'domain'           => $consul_domain,
-      'endpoint'         => $consul_endpoint,
-      'exposedByDefault' => false
-    },
+      'filePath' => '/var/log/traefik/traefik.log'
+    }
   }
 
   profiles::bootstrap::firewall::entry { '200 allow Traefik HTTP and HTTPS':
