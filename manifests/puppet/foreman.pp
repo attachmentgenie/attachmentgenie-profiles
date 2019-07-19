@@ -42,7 +42,7 @@ class profiles::puppet::foreman (
   Boolean $organizations_enabled = false,
   Boolean $passenger = true,
   Hash $plugins = {},
-  String $protocol = 'https',
+  Enum['http','https'] $protocol = 'https',
   Boolean $selinux = false,
   String $server_ssl_ca = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
   String $server_ssl_chain = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',

@@ -12,43 +12,66 @@ class profiles::website::traefik (
   Hash $config = {
     'debug' => false,
     'logLevel' => 'ERROR',
-    'defaultEntryPoints' => ['https','http']
   },
   String $consul_domain = 'consul',
   String $consul_endpoint = '127.0.0.1:8500',
-  Hash $entrypoints = {
-    'http'  => {
-      'address' => ':80',
-      'redirect' => {
-        'entryPoint' => 'https',
-      }
-    },
-    'https' => {
-      'address' => ':443',
-      'tls'     => {},
-    },
-  },
+  Enum['http','https'] $protocol = 'https',
+  Boolean $expose_api = true,
+  Boolean $expose_metrics = true,
+  Boolean $expose_ui = false,
+  Boolean $use_consul = true,
   String $version = '1.7.12',
 ) {
+
+  if $protocol == 'https' {
+    $entrypoints = { 'defaultEntryPoints' => ['http','https'] }
+    $firewall_ports = [80,443]
+
+    traefik::config::section { 'entryPoints':
+      hash => {
+        'http'  => {
+          'address'  => ':80',
+          'redirect' => {
+            'entryPoint' => 'https',
+          }
+        },
+        'https' => {
+          'address' => ':443',
+          'tls'     => {},
+        },
+      },
+    }
+
+    traefik::config::section { 'acme':
+      hash => {
+        'storage'       => "${config_dir}/acme.json",
+        'onHostRule'    => true,
+        'entryPoint'    => 'https',
+        'httpChallenge' => {
+          'entryPoint' => 'http',
+        }
+      },
+    }
+  } else {
+    $entrypoints = { 'defaultEntryPoints' => ['http'] }
+    $firewall_ports = [80]
+
+    traefik::config::section { 'entryPoints':
+      hash => {
+        'http'  => {
+          'address'  => ':80',
+          'redirect' => {
+            'entryPoint' => 'https',
+          }
+        },
+      },
+    }
+  }
+
   class { 'traefik':
     config_dir  => $config_dir,
-    config_hash => $config,
+    config_hash => deep_merge($config, $entrypoints),
     version     => $version,
-  }
-
-  traefik::config::section { 'entryPoints':
-    hash => $entrypoints,
-  }
-
-  traefik::config::section { 'acme':
-    hash => {
-      'storage'       => "${config_dir}/acme.json",
-      'onHostRule'    => true,
-      'entryPoint'    => 'https',
-      'httpChallenge' => {
-        'entryPoint' => 'http',
-      }
-    },
   }
 
   traefik::config::section { 'accessLog':
@@ -56,28 +79,7 @@ class profiles::website::traefik (
       'filePath' => '/var/log/traefik/access.log',
     }
   }
-  traefik::config::section { 'api':
-    hash => {
-      'dashboard'  => true,
-    },
-  }
 
-  traefik::config::section { 'consulCatalog':
-    hash => {
-      'domain'           => $consul_domain,
-      'endpoint'         => $consul_endpoint,
-      'exposedByDefault' => false
-    },
-  }
-
-  traefik::config::section { 'metrics':
-    hash => {
-      'prometheus' => {},
-    },
-  }
-  traefik::config::section { 'ping':
-    hash => {},
-  }
   traefik::config::section { 'retry':
     hash => {},
   }
@@ -89,9 +91,41 @@ class profiles::website::traefik (
   }
 
   profiles::bootstrap::firewall::entry { '200 allow Traefik HTTP and HTTPS':
-    port => [80,443],
+    port => $firewall_ports,
   }
-  profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
-    port => [8080],
+
+  if $use_consul {
+    traefik::config::section { 'consulCatalog':
+      hash => {
+        'domain'           => $consul_domain,
+        'endpoint'         => $consul_endpoint,
+        'exposedByDefault' => false
+      },
+    }
+  }
+
+  if $expose_api {
+    traefik::config::section { 'api':
+      hash => {
+        'dashboard'  => $expose_ui,
+      },
+    }
+    if $expose_ui {
+      profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
+        port => [8080],
+      }
+    }
+  }
+
+  if $expose_metrics {
+    traefik::config::section { 'metrics':
+      hash => {
+        'prometheus' => {},
+      },
+    }
+
+    traefik::config::section { 'ping':
+      hash => {},
+    }
   }
 }
