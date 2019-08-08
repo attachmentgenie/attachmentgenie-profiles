@@ -1,7 +1,7 @@
 # This class can be used to create a php-fpm pool
 #
-# @example when declaring the firewall class
-#  class { '::profiles::runtime::php::pool': }
+# @example when declaring this class
+#  ::profiles::runtime::php::pool { 'www': }
 #
 # @param address                  Ipaddress to bind to.
 # @param cachetool_config         Install cachetool config.

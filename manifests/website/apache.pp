@@ -34,7 +34,7 @@ class profiles::website::apache (
     server_signature => 'Off',
     server_tokens    => 'Prod',
   }
-  create_resources( 'apache::mod', $modules)
+  create_resources( '::apache::mod', $modules)
 
   $package_defaults = {
     ensure => present,
@@ -48,11 +48,11 @@ class profiles::website::apache (
     tag        => 'do_b',
     vhost_name => '*',
   }
-  create_resources( 'apache::vhost', $vhosts, $vhost_defaults )
+  create_resources( '::apache::vhost', $vhosts, $vhost_defaults )
 
   Package<| tag == 'do_a' |> -> Apache::Vhost<| tag == 'do_b' |>
 
-  profiles::bootstrap::firewall::entry { '200 allow HTTP and HTTPS':
+  profiles::bootstrap::firewall::entry { '200 allow HTTP and HTTPS Apache':
     port => [80,443],
   }
 }

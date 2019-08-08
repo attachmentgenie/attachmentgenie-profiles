@@ -1,6 +1,7 @@
 # Managed by Puppet
 ---
 adapter: fastcgi
+extensions: [apcu, opcache]
 fastcgi: <%= $fpm_listen %>
 temp_dir: /dev/shm/cachetool
 ...
