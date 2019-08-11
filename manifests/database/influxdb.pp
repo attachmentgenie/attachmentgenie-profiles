@@ -5,26 +5,26 @@
 #
 # @param manage_repo Manage repositories.
 class profiles::database::influxdb (
-  Boolean $manage_repo = false,
+  Stdlib::Absolutepath $data_path = '/var/lib/influxdb',
+  Optional[Stdlib::Absolutepath] $device = undef,
+  Boolean $manage_disk = false,
+  Boolean $manage_firewall_entry = false,
+  Boolean $manage_package_repo = false,
 ){
-  class {'::influxdb':
-    graphite_config => {
-        'default' => {
-        'enabled'           => true,
-        'database'          => 'graphite',
-        'retention-policy'  => '',
-        'bind-address'      => ':2003',
-        'protocol'          => 'tcp',
-        'consistency-level' => 'one',
-        'batch-size'        => 5000,
-        'batch-pending'     => 10,
-        'batch-timeout'     => '1s',
-        'udp-read-buffer'   => 0,
-        'separator'         => '.',
-        'tags'              => [],
-        'templates'         => [],
-      }
-    },
-    manage_repos    => $manage_repo,
+  class {'::influxdb::server':
+    manage_repos    => $manage_package_repo,
+  }
+
+  if $manage_disk {
+    ::profiles::bootstrap::disk::mount {'influxdb data disk':
+      device    => $device,
+      mountpath => $data_path,
+      before    => Package['influxdb'],
+    }
+  }
+  if $manage_firewall_entry {
+    ::profiles::bootstrap::firewall::entry { '200 allow influxdb':
+      port => [8086, 8088],
+    }
   }
 }

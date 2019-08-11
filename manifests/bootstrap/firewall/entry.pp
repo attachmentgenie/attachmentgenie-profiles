@@ -1,7 +1,9 @@
 # This class can be used install user firewall properties
 #
 # @example when declaring the firewall class
-#  class { '::profiles::bootstrap::firewall': }
+#   ::profiles::bootstrap::firewall::entry { '200 allow influxdb':
+#     port => [8086, 8088],
+#   }
 #
 # @param action     Action to perform.
 # @param chain      User base chain

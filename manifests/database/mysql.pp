@@ -3,10 +3,12 @@
 # @example when declaring the mysql class
 #  class { '::profiles::database::mysql': }
 #
-# @param databases     Set of Databases to create.
-# @param root_password Root password.
 class profiles::database::mysql (
   Hash $databases = {},
+  Stdlib::Absolutepath $data_path = '/var/lib/mysql',
+  Optional[Stdlib::Absolutepath] $device = undef,
+  Boolean $manage_disk = false,
+  Boolean $manage_firewall_entry = true,
   String $root_password = 'secret',
 ) {
   class { '::mysql::server':
@@ -17,7 +19,16 @@ class profiles::database::mysql (
 
   class { '::mysql::client': }
 
-  profiles::bootstrap::firewall::entry { '200 allow mysql':
-    port => 3306,
+  if $manage_disk {
+    ::profiles::bootstrap::disk::mount {'mysql data disk':
+      device    => $device,
+      mountpath => $data_path,
+      before    => Package['mysql-server'],
+    }
+  }
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow mysql':
+      port => 3306,
+    }
   }
 }

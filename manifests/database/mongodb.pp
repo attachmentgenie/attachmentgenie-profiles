@@ -3,19 +3,17 @@
 # @example when declaring the mongodb class
 #  class { '::profiles::database::mongodb': }
 #
-# @param client_package_name Client package to install.
-# @param manage_package_repo Manage repository.
-# @param mongos_package_name Package to install.
-# @param server_package_name Package to install.
-# @param use_enterprise_repo Install enterprise version.
-# @param version             Version to install.
 class profiles::database::mongodb (
   Optional[String] $client_package_name = undef,
+  Stdlib::Absolutepath $data_path = '/var/lib/mongodb',
+  Optional[Stdlib::Absolutepath] $device = undef,
+  Boolean $manage_disk = false,
+  Boolean $manage_firewall_entry = true,
   Boolean $manage_package_repo = false,
   Optional[String]$mongos_package_name = undef,
   Optional[String]$server_package_name = undef,
   Boolean $use_enterprise_repo = false,
-  String $version             = '3.4.5',
+  String $version             = '4.0.11',
 ) {
   class { '::mongodb::globals':
     client_package_name => $client_package_name,
@@ -28,4 +26,17 @@ class profiles::database::mongodb (
   -> class { '::mongodb::server': }
 
   class { '::mongodb::client': }
+
+  if $manage_disk {
+    ::profiles::bootstrap::disk::mount {'mongodb data disk':
+      device    => $device,
+      mountpath => $data_path,
+      before    => Package['mongodb_server'],
+    }
+  }
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow mongodb':
+      port => 27017,
+    }
+  }
 }

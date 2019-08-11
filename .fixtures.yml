@@ -62,6 +62,7 @@ fixtures:
     mongodb:
       repo: "https://github.com/voxpupuli/puppet-mongodb.git"
       ref: 950a7c9
+    mount_core: "https://github.com/puppetlabs/puppetlabs-mount_core.git"
     mailhog: "https://github.com/attachmentgenie/attachmentgenie-mailhog.git"
     mcollective:
       repo: "https://github.com/voxpupuli/puppet-mcollective.git"

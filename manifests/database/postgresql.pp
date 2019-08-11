@@ -3,25 +3,22 @@
 # @example when declaring the influxdb class
 #  class { '::profiles::database::postgresql': }
 #
-# @param databases (Hash) Databases to create.
-# @param encoding (String) DB encoding.
-# @param ip_mask_allow_all_users (String) ip mask for allow.
-# @param listen_address (String) list address
-# @param manage_repo (Boolean) Manage repository.
-# @param version (String) Version to install.
-# @param hba_rules (Hash) Extra hba rules to setup.
 class profiles::database::postgresql (
   $databases                = {},
+  Stdlib::Absolutepath $data_path = '/var/lib/pgsql',
+  Optional[Stdlib::Absolutepath] $device = undef,
   $encoding                 = 'UTF-8',
   $ip_mask_allow_all_users  = '127.0.0.1/32',
   $listen_address           = 'localhost',
-  $manage_repo              = false,
-  $version                  = '10',
+  Boolean $manage_disk = false,
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_package_repo = false,
+  $version                  = '11',
   Optional[Hash] $hba_rules = undef,
 ) {
   class { '::postgresql::globals':
     encoding            => $encoding,
-    manage_package_repo => $manage_repo,
+    manage_package_repo => $manage_package_repo,
     version             => $version,
   }
   -> class { '::postgresql::server':
@@ -32,11 +29,20 @@ class profiles::database::postgresql (
 
   class { '::postgresql::client': }
 
-  profiles::bootstrap::firewall::entry { '200 allow pgsql':
-    port => 5432,
-  }
-
   if $hba_rules and $hba_rules != {} {
     create_resources(postgresql::server::pg_hba_rule, $hba_rules, { 'postgresql_version' => $version })
+  }
+
+  if $manage_disk {
+    ::profiles::bootstrap::disk::mount {'postgresql':
+      device    => $device,
+      mountpath => $data_path,
+      before    => Package['postgresql-server'],
+    }
+  }
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow pgsql':
+      port => 5432,
+    }
   }
 }
