@@ -36,11 +36,11 @@ define profiles::bootstrap::disk::mount(
     }
 
     mount { $mountpath:
-      ensure  => $mount_ensure,
-      name    => $mountpath,
-      device  => $device,
-      fstype  => $fs_type,
-      atboot  => true,
+      ensure => $mount_ensure,
+      name   => $mountpath,
+      device => $device,
+      fstype => $fs_type,
+      atboot => true,
     }
   }
 

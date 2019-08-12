@@ -33,6 +33,7 @@ class profiles::alerting::icingaweb2 (
 ) {
   class {'icingaweb2':
     manage_repo   => $manage_repo,
+    module_path   => '/usr/share/icingaweb2/modules:/usr/share/icinga2-modules',
     import_schema => true,
     db_type       => 'pgsql',
     db_host       => $database_host,
