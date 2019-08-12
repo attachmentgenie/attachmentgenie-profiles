@@ -35,11 +35,9 @@ class profiles::puppet::foreman (
   String $db_password = 'foreman',
   String $foreman_admin_password = 'secret',
   String $foreman_host  = $::fqdn,
-  String $foreman_repo = '1.18',
-  Boolean $locations_enabled = false,
+  String $foreman_repo = '1.22',
   String $oauth_consumer_key = 'secret',
   String $oauth_consumer_secret = 'secret',
-  Boolean $organizations_enabled = false,
   Boolean $passenger = true,
   Hash $plugins = {},
   Enum['http','https'] $protocol = 'https',
@@ -59,7 +57,6 @@ class profiles::puppet::foreman (
     $ssl  = false
   }
   class { '::foreman':
-    authentication         => true,
     configure_epel_repo    => $configure_epel_repo,
     db_host                => $db_host,
     db_manage              => $db_manage,
@@ -67,10 +64,8 @@ class profiles::puppet::foreman (
     db_password            => $db_password,
     foreman_url            => "${protocol}://${foreman_host}",
     initial_admin_password => $foreman_admin_password,
-    locations_enabled      => $locations_enabled,
     oauth_consumer_key     => $oauth_consumer_key,
     oauth_consumer_secret  => $oauth_consumer_secret,
-    organizations_enabled  => $organizations_enabled,
     passenger              => $passenger,
     selinux                => $selinux,
     ssl                    => $ssl,
@@ -93,5 +88,7 @@ class profiles::puppet::foreman (
     tag    => 'do_a',
   }
   create_resources(::profiles::puppet::foreman::setting, $settings, $settings_defaults)
-  #Service['foreman'] -> Foreman_config_entry <| tag == 'do_a' |>
+
+  Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
+  Foreman::Repos::Yum[foreman] -> Package[foreman-proxy]
 }
