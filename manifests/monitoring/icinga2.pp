@@ -58,7 +58,6 @@ class profiles::monitoring::icinga2 (
   String $generic_service_check_interval = '1m',
   String $generic_service_retry_interval = '30s',
   String $group = $::profiles::monitoring::icinga2::params::group,
-  String $ipaddress = $::ipaddress,
   Boolean $manage_repo = false,
   String $owner = $::profiles::monitoring::icinga2::params::owner,
   String $parent_zone = 'master',
@@ -125,7 +124,7 @@ class profiles::monitoring::icinga2 (
       }
 
       @@::icinga2::object::endpoint { $::fqdn:
-        host   => $ipaddress,
+        host   => $::hostname,
         target => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
       }
 
@@ -137,7 +136,7 @@ class profiles::monitoring::icinga2 (
     }
 
     @@::icinga2::object::host { $::fqdn:
-      address      => $ipaddress,
+      address      => $::ipaddress,
       display_name => $::hostname,
       import       => ['linux-host'],
       target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
