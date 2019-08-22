@@ -89,6 +89,9 @@ class profiles::puppet::foreman (
   }
   create_resources(::profiles::puppet::foreman::setting, $settings, $settings_defaults)
 
-  Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
+  if $passenger {
+    Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
+  }
+
   Foreman::Repos::Yum[foreman] -> Package[foreman-proxy]
 }
