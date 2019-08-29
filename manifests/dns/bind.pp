@@ -1,10 +1,11 @@
-# This class can be used install influxdb
+# This class can be used install bind9
 #
 # @example when declaring the influxdb class
 #  class { '::profiles::dns::bind': }
 #
 class profiles::dns::bind (
   Boolean $forward_consul = false,
+  Hash $zones = {},
 ) {
   class { '::dns': }
 
@@ -16,6 +17,8 @@ class profiles::dns::bind (
       manage_file => false,
     }
   }
+
+  create_resources( '::dns::zone', $zones )
 
   profiles::bootstrap::firewall::entry { '200 allow Bind TCP':
     port     => [53],
