@@ -16,7 +16,7 @@ class profiles::alerting::icingaweb2::consul (
     ensure         => $ensure,
     git_repository => $git_repository,
     git_revision   => $git_revision,
-    require => [
+    require        => [
       Package['git'],
     ],
   }

@@ -12,7 +12,7 @@ class profiles::logging::kibana (
   String $version = present,
 ) {
   class { '::kibana':
-    ensure       => $version,
-    manage_repo  => $manage_repo,
+    ensure      => $version,
+    manage_repo => $manage_repo,
   }
 }

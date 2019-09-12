@@ -45,7 +45,7 @@ class profiles::orchestration::consul (
     profiles::bootstrap::firewall::entry { '100 allow consul rpc':
       port => 8300,
     }
-   profiles::bootstrap::firewall::entry { '100 allow consul serf WAN':
+    profiles::bootstrap::firewall::entry { '100 allow consul serf WAN':
       port => 8302,
     }
   }
