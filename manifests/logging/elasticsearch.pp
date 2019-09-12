@@ -9,12 +9,10 @@
 class profiles::logging::elasticsearch (
   Hash $instances = { "${::fqdn}" => {} },
   Boolean $manage_repo = false,
-  String $repo_version = '5.x',
+  String $repo_version = '7.x',
 ) {
   class { '::elasticsearch':
-    java_install      => false,
     manage_repo       => $manage_repo,
-    repo_version      => $repo_version,
     restart_on_change => true
   }
   create_resources('elasticsearch::instance', $instances)

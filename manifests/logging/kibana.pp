@@ -8,12 +8,11 @@
 # @param version      Version to install.
 class profiles::logging::kibana (
   Boolean $manage_repo = false,
-  String $repo_version = '5.x',
+  String $repo_version = '7.x',
   String $version = present,
 ) {
   class { '::kibana':
     ensure       => $version,
     manage_repo  => $manage_repo,
-    repo_version => $repo_version,
   }
 }

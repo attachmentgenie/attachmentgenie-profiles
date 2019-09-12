@@ -24,8 +24,14 @@ class profiles::monitoring::logstash (
     logstash_group => $group,
     logstash_user  => $user,
     manage_repo    => $manage_repo,
-    repo_version   => $repo_version,
     version        => $version,
   }
+
   create_resources(::logstash::configfile, $config_files)
+
+  if $manage_repo {
+    if $::osfamily == 'RedHat' {
+      Yumrepo['elastic'] -> Package['logstash']
+    }
+  }
 }
