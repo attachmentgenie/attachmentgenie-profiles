@@ -70,6 +70,7 @@ fixtures:
     memcached: "https://github.com/saz/puppet-memcached.git"
     mysql: "https://github.com/puppetlabs/puppetlabs-mysql.git"
     neo4j: "https://github.com/mlambrichs/puppet-neo4j.git"
+    nexus: "https://github.com/hubspotdevops/puppet-nexus.git"
     nginx: "https://github.com/voxpupuli/puppet-nginx.git"
     nodejs: "https://github.com/voxpupuli/puppet-nodejs.git"
     nomad: "https://github.com/attachmentgenie/puppet-nomad.git"
