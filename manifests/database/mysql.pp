@@ -9,10 +9,12 @@ class profiles::database::mysql (
   Optional[Stdlib::Absolutepath] $device = undef,
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
+  Hash $override_options = {},
   String $root_password = 'secret',
 ) {
   class { '::mysql::server':
-    root_password => $root_password,
+    override_options => $override_options,
+    root_password    => $root_password,
   }
   class { '::mysql::server::account_security': }
   create_resources(mysql::db, $databases)
