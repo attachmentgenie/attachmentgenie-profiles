@@ -12,6 +12,17 @@ class profiles::logging::elasticsearch (
   String $repo_version = '7.x',
 ) {
   class { '::elasticsearch':
+    jvm_options => [
+      '#PrintGCDetails',
+      '#PrintGCDateStamps',
+      '#PrintTenuringDistribution',
+      '#PrintGCApplicationStoppedTime',
+      "#Xloggc",
+      '#UseGCLogFileRotation',
+      "#NumberOfGCLogFiles",
+      "#GCLogFileSize",
+      "#XX:UseConcMarkSweepGC",
+    ],
     manage_repo       => $manage_repo,
     restart_on_change => true
   }
