@@ -57,8 +57,13 @@ class profiles::orchestration::consul (
   profiles::bootstrap::firewall::entry { '100 allow consul serf LAN':
     port => 8301,
   }
-  profiles::bootstrap::firewall::entry { '100 allow consul DNS':
-    port => 8600,
+  profiles::bootstrap::firewall::entry { '100 allow consul DNS TCP':
+    port     => 8600,
+    protocol => 'tcp'
+  }
+  profiles::bootstrap::firewall::entry { '100 allow consul DNS UDP':
+    port     => 8600,
+    protocol => 'udp',
   }
 
   create_resources(::consul::check, $checks)
