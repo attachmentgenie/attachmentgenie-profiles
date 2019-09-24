@@ -70,6 +70,7 @@ class profiles::runtime::php (
     'PHP/allow_url_fopen'         => 0,
     'PHP/assert.active'           => 0,
     'PHP/session.cookie_httponly' => 0,
+    'PHP/disable_functions'       => 'exec, passthru, shell_exec, system, proc_open, popen, curl_exec, curl_multi_exec',
     'PHP/display_errors'          => 0,
     'PHP/display_startup_errors'  => 0,
     'PHP/error_reporting'         => 'E_ALL',
