@@ -115,14 +115,17 @@ class profiles::monitoring::icinga2 (
     order  => '47',
   }
 
+  if !($server) {
+    create_resources('icinga2::object::endpoint', $parent_endpoints)
+
+    ::icinga2::object::zone { $parent_zone:
+      endpoints => keys($parent_endpoints),
+    }
+  }
+
   if $client {
+
     if !($server) {
-      create_resources('icinga2::object::endpoint', $parent_endpoints)
-
-      ::icinga2::object::zone { $parent_zone:
-        endpoints => keys($parent_endpoints),
-      }
-
       @@::icinga2::object::endpoint { $::fqdn:
         host   => $::hostname,
         target => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",

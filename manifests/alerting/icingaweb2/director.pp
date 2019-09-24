@@ -15,14 +15,16 @@
 # @param api_host     The host where the api lives
 # @param endpoint     Endpoint to bind to
 class profiles::alerting::icingaweb2::director (
-  String $db_name      = 'director',
-  String $db_username  = 'director',
-  String $db_password  = 'director',
-  String $db_host      = 'localhost',
-  String $api_user     = $::profiles::alerting::icingaweb2::api_user,
+  String $api_user = $::profiles::alerting::icingaweb2::api_user,
   String $api_password = $::profiles::alerting::icingaweb2::api_password,
-  String $api_host     = 'localhost',
-  String $endpoint     = $::fqdn,
+  String $api_host = 'localhost',
+  String $db_name = 'director',
+  String $db_username = 'director',
+  String $db_password = 'director',
+  String $db_host = 'localhost',
+  String $endpoint = $::fqdn,
+  Boolean $execute_jobs = true,
+  Optional[String] $git_revision = undef,
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::director':
@@ -32,6 +34,7 @@ class profiles::alerting::icingaweb2::director (
     db_host       => $db_host,
     db_type       => 'pgsql',
     db_port       => 5432,
+    git_revision  => $git_revision,
     api_username  => $api_user,
     api_password  => $api_password,
     api_host      => $api_host,
@@ -42,5 +45,14 @@ class profiles::alerting::icingaweb2::director (
       Package['git'],
       Postgresql::Server::Db[$db_name],
     ],
+  }
+
+  if $execute_jobs {
+    systemd::unit_file { 'director_jobs.service':
+      source => "puppet:///modules/${module_name}/alerting/icingaweb2/director_jobs.service",
+    }
+    ~> service {'director_jobs':
+      ensure => 'running',
+    }
   }
 }
