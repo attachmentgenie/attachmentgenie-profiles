@@ -24,7 +24,7 @@ class profiles::orchestration::consul (
   String $options = '-enable-script-checks -syslog',
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.5.2',
+  String $version = '1.6.1',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
