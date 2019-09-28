@@ -5,7 +5,6 @@ describe 'profiles::logging::opendistro' do
       let(:facts) { facts }
 
       context 'with defaults for all parameters' do
-        it { is_expected.to contain_class('profiles::logging::opendistro') }
       end
     end
   end

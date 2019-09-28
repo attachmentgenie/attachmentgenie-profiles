@@ -92,6 +92,4 @@ class profiles::puppet::foreman (
   if $passenger {
     Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
   }
-
-  Foreman::Repos::Yum[foreman] -> Package[foreman-proxy]
 }

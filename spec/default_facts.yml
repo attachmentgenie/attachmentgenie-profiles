@@ -3,5 +3,6 @@
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
 ipaddress: "172.16.254.254"
+ipaddress_lo: "127.0.0.1"
 is_pe: false
 macaddress: "AA:AA:AA:AA:AA:AA"

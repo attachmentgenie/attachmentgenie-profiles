@@ -11,7 +11,7 @@ class profiles::database::influxdb (
   Boolean $manage_firewall_entry = false,
   Boolean $manage_package_repo = false,
 ){
-  class {'::influxdb::server':
+  class {'::influxdb':
     manage_repos    => $manage_package_repo,
   }
 
