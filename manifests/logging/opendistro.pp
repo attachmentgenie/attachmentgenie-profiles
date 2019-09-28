@@ -3,4 +3,4 @@
 # @example when declaring the opendistro class
 #  class { '::profiles::logging::opendistro': }
 #
-class profiles::logging::opendistro () {}
+class profiles::logging::opendistro {}
