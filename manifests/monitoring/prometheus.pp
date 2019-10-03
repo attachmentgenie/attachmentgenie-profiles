@@ -12,7 +12,11 @@
 # @param prometheus_version       Version to install
 class profiles::monitoring::prometheus (
   Boolean $client = true,
+  Stdlib::Absolutepath $data_path = '/var/lib/prometheus',
+  Optional[Stdlib::Absolutepath] $device = undef,
   Enum['url', 'package', 'none'] $install_method = 'none',
+  Boolean $manage_disk = false,
+  Boolean $manage_firewall_entry = true,
   Array $node_exporter_collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
   String $node_exporter_version = '0.18.1',
   Array $scrape_configs = [ {
@@ -55,9 +59,18 @@ class profiles::monitoring::prometheus (
           'static_configs' => [{'targets' => ['localhost:9093']}],
         },
       ],
+      localstorage             => $data_path,
       manage_prometheus_server => true,
       scrape_configs           => $scrape_configs,
       version                  => $prometheus_version,
+    }
+
+    if $manage_disk {
+      ::profiles::bootstrap::disk::mount {'prometheus':
+        device    => $device,
+        mountpath => $data_path,
+        before    => File[$data_path],
+      }
     }
   }
 
@@ -65,6 +78,12 @@ class profiles::monitoring::prometheus (
   if $client {
     class { '::prometheus::node_exporter':
       version => $node_exporter_version,
+    }
+
+    if $manage_firewall_entry {
+      profiles::bootstrap::firewall::entry { '200 allow node exporter':
+        port => 9100,
+      }
     }
   }
 }
