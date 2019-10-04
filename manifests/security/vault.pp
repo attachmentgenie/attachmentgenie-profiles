@@ -16,6 +16,7 @@ class profiles::security::vault (
   Hash $extra_config = { 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' => 'https://127.0.0.1:8201' },
   Boolean $manage_storage_dir = true,
   Hash $storage = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' }},
+  Optional[Hash] $telemetry = undef,
   String $version = '1.2.3',
 ){
   class {'vault':
@@ -25,6 +26,7 @@ class profiles::security::vault (
     listener           => $listener,
     manage_storage_dir => $manage_storage_dir,
     storage            => $storage,
+    telemetry          => $telemetry,
     version            => $version,
   }
 
