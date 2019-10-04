@@ -3,7 +3,7 @@
 # @example when declaring this class
 #  ::profiles::orchestration::consul::service { 'foo': }
 #
-class profiles::orchestration::consul::service (
+define profiles::orchestration::consul::service (
   Array[Hash] $checks = [],
   Stdlib::Port::Unprivileged $port = undef,
   String $service_name = $title,

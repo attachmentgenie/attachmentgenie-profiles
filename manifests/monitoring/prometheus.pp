@@ -82,7 +82,7 @@ class profiles::monitoring::prometheus (
     }
 
     if $manage_sd_service {
-      profiles::orchestration::consul::service { 'node_exporter':
+      ::profiles::orchestration::consul::service { 'node_exporter':
         checks => [
           {
             http     => 'http://localhost:9100',
