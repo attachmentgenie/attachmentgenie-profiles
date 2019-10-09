@@ -11,8 +11,8 @@ template Host "linux-host" {
   import "generic-host"
 
   vars.os = "Linux"
-  vars.disks["disk /"] = {
-    disk_partition = "/"
+  vars.disks["disks"] = {
+    disk_all = "true"
   }
 }
 

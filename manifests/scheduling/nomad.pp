@@ -14,7 +14,7 @@ class profiles::scheduling::nomad (
   },
   Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
   String $job_port_range = '20000-32000',
-  String $version = '0.9.5',
+  String $version = '0.9.6',
 ){
   if !defined(Package['unzip']) {
     package { 'unzip':
