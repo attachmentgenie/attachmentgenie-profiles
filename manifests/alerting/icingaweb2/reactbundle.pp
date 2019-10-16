@@ -7,10 +7,12 @@
 #   class { '::profiles::alerting::icingaweb2::reactbundle': }
 #
 class profiles::alerting::icingaweb2::reactbundle (
+  $version = 'v0.7.0',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::reactbundle':
-    require => [
+    git_version => $version,
+    require     => [
       Package['git'],
     ],
   }

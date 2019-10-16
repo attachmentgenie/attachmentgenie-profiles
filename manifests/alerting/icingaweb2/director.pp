@@ -23,8 +23,8 @@ class profiles::alerting::icingaweb2::director (
   String $db_password = 'director',
   String $db_host = 'localhost',
   String $endpoint = $::fqdn,
-  Boolean $execute_jobs = true,
-  Optional[String] $git_revision = undef,
+  Boolean $service_enable = true,
+  Optional[String] $version = 'v1.7.1',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::director':
@@ -34,7 +34,7 @@ class profiles::alerting::icingaweb2::director (
     db_host       => $db_host,
     db_type       => 'pgsql',
     db_port       => 5432,
-    git_revision  => $git_revision,
+    git_revision  => $version,
     api_username  => $api_user,
     api_password  => $api_password,
     api_host      => $api_host,
@@ -47,11 +47,17 @@ class profiles::alerting::icingaweb2::director (
     ],
   }
 
-  if $execute_jobs {
-    systemd::unit_file { 'director_jobs.service':
-      source => "puppet:///modules/${module_name}/alerting/icingaweb2/director_jobs.service",
+  if $service_enable {
+    user { 'icingadirector':
+      gid  => 989,
+      home => '/var/lib/icingadirector',
+      managehome => true,
+      shell => '/bin/false',
     }
-    ~> service {'director_jobs':
+    -> systemd::unit_file { 'icinga-director.service':
+      source => "puppet:///modules/${module_name}/alerting/icingaweb2/icinga-director.service",
+    }
+    ~> service {'icinga-director':
       ensure => 'running',
     }
   }
