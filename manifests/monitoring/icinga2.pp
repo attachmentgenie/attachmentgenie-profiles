@@ -57,12 +57,15 @@ class profiles::monitoring::icinga2 (
   String $generic_service_check_attempts = '5',
   String $generic_service_check_interval = '1m',
   String $generic_service_retry_interval = '30s',
+  Optional[Stdlib::Host] $graphite_host = undef,
+  Optional[Stdlib::Port::Unprivileged] $graphite_port = undef,
   String $group = $::profiles::monitoring::icinga2::params::group,
   Boolean $manage_repo = false,
   String $owner = $::profiles::monitoring::icinga2::params::owner,
   String $parent_zone = 'master',
   String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
   Boolean $server = false,
+  Boolean $ship_metrics = false,
   Boolean $slack = false,
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
@@ -182,6 +185,12 @@ class profiles::monitoring::icinga2 (
       tag    => 'icinga2::config::file',
     }
 
+    if $ship_metrics {
+      class { '::icinga2::feature::graphite':
+        host => $graphite_host,
+        port => $graphite_port,
+      }
+    }
     if $slack {
       class { '::profiles::monitoring::icinga2::slack':
         icinga_endpoint => $api_endpoint,
