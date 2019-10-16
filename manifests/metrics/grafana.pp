@@ -84,9 +84,12 @@ class profiles::metrics::grafana (
   String $log_level = 'Info',
   Integer $log_max_days = 7,
   String $logmode = 'console, file',
+  Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = false,
+  Boolean $manage_sd_service = false,
   String $rpm_iteration = '1',
   String $root_url = '%(protocol)s://%(domain)s/',
+  Array $sd_service_tags = [],
   String $secret_key = 'inWSYLbKCoLko',
   Boolean $smtp_enable = false,
   String $smtp_from_address = 'admin@grafana.localhost',
@@ -180,6 +183,25 @@ class profiles::metrics::grafana (
     manage_package_repo => $manage_repo,
     rpm_iteration       => $rpm_iteration,
     version             => $version,
+  }
+
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { 'grafana':
+      checks => [
+        {
+          http     => 'http://localhost:3000',
+          interval => '10s'
+        }
+      ],
+      port   => 3000,
+      tags   => $sd_service_tags,
+    }
+  }
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow node grafana':
+      port => 3000,
+    }
   }
 
   $defaults = {

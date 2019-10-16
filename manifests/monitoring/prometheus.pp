@@ -3,23 +3,16 @@
 # @example when declaring the prometheus class
 #  class { '::profiles::monitoring::prometheus': }
 #
-# @param client                   Install node exporter
-# @param install_method           The install method to use
-# @param node_exporter_collectors Metrics to collect.
-# @param node_exporter_version    Version to install
-# @param scrape_configs           Which nodes to monitor
-# @param server                   Install Server.
-# @param prometheus_version       Version to install
 class profiles::monitoring::prometheus (
   Boolean $client = true,
   Stdlib::Absolutepath $data_path = '/var/lib/prometheus',
   Optional[Stdlib::Absolutepath] $device = undef,
+  Boolean $graphite_exporters = false,
   Enum['url', 'package', 'none'] $install_method = 'none',
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
-  Array $node_exporter_collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
-  String $node_exporter_version = '0.18.1',
+  Boolean $pushgateway = false,
   Array $scrape_configs = [ {
     'job_name'        => 'prometheus',
     'scrape_interval' => '10s',
@@ -31,8 +24,9 @@ class profiles::monitoring::prometheus (
       }
     ],
   } ],
+  Array $sd_service_tags = [],
   Boolean $server = false,
-  String $prometheus_version = '2.11.1',
+  String $prometheus_version = '2.13.0',
 ) {
   if $server {
     class { '::prometheus':
@@ -67,36 +61,56 @@ class profiles::monitoring::prometheus (
     }
 
     if $manage_disk {
-      ::profiles::bootstrap::disk::mount {'prometheus':
+      ::profiles::bootstrap::disk::mount { 'prometheus':
         device    => $device,
         mountpath => $data_path,
         before    => File[$data_path],
+      }
+    }
+
+    if $manage_sd_service {
+      ::profiles::orchestration::consul::service { 'prometheus':
+        checks => [
+          {
+            http     => 'http://localhost:9090',
+            interval => '10s'
+          }
+        ],
+        port   => 9090,
+        tags   => $sd_service_tags,
+      }
+    }
+
+    if $manage_firewall_entry {
+      profiles::bootstrap::firewall::entry { '200 allow prometheus':
+        port => 9090,
+      }
+    }
+
+    if $pushgateway {
+      class { '::profiles::monitoring::prometheus::pushgateway':
+        manage_firewall_entry => $manage_firewall_entry,
+        manage_sd_service     => $manage_sd_service,
+      }
+    }
+
+    if $graphite_exporters {
+      class { '::profiles::monitoring::prometheus::graphite_exporter':
+        manage_firewall_entry => $manage_firewall_entry,
+        manage_sd_service     => $manage_sd_service,
+      }
+      class { '::profiles::monitoring::prometheus::statsd_exporter':
+        manage_firewall_entry => $manage_firewall_entry,
+        manage_sd_service     => $manage_sd_service,
       }
     }
   }
 
   # ordering matters => https://github.com/voxpupuli/puppet-prometheus/issues/208
   if $client {
-    class { '::prometheus::node_exporter':
-      version => $node_exporter_version,
-    }
-
-    if $manage_sd_service {
-      ::profiles::orchestration::consul::service { 'node_exporter':
-        checks => [
-          {
-            http     => 'http://localhost:9100',
-            interval => '10s'
-          }
-        ],
-        port   => 9100,
-      }
-    }
-
-    if $manage_firewall_entry {
-      profiles::bootstrap::firewall::entry { '200 allow node exporter':
-        port => 9100,
-      }
+    class { '::profiles::monitoring::prometheus::node_exporter':
+      manage_firewall_entry => $manage_firewall_entry,
+      manage_sd_service     => $manage_sd_service,
     }
   }
 }
