@@ -1,15 +1,4 @@
 [Unit]
-Description=Director Job runner
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/icingacli director jobs run --forever
-Restart=on-success
-
-[Install]
-WantedBy=multi-user.target
-[root@icinga systemd]# cat icinga-director.service
-[Unit]
 Description=Icinga Director - Monitoring Configuration
 Documentation=https://icinga.com/docs/director/latest/
 Wants=network.target
