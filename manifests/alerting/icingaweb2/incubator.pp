@@ -11,8 +11,8 @@ class profiles::alerting::icingaweb2::incubator (
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::incubator':
-    git_version => $version,
-    require => [
+    git_revision => $version,
+    require      => [
       Package['git'],
     ],
   }

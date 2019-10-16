@@ -49,10 +49,10 @@ class profiles::alerting::icingaweb2::director (
 
   if $service_enable {
     user { 'icingadirector':
-      gid  => 989,
-      home => '/var/lib/icingadirector',
+      gid        => 989,
+      home       => '/var/lib/icingadirector',
       managehome => true,
-      shell => '/bin/false',
+      shell      => '/bin/false',
     }
     -> systemd::unit_file { 'icinga-director.service':
       source => "puppet:///modules/${module_name}/alerting/icingaweb2/icinga-director.service",
