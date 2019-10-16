@@ -189,7 +189,7 @@ class profiles::metrics::grafana (
     ::profiles::orchestration::consul::service { 'grafana':
       checks => [
         {
-          http     => 'http://localhost:3000',
+          http     => "http://${http_addr}:3000",
           interval => '10s'
         }
       ],

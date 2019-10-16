@@ -25,7 +25,7 @@ class profiles::monitoring::prometheus::graphite_exporter (
     ::profiles::orchestration::consul::service { 'graphite':
       checks => [
         {
-          http     => 'http://localhost:9109',
+          tcp      => 'localhost:9109',
           interval => '10s'
         }
       ],
@@ -37,8 +37,12 @@ class profiles::monitoring::prometheus::graphite_exporter (
     ::profiles::bootstrap::firewall::entry { '200 allow graphite exporter':
       port => 9108,
     }
-    ::profiles::bootstrap::firewall::entry { '200 allow graphite':
+    ::profiles::bootstrap::firewall::entry { '200 allow graphite tcp':
       port => 9109,
+    }
+    ::profiles::bootstrap::firewall::entry { '200 allow graphite udp':
+      port     => 9109,
+      protocol => 'udp',
     }
   }
 }

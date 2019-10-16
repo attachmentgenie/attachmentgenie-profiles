@@ -25,7 +25,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
     ::profiles::orchestration::consul::service { 'statsd':
       checks => [
         {
-          http     => 'http://localhost:9125',
+          tcp      => 'localhost:9125',
           interval => '10s'
         }
       ],
@@ -37,8 +37,12 @@ class profiles::monitoring::prometheus::statsd_exporter (
     ::profiles::bootstrap::firewall::entry { '200 allow statsd exporter':
       port => 9102,
     }
-    ::profiles::bootstrap::firewall::entry { '200 allow statsd':
+    ::profiles::bootstrap::firewall::entry { '200 allow statsd tcp':
       port => 9125,
+    }
+    ::profiles::bootstrap::firewall::entry { '200 allow statsd udp':
+      port     => 9125,
+      protocol => 'udp',
     }
   }
 }
