@@ -23,7 +23,7 @@ class profiles::alerting::icingaweb2::director (
   String $db_password = 'director',
   String $db_host = 'localhost',
   String $endpoint = $::fqdn,
-  Boolean $service_enable = true,
+  Boolean $daemon_enable = true,
   Optional[String] $version = 'v1.7.1',
 ) inherits profiles::alerting::icingaweb2 {
 
@@ -47,10 +47,10 @@ class profiles::alerting::icingaweb2::director (
     ],
   }
 
-  if $service_enable {
+  if $daemon_enable {
     user { 'icingadirector':
-      gid        => 989,
       home       => '/var/lib/icingadirector',
+      groups     => ['icingaweb2'],
       managehome => true,
       shell      => '/bin/false',
     }
