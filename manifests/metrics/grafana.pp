@@ -89,7 +89,7 @@ class profiles::metrics::grafana (
   Boolean $manage_sd_service = false,
   String $rpm_iteration = '1',
   String $root_url = '%(protocol)s://%(domain)s/',
-  Array $sd_service_tags = [],
+  Array $sd_service_tags = ['metrics'],
   String $secret_key = 'inWSYLbKCoLko',
   Boolean $smtp_enable = false,
   String $smtp_from_address = 'admin@grafana.localhost',

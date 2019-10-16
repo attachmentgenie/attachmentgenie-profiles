@@ -7,6 +7,7 @@ class profiles::monitoring::prometheus::node_exporter (
   Array $collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
+  Array $sd_service_tags = ['metrics'],
   String $version = '0.18.1',
 ) {
   class { '::prometheus::node_exporter':
@@ -23,6 +24,7 @@ class profiles::monitoring::prometheus::node_exporter (
         }
       ],
       port   => 9100,
+      tags   => $sd_service_tags,
     }
   }
 

@@ -6,6 +6,7 @@
 class profiles::monitoring::prometheus::statsd_exporter (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
+  Array $sd_service_tags = ['metrics'],
   String $version = '0.12.2',
 ) {
   class { '::prometheus::statsd_exporter':
@@ -21,6 +22,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
         }
       ],
       port   => 9102,
+      tags   => $sd_service_tags,
     }
     ::profiles::orchestration::consul::service { 'statsd':
       checks => [
@@ -30,6 +32,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
         }
       ],
       port   => 9125,
+      tags   => $sd_service_tags,
     }
   }
 
