@@ -16,12 +16,6 @@
 # @param database_password              Db password.
 # @param database_user                  Db user.
 # @param features                       Enabled features.
-# @param generic_host_check_attempts    The amount of check attempts for the generic_host object.
-# @param generic_host_check_interval    The check interval for the generic_host object.
-# @param generic_host_retry_interval    The retry interval for the generic_host object.
-# @param generic_service_check_attempts The amount of check attempts for the generic_service object.
-# @param generic_service_check_interval The check interval for the generic_service object.
-# @param generic_service_retry_interval The retry interval for the generic_service object.
 # @param group                          Group
 # @param ipaddress                      Primary ipaddress.
 # @param manage_repo                    Manage icinga repository.
@@ -52,12 +46,6 @@ class profiles::monitoring::icinga2 (
   String $database_password = 'icinga2',
   String $database_user = 'icinga2',
   Array $features = [ 'checker', 'command', 'mainlog', 'notification' ],
-  String $generic_host_check_attempts = '3',
-  String $generic_host_check_interval = '1m',
-  String $generic_host_retry_interval = '30s',
-  String $generic_service_check_attempts = '5',
-  String $generic_service_check_interval = '1m',
-  String $generic_service_retry_interval = '30s',
   Optional[Stdlib::Host] $graphite_host = undef,
   Optional[Stdlib::Port::Unprivileged] $graphite_port = undef,
   String $group = $::profiles::monitoring::icinga2::params::group,
