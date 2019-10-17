@@ -105,6 +105,28 @@ profiles::monitoring::icinga2::templates:
         - DowntimeRemoved
       period: 24x7
 
+profiles::monitoring::icinga2::notifications:
+  mail-icingaadmin-host:
+    import:
+      - mail-host-notification
+    user_groups: host.vars.notification.mail.groups
+    users: host.vars.notification.mail.users
+    assign:
+      - host.vars.notification.mail
+    target: /etc/icinga2/zones.d/global-templates/notifications.conf
+    apply: true
+  mail-icingaadmin-service:
+    import:
+      - mail-service-notification
+    user_groups: host.vars.notification.mail.groups
+    users: host.vars.notification.mail.users
+    assign:
+      - host.vars.notification.mail
+    apply_target: Service
+    apply: true
+    target: /etc/icinga2/zones.d/global-templates/notifications.conf
+
+
 profiles::monitoring::icinga2::services:
   linux_icinga:
     import:

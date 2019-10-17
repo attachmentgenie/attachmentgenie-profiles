@@ -32,6 +32,8 @@
 # @param usergroups                     User groups
 # @param vars                           Icinga vars.
 # @param templates                      Templates.
+# @param notifications                  Notification objects to generate.
+# @param fragments                      Custom configuration fragments.
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
@@ -64,6 +66,8 @@ class profiles::monitoring::icinga2 (
   Hash $usergroups = {},
   Hash $vars = {},
   Hash $templates = {},
+  Hash $notifications = {},
+  Hash $fragments = {},
 ) inherits profiles::monitoring::icinga2::params {
   if $server {
     $constants = {
@@ -194,6 +198,9 @@ class profiles::monitoring::icinga2 (
     ensure_resources( ::icinga2::object::service, $services )
     ensure_resources( ::icinga2::object::timeperiod, $timeperiods )
     ensure_resources( ::icinga2::object::usergroup, $usergroups )
+    ensure_resources( ::icinga2::object::notification, $notifications )
+    ensure_resources( ::icinga2::object::fragment, $fragments )
+
     $templates.each | $object_type, $object_configs | {
       $_default_template_params = {
         'target'   => '/etc/icinga2/zones.d/global-templates/templates.conf',
