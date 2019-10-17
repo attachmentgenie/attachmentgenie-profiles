@@ -37,6 +37,7 @@
 # @param timeperiods                    Timeperiods
 # @param usergroups                     User groups
 # @param vars                           Icinga vars.
+# @param templates                      Templates.
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
@@ -74,6 +75,7 @@ class profiles::monitoring::icinga2 (
   Hash $timeperiods = {},
   Hash $usergroups = {},
   Hash $vars = {},
+  Hash $templates = {},
 ) inherits profiles::monitoring::icinga2::params {
   if $server {
     $constants = {
@@ -204,6 +206,13 @@ class profiles::monitoring::icinga2 (
     ensure_resources( ::icinga2::object::service, $services )
     ensure_resources( ::icinga2::object::timeperiod, $timeperiods )
     ensure_resources( ::icinga2::object::usergroup, $usergroups )
+    $templates.each | $object_type, $object_configs | {
+      $_default_template_params = {
+        'target'   => '/etc/icinga2/zones.d/global-templates/templates.conf',
+        'template' => true,
+      }
+      ensure_resources( "::icinga2::object::${object_type}", $object_configs, $_default_template_params )
+    }
 
     # Collect objects
     ::Icinga2::Object::Apiuser <<| |>>
@@ -212,15 +221,6 @@ class profiles::monitoring::icinga2 (
     ::Icinga2::Object::Host <<| |>>
     ::Icinga2::Object::Service <<| |>>
     ::Icinga2::Object::Zone <<| |>>
-
-    # Static config files
-    file { '/etc/icinga2/zones.d/global-templates/templates.conf':
-      ensure  => file,
-      owner   => 'icinga',
-      group   => 'icinga',
-      mode    => '0640',
-      content => template('profiles/monitoring/icinga2/templates.conf.erb'),
-    }
 
     profiles::bootstrap::firewall::entry { '200 allow icinga':
       port => 5665,
