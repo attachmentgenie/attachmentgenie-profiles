@@ -40,7 +40,8 @@ lookup_options:
       strategy: hash
   profiles::monitoring::icinga2::templates:
     merge:
-      strategy: hash
+      strategy: deep
+      merge_hash_arrays: true
 
 profiles::monitoring::icinga2::templates:
   host:
