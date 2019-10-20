@@ -7,7 +7,7 @@
 #   class { '::profiles::alerting::icingaweb2::ipl': }
 #
 class profiles::alerting::icingaweb2::ipl (
-  $version = 'v0.3.0',
+  String $version = 'v0.3.0',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::ipl':
