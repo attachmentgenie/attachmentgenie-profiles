@@ -14,7 +14,7 @@ class profiles::alerting::icingaweb2::graphite (
   class {'icingaweb2::module::graphite':
     git_revision => $version,
     url          => $host,
-    require => [
+    require      => [
       Package['git'],
     ],
   }
