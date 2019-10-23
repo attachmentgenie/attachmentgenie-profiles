@@ -199,7 +199,7 @@ class profiles::monitoring::icinga2 (
     ensure_resources( ::icinga2::object::timeperiod, $timeperiods )
     ensure_resources( ::icinga2::object::usergroup, $usergroups )
     ensure_resources( ::icinga2::object::notification, $notifications )
-    ensure_resources( ::icinga2::config::fragment, $fragments )
+    ensure_resources( ::icinga2::object::fragment, $fragments )
 
     $templates.each | $object_type, $object_configs | {
       $_default_template_params = {
