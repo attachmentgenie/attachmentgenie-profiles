@@ -12,7 +12,7 @@ class profiles::bootstrap::network (
       default => stopped,
     }
 
-    service { 'network-manager':
+    service { 'NetworkManager':
       ensure => $ensure,
       enable => $enable_networkmanager,
     }
