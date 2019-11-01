@@ -3,18 +3,12 @@
 # @example when declaring the bootstrap class
 #  class { '::profiles::bootstrap': }
 #
-# @param accounts Manage accounts on this node.
-# @param fail2ban Manage fail2ban on this node.
-# @param firewall Manage the firewall on this node.
-# @param ntp      Manage the time settings for this node.
-# @param puppet   Manage puppet on this node.
-# @param repos    Manage repositories on this node.
-# @param ssh      Manage ssh on this node.
 class profiles::bootstrap (
   Boolean $accounts = false,
   Boolean $dnsmasq  = false,
   Boolean $fail2ban = false,
   Boolean $firewall = false,
+  Boolean $network  = false,
   Boolean $ntp      = false,
   Boolean $puppet   = false,
   Boolean $repos    = false,
@@ -32,6 +26,9 @@ class profiles::bootstrap (
       class { '::profiles::bootstrap::fail2ban': }
     }
     class { '::profiles::bootstrap::firewall': }
+  }
+  if $network {
+    class { '::profiles::bootstrap::network': }
   }
   if $ntp {
     class { '::profiles::bootstrap::time': }

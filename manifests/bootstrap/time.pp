@@ -1,18 +1,8 @@
-# == Class: profiles::bootstrap::time
-#
-# This class can be used install time components.
-#
-# === Examples
+# This class can be used install time
 #
 # @example when declaring the time class
 #  class { '::profiles::bootstrap::time': }
 #
-# === Parameters
-#
-# @param default_timezone Timezone for this node.
-# @param ntp_servers      List of ntp servers.
-# @param restrict         Restrict to this list.
-# @param set_timezone     Configure the timezone.
 class profiles::bootstrap::time (
   String $default_timezone = 'Europe/Amsterdam',
   Array $ntp_servers       = [],

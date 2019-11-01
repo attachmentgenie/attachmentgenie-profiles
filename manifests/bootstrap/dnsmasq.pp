@@ -1,9 +1,8 @@
-# This class can be used install influxdb
+# This class can be used install dnsmasq
 #
-# @example when declaring the influxdb class
+# @example when declaring the dnsmasq class
 #  class { '::profiles::bootstrap::dnsmasq': }
 #
-# @param name_servers Name servers to use in resolv.conf
 class profiles::bootstrap::dnsmasq (
   Stdlib::Host $client_address = '127.0.0.1',
   Boolean $forward_consul = false,

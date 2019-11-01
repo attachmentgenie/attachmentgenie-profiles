@@ -1,6 +1,6 @@
 # This class can be used install bind9
 #
-# @example when declaring the influxdb class
+# @example when declaring the bind class
 #  class { '::profiles::dns::bind': }
 #
 class profiles::dns::bind (

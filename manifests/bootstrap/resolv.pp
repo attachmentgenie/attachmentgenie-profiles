@@ -1,6 +1,6 @@
-# This class can be used install influxdb
+# This class can be used install resolv
 #
-# @example when declaring the influxdb class
+# @example when declaring the resolv class
 #  class { '::profiles::bootstrap::resolv': }
 #
 # @param name_servers Name servers to use in resolv.conf

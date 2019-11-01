@@ -1,6 +1,6 @@
-# This class can be used install influxdb
+# This class can be used install postgresql
 #
-# @example when declaring the influxdb class
+# @example when declaring the postgresql class
 #  class { '::profiles::database::postgresql': }
 #
 class profiles::database::postgresql (
