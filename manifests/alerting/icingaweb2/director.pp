@@ -24,7 +24,7 @@ class profiles::alerting::icingaweb2::director (
   String $db_host = 'localhost',
   String $endpoint = $::fqdn,
   Boolean $daemon_enable = true,
-  Optional[String] $version = 'v1.7.1',
+  Optional[String] $version = 'v1.7.2',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::director':

@@ -20,7 +20,7 @@ class profiles::website::traefik (
   Boolean $expose_metrics = true,
   Boolean $expose_ui = false,
   Boolean $use_consul = true,
-  String $version = '1.7.18',
+  String $version = '1.7.19',
 ) {
 
   if $protocol == 'https' {

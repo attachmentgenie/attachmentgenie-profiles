@@ -1,6 +1,6 @@
 # @param version          Version to install.
 class profiles::runtime::php::repo (
-  $version = '72'
+  $version = '73'
 ) {
   yumrepo { "remi-php${version}":
     descr      => "Remi's PHP ${version} RPM repository",
