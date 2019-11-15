@@ -24,6 +24,10 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
+  profiles::orchestration::consul::config:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
   profiles::orchestration::consul::services:
     merge:
       strategy: deep

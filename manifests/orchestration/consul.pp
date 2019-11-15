@@ -3,16 +3,6 @@
 # @example when declaring the consul class
 #  class { '::profiles::orchestration::consul': }
 #
-# @param checks       Consul checks,
-# @param config       Consul config,
-# @param domain       Resolv.conf domain
-# @param options      Additional consul start up flags.
-# @param searchpath   Resolv.conf searchpath.
-# @param server       Run as Server.
-# @param services     Consul services.
-# @param version      Version of consul to install.
-# @param watches      Consul watches.
-# @param ui           Enable UI.
 class profiles::orchestration::consul (
   Hash $checks = {},
   Hash $config = {},
@@ -21,6 +11,7 @@ class profiles::orchestration::consul (
     'datacenter' => 'vagrant',
   },
   Stdlib::Absolutepath $config_dir = '/etc/consul.d',
+  Optional[String[1]] $join_wan = undef,
   String $options = '-enable-script-checks -syslog',
   Boolean $server = false,
   Hash $services = {},
@@ -38,6 +29,7 @@ class profiles::orchestration::consul (
     config_dir      => $config_dir,
     config_hash     => $config,
     extra_options   => $options,
+    join_wan        => $join_wan,
     version         => $version,
   }
 
@@ -45,8 +37,10 @@ class profiles::orchestration::consul (
     profiles::bootstrap::firewall::entry { '100 allow consul rpc':
       port => 8300,
     }
-    profiles::bootstrap::firewall::entry { '100 allow consul serf WAN':
-      port => 8302,
+    if $join_wan {
+      profiles::bootstrap::firewall::entry { '100 allow consul serf WAN':
+        port => 8302,
+      }
     }
   }
   if $ui {
