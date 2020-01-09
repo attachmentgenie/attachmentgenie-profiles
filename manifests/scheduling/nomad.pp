@@ -13,15 +13,27 @@ class profiles::scheduling::nomad (
     'datacenter' => 'vagrant',
   },
   Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
+  Boolean $consul_connect = false,
   String $job_port_range = '20000-32000',
+  Boolean $manage_sysctl = true,
   String $version = '0.10.2',
 ){
-  if !defined(Package['unzip']) {
+  if $consul_connect {
+    include ::profiles::scheduling::nomad::cni_plugins
+
+    if $manage_sysctl {
+      ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-arptables':}
+      ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-ip6tables':}
+      ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-iptables':}
+    }
+  }
+
+  if ! defined(Package['unzip']) {
     package { 'unzip':
       ensure => present,
     }
   }
-  class {'nomad':
+  class {'::nomad':
     config_defaults => $config_defaults,
     config_dir      => $config_dir,
     config_hash     => $config,
@@ -29,17 +41,17 @@ class profiles::scheduling::nomad (
   }
 
   # https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports
-  profiles::bootstrap::firewall::entry { '200 allow Nomad services':
+  ::profiles::bootstrap::firewall::entry { '200 allow Nomad services':
     port => [$job_port_range],
   }
 
-  profiles::bootstrap::firewall::entry { '200 allow Nomad http':
+  ::profiles::bootstrap::firewall::entry { '200 allow Nomad http':
     port => [4646],
   }
-  profiles::bootstrap::firewall::entry { '200 allow Nomad rpc':
+  ::profiles::bootstrap::firewall::entry { '200 allow Nomad rpc':
     port => [4647],
   }
-  profiles::bootstrap::firewall::entry { '200 allow Nomad serf':
+  ::profiles::bootstrap::firewall::entry { '200 allow Nomad serf':
     port => [4648],
   }
 }

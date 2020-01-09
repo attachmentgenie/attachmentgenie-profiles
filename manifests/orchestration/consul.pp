@@ -11,6 +11,9 @@ class profiles::orchestration::consul (
     'datacenter' => 'vagrant',
   },
   Stdlib::Absolutepath $config_dir = '/etc/consul.d',
+  Boolean $connect = false,
+  Stdlib::Port::Unprivileged $conect_grpc_port = 8502,
+  String $connect_sidecar_port_range = '21000-21255',
   Optional[String[1]] $join_wan = undef,
   String $options = '-enable-script-checks -syslog',
   Boolean $server = false,
@@ -19,6 +22,23 @@ class profiles::orchestration::consul (
   Boolean $ui = false,
   Hash $watches = {},
 ) {
+  if $connect {
+    $connect_config = {
+      'connect'    => { 'enabled' => true },
+      'ports'      => { 'grpc' => $conect_grpc_port },
+    }
+    $_config = deep_merge($connect_config, $config)
+
+    profiles::bootstrap::firewall::entry { '100 allow consul connect':
+      port => 8502,
+    }
+    profiles::bootstrap::firewall::entry { '200 allow Consul Connect Sidecars':
+      port => [$connect_sidecar_port_range],
+    }
+  } else {
+    $_config = $config
+  }
+
   if ! defined(Package['unzip']) {
     package { 'unzip':
       ensure => present,
@@ -27,7 +47,7 @@ class profiles::orchestration::consul (
   -> class { '::consul':
     config_defaults => $config_defaults,
     config_dir      => $config_dir,
-    config_hash     => $config,
+    config_hash     => $_config,
     extra_options   => $options,
     join_wan        => $join_wan,
     version         => $version,
@@ -48,6 +68,7 @@ class profiles::orchestration::consul (
       port => 8500,
     }
   }
+
   profiles::bootstrap::firewall::entry { '100 allow consul serf LAN':
     port => 8301,
   }

@@ -2,6 +2,8 @@ fixtures:
   repositories:
     accounts: "https://github.com/puppetlabs/puppetlabs-accounts.git"
     activemq: "https://github.com/puppetlabs/puppetlabs-activemq.git"
+    augeasproviders_core: "https://github.com/hercules-team/augeasproviders_core.git"
+    augeasproviders_sysctl: "https://github.com/hercules-team/augeasproviders_sysctl.git"
     apache: "https://github.com/puppetlabs/puppetlabs-apache.git"
     apt: "https://github.com/puppetlabs/puppetlabs-apt.git"
     aptly: "https://github.com/gds-operations/puppet-aptly.git"
