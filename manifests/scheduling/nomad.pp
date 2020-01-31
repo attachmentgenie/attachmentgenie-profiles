@@ -16,7 +16,7 @@ class profiles::scheduling::nomad (
   Boolean $consul_connect = false,
   String $job_port_range = '20000-32000',
   Boolean $manage_sysctl = true,
-  String $version = '0.10.2',
+  String $version = '0.10.3',
 ){
   if $consul_connect {
     include ::profiles::scheduling::nomad::cni_plugins
