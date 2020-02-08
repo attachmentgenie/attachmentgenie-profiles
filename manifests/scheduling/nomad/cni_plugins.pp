@@ -15,7 +15,7 @@ class profiles::scheduling::nomad::cni_plugins (
   case $install_method {
     'url': {
       $install_path = '/opt/cni/bin'
-      $real_download_url = pick($download_url, "${download_url_base}/${version}/${package_name}-linux-${arch}-${version}.${download_extension}")
+      $real_download_url = pick($download_url, "${download_url_base}/${version}/${package_name}-linux-${arch}-${version}.${download_extension}") # lint:ignore:140chars
 
       include '::archive'
       file { [

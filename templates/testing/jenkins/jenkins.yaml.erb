@@ -1,0 +1,5 @@
+# Managed by Puppet
+---
+<% if @_casc_config and !@_casc_config.empty? -%>
+<%= @_casc_config.to_yaml.gsub(/^---/,'').gsub(/^/,'  ') -%>
+<%- end -%>
