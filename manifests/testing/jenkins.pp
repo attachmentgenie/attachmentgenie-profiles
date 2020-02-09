@@ -1,13 +1,17 @@
 # This class can be used install jenkins components.
 #
 # @example when declaring the jenkins class
-#  class { '::profiles::jenkins': }
+#  class { '::profiles::testing::jenkins': }
 #
 class profiles::testing::jenkins (
   Boolean $casc = true,
   Hash $casc_config = {},
   Hash $casc_config_default = {
     jenkins => {
+      agentProtocols => [
+        'JNLP4-connect',
+        'Ping'
+      ],
       authorizationStrategy => {
         loggedInUsersCanDoAnything => {
           allowAnonymousRead => false
@@ -27,9 +31,13 @@ class profiles::testing::jenkins (
         local => {
           allowsSignup => false,
           enableCaptcha => false,
-          users => [{ id => 'admin', password => 'secret'}]
+          users => [
+            { id => 'admin', password => 'secret'},
+            { id => 'slave', password => 'secret'},
+          ]
         }
       },
+      slaveAgentPort => 44444,
       systemMessage => "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n",
     },
     unclassified => {
@@ -43,8 +51,10 @@ class profiles::testing::jenkins (
   String $java_options = '-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false',
   Stdlib::Host $listen_address = '127.0.0.1',
   Boolean $lts = true,
-  Boolean $manage_firewall_entry = false,
+  Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = false,
+  Boolean $master = true,
+  String $master_url = "http://${::fqdn}",
   Hash $plugins = {},
   Hash $plugins_casc = {},
   Hash $plugins_default = {
@@ -83,6 +93,7 @@ class profiles::testing::jenkins (
     lockable-resources => {},
     mailer => {},
     matrix-auth => {},
+    matrix-project => {},
     maven-plugin => {},
     modernstatus => {},
     momentjs => {},
@@ -106,6 +117,7 @@ class profiles::testing::jenkins (
     script-security => {},
     ssh-credentials => {},
     structs => {},
+    swarm => {},
     token-macro => {},
     trilead-api => {},
     windows-slaves => {},
@@ -123,58 +135,83 @@ class profiles::testing::jenkins (
   },
   Stdlib::Port::Unprivileged $port = 8080,
   Boolean $purge_plugins = true,
+  Boolean $slave = false,
+  Boolean $slave_disable_ssl_verification = true,
+  Integer $slave_executors = $::processors['count'],
+  String $slave_user = 'slave',
+  String $slave_password = 'secret',
+  String $slave_version = '3.17',
 ) {
-  if $casc {
-    $_casc_java_args = {
-      'JENKINS_JAVA_OPTIONS' => { value => "${java_options} -Dcasc.reload.token=${casc_reload_token}" },
+  if $master {
+    if $casc {
+      $_casc_java_args = {
+        'JENKINS_JAVA_OPTIONS' => { value => "${java_options} -Dcasc.reload.token=${casc_reload_token}" },
+      }
+    } else {
+      $_casc_java_args = {
+        'JENKINS_JAVA_OPTIONS' => { value => $java_options },
+      }
     }
-  } else {
-    $_casc_java_args = {
-      'JENKINS_JAVA_OPTIONS' => { value => $java_options },
+
+    $_listen_config = {
+      'JENKINS_LISTEN_ADDRESS' => { 'value' => $listen_address },
+      'JENKINS_PORT' => { 'value' => "${port}" },  # lint:ignore:only_variable_string
+    }
+
+    class { '::jenkins':
+      cli                => false,
+      cli_remoting_free  => false,
+      config_hash        => deep_merge($config_hash, $_listen_config, $_casc_java_args),
+      configure_firewall => false,
+      default_plugins    => [],
+      install_java       => false,
+      lts                => $lts,
+      purge_plugins      => $purge_plugins,
+      repo               => $manage_repo,
+    }
+    if $casc {
+      $_casc_config = deep_merge($casc_config_default, $casc_config)
+
+      file { "${::jenkins::localstatedir}/jenkins.yaml":
+        content => template('profiles/testing/jenkins/jenkins.yaml.erb'),
+        group   => $::jenkins::group,
+        owner   => $::jenkins::user,
+        before  => Service[jenkins],
+      }
+
+      exec { 'jenkins casc reload':
+        command     => "curl -XPOST http://${listen_address}:${port}/reload-configuration-as-code/?casc-reload-token=${casc_reload_token}",
+        path        => '/bin:/usr/bin',
+        subscribe   => File["${::jenkins::localstatedir}/jenkins.yaml"],
+        refreshonly => true,
+        require     => Service[jenkins],
+        tries       => 3,
+        try_sleep   => 10,
+      }
+    }
+
+    create_resources(::jenkins::plugin, deep_merge($plugins_default, $plugins_casc, $plugins))
+
+    if $manage_firewall_entry {
+      ::profiles::bootstrap::firewall::entry { '200 allow jenkins':
+        port => [$port],
+      }
+
+      ::profiles::bootstrap::firewall::entry { '200 allow jenkins slaves':
+        port => [44444],
+      }
     }
   }
 
-  $_listen_config = {
-    'JENKINS_LISTEN_ADDRESS' => { 'value' => $listen_address },
-    'JENKINS_PORT' => { 'value' => "${port}" },  # lint:ignore:only_variable_string
-  }
-
-  class { '::jenkins':
-    cli_remoting_free  => false,
-    config_hash        => deep_merge($config_hash, $_listen_config, $_casc_java_args),
-    configure_firewall => false,
-    default_plugins    => [],
-    install_java       => false,
-    lts                => $lts,
-    purge_plugins      => $purge_plugins,
-    repo               => $manage_repo,
-  }
-  if $casc {
-    $_casc_config = deep_merge($casc_config_default, $casc_config)
-
-    file { "${::jenkins::localstatedir}/jenkins.yaml":
-      content => template('profiles/testing/jenkins/jenkins.yaml.erb'),
-      group   => $::jenkins::group,
-      owner   => $::jenkins::user,
-      before  => Service[jenkins],
-    }
-
-    exec { 'jenkins casc reload':
-      command     => "curl -XPOST http://${listen_address}:${port}/reload-configuration-as-code/?casc-reload-token=${casc_reload_token}",
-      path        => '/bin:/usr/bin',
-      subscribe   => File["${::jenkins::localstatedir}/jenkins.yaml"],
-      refreshonly => true,
-      require     => Service[jenkins],
-      tries       => 3,
-      try_sleep   => 10,
-    }
-  }
-
-  create_resources(::jenkins::plugin, deep_merge($plugins_default, $plugins_casc, $plugins))
-
-  if $manage_firewall_entry {
-    ::profiles::bootstrap::firewall::entry { '200 allow jenkins':
-      port => [$port],
+  if $slave {
+    class { 'jenkins::slave':
+      disable_ssl_verification => $slave_disable_ssl_verification,
+      executors                => $slave_executors,
+      install_java             => false,
+      masterurl                => $master_url,
+      ui_user                  => $slave_user,
+      ui_pass                  => $slave_password,
+      version                  => $slave_version,
     }
   }
 }
