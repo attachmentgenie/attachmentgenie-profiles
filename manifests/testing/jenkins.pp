@@ -61,7 +61,6 @@ class profiles::testing::jenkins (
   Boolean $master = true,
   String $master_url = "http://${::fqdn}",
   Hash $plugins = {},
-  Hash $plugins_casc = {},
   Hash $plugins_default = {
     ace-editor => {},
     antisamy-markup-formatter => {},
@@ -195,7 +194,7 @@ class profiles::testing::jenkins (
       }
     }
 
-    create_resources(::jenkins::plugin, deep_merge($plugins_default, $plugins_casc, $plugins))
+    create_resources(::jenkins::plugin, deep_merge($plugins_default, $plugins))
 
     if $manage_firewall_entry {
       ::profiles::bootstrap::firewall::entry { '200 allow jenkins':
