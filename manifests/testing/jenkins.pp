@@ -40,6 +40,11 @@ class profiles::testing::jenkins (
       slaveAgentPort => 44444,
       systemMessage => "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n",
     },
+    security => {
+      globalJobDslSecurityConfiguration => {
+        useScriptSecurity => false
+      }
+    },
     unclassified => {
       location => {
         url => "http://${::fqdn}",
