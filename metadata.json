@@ -28,6 +28,6 @@
     }
   ],
   "pdk-version": "1.16.0",
-  "template-url": "pdk-default#1.16.0",
+  "template-url": "https://github.com/puppetlabs/pdk-templates#1.16.0",
   "template-ref": "tags/1.16.0-0-gaf44904"
 }

@@ -8,6 +8,7 @@
 #  class { '::profiles::website::traefik': }
 #
 class profiles::website::traefik (
+  String $acme_email_address,
   Stdlib::Absolutepath $config_dir = '/etc/traefik.d',
   Hash $config = {
     'debug' => false,
@@ -44,6 +45,7 @@ class profiles::website::traefik (
 
     traefik::config::section { 'acme':
       hash => {
+        'email'         => $acme_email_address,
         'storage'       => "${config_dir}/acme.json",
         'onHostRule'    => true,
         'entryPoint'    => 'https',
