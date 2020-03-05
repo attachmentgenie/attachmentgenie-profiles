@@ -17,7 +17,7 @@ class profiles::security::vault (
   Boolean $manage_storage_dir = true,
   Hash $storage = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' }},
   Optional[Hash] $telemetry = undef,
-  String $version = '1.3.2',
+  String $version = '1.3.3',
 ){
   class {'vault':
     config_dir         => $config_dir,

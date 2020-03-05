@@ -7,7 +7,7 @@ class profiles::monitoring::prometheus::graphite_exporter (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
-  String $version = '0.6.2',
+  String $version = '0.7.0',
 ) {
   class { '::prometheus::graphite_exporter':
     version => $version,

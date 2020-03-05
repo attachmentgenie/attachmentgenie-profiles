@@ -7,7 +7,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
-  String $version = '0.12.2',
+  String $version = '0.15.0',
 ) {
   class { '::prometheus::statsd_exporter':
     version => $version,
