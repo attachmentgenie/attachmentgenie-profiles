@@ -36,7 +36,7 @@ class profiles::puppet::foreman (
   Boolean $expose_metrics = false,
   String $foreman_admin_password = 'secret',
   String $foreman_host  = $::fqdn,
-  String $foreman_repo = '1.22',
+  String $foreman_repo = '1.24',
   String $oauth_consumer_key = 'secret',
   String $oauth_consumer_secret = 'secret',
   Boolean $passenger = true,
