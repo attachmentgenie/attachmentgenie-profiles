@@ -68,7 +68,6 @@ class profiles::puppet::foreman (
     oauth_consumer_key           => $oauth_consumer_key,
     oauth_consumer_secret        => $oauth_consumer_secret,
     passenger                    => $passenger,
-    selinux                      => $selinux,
     ssl                          => $ssl,
     server_ssl_ca                => $server_ssl_ca,
     server_ssl_chain             => $server_ssl_chain,
