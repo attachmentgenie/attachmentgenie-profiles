@@ -8,7 +8,7 @@
 #  class { '::profiles::website::traefik': }
 #
 class profiles::website::traefik (
-  String $acme_email_address,
+  String $acme_email_address = undef,
   Stdlib::Absolutepath $config_dir = '/etc/traefik.d',
   Hash $config = {
     'debug' => false,
