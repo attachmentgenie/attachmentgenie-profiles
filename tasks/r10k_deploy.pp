@@ -1,4 +1,4 @@
-plan profiles::r10k_deploy (
+task profiles::r10k_deploy (
   String $environment = '',
   TargetSpec $targets = 'puppet',
 ) {
