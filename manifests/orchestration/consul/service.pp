@@ -5,7 +5,7 @@
 #
 define profiles::orchestration::consul::service (
   Array[Hash] $checks = [],
-  Stdlib::Port::Unprivileged $port = undef,
+  Stdlib::Port $port = undef,
   String $service_name = $title,
   Array[String] $tags = [],
 ) {
