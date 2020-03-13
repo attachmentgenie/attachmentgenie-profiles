@@ -8,8 +8,11 @@
 # @param repo_version Version family to install.
 class profiles::logging::elasticsearch (
   Hash $instances = { "${::fqdn}" => {} },
+  Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = false,
   String $repo_version = '7.x',
+  String $sd_service_name = 'postgresql',
+  Array $sd_service_tags = [],
 ) {
   class { '::elasticsearch':
     jvm_options       => [
@@ -27,4 +30,10 @@ class profiles::logging::elasticsearch (
     restart_on_change => true
   }
   create_resources('elasticsearch::instance', $instances)
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow allow elasticsearch':
+      port => [9200,9300],
+    }
+  }
 }

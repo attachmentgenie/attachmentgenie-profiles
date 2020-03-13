@@ -57,6 +57,7 @@ class profiles::testing::jenkins (
   Stdlib::Host $listen_address = '127.0.0.1',
   Boolean $lts = true,
   Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
   Boolean $manage_repo = false,
   Boolean $master = true,
   String $master_url = "http://${::fqdn}",
@@ -139,6 +140,8 @@ class profiles::testing::jenkins (
   },
   Stdlib::Port::Unprivileged $port = 8080,
   Boolean $purge_plugins = true,
+  String $sd_service_name = 'jenkins',
+  Array $sd_service_tags = [],
   Boolean $slave = false,
   Boolean $slave_disable_ssl_verification = true,
   Integer $slave_executors = $::processors['count'],
@@ -203,6 +206,18 @@ class profiles::testing::jenkins (
 
       ::profiles::bootstrap::firewall::entry { '200 allow jenkins slaves':
         port => [44444],
+      }
+    }
+    if $manage_sd_service {
+      ::profiles::orchestration::consul::service { $sd_service_name:
+        checks => [
+          {
+            http     => "http://${listen_address}:8080",
+            interval => '10s'
+          }
+        ],
+        port   => 8080,
+        tags   => $sd_service_tags,
       }
     }
   }

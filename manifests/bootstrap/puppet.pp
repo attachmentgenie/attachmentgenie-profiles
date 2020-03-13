@@ -43,9 +43,13 @@ class profiles::bootstrap::puppet (
   String $hiera_yaml_datadir = '/var/lib/hiera',
   Boolean $install_toml = false,
   Boolean $install_vault = false,
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
   Optional[String] $puppetmaster ='puppet',
   String $runmode = 'service',
   Integer $runinterval = 1800,
+  String $sd_service_name = 'puppet',
+  Array $sd_service_tags = ['metrics'],
   Boolean $server = false,
   Hash $server_additional_settings = {},
   Boolean $server_ca = true,
@@ -136,8 +140,22 @@ class profiles::bootstrap::puppet (
       }
     }
 
-    profiles::bootstrap::firewall::entry { '100 allow puppetmaster':
-      port => 8140,
+    if $manage_firewall_entry {
+      profiles::bootstrap::firewall::entry { '100 allow puppetmaster':
+        port => 8140,
+      }
+    }
+    if $manage_sd_service {
+      ::profiles::orchestration::consul::service { $sd_service_name:
+        checks => [
+          {
+            http     => "http://${::ipaddress}:8140",
+            interval => '10s'
+          }
+        ],
+        port   => 8140,
+        tags   => $sd_service_tags,
+      }
     }
   }
 

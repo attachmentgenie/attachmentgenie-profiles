@@ -27,7 +27,10 @@ class profiles::alerting::icingaweb2 (
   String $ido_database_name = 'icinga2',
   String $ido_database_password = 'icinga2',
   String $ido_database_user = 'icinga2',
+  Boolean $manage_sd_service = false,
   Boolean $manage_repo = false,
+  String $sd_service_name = 'icingaweb',
+  Array $sd_service_tags = ['metrics'],
   Array $modules = [],
   Hash $roles = {},
 ) {
@@ -69,5 +72,16 @@ class profiles::alerting::icingaweb2 (
   if ( $roles!= {} ) {
     create_resources( ::icingaweb2::config::role, $roles )
   }
-
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => "http://${::ipaddress}",
+          interval => '10s'
+        }
+      ],
+      port   => 80,
+      tags   => $sd_service_tags,
+    }
+  }
 }

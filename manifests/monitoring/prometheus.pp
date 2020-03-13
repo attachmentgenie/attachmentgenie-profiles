@@ -11,6 +11,7 @@ class profiles::monitoring::prometheus (
   Enum['url', 'package', 'none'] $install_method = 'none',
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
+  String $sd_service_name = 'prometheus',
   Boolean $manage_sd_service = false,
   Boolean $pushgateway = false,
   Array $scrape_configs = [ {
@@ -69,7 +70,7 @@ class profiles::monitoring::prometheus (
     }
 
     if $manage_sd_service {
-      ::profiles::orchestration::consul::service { 'prometheus':
+      ::profiles::orchestration::consul::service { $sd_service_name:
         checks => [
           {
             http     => 'http://localhost:9090',

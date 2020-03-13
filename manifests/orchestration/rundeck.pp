@@ -28,22 +28,28 @@ class profiles::orchestration::rundeck (
   Array $auth_types         = ['file'],
   String $grails_server_url = "http://${::fqdn}",
   String $group             = 'rundeck',
-  String $jvm_args          = '-Dserver.http.host=127.0.0.1',
+  String $jvm_args          = '',
+  $listen_address           = '127.0.0.1',
+  Boolean $manage_firewall_entry = true,
   Boolean $manage_repo      = false,
+  Boolean $manage_sd_service = false,
   String $package           = '3.2.3',
   Hash $projects            = {},
   Boolean $puppetdb         = false,
   String $puppetdb_template = 'profiles/defaultMapping.json.erb',
   String $puppetdb_version  = '0.9.5',
   String $rundeck_user      = 'rundeck',
+  String $sd_service_name = 'mysql',
+  Array $sd_service_tags = [],
   String $user              = 'rundeck',
 ) {
+  $_jvm_args = "${jvm_args} -Dserver.http.host=${listen_address}"
   class { '::rundeck':
     auth_config       => $auth_config,
     auth_types        => $auth_types,
     grails_server_url => $grails_server_url,
     group             => $group,
-    jvm_args          => $jvm_args,
+    jvm_args          => $_jvm_args,
     manage_repo       => $manage_repo,
     package_ensure    => $package,
     user              => $user,
@@ -57,6 +63,24 @@ class profiles::orchestration::rundeck (
       rundeck_user => $rundeck_user,
       version      => $puppetdb_version,
       user         => $user,
+    }
+  }
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow rundeck':
+      port => 4440,
+    }
+  }
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => "http://${listen_address}:4440",
+          interval => '10s'
+        }
+      ],
+      port   => 4440,
+      tags   => $sd_service_tags,
     }
   }
 }

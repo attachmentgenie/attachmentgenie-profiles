@@ -20,6 +20,10 @@ class profiles::website::traefik (
   Boolean $expose_api = true,
   Boolean $expose_metrics = true,
   Boolean $expose_ui = false,
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
+  String $sd_service_name = 'traefik',
+  Array $sd_service_tags = ['metrics'],
   Boolean $use_consul = true,
   String $version = '1.7.21',
 ) {
@@ -89,8 +93,10 @@ class profiles::website::traefik (
     }
   }
 
-  profiles::bootstrap::firewall::entry { '200 allow Traefik HTTP and HTTPS':
-    port => $firewall_ports,
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow Traefik HTTP and HTTPS':
+      port => $firewall_ports,
+    }
   }
 
   if $use_consul {
@@ -110,8 +116,22 @@ class profiles::website::traefik (
       },
     }
     if $expose_ui {
-      profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
-        port => [8080],
+      if $manage_firewall_entry {
+        profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
+          port => [8080],
+        }
+      }
+      if $manage_sd_service {
+        ::profiles::orchestration::consul::service { $sd_service_name:
+          checks => [
+            {
+              http     => "http://${::ipaddress}",
+              interval => '10s'
+            }
+          ],
+          port   => 8080,
+          tags   => $sd_service_tags,
+        }
       }
     }
   }

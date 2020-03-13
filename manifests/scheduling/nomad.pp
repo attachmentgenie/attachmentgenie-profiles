@@ -15,7 +15,11 @@ class profiles::scheduling::nomad (
   Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
   Boolean $consul_connect = false,
   String $job_port_range = '20000-32000',
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = true,
   Boolean $manage_sysctl = true,
+  String $sd_service_name = 'nomad-ui',
+  Array $sd_service_tags = ['metrics'],
   String $version = '0.10.4',
 ){
   if $consul_connect {
@@ -40,18 +44,31 @@ class profiles::scheduling::nomad (
     version         => $version,
   }
 
-  # https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports
-  ::profiles::bootstrap::firewall::entry { '200 allow Nomad services':
-    port => [$job_port_range],
+  if $manage_firewall_entry {
+    # https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports
+    ::profiles::bootstrap::firewall::entry { '200 allow Nomad services':
+      port => [$job_port_range],
+    }
+    ::profiles::bootstrap::firewall::entry { '200 allow Nomad http':
+      port => [4646],
+    }
+    ::profiles::bootstrap::firewall::entry { '200 allow Nomad rpc':
+      port => [4647],
+    }
+    ::profiles::bootstrap::firewall::entry { '200 allow Nomad serf':
+      port => [4648],
+    }
   }
-
-  ::profiles::bootstrap::firewall::entry { '200 allow Nomad http':
-    port => [4646],
-  }
-  ::profiles::bootstrap::firewall::entry { '200 allow Nomad rpc':
-    port => [4647],
-  }
-  ::profiles::bootstrap::firewall::entry { '200 allow Nomad serf':
-    port => [4648],
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => "http://${::ipaddress}:4646",
+          interval => '10s'
+        }
+      ],
+      port   => 4646,
+      tags   => $sd_service_tags,
+    }
   }
 }

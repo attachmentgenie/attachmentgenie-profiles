@@ -37,11 +37,15 @@ class profiles::puppet::foreman (
   String $foreman_admin_password = 'secret',
   String $foreman_host  = $::fqdn,
   String $foreman_repo = '1.24',
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
   String $oauth_consumer_key = 'secret',
   String $oauth_consumer_secret = 'secret',
   Boolean $passenger = true,
   Hash $plugins = {},
   Enum['http','https'] $protocol = 'https',
+  String $sd_service_name = 'foreman',
+  Array $sd_service_tags = ['metrics'],
   Boolean $selinux = false,
   String $server_ssl_ca = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
   String $server_ssl_chain = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
@@ -92,5 +96,23 @@ class profiles::puppet::foreman (
 
   if $passenger {
     Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
+  }
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '100 allow foreman':
+      port => 80,
+    }
+  }
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => "http://${::ipaddress}",
+          interval => '10s'
+        }
+      ],
+      port   => 80,
+      tags   => $sd_service_tags,
+    }
   }
 }
