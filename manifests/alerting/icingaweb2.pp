@@ -29,7 +29,7 @@ class profiles::alerting::icingaweb2 (
   String $ido_database_user = 'icinga2',
   Boolean $manage_sd_service = false,
   Boolean $manage_repo = false,
-  String $sd_service_name = 'icingaweb',
+  String $sd_service_name = 'icinga',
   Array $sd_service_tags = ['metrics'],
   Array $modules = [],
   Hash $roles = {},
