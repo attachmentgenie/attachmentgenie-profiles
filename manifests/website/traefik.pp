@@ -125,7 +125,7 @@ class profiles::website::traefik (
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              http     => "http://${::ipaddress}",
+              http     => "http://${::ipaddress}:8080",
               interval => '10s'
             }
           ],
