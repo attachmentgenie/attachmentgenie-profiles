@@ -149,7 +149,7 @@ class profiles::bootstrap::puppet (
       ::profiles::orchestration::consul::service { $sd_service_name:
         checks => [
           {
-            http     => "http://${::ipaddress}:8140",
+            tcp      => "${::ipaddress}:8140",
             interval => '10s'
           }
         ],
