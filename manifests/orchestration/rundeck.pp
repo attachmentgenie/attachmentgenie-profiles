@@ -39,7 +39,7 @@ class profiles::orchestration::rundeck (
   String $puppetdb_template = 'profiles/defaultMapping.json.erb',
   String $puppetdb_version  = '0.9.5',
   String $rundeck_user      = 'rundeck',
-  String $sd_service_name = 'mysql',
+  String $sd_service_name = 'rundeck',
   Array $sd_service_tags = [],
   String $user              = 'rundeck',
 ) {

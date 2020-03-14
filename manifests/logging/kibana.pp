@@ -10,7 +10,7 @@ class profiles::logging::kibana (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = false,
   Boolean $manage_sd_service = false,
-  String $sd_service_name = 'postgresql',
+  String $sd_service_name = 'kibana',
   Array $sd_service_tags = [],
   String $version = present,
 ) {
