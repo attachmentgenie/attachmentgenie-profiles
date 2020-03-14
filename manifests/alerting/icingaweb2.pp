@@ -76,7 +76,7 @@ class profiles::alerting::icingaweb2 (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}",
+          tcp      => "${::ipaddress}",
           interval => '10s'
         }
       ],
