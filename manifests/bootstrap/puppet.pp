@@ -49,7 +49,7 @@ class profiles::bootstrap::puppet (
   String $runmode = 'service',
   Integer $runinterval = 1800,
   String $sd_service_name = 'puppet',
-  Array $sd_service_tags = ['metrics'],
+  Array $sd_service_tags = [],
   Boolean $server = false,
   Hash $server_additional_settings = {},
   Boolean $server_ca = true,

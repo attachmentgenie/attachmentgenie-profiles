@@ -19,7 +19,7 @@ class profiles::scheduling::nomad (
   Boolean $manage_sd_service = true,
   Boolean $manage_sysctl = true,
   String $sd_service_name = 'nomad-ui',
-  Array $sd_service_tags = ['metrics'],
+  Array $sd_service_tags = [],
   String $version = '0.10.4',
 ){
   if $consul_connect {

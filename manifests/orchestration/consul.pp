@@ -19,7 +19,7 @@ class profiles::orchestration::consul (
   Boolean $manage_sd_service = false,
   String $options = '-enable-script-checks -syslog',
   String $sd_service_name = 'consul-ui',
-  Array $sd_service_tags = ['metrics'],
+  Array $sd_service_tags = [],
   Boolean $server = false,
   Hash $services = {},
   String $version = '1.7.1',
