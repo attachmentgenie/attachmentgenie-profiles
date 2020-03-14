@@ -14,7 +14,7 @@ class profiles::database::mysql (
   Hash $override_options = {},
   String $root_password = 'secret',
   String $sd_service_name = 'mysql',
-  Array $sd_service_tags = ['metrics'],
+  Array $sd_service_tags = [],
 ) {
   $_listen_address = { 'mysqld' => { 'bind-address' => "${listen_address}" } }
   class { '::mysql::server':
