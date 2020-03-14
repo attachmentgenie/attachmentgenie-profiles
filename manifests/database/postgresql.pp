@@ -52,7 +52,7 @@ class profiles::database::postgresql (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${listen_address}:5432",
+          tcp      => "${listen_address}:5432",
           interval => '10s'
         }
       ],

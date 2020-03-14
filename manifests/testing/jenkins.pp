@@ -212,7 +212,7 @@ class profiles::testing::jenkins (
       ::profiles::orchestration::consul::service { $sd_service_name:
         checks => [
           {
-            http     => "http://${listen_address}:8080",
+            tcp      => "${listen_address}:8080",
             interval => '10s'
           }
         ],

@@ -42,7 +42,7 @@ class profiles::database::mysql (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${listen_address}:3306",
+          tcp      => "${listen_address}:3306",
           interval => '10s'
         }
       ],
