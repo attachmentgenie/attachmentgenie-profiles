@@ -10,17 +10,26 @@
 # @param ssl_listen_address Interface to bind ssl to.
 class profiles::puppet::puppetdb (
   String $database_host = 'localhost',
+  String $database_grant = 'all',
+  String $database_name = 'puppetdb',
   String $database_password = 'puppetdb',
+  String $database_user = 'puppetdb',
   Boolean $install_client_tools = true,
   String $listen_address = '0.0.0.0',
-  Boolean $manage_firewall = false,
+  Boolean $manage_database = true,
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
+  String $sd_service_name = 'puppetdb',
+  Array $sd_service_tags = [],
   String $ssl_listen_address = '0.0.0.0',
 ) {
   class { '::puppetdb::server':
     database_host      => $database_host,
+    database_name      => $database_name,
     database_password  => $database_password,
+    database_username  => $database_user,
     listen_address     => $listen_address,
-    manage_firewall    => $manage_firewall,
+    manage_firewall    => false,
     ssl_listen_address => $ssl_listen_address,
   }
 
@@ -38,7 +47,30 @@ class profiles::puppet::puppetdb (
     }
   }
 
-  profiles::bootstrap::firewall::entry { '100 allow puppetdb':
-    port => 8081,
+  if $manage_database {
+    profiles::database::postgresql::db { $database_name:
+      grant    => $database_grant,
+      password => $database_password,
+      user     => $database_user,
+    }
+  }
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '100 allow puppetdb':
+      port => 8081,
+    }
+  }
+
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => "http://${::ipaddress}:8081",
+          interval => '10s'
+        }
+      ],
+      port   => 8081,
+      tags   => $sd_service_tags,
+    }
   }
 }

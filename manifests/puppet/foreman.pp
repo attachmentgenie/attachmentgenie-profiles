@@ -29,14 +29,17 @@
 # @param user_groups            List of groups for foreman user to join.
 class profiles::puppet::foreman (
   Boolean $configure_epel_repo = false,
-  String $db_host = 'localhost',
-  Boolean $db_manage = false,
+  String $database_host = 'localhost',
+  String $database_grant = 'all',
+  String $database_name = 'foreman',
+  String $database_password = 'foreman',
+  String $database_user = 'foreman',
   Boolean $db_manage_rake = true,
-  String $db_password = 'foreman',
   Boolean $expose_metrics = false,
   String $foreman_admin_password = 'secret',
   String $foreman_host  = $::fqdn,
   String $foreman_repo = '1.24',
+  Boolean $manage_database = true,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   String $oauth_consumer_key = 'secret',
@@ -63,10 +66,12 @@ class profiles::puppet::foreman (
   }
   class { '::foreman':
     configure_epel_repo          => $configure_epel_repo,
-    db_host                      => $db_host,
-    db_manage                    => $db_manage,
+    db_database                  => $database_name,
+    db_host                      => $database_host,
+    db_manage                    => false,
     db_manage_rake               => $db_manage_rake,
-    db_password                  => $db_password,
+    db_password                  => $database_password,
+    db_username                  => $database_user,
     foreman_url                  => "${protocol}://${foreman_host}",
     initial_admin_password       => $foreman_admin_password,
     oauth_consumer_key           => $oauth_consumer_key,
@@ -96,6 +101,14 @@ class profiles::puppet::foreman (
 
   if $passenger {
     Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
+  }
+
+  if $manage_database {
+    profiles::database::postgresql::db { $database_name:
+      grant    => $database_grant,
+      password => $database_password,
+      user     => $database_user,
+    }
   }
 
   if $manage_firewall_entry {
