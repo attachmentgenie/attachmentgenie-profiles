@@ -31,7 +31,7 @@ class profiles::alerting::icingaweb2::director (
 
   class {'icingaweb2::module::director':
     db_name       => $database_name,
-    db_username   => $database_user,
+    db_username   => $database_username,
     db_password   => $database_password,
     db_host       => $database_host,
     db_type       => 'pgsql',
