@@ -222,13 +222,13 @@ class profiles::monitoring::icinga2 (
     profiles::bootstrap::firewall::entry { '200 allow icinga':
       port => 5665,
     }
-  }
 
-  if $manage_database {
-    profiles::database::postgresql::db { $database_name:
-      grant    => $database_grant,
-      password => $database_password,
-      user     => $database_user,
+    if $manage_database {
+      profiles::database::postgresql::db { $database_name:
+        grant    => $database_grant,
+        password => $database_password,
+        user     => $database_user,
+      }
     }
   }
 }
