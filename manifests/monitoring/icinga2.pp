@@ -43,6 +43,7 @@ class profiles::monitoring::icinga2 (
   Optional[Hash] $api_users = undef,
   Boolean $client = true,
   Variant[Boolean,String] $confd = false,
+  String $database_grant = 'all',
   String $database_host = '127.0.0.1',
   String $database_name = 'icinga2',
   String $database_password = 'icinga2',
@@ -51,6 +52,7 @@ class profiles::monitoring::icinga2 (
   Optional[Stdlib::Host] $graphite_host = undef,
   Optional[Stdlib::Port::Unprivileged] $graphite_port = undef,
   String $group = $::profiles::monitoring::icinga2::params::group,
+  Boolean $manage_database = true,
   Boolean $manage_repo = false,
   String $owner = $::profiles::monitoring::icinga2::params::owner,
   String $parent_zone = 'master',
@@ -219,6 +221,14 @@ class profiles::monitoring::icinga2 (
 
     profiles::bootstrap::firewall::entry { '200 allow icinga':
       port => 5665,
+    }
+  }
+
+  if $manage_database {
+    profiles::database::postgresql::db { $database_name:
+      grant    => $database_grant,
+      password => $database_password,
+      user     => $database_user,
     }
   }
 }

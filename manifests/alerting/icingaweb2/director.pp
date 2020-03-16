@@ -18,20 +18,22 @@ class profiles::alerting::icingaweb2::director (
   String $api_user = $::profiles::alerting::icingaweb2::api_user,
   String $api_password = $::profiles::alerting::icingaweb2::api_password,
   String $api_host = 'localhost',
-  String $db_name = 'director',
-  String $db_username = 'director',
-  String $db_password = 'director',
-  String $db_host = 'localhost',
+  String $database_grant = 'all',
+  String $database_host = 'localhost',
+  String $database_name = 'director',
+  String $database_username = 'director',
+  String $database_password = 'director',
   String $endpoint = $::fqdn,
   Boolean $daemon_enable = true,
+  Boolean $manage_database = true,
   Optional[String] $version = 'v1.7.2',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::director':
-    db_name       => $db_name,
-    db_username   => $db_username,
-    db_password   => $db_password,
-    db_host       => $db_host,
+    db_name       => $database_name,
+    db_username   => $database_user,
+    db_password   => $database_password,
+    db_host       => $database_host,
     db_type       => 'pgsql',
     db_port       => 5432,
     git_revision  => $version,
@@ -43,7 +45,7 @@ class profiles::alerting::icingaweb2::director (
     endpoint      => $endpoint,
     require       => [
       Package['git'],
-      Postgresql::Server::Db[$db_name],
+      Postgresql::Server::Db[$database_name],
     ],
   }
 
@@ -59,6 +61,14 @@ class profiles::alerting::icingaweb2::director (
     }
     ~> service {'icinga-director':
       ensure => 'running',
+    }
+  }
+
+  if $manage_database {
+    profiles::database::postgresql::db { $database_name:
+      grant    => $database_grant,
+      password => $database_password,
+      user     => $database_user,
     }
   }
 }

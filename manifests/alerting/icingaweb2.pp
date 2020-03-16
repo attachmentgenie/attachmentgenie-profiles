@@ -19,6 +19,7 @@
 class profiles::alerting::icingaweb2 (
   String $api_password = 'icinga',
   String $api_user = 'root',
+  String $database_grant = 'all',
   String $database_host = '127.0.0.1',
   String $database_name = 'icingaweb2',
   String $database_password = 'icingaweb2',
@@ -27,6 +28,7 @@ class profiles::alerting::icingaweb2 (
   String $ido_database_name = 'icinga2',
   String $ido_database_password = 'icinga2',
   String $ido_database_user = 'icinga2',
+  Boolean $manage_database = true,
   Boolean $manage_sd_service = false,
   Boolean $manage_repo = false,
   String $sd_service_name = 'icinga',
@@ -71,6 +73,14 @@ class profiles::alerting::icingaweb2 (
 
   if ( $roles!= {} ) {
     create_resources( ::icingaweb2::config::role, $roles )
+  }
+
+  if $manage_database {
+    profiles::database::postgresql::db { $database_name:
+      grant    => $database_grant,
+      password => $database_password,
+      user     => $database_user,
+    }
   }
   if $manage_sd_service {
     ::profiles::orchestration::consul::service { $sd_service_name:
