@@ -4,10 +4,10 @@
 #  class { '::profiles::database::postgresql::db': }
 #
 define profiles::database::postgresql::db (
-  Boolean $encrypted = true,
-  String $grant = 'ALL',
   String $password,
   String $user,
+  Boolean $encrypted = true,
+  String $grant = 'ALL',
 ) {
 
   if $encrypted {
