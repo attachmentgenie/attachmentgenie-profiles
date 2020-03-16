@@ -25,6 +25,7 @@
 # @param plugins_package                Package with plugins to install.
 # @param server                         Is this a icinga masters.
 # @param services                       services
+# @param servicegroups                  Servicegroups
 # @param slack                          Slack integration.
 # @param slack_channel                  Slack channel to send notifications to.
 # @param slack_webhook                  Slack webhook url.
@@ -62,6 +63,7 @@ class profiles::monitoring::icinga2 (
   Optional[String] $slack_webhook = undef,
   Hash $checkcommands = {},
   Hash $services = {},
+  Hash $servicegroups = {},
   Hash $timeperiods = {},
   Hash $usergroups = {},
   Hash $vars = {},
@@ -196,6 +198,7 @@ class profiles::monitoring::icinga2 (
     # Generate objects
     ensure_resources( ::icinga2::object::checkcommand, $checkcommands )
     ensure_resources( ::icinga2::object::service, $services )
+    ensure_resources( ::icinga2::object::servicegroup, $servicegroups )
     ensure_resources( ::icinga2::object::timeperiod, $timeperiods )
     ensure_resources( ::icinga2::object::usergroup, $usergroups )
     ensure_resources( ::icinga2::object::notification, $notifications )
