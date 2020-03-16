@@ -77,9 +77,10 @@ class profiles::alerting::icingaweb2 (
 
   if $manage_database {
     profiles::database::postgresql::db { $database_name:
-      grant    => $database_grant,
-      password => $database_password,
-      user     => $database_user,
+      encrypted => false,
+      grant     => $database_grant,
+      password  => $database_password,
+      user      => $database_user,
     }
   }
   if $manage_sd_service {
