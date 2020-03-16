@@ -77,7 +77,6 @@ class profiles::alerting::icingaweb2 (
 
   if $manage_database {
     profiles::database::postgresql::db { $database_name:
-      encrypted => false,
       grant     => $database_grant,
       password  => $database_password,
       user      => $database_user,
