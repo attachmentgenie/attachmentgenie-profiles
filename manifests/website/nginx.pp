@@ -51,11 +51,11 @@ class profiles::website::nginx (
   $resource_defaults = {
     tag        => 'do_b',
   }
-  create_resources( 'nginx::resource::server', $vhosts, $resource_defaults )
+  create_resources( '::profiles::website::nginx::vhost', $vhosts, $resource_defaults )
   create_resources( 'nginx::resource::streamhost', $streams, $resource_defaults )
   create_resources( 'nginx::resource::upstream', $upstreams, $resource_defaults )
 
-  Package<| tag == 'do_a' |> -> Nginx::Resource::Server<| tag == 'do_b' |>
+  Package<| tag == 'do_a' |> -> ::Profiles::Website::Nginx::Vhost<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Streamhost<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Upstream<| tag == 'do_b' |>
 

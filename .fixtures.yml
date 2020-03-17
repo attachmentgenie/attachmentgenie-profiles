@@ -105,6 +105,7 @@ fixtures:
     uwsgi: "https://github.com/rvdh/puppet-uwsgi.git"
     vault: "https://github.com/jsok/puppet-vault.git"
     wget: "https://github.com/maestrodev/puppet-wget.git"
+    yum: "https://github.com/voxpupuli/puppet-yum.git"
     yumrepo_core:
       repo: "git://github.com/puppetlabs/puppetlabs-yumrepo_core"
       puppet_version: ">= 6.0.0"
