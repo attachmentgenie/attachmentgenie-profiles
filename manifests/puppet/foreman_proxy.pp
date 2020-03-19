@@ -53,6 +53,8 @@ class profiles::puppet::foreman_proxy (
     version               => $version,
   }
 
+  Foreman::Repos <||> -> Package['foreman-proxy']
+
   case $::osfamily {
     'debian': {}
     'RedHat': {}

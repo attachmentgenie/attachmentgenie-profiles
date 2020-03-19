@@ -93,7 +93,7 @@ class profiles::puppet::foreman (
     username    => 'admin',
     password    => $foreman_admin_password,
   }
-  create_resources(::foreman::plugin, $plugins)
+  create_resources(::profiles::puppet::foreman::plugin, $plugins)
   $settings_defaults = {
     tag    => 'do_a',
   }
@@ -109,6 +109,8 @@ class profiles::puppet::foreman (
       password => $database_password,
       user     => $database_user,
     }
+
+    Profiles::Database::Postgresql::Db[$database_name] -> Exec['foreman-rake-db:migrate']
   }
 
   if $manage_firewall_entry {

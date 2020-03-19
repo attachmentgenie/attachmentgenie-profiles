@@ -9,7 +9,7 @@
 define profiles::puppet::foreman::setting (
   Variant[Boolean, Integer, String] $value,
 ) {
-  foreman_config_entry { $name:
+  foreman_config_entry { $title:
     value => $value,
   }
 }
