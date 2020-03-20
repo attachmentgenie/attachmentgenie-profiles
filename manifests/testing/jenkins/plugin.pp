@@ -3,7 +3,7 @@
 # @example when declaring this class
 #  ::profiles::testing::jenkins::plugin { 'foo.bar': }
 #
-class profiles::testing::jenkins::plugin (
+define profiles::testing::jenkins::plugin (
   Optional[String] $version = undef,
 ){
 
