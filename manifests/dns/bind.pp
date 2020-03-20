@@ -18,7 +18,7 @@ class profiles::dns::bind (
     }
   }
 
-  create_resources( '::dns::zone', $zones )
+  create_resources( '::profiles::dns::bind::zone', $zones )
 
   profiles::bootstrap::firewall::entry { '200 allow Bind TCP':
     port     => [53],
