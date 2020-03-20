@@ -197,7 +197,7 @@ class profiles::testing::jenkins (
       }
     }
 
-    create_resources(::jenkins::plugin, deep_merge($plugins_default, $plugins))
+    create_resources(::profiles::testing::jenkins::plugin, deep_merge($plugins_default, $plugins))
 
     if $manage_firewall_entry {
       ::profiles::bootstrap::firewall::entry { '200 allow jenkins':
