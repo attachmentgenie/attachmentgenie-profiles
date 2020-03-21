@@ -25,10 +25,10 @@ class profiles::website::traefik (
   String $sd_service_name = 'traefik',
   Array $sd_service_tags = ['metrics'],
   Array $tls_cipher_suites = [
-    "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384",       # TLS 1.2
-    "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256", # TLS 1.2
-    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256",       # TLS 1.2
-    "TLS_FALLBACK_SCSV"
+    'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',       # TLS 1.2
+    'TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256', # TLS 1.2
+    'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',       # TLS 1.2
+    'TLS_FALLBACK_SCSV'
   ],
   Enum['VersionTLS12','VersionTLS13'] $tls_min_version = 'VersionTLS12',
   Boolean $tls_sni_strict =true,
