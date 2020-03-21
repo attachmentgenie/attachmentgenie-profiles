@@ -24,6 +24,8 @@ class profiles::website::traefik (
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'traefik',
   Array $sd_service_tags = ['metrics'],
+  Enum['VersionTLS12','VersionTLS13'] $tlsMinVersion = 'VersionTLS12',
+  Boolean $tlsSniStrict =true,
   Boolean $use_consul = true,
   String $version = '1.7.21',
 ) {
@@ -42,7 +44,10 @@ class profiles::website::traefik (
         },
         'https' => {
           'address' => ':443',
-          'tls'     => {},
+          'tls'     => {
+            'minVersion' => $tlsMinVersion,
+            'sniStrict'  => $tlsSniStrict,
+          },
         },
       },
     }

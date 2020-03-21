@@ -52,12 +52,12 @@ class profiles::monitoring::icinga2 (
   Array $features = [ 'checker', 'command', 'mainlog', 'notification' ],
   Optional[Stdlib::Host] $graphite_host = undef,
   Optional[Stdlib::Port::Unprivileged] $graphite_port = undef,
-  String $group = $::profiles::monitoring::icinga2::params::group,
+  String $group = 'icinga',
   Boolean $manage_database = true,
   Boolean $manage_repo = false,
-  String $owner = $::profiles::monitoring::icinga2::params::owner,
+  String $owner = 'icinga',
   String $parent_zone = 'master',
-  String $plugins_package = $::profiles::monitoring::icinga2::params::plugins_package,
+  String $plugins_package = 'nagios-plugins-all',
   Boolean $server = false,
   Boolean $ship_metrics = false,
   Boolean $slack = false,
@@ -72,7 +72,7 @@ class profiles::monitoring::icinga2 (
   Hash $templates = {},
   Hash $notifications = {},
   Hash $fragments = {},
-) inherits profiles::monitoring::icinga2::params {
+) {
   if $server {
     $constants = {
       'ZoneName' => 'master',

@@ -54,12 +54,4 @@ class profiles::puppet::foreman_proxy (
   }
 
   Foreman::Repos <||> -> Package['foreman-proxy']
-
-  case $::osfamily {
-    'debian': {}
-    'RedHat': {}
-    default: {
-      fail("Unsupported osfamily ${::osfamily}")
-    }
-  }
 }
