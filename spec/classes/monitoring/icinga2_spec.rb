@@ -13,7 +13,6 @@ describe 'profiles::monitoring::icinga2' do
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::monitoring::icinga2') }
-        it { is_expected.to contain_class('profiles::monitoring::icinga2::Params') }
         it { is_expected.to contain_package('nagios-plugins-all') }
         it { is_expected.to contain_icinga2__object__endpoint('icinga.example.org') }
         it { is_expected.to contain_icinga2__object__zone('global-templates') }
