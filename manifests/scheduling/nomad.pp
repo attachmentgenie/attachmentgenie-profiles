@@ -20,7 +20,7 @@ class profiles::scheduling::nomad (
   Boolean $manage_sysctl = true,
   String $sd_service_name = 'nomad-ui',
   Array $sd_service_tags = [],
-  String $version = '0.10.4',
+  String $version = '0.10.5',
 ){
   if $consul_connect {
     include ::profiles::scheduling::nomad::cni_plugins
