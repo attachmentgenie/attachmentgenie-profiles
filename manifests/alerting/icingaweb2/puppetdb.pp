@@ -7,13 +7,15 @@
 #   class { '::profiles::alerting::icingaweb2::puppetdb': }
 #
 class profiles::alerting::icingaweb2::puppetdb (
-    $puppetdb_host = $::fqdn,
+  String $puppetdb_host = $::fqdn,
+  String $version = 'v1.0.0',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::puppetdb':
-    host    => $puppetdb_host,
-    ssl     => 'puppet',
-    require => [
+    git_revision => $version,
+    host         => $puppetdb_host,
+    ssl          => 'puppet',
+    require      => [
       Package['git'],
     ],
   }

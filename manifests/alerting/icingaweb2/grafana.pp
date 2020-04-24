@@ -14,6 +14,7 @@ class profiles::alerting::icingaweb2::grafana (
   String $grafana_password   = 'icinga2',
   String $grafana_datasource = 'influxdb',
   String $git_url            = 'https://github.com/Mikesch-mp/icingaweb2-module-grafana',
+  String $version            = 'v1.3.6',
 ) inherits profiles::alerting::icingaweb2 {
 
   $conf_dir        = $::icingaweb2::params::conf_dir
@@ -50,6 +51,7 @@ class profiles::alerting::icingaweb2::grafana (
     module         => 'grafana',
     install_method => 'git',
     git_repository => $git_url,
+    git_revision   => $version,
     settings       => $_settings,
   }
 }
