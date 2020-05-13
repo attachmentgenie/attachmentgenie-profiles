@@ -3,7 +3,6 @@
 # @example when declaring the foreman class
 #  class { '::profiles::puppet::foreman': }
 #
-# @param configure_epel_repo    Configure epel repository
 # @param db_host                Db host.
 # @param db_manage              Manage the DB backend.
 # @param db_manage_rake         Manage the DB rake jobs.
@@ -28,7 +27,6 @@
 # @param unattended             Allow unattended installs.
 # @param user_groups            List of groups for foreman user to join.
 class profiles::puppet::foreman (
-  Boolean $configure_epel_repo = false,
   String $database_host = 'localhost',
   String $database_grant = 'all',
   String $database_name = 'foreman',
@@ -64,8 +62,10 @@ class profiles::puppet::foreman (
   } else {
     $ssl  = false
   }
-  class { '::foreman':
-    configure_epel_repo          => $configure_epel_repo,
+  class { 'foreman::repo':
+    repo => $foreman_repo,
+  }
+  -> class { '::foreman':
     db_database                  => $database_name,
     db_host                      => $database_host,
     db_manage                    => false,
@@ -84,7 +84,6 @@ class profiles::puppet::foreman (
     server_ssl_key               => $server_ssl_key,
     server_ssl_crl               => $server_ssl_crl,
     telemetry_prometheus_enabled => $expose_metrics,
-    repo                         => $foreman_repo,
     unattended                   => $unattended,
     user_groups                  => $user_groups,
   }
