@@ -8,11 +8,15 @@
 class profiles::logging (
   Boolean $elasticsearch = false,
   Boolean $kibana = false,
+  Boolean $loki = false,
 ) {
   if $elasticsearch {
     class { '::profiles::logging::elasticsearch': }
   }
   if $kibana {
     class { '::profiles::logging::kibana': }
+  }
+  if $loki {
+    class { '::profiles::logging::loki': }
   }
 }

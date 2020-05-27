@@ -8,6 +8,7 @@
 # @param icinga2      Manage icinga on this node.
 # @param logstash     Manage logstash on this node.
 # @param prometheus   Manage prometheus on this node.
+# @param promtail     Manage promtail on this node.
 # @param statsd       Manage statsd on this node.
 class profiles::monitoring (
   Boolean $carbon_relay = false,
@@ -15,6 +16,7 @@ class profiles::monitoring (
   Boolean $icinga2= false,
   Boolean $logstash = false,
   Boolean $prometheus = false,
+  Boolean $promtail = false,
   Boolean $statsd = false,
 ) {
   if $carbon_relay {
@@ -31,6 +33,9 @@ class profiles::monitoring (
   }
   if $prometheus {
     class { '::profiles::monitoring::prometheus': }
+  }
+  if $promtail {
+    class { '::profiles::monitoring::promtail': }
   }
   if $statsd {
     class { '::profiles::monitoring::statsd': }

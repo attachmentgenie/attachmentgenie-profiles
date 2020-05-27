@@ -23,6 +23,7 @@ class profiles::website::nginx (
   String $client_max_body_size = '1k',
   String $daemon_user = 'nginx',
   Hash $upstreams = {},
+  Hash $proxies = {},
   Boolean $purge_configs = true,
   Boolean $stream = false,
   Hash $streams = {},
@@ -52,10 +53,12 @@ class profiles::website::nginx (
     tag        => 'do_b',
   }
   create_resources( '::profiles::website::nginx::vhost', $vhosts, $resource_defaults )
+  create_resources( '::profiles::website::nginx::proxy', $proxies, $resource_defaults )
   create_resources( 'nginx::resource::streamhost', $streams, $resource_defaults )
   create_resources( 'nginx::resource::upstream', $upstreams, $resource_defaults )
 
   Package<| tag == 'do_a' |> -> ::Profiles::Website::Nginx::Vhost<| tag == 'do_b' |>
+  Package<| tag == 'do_a' |> -> ::Profiles::Website::Nginx::Proxy<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Streamhost<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Upstream<| tag == 'do_b' |>
 
