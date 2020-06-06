@@ -33,7 +33,7 @@ class profiles::website::traefik (
   Enum['VersionTLS12','VersionTLS13'] $tls_min_version = 'VersionTLS12',
   Boolean $tls_sni_strict =true,
   Boolean $use_consul = true,
-  String $version = '1.7.22',
+  String $version = '1.7.24',
 ) {
 
   if $protocol == 'https' {
