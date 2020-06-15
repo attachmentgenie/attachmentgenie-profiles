@@ -8,7 +8,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = [],
   Array $sd_service_tags_exporter = ['metrics'],
-  String $version = '0.15.0',
+  String $version = '0.16.0',
 ) {
   class { '::prometheus::statsd_exporter':
     version => $version,
