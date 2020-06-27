@@ -4,9 +4,13 @@
 #  ::profiles::dns::bind::zone { 'foo.bar': }
 #
 define profiles::dns::bind::zone (
+  Boolean $reverse = false,
+  String $soa = $::fqdn,
   Optional[Stdlib::IP::Address::V4] $soaip = undef,
 ) {
   ::dns::zone { $name:
-    soaip => $soaip,
+    reverse => $reverse,
+    soa     => $soa,
+    soaip   => $soaip,
   }
 }
