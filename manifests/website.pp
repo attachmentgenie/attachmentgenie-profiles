@@ -22,6 +22,7 @@ class profiles::website (
   Boolean $letsencrypt = false,
   Boolean $nginx       = false,
   Boolean $traefik     = false,
+  Boolean $traefik2    = false,
   Boolean $uwsgi       = false,
 ){
   if $apache {
@@ -42,6 +43,10 @@ class profiles::website (
 
   if $traefik {
     class { '::profiles::website::traefik': }
+  }
+
+  if $traefik2 {
+    class { '::profiles::website::traefik2': }
   }
 
   if $uwsgi {
