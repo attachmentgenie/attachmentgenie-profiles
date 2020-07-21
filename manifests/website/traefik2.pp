@@ -15,7 +15,7 @@ class profiles::website::traefik2 (
   String $sd_service_name = 'traefik',
   Array $sd_service_tags = ['metrics'],
   Hash $static_config = {},
-  String $version = '2.2.1',
+  String $version = '2.2.7',
 ) {
   if $protocol == 'https' {
     $firewall_ports = [80,443]
