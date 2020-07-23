@@ -15,6 +15,7 @@ class profiles::website::traefik2 (
   String $sd_service_name = 'traefik',
   Array $sd_service_tags = ['metrics'],
   Hash $static_config = {},
+  Integer $traefik_api_port = 8080,
   String $version = '2.2.7',
 ) {
   if $protocol == 'https' {
@@ -39,18 +40,18 @@ class profiles::website::traefik2 (
     if $expose_ui {
       if $manage_firewall_entry {
         profiles::bootstrap::firewall::entry { '200 allow Traefik Proxy and API/Dashboard':
-          port => [8080],
+          port => [$traefik_api_port],
         }
       }
       if $manage_sd_service {
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              http     => "http://${::ipaddress}:8080",
+              http     => "http://${::ipaddress}:${traefik_api_port}/ping/",
               interval => '10s'
             }
           ],
-          port   => 8080,
+          port   => $traefik_api_port,
           tags   => $sd_service_tags,
         }
       }
