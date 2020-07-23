@@ -21,7 +21,7 @@ class profiles::security::vault (
   Array $sd_service_tags = ['metrics'],
   Hash $storage = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' }},
   Optional[Hash] $telemetry = undef,
-  String $version = '1.4.2',
+  String $version = '1.5.0',
 ){
   class {'vault':
     config_dir         => $config_dir,
