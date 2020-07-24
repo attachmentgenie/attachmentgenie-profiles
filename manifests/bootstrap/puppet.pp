@@ -65,7 +65,7 @@ class profiles::bootstrap::puppet (
   Optional[String] $server_puppetdb_host = undef,
   String $server_reports = 'store',
   Boolean $server_ship_metrics = false,
-  Optional[String] $server_storeconfigs_backend = undef,
+  Boolean $server_storeconfigs = false,
   Boolean $show_diff = true,
   Boolean $splay = true,
   String $splaylimit = '1800s',
@@ -94,9 +94,8 @@ class profiles::bootstrap::puppet (
     server_jvm_max_heap_size       => $server_jvm_max_heap_size,
     server_jvm_min_heap_size       => $server_jvm_min_heap_size,
     server_parser                  => $server_parser,
-    server_puppetdb_host           => $server_puppetdb_host,
     server_reports                 => $server_reports,
-    server_storeconfigs_backend    => $server_storeconfigs_backend,
+    server_storeconfigs            => $server_storeconfigs,
     show_diff                      => $show_diff,
     splay                          => $splay,
     splaylimit                     => $splaylimit,
@@ -114,6 +113,12 @@ class profiles::bootstrap::puppet (
       }
       Class['::puppet']
       -> File['hiera.yaml']
+    }
+
+    if $server_puppetdb_host {
+      class { 'puppet::server::puppetdb':
+        server => $server_puppetdb_host,
+      }
     }
 
     if $foreman_repo {
