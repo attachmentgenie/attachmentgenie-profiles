@@ -5,19 +5,23 @@
 #
 define profiles::website::nginx::vhost (
   Stdlib::Absolutepath $www_root,
+  Optional[String] $fastcgi = undef,
+  Optional[String] $fastcgi_index = undef,
   Boolean $manage_firewall_entry = false,
   Boolean $manage_sd_service = false,
   Stdlib::Port $port = 80,
   Enum['http'] $protocol = 'http',
-  Stdlib::Host $public_name = $name,
+  Array[String] $public_name = [$name],
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
 ) {
 
   ::nginx::resource::server { $name:
-    listen_port => $port,
-    server_name => [$public_name],
-    www_root    => $www_root,
+    fastcgi       => $fastcgi,
+    fastcgi_index => $fastcgi_index,
+    listen_port   => $port,
+    server_name   => $public_name,
+    www_root      => $www_root,
   }
 
   if $manage_firewall_entry {
