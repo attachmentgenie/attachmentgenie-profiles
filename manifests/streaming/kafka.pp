@@ -10,11 +10,11 @@
 # @param version          Version of kafka to install.
 # @param zookeeper_config Kafka config settings.
 class profiles::streaming::kafka (
-  String $install_dir = '/opt/kafka_2.10-0.10.1.0',
+  String $install_dir = '/opt/kafka_2.12-2.4.1',
   String $install_method = 'package',
-  String $package = 'kafka_2.10',
-  String $scala_version = '2.10',
-  String $version = '0.10.1.0',
+  String $package = 'kafka_2.12',
+  String $scala_version = '2.12',
+  String $version = '2.4.1',
   Hash $zookeeper_config = { 'broker.id'                     => '0',
                             'inter.broker.protocol.version' => '0.10.1.0',
                             'log.dir'                       => '/opt/kafka/data',
@@ -30,13 +30,11 @@ class profiles::streaming::kafka (
 
   class { '::kafka':
     install_dir   => $install_dir,
-    install_java  => false,
+    kafka_version => $version,
     package_name  => $package_name,
     scala_version => $scala_version,
-    version       => $version,
   }
   -> class { '::kafka::broker':
-    config                     => $zookeeper_config,
-    service_requires_zookeeper => false,
+    config => $zookeeper_config,
   }
 }
