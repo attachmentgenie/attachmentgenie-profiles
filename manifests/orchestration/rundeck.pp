@@ -33,7 +33,7 @@ class profiles::orchestration::rundeck (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_repo      = false,
   Boolean $manage_sd_service = false,
-  String $package           = '3.2.3',
+  String $package           = '3.3.0.20200701',
   Hash $projects            = {},
   Boolean $puppetdb         = false,
   String $puppetdb_template = 'profiles/defaultMapping.json.erb',
