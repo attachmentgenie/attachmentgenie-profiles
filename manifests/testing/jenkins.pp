@@ -147,7 +147,7 @@ class profiles::testing::jenkins (
   Integer $slave_executors = $::processors['count'],
   String $slave_user = 'slave',
   String $slave_password = 'secret',
-  String $slave_version = '3.17',
+  String $slave_version = '3.22',
 ) {
   if $master {
     if $casc {
