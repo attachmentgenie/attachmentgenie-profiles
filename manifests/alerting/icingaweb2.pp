@@ -35,6 +35,7 @@ class profiles::alerting::icingaweb2 (
   Array $sd_service_tags = ['metrics'],
   Array $modules = [],
   Hash $roles = {},
+  Hash $resources = {},
 ) {
   class {'icingaweb2':
     manage_repo   => $manage_repo,
@@ -73,6 +74,9 @@ class profiles::alerting::icingaweb2 (
 
   if ( $roles!= {} ) {
     create_resources( ::icingaweb2::config::role, $roles )
+  }
+  if ( $resources != {} ) {
+    create_resources( ::icingaweb2::config::resource, $resources )
   }
 
   if $manage_database {
