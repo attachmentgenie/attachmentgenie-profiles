@@ -49,7 +49,7 @@ class profiles::monitoring::promtail (
       ]
     }
   ],
-  String[1] $version = 'v1.5.0',
+  String[1] $version = 'v1.6.1',
 ) {
 
   $_clients_config_hash = { 'clients' => [{'url' => $client_url }]}
