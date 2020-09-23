@@ -1,7 +1,7 @@
 # This class can be used install metrics.
 #
 # @example when declaring the metrics class
-#  class { '::profiles::database::metrics': }
+#  class { '::profiles::database': }
 #
 # @param influxdb   Manage influxdb on this node.
 # @param mongodb    Manage mongodb on this node.

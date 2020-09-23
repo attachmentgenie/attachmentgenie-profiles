@@ -61,6 +61,7 @@ fixtures:
       repo: "https://github.com/elastic/puppet-logstash.git"
       ref: "5.3.0"
     lvm: "https://github.com/puppetlabs/puppetlabs-lvm.git"
+    minio: "https://github.com/kogitoapp/puppet-minio.git"
     mongodb:
       repo: "https://github.com/voxpupuli/puppet-mongodb.git"
       ref: 950a7c9
@@ -88,6 +89,7 @@ fixtures:
     python: "https://github.com/stankevich/puppet-python.git"
     r10k: "https://github.com/voxpupuli/puppet-r10k.git"
     redis: "https://github.com/voxpupuli/puppet-redis.git"
+    remote_file: "https://github.com/lwf/puppet-remote_file.git"
     resolv_conf: "https://github.com/saz/puppet-resolv_conf.git"
     ruby:    "https://github.com/puppetlabs/puppetlabs-ruby.git"
     rundeck: "https://github.com/voxpupuli/puppet-rundeck.git"
