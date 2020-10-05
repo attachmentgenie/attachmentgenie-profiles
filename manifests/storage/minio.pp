@@ -5,16 +5,13 @@
 # @example
 #   include profiles::storage::minio
 class profiles::storage::minio (
-  String $checksum = '4682d5fdce193d10a8561c0eb9e911ea69a183ad9d209bd36f59ac2beeed8357',
+  String $checksum = 'd8164b0446c79fc80f5d3a06971fa87fa0ede519c6d253f260fbfba7aa834a0b',
   Hash $config = {},
   Hash $config_default = {
-    'version' => '19',
-    'credential' => {
-      'accessKey' => 'admin',
-      'secretKey' => 'supersecret',
-    },
-    'region' => 'us-east-1',
-    'browser' => 'on',
+    'MINIO_ACCESS_KEY'  => 'admin',
+    'MINIO_SECRET_KEY'  => 'supersecret',
+    'MINIO_REGION_NAME' => 'us-east-1',
+    'MINIO_BROWSER'     => 'on',
   },
   Stdlib::Absolutepath $data_path = '/var/lib/minio',
   Optional[Stdlib::Absolutepath] $device = undef,
@@ -25,7 +22,7 @@ class profiles::storage::minio (
   Optional[Stdlib::Port::Unprivileged] $port = 9090,
   String $sd_service_name = 'example',
   Array $sd_service_tags = ['metrics'],
-  String $version = 'RELEASE.2020-09-21T22-31-59Z',
+  String $version = 'RELEASE.2020-10-03T02-19-42Z',
 ) {
   $_config = deep_merge($config_default, $config)
 
