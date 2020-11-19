@@ -56,7 +56,6 @@ fixtures:
       ref: 3ab626d
     kafka:
       repo: "https://github.com/voxpupuli/puppet-kafka.git"
-      ref: 48f95c1
     letsencrypt: "https://github.com/voxpupuli/puppet-letsencrypt.git"
     logstash:
       repo: "https://github.com/elastic/puppet-logstash.git"

@@ -22,7 +22,7 @@ class profiles::storage::minio (
   Optional[Stdlib::Port::Unprivileged] $port = 9090,
   String $sd_service_name = 'example',
   Array $sd_service_tags = ['metrics'],
-  String $version = 'RELEASE.2020-10-03T02-19-42Z',
+  String $version = 'RELEASE.2020-11-13T20-10-18Z',
 ) {
   $_config = deep_merge($config_default, $config)
 
