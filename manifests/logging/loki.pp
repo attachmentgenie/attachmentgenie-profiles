@@ -18,6 +18,7 @@ class profiles::logging::loki (
   Optional[Hash] $server_config_hash = undef,
   Optional[Hash] $table_manager_config_hash = undef,
   Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']] $target = undef,
+  String $version = 'v2.0.0',
 ){
 
   class { '::loki':
@@ -34,5 +35,6 @@ class profiles::logging::loki (
     server_config_hash          => $server_config_hash,
     storage_config_hash         => $storage_config_hash,
     table_manager_config_hash   => $table_manager_config_hash,
+    version                     => $version,
   }
 }

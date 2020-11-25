@@ -5,12 +5,11 @@
 #
 class profiles::monitoring::promtail (
   Stdlib::HTTPUrl $client_url,
-  String[1] $checksum = '6695ea8d0c831c0ccab3abfac9e3bdf065e83887d540583b8e28644168ca038c',
+  String[1] $checksum = 'd37e94e6ce0604f9faea7738f9c35d83afbdca9e5e92537600764a3b18cfe088',
   Stdlib::Absolutepath $positions_file = '/tmp/positions.yaml',
   Array $scrape_configs = [
     {
       'job_name' => 'system_secure',
-      'entry_parser' => 'raw',
       'static_configs' => [{
         'targets' => ['localhost'],
         'labels'  => {
@@ -22,7 +21,6 @@ class profiles::monitoring::promtail (
     },
     {
       'job_name' => 'system_messages',
-      'entry_parser' => 'raw',
       'static_configs' => [{
         'targets' => ['localhost'],
         'labels'  => {
@@ -49,7 +47,7 @@ class profiles::monitoring::promtail (
       ]
     }
   ],
-  String[1] $version = 'v1.6.1',
+  String[1] $version = 'v2.0.0',
 ) {
 
   $_clients_config_hash = { 'clients' => [{'url' => $client_url }]}

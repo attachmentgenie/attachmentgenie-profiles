@@ -1,4 +1,4 @@
-vaul# This class can be used install vault components.
+# This class can be used install vault components.
 #
 # @example when declaring the vault class
 #  class { '::profiles::security::vault': }
