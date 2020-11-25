@@ -5,7 +5,7 @@
 # @example
 #   include profiles::storage::minio
 class profiles::storage::minio (
-  String $checksum = 'd8164b0446c79fc80f5d3a06971fa87fa0ede519c6d253f260fbfba7aa834a0b',
+  String $checksum = 'e83fb22cfbe7ed8df7fd336a905bcb02292714c4ffd21f75a833de365e2c5e7d',
   Hash $config = {},
   Hash $config_default = {
     'MINIO_ACCESS_KEY'  => 'admin',

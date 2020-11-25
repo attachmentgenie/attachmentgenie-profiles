@@ -20,7 +20,11 @@ class profiles::logging::loki (
   Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']] $target = undef,
   String $version = 'v2.0.0',
 ){
-
+  if !defined(Package['unzip']) {
+    package { 'unzip':
+      ensure => present,
+    }
+  }
   class { '::loki':
     auth_enabled                => $auth_enabled,
     chunk_store_config_hash     => $chunk_store_config_hash,
