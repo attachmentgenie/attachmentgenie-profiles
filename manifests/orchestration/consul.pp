@@ -18,11 +18,13 @@ class profiles::orchestration::consul (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   String $options = '-enable-script-checks -syslog',
+  String $sd_service_check_interval = '10s',
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:8500",
   String $sd_service_name = 'consul-ui',
   Array $sd_service_tags = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.8.5',
+  String $version = '1.9.0',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
@@ -81,8 +83,8 @@ class profiles::orchestration::consul (
       ::profiles::orchestration::consul::service { $sd_service_name:
         checks => [
           {
-            http     => "http://${::ipaddress}:8500",
-            interval => '10s'
+            http     => $sd_service_endpoint,
+            interval => $sd_service_check_interval,
           }
         ],
         port   => 8500,

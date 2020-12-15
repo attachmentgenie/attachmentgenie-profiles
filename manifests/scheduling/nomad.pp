@@ -18,9 +18,11 @@ class profiles::scheduling::nomad (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = true,
   Boolean $manage_sysctl = true,
+  String $sd_service_check_interval = '10s',
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:4646",
   String $sd_service_name = 'nomad-ui',
   Array $sd_service_tags = [],
-  String $version = '0.12.8',
+  String $version = '1.0.0',
 ){
   if $consul_connect {
     include ::profiles::scheduling::nomad::cni_plugins
@@ -63,8 +65,8 @@ class profiles::scheduling::nomad (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}:4646",
-          interval => '10s'
+          http     => $sd_service_endpoint,
+          interval => $sd_service_check_interval,
         }
       ],
       port   => 4646,

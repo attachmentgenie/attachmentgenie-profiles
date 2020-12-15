@@ -4,15 +4,15 @@
 #  class { '::profiles::monitoring::prometheus::node_exporter': }
 #
 class profiles::monitoring::prometheus::node_exporter (
-  Array $collectors =  ['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat'],
+  Array[String] $collectors =  ['tcpstat'],
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
   String $version = '1.0.1',
 ) {
   class { '::prometheus::node_exporter':
-    collectors => $collectors,
-    version    => $version,
+    collectors_enable => $collectors,
+    version           => $version,
   }
 
   if $manage_sd_service {

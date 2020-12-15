@@ -9,9 +9,9 @@ class profiles::bootstrap::example (
   Hash $config = {},
   Hash $config_default = {},
   String $database_grant = 'all',
-  String $database_name = 'icingaweb2',
-  String $database_password = 'icingaweb2',
-  String $database_user = 'icingaweb2',
+  String $database_name = 'example',
+  String $database_password = 'example',
+  String $database_user = 'example',
   Stdlib::Absolutepath $data_path = '/var/lib/example',
   Optional[Stdlib::Absolutepath] $device = undef,
   Boolean $expose_api = false,
@@ -27,6 +27,8 @@ class profiles::bootstrap::example (
   Boolean $manage_sysctl = false,
   Optional[Stdlib::Port::Unprivileged] $port = 8080,
   Optional[String] $runmode = undef,
+  String $sd_service_check_interval = '10s',
+  Optional[Stdlib::HTTPUrl] $sd_service_endpoint = undef,
   String $sd_service_name = 'example',
   Array $sd_service_tags = ['metrics'],
   Boolean $server = false,
@@ -65,11 +67,16 @@ class profiles::bootstrap::example (
       }
 
       if $manage_sd_service {
+        if $sd_service_endpoint {
+          $_check_endpoint = $sd_service_endpoint
+        } else {
+          $_check_endpoint = "http://${listen_address}:${port}"
+        }
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              tcp      => "${::ipaddress}:${port}",
-              interval => '10s'
+              http     => $_check_endpoint,
+              interval => $sd_service_check_interval,
             }
           ],
           port   => $port,

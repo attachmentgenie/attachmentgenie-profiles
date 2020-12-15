@@ -10,7 +10,7 @@ class profiles::scheduling::nomad::cni_plugins (
   $download_extension    = 'tgz',
   $package_name          = 'cni-plugins',
   Enum['none','url'] $install_method = 'url',
-  String $version = 'v0.8.7',
+  String $version = 'v0.9.0',
 ) {
   case $install_method {
     'url': {
