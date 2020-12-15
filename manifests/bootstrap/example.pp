@@ -36,10 +36,10 @@ class profiles::bootstrap::example (
   $_config = deep_merge($config_default, $config)
 
   class {'::example':
-    client  => $client,
-    config  => $_config,
-    runmode => $runmode,
-    server  => $server,
+    #client  => $client,
+    #config  => $_config,
+    #runmode => $runmode,
+    #server  => $server,
   }
 
   if $manage_database {
