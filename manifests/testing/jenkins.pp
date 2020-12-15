@@ -167,7 +167,6 @@ class profiles::testing::jenkins (
 
     class { '::jenkins':
       cli                => false,
-      cli_remoting_free  => false,
       config_hash        => deep_merge($config_hash, $_listen_config, $_casc_java_args),
       configure_firewall => false,
       default_plugins    => [],
