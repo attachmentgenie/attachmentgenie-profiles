@@ -7,10 +7,10 @@
 # @param wget_source    Location to download mailhog.
 class profiles::mail::mailhog (
   String $install_method = 'package',
-  Optional[String] $wget_source = undef
+  Optional[String] $archive_source = undef,
 ){
   class { '::mailhog':
     install_method => $install_method,
-    wget_source    => $wget_source,
+    archive_source => $archive_source,
   }
 }
