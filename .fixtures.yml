@@ -10,7 +10,7 @@ fixtures:
     aptly: 'gdsoperations/aptly'
     augeas_core:
       repo: 'puppetlabs/augeas_core'
-      puppet_version: ">= 6.0.0"
+      puppet_version: '>= 6.0.0'
     carbon_c_relay: 'mlambrichs/carbon_c_relay'
     concat: 'puppetlabs/concat'
     consul: 'KyleAnderson/consul'
@@ -19,11 +19,14 @@ fixtures:
     cron: 'puppet/cron'
     cron_core:
       repo: 'puppetlabs/cron_core'
-      puppet_version: ">= 6.0.0"
+      puppet_version: '>= 6.0.0'
     datacat: 'richardc/datacat'
     dns: 'theforeman/dns'
     docker: 'puppetlabs/docker'
     dnsmasq: 'saz/dnsmasq'
+    elasticsearch:
+      repo: 'elastic/elasticsearch'
+      ref: '5.5.0'
     epel: 'puppet/epel'
     etcd: 'cristifalcas/etcd'
     extlib: 'puppet/extlib'
@@ -44,10 +47,17 @@ fixtures:
     java: 'puppetlabs/java'
     jenkins: 'puppet/jenkins'
     kafka: 'puppet/kafka'
+    kibana:
+      repo: 'elastic/kibana'
+      ref: '5.2.0'
     letsencrypt: 'puppet/letsencrypt'
+    logstash:
+      repo: 'elastic/logstash'
+      ref: '5.3.0'
     lvm: 'puppetlabs/lvm'
-    mongodb: 'puppet/mongodb'
-      ref: "2.4.1"
+    mongodb:
+      repo: 'puppet/mongodb'
+      ref: '2.4.1'
     mount_core: 'puppetlabs/mount_core'
     mcollective: 'puppet/mcollective'
     memcached: 'saz/memcached'
@@ -83,24 +93,15 @@ fixtures:
     yum: 'puppet/yum'
     yumrepo_core:
       repo: 'puppetlabs/yumrepo_core'
-      puppet_version: ">= 6.0.0"
+      puppet_version: '>= 6.0.0'
     zookeeper: 'deric/zookeeper'
   repositories:
     carbon: 'https://github.com/mlambrichs/puppet-carbon'
     carbon_relay_ng: 'https://github.com/mlambrichs/puppet-carbon_relay_ng.git'
-    elasticsearch:
-      repo: 'https://github.com/elastic/puppet-elasticsearch'
-      ref: "5.5.0"
     example: 'https://github.com/attachmentgenie/attachmentgenie-example.git'
     flink: 'https://github.com/attachmentgenie/attachmentgenie-flink.git'
     graphite_web: 'https://github.com/attachmentgenie/puppet-graphite_web.git'
     influxdb: 'https://github.com/dgolja/golja-influxdb.git'
-    kibana:
-      repo: 'https://github.com/elastic/puppet-kibana'
-      ref: 3ab626d
-    logstash:
-      repo: 'https://github.com/elastic/puppet-logstash'
-      ref: "5.3.0"
     locales: 'https://github.com/attachmentgenie/attachmentgenie-locales.git'
     loki: 'https://github.com/attachmentgenie/attachmentgenie-loki.git'
     mailhog: 'https://github.com/attachmentgenie/attachmentgenie-mailhog.git'
