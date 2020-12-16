@@ -3,4 +3,4 @@
 # Facts specified here will override the values provided by rspec-puppet-facts.
 ---
 ipaddress_lo: "127.0.0.1"
-
+service_provider: "systemd"

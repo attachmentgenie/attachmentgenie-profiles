@@ -41,13 +41,13 @@ fixtures:
     icinga2: 'icinga/icinga2'
     icingaweb2: 'icinga/icingaweb2'
     inifile: 'puppetlabs/inifile'
-    influxdb: 'golja/influxdb'
     java: 'puppetlabs/java'
     jenkins: 'puppet/jenkins'
     kafka: 'puppet/kafka'
     letsencrypt: 'puppet/letsencrypt'
     lvm: 'puppetlabs/lvm'
     mongodb: 'puppet/mongodb'
+      ref: "2.4.1"
     mount_core: 'puppetlabs/mount_core'
     mcollective: 'puppet/mcollective'
     memcached: 'saz/memcached'
@@ -78,7 +78,6 @@ fixtures:
     systemd: 'camptocamp/systemd'
     sysctl: 'thias/sysctl'
     transition: 'puppetlabs/transition'
-    uwsgi: 'engage/uwsgi'
     vault: 'jsok/vault'
     wget: 'puppet/wget'
     yum: 'puppet/yum'
@@ -95,6 +94,7 @@ fixtures:
     example: 'https://github.com/attachmentgenie/attachmentgenie-example.git'
     flink: 'https://github.com/attachmentgenie/attachmentgenie-flink.git'
     graphite_web: 'https://github.com/attachmentgenie/puppet-graphite_web.git'
+    influxdb: 'https://github.com/dgolja/golja-influxdb.git'
     kibana:
       repo: 'https://github.com/elastic/puppet-kibana'
       ref: 3ab626d
@@ -111,3 +111,4 @@ fixtures:
     traefik: 'https://github.com/attachmentgenie/puppet-traefik.git'
     traefik2: 'https://github.com/attachmentgenie/attachmentgenie-traefik2.git'
     tempo: 'https://github.com/attachmentgenie/attachmentgenie-tempo.git'
+    uwsgi: 'https://github.com/rvdh/puppet-uwsgi.git'
