@@ -7,7 +7,7 @@ fixtures:
     augeasproviders_sysctl: 'herculesteam/augeasproviders_sysctl'
     apache: 'puppetlabs/apache'
     apt: 'puppetlabs/apt'
-    aptly: 'gds-operations/aptly'
+    aptly: 'gdsoperations/aptly'
     augeas_core:
       repo: 'puppetlabs/augeas_core'
       puppet_version: ">= 6.0.0"
@@ -38,7 +38,7 @@ fixtures:
     grafana: 'puppet/grafana'
     haproxy: 'puppetlabs/haproxy'
     icinga: 'icinga/icinga'
-    icinga2: 'icinga/icinga2-rewrite'
+    icinga2: 'icinga/icinga2'
     icingaweb2: 'icinga/icingaweb2'
     inifile: 'puppetlabs/inifile'
     influxdb: 'golja/influxdb'
