@@ -14,7 +14,7 @@ define profiles::website::nginx::vhost (
   Array[String] $public_name = [$name],
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
-  Hahs $vhost_params = {},
+  Hash $vhost_params = {},
 ) {
 
   ::nginx::resource::server { $name:
