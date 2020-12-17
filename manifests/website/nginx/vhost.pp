@@ -14,28 +14,14 @@ define profiles::website::nginx::vhost (
   Array[String] $public_name = [$name],
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
-  Hash $vhost_params = {},
 ) {
 
-  if has_key($vhost_params, 'proxy') {
-    $_vhost_params = {
-      fastcgi       => $fastcgi,
-      fastcgi_index => $fastcgi_index,
-      listen_port   => $port,
-      server_name   => $public_name,
-    } + $vhost_params
-  } else {
-    $_vhost_params = {
-      fastcgi       => $fastcgi,
-      fastcgi_index => $fastcgi_index,
-      listen_port   => $port,
-      server_name   => $public_name,
-      www_root      => $www_root,
-    } + $vhost_params
-  }
-
   ::nginx::resource::server { $name:
-    *             => $_vhost_params,
+    fastcgi       => $fastcgi,
+    fastcgi_index => $fastcgi_index,
+    listen_port   => $port,
+    server_name   => $public_name,
+    www_root      => $www_root,
   }
 
   if $manage_firewall_entry {
