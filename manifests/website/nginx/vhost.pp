@@ -17,13 +17,25 @@ define profiles::website::nginx::vhost (
   Hash $vhost_params = {},
 ) {
 
+  if has_key($vhost_params, 'proxy') {
+    $_vhost_params = {
+      fastcgi       => $fastcgi,
+      fastcgi_index => $fastcgi_index,
+      listen_port   => $port,
+      server_name   => $public_name,
+    } + $vhost_params
+  } else {
+    $_vhost_params = {
+      fastcgi       => $fastcgi,
+      fastcgi_index => $fastcgi_index,
+      listen_port   => $port,
+      server_name   => $public_name,
+      www_root      => $www_root,
+    } + $vhost_params
+  }
+
   ::nginx::resource::server { $name:
-    fastcgi       => $fastcgi,
-    fastcgi_index => $fastcgi_index,
-    listen_port   => $port,
-    server_name   => $public_name,
-    www_root      => $www_root,
-    *             => $vhost_params,
+    *             => $_vhost_params,
   }
 
   if $manage_firewall_entry {
