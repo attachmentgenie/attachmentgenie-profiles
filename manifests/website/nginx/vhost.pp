@@ -14,6 +14,7 @@ define profiles::website::nginx::vhost (
   Array[String] $public_name = [$name],
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
+  Hahs $vhost_params = {},
 ) {
 
   ::nginx::resource::server { $name:
@@ -22,6 +23,7 @@ define profiles::website::nginx::vhost (
     listen_port   => $port,
     server_name   => $public_name,
     www_root      => $www_root,
+    *             => $vhost_params,
   }
 
   if $manage_firewall_entry {
