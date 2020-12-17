@@ -18,6 +18,7 @@
 # @param streams                 Set(s) of streams.
 # @param vhosts                  Set(s) of vhost to create
 # @param vhost_packages          Packages to manage that contain vhosts files.
+# @param upstream_defined_type   Boolean to directly use the upstream nginx server type.
 class profiles::website::nginx (
   String $client_body_buffer_size = '1k',
   String $client_max_body_size = '1k',
@@ -29,6 +30,7 @@ class profiles::website::nginx (
   Hash $streams = {},
   Hash $vhosts = {},
   Hash $vhost_packages = {},
+  Boolean $upstream_defined_type = false,
 ) {
   class { '::nginx':
     client_body_buffer_size => $client_body_buffer_size,
@@ -52,12 +54,20 @@ class profiles::website::nginx (
   $resource_defaults = {
     tag        => 'do_b',
   }
-  create_resources( '::profiles::website::nginx::vhost', $vhosts, $resource_defaults )
+
+  if $upstream_defined_type {
+    create_resources( 'nginx::resource::server', $vhosts, $resource_defaults )
+    Package<| tag == 'do_a' |> -> Nginx::Resource::Server<| tag == 'do_b' |>
+  } else {
+    create_resources( '::profiles::website::nginx::vhost', $vhosts, $resource_defaults )
+    Package<| tag == 'do_a' |> -> ::Profiles::Website::Nginx::Vhost<| tag == 'do_b' |>
+  }
+
   create_resources( '::profiles::website::nginx::proxy', $proxies, $resource_defaults )
   create_resources( 'nginx::resource::streamhost', $streams, $resource_defaults )
   create_resources( 'nginx::resource::upstream', $upstreams, $resource_defaults )
 
-  Package<| tag == 'do_a' |> -> ::Profiles::Website::Nginx::Vhost<| tag == 'do_b' |>
+
   Package<| tag == 'do_a' |> -> ::Profiles::Website::Nginx::Proxy<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Streamhost<| tag == 'do_b' |>
   Package<| tag == 'do_a' |> -> Nginx::Resource::Upstream<| tag == 'do_b' |>
