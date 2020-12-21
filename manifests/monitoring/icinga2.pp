@@ -16,25 +16,27 @@
 # @param database_password              Db password.
 # @param database_user                  Db user.
 # @param features                       Enabled features.
+# @param fragments                      Custom configuration fragments.
 # @param group                          Group
+# @param hostgroups                     Host groups
 # @param ipaddress                      Primary ipaddress.
 # @param manage_repo                    Manage icinga repository.
+# @param notifications                  Notification objects to generate.
 # @param owner                          Owner
 # @param parent_endpoints               Icinga parents.
 # @param parent_zone                    Icinga zone.
 # @param plugins_package                Package with plugins to install.
 # @param server                         Is this a icinga masters.
-# @param services                       services
 # @param servicegroups                  Servicegroups
+# @param services                       services
 # @param slack                          Slack integration.
 # @param slack_channel                  Slack channel to send notifications to.
 # @param slack_webhook                  Slack webhook url.
+# @param templates                      Templates.
 # @param timeperiods                    Timeperiods
 # @param usergroups                     User groups
+# @param users                          Users
 # @param vars                           Icinga vars.
-# @param templates                      Templates.
-# @param notifications                  Notification objects to generate.
-# @param fragments                      Custom configuration fragments.
 class profiles::monitoring::icinga2 (
   Hash $parent_endpoints,
   Optional[String] $api_endpoint = undef,
@@ -64,9 +66,11 @@ class profiles::monitoring::icinga2 (
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
   Hash $checkcommands = {},
+  Hash $hostgroups = {],
   Hash $services = {},
   Hash $servicegroups = {},
   Hash $timeperiods = {},
+  Hash $users = {],
   Hash $usergroups = {},
   Hash $vars = {},
   Hash $templates = {},
@@ -199,11 +203,13 @@ class profiles::monitoring::icinga2 (
 
     # Generate objects
     ensure_resources( ::icinga2::object::checkcommand, $checkcommands )
+    ensure_resources( ::icinga2::object::hostgroup, $hostgroups )
+    ensure_resources( ::icinga2::object::notification, $notifications )
     ensure_resources( ::icinga2::object::service, $services )
     ensure_resources( ::icinga2::object::servicegroup, $servicegroups )
     ensure_resources( ::icinga2::object::timeperiod, $timeperiods )
+    ensure_resources( ::icinga2::object::user, $users)
     ensure_resources( ::icinga2::object::usergroup, $usergroups )
-    ensure_resources( ::icinga2::object::notification, $notifications )
     ensure_resources( ::icinga2::config::fragment, $fragments )
 
     $templates.each | $object_type, $object_configs | {
