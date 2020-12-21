@@ -66,7 +66,7 @@ class profiles::monitoring::icinga2 (
   String $slack_channel = '#icinga',
   Optional[String] $slack_webhook = undef,
   Hash $checkcommands = {},
-  Hash $hostgroups = {],
+  Hash $hostgroups = {},
   Hash $services = {},
   Hash $servicegroups = {},
   Hash $timeperiods = {},
