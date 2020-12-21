@@ -70,7 +70,7 @@ class profiles::monitoring::icinga2 (
   Hash $services = {},
   Hash $servicegroups = {},
   Hash $timeperiods = {},
-  Hash $users = {],
+  Hash $users = {},
   Hash $usergroups = {},
   Hash $vars = {},
   Hash $templates = {},
