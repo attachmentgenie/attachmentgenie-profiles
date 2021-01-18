@@ -4,6 +4,7 @@
 #  class { '::profiles::scheduling::nomad': }
 #
 class profiles::scheduling::nomad (
+  Stdlib::Absolutepath $bin_dir = '/usr/local/bin',
   Hash $config = {},
   Hash $config_defaults = {
     'consul' => {
@@ -14,8 +15,10 @@ class profiles::scheduling::nomad (
   },
   Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
   Boolean $consul_connect = false,
+  Enum['url', 'package', 'none'] $install_method = 'url',
   String $job_port_range = '20000-32000',
   Boolean $manage_firewall_entry = true,
+  Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = true,
   Boolean $manage_sysctl = true,
   String $sd_service_check_interval = '10s',
@@ -34,15 +37,28 @@ class profiles::scheduling::nomad (
     }
   }
 
-  if ! defined(Package['unzip']) {
-    package { 'unzip':
-      ensure => present,
+  if $install_method == 'url'{
+    if ! defined(Package['unzip']) {
+      package { 'unzip':
+        ensure => present,
+      }
     }
+    Package['unzip'] -> Archive <||>
   }
+
+  if $install_method == 'package' {
+    $_bin_dir = '/bin'
+  } else {
+    $_bin_dir = $bin_dir
+  }
+
   class {'::nomad':
+    bin_dir         => $_bin_dir,
     config_defaults => $config_defaults,
     config_dir      => $config_dir,
     config_hash     => $config,
+    install_method  => $install_method,
+    manage_repo     => $manage_package_repo,
     version         => $version,
   }
 

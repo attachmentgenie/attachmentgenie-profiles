@@ -4,6 +4,7 @@
 #  class { '::profiles::security::vault': }
 #
 class profiles::security::vault (
+  Stdlib::Absolutepath $bin_dir = '/usr/local/bin',
   $config_dir = '/etc/vault.d',
   $enable_ui = true,
   Variant[Hash, Array[Hash]] $listener = {
@@ -14,7 +15,9 @@ class profiles::security::vault (
     },
   },
   Hash $extra_config = { 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' => 'https://127.0.0.1:8201' },
+  Enum['archive', 'repo'] $install_method = 'archive',
   Boolean $manage_firewall_entry = true,
+  Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = false,
   Boolean $manage_storage_dir = false,
   String $sd_service_check_interval = '10s',
@@ -25,15 +28,34 @@ class profiles::security::vault (
   Optional[Hash] $telemetry = undef,
   String $version = '1.6.1',
 ){
+  if $install_method == 'archive'{
+    if ! defined(Package['unzip']) {
+      package { 'unzip':
+        ensure => present,
+      }
+    }
+    Package['unzip'] -> Archive <||>
+  }
+
+  if $install_method == 'repo' {
+    $_bin_dir = '/bin'
+  } else {
+    $_bin_dir = $bin_dir
+  }
+
   class {'vault':
-    config_dir         => $config_dir,
-    enable_ui          => $enable_ui,
-    extra_config       => $extra_config,
-    listener           => $listener,
-    manage_storage_dir => $manage_storage_dir,
-    storage            => $storage,
-    telemetry          => $telemetry,
-    version            => $version,
+    bin_dir             => $_bin_dir,
+    config_dir          => $config_dir,
+    enable_ui           => $enable_ui,
+    extra_config        => $extra_config,
+    install_method      => $install_method,
+    listener            => $listener,
+    manage_repo         => $manage_package_repo,
+    manage_service_file => true,
+    manage_storage_dir  => $manage_storage_dir,
+    storage             => $storage,
+    telemetry           => $telemetry,
+    version             => $version,
   }
 
   if $manage_firewall_entry {

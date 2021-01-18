@@ -4,6 +4,7 @@
 #  class { '::profiles::orchestration::consul': }
 #
 class profiles::orchestration::consul (
+  Stdlib::Absolutepath $bin_dir = '/usr/local/bin',
   Hash $checks = {},
   Hash $config = {},
   Hash $config_defaults = {
@@ -14,8 +15,10 @@ class profiles::orchestration::consul (
   Boolean $connect = false,
   Stdlib::Port::Unprivileged $conect_grpc_port = 8502,
   String $connect_sidecar_port_range = '21000-21255',
+  Enum['docker', 'url', 'package', 'none'] $install_method = 'url',
   Optional[String[1]] $join_wan = undef,
   Boolean $manage_firewall_entry = true,
+  Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = false,
   String $options = '-enable-script-checks -syslog',
   String $sd_service_check_interval = '10s',
@@ -45,17 +48,30 @@ class profiles::orchestration::consul (
     $_config = $config
   }
 
-  if ! defined(Package['unzip']) {
-    package { 'unzip':
-      ensure => present,
+  if $install_method == 'url'{
+    if ! defined(Package['unzip']) {
+      package { 'unzip':
+        ensure => present,
+      }
     }
+    Package['unzip'] -> Archive <||>
   }
-  -> class { '::consul':
+
+  if $install_method == 'package' {
+    $_bin_dir = '/bin'
+  } else {
+    $_bin_dir = $bin_dir
+  }
+
+  class { '::consul':
+    bin_dir         => $_bin_dir,
     config_defaults => $config_defaults,
     config_dir      => $config_dir,
     config_hash     => $_config,
     extra_options   => $options,
+    install_method  => $install_method,
     join_wan        => $join_wan,
+    manage_repo     => $manage_package_repo,
     version         => $version,
   }
 
