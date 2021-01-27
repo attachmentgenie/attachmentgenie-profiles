@@ -6,7 +6,6 @@ describe 'profiles::scheduling::nomad' do
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::scheduling::nomad') }
-        it { is_expected.to contain_package('unzip') }
       end
     end
   end

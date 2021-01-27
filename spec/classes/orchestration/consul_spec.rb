@@ -6,7 +6,6 @@ describe 'profiles::orchestration::consul' do
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::orchestration::consul') }
-        it { is_expected.to contain_package('unzip') }
       end
     end
   end

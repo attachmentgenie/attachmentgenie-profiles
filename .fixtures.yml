@@ -54,9 +54,7 @@ fixtures:
       repo: 'elastic/logstash'
       ref: '5.3.0'
     lvm: 'puppetlabs/lvm'
-    mongodb:
-      repo: 'puppet/mongodb'
-      ref: '2.4.1'
+    mongodb: 'puppet/mongodb'
     mount_core: 'puppetlabs/mount_core'
     mcollective: 'puppet/mcollective'
     memcached: 'saz/memcached'
