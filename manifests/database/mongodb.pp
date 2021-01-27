@@ -18,7 +18,6 @@ class profiles::database::mongodb (
   class { '::mongodb::globals':
     client_package_name => $client_package_name,
     manage_package_repo => $manage_package_repo,
-    mongos_package_name => $mongos_package_name,
     server_package_name => $server_package_name,
     use_enterprise_repo => $use_enterprise_repo,
     version             => $version,
