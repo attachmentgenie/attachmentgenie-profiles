@@ -7,7 +7,7 @@ class profiles::monitoring::prometheus::pushgateway (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
-  String $version = '1.2.0',
+  String $version = '1.4.0',
 ) {
   class { '::prometheus::pushgateway':
     version => $version,

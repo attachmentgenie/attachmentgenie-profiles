@@ -3,9 +3,11 @@
 # @example when declaring the package class
 #  class { '::profiles::tools::package': }
 #
-class profiles::tools::package {
+class profiles::tools::package (
+  $version = '1.12',
+) {
   package { 'fpm':
-    ensure   => 'latest',
+    ensure   => $version,
     provider => 'gem',
   }
 }

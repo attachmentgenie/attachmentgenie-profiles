@@ -15,7 +15,7 @@ class profiles::monitoring::logstash (
   Enum[absent,present] $ensure = present,
   String $group = 'root',
   Boolean $manage_repo = false,
-  String $repo_version = '5.x',
+  String $repo_version = '7.x',
   String $user = 'root',
   Boolean $version = false,
 ){

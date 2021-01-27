@@ -11,7 +11,7 @@ class profiles::repo::nexus (
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'nexus',
   Array $sd_service_tags = [],
-  String $version = '3.27.0',
+  String $version = '3.29.2',
 ) {
   class{ '::nexus':
     version       => $version,

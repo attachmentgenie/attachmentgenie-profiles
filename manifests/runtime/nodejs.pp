@@ -13,7 +13,7 @@ class profiles::runtime::nodejs (
   String $npm_package_ensure = 'installed',
   Hash $npm_packages = {},
   Hash $packages = {},
-  String $repo_url_suffix = '8.x',
+  String $repo_url_suffix = '14.x',
 ){
   class { '::nodejs':
     manage_package_repo => $manage_repo,

@@ -28,7 +28,6 @@ fixtures:
       repo: 'elastic/elasticsearch'
       ref: '5.5.0'
     epel: 'puppet/epel'
-    etcd: 'cristifalcas/etcd'
     extlib: 'puppet/extlib'
     fail2ban: 'puppet/fail2ban'
     file_concat: 'electrical/file_concat'

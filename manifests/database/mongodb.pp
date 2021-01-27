@@ -13,7 +13,7 @@ class profiles::database::mongodb (
   Optional[String]$mongos_package_name = undef,
   Optional[String]$server_package_name = undef,
   Boolean $use_enterprise_repo = false,
-  String $version             = '4.0.11',
+  String $version             = '4.4.3',
 ) {
   class { '::mongodb::globals':
     client_package_name => $client_package_name,

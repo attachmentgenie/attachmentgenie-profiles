@@ -9,7 +9,7 @@ class profiles::tracing::tempo (
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'tempo',
   Array $sd_service_tags = [],
-  String $version = '0.4.0',
+  String $version = '0.5.0',
   Optional[Boolean] $auth_enabled = undef,
   Optional[Hash] $compactor_config_hash = undef,
   Optional[Hash] $distributor_config_hash = undef,

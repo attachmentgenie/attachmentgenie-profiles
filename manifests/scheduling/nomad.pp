@@ -25,7 +25,7 @@ class profiles::scheduling::nomad (
   Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:4646",
   String $sd_service_name = 'nomad-ui',
   Array $sd_service_tags = [],
-  String $version = '1.0.1',
+  String $version = '1.0.2',
 ){
   if $consul_connect {
     include ::profiles::scheduling::nomad::cni_plugins

@@ -5,7 +5,7 @@
 #
 class profiles::monitoring::promtail (
   Stdlib::HTTPUrl $client_url,
-  String[1] $checksum = 'd37e94e6ce0604f9faea7738f9c35d83afbdca9e5e92537600764a3b18cfe088',
+  String[1] $checksum = '31ab57cd206f575e493755607e8f6163f3e860b9d176f10404d537fc1197835c',
   Stdlib::Absolutepath $positions_file = '/tmp/positions.yaml',
   Array $scrape_configs = [
     {
@@ -47,7 +47,7 @@ class profiles::monitoring::promtail (
       ]
     }
   ],
-  String[1] $version = 'v2.0.0',
+  String[1] $version = 'v2.1.0',
 ) {
 
   $_clients_config_hash = { 'clients' => [{'url' => $client_url }]}

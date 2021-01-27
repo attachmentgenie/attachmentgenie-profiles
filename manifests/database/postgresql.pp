@@ -17,7 +17,7 @@ class profiles::database::postgresql (
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'postgresql',
   Array $sd_service_tags = ['metrics'],
-  $version                  = '11',
+  $version                  = '13',
 ) {
   class { '::postgresql::globals':
     encoding            => $encoding,

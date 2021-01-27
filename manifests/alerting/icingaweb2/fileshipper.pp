@@ -7,7 +7,7 @@
 #   class { '::profiles::alerting::icingaweb2::fileshipper': }
 #
 class profiles::alerting::icingaweb2::fileshipper (
-  String $version = 'v1.1.0',
+  String $version = 'v1.2.0',
 ) inherits profiles::alerting::icingaweb2 {
 
   class {'icingaweb2::module::fileshipper':

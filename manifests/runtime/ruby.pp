@@ -12,7 +12,7 @@ class profiles::runtime::ruby (
   String $rubygems_package = 'rubygems',
 ) {
   class { '::ruby':
-    gems_version     => 'latest',
+    gems_version     => 'installed',
     rubygems_package => $rubygems_package,
   }
   class  { '::ruby::dev': }
