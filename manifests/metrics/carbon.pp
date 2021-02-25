@@ -83,7 +83,7 @@ class profiles::metrics::carbon (
       }
     }
     default: {
-      fail( "Unsupported relay type ${replay_type}" )
+      fail( "Unsupported relay type ${relay_type}" )
     }
   }
 }
