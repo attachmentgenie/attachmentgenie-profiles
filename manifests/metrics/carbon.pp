@@ -23,6 +23,7 @@
 class profiles::metrics::carbon (
   Boolean $carbon_cache_enabled = true,
   Hash $carbon_caches = {},
+  Hash $carbon_c_relay = {},
   String $carbon_ensure = present,
   String $carbon_type = 'carbon',
   String $line_receiver_interface = '0.0.0.0',
@@ -70,6 +71,19 @@ class profiles::metrics::carbon (
     }
     default: {
       fail( "Unsupported carbon type ${carbon_type}" )
+    }
+  }
+
+  case $relay_type {
+    'carbon': {}
+    'carbon-c-relay': {
+      class { 'carbon_c_relay':
+        clusters => $carbon_c_relay['clusters'],
+        matches  => $carbon_c_relay['matches'],
+      }
+    }
+    default: {
+      fail( "Unsupported relay type ${replay_type}" )
     }
   }
 }
