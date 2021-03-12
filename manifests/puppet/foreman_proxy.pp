@@ -16,7 +16,9 @@ class profiles::puppet::foreman_proxy (
   String$oauth_consumer_key = 'secret',
   String $oauth_consumer_secret = 'secret',
   String $protocol = 'https',
+  Boolean $puppet = true,
   Boolean $puppetca = false,
+  Boolean $tftp = false,
   String $version = 'present',
 ) {
   if $protocol == 'https' {
@@ -42,13 +44,13 @@ class profiles::puppet::foreman_proxy (
     manage_sudoersd       => $manage_sudoersd,
     puppetca              => $puppetca,
     puppetca_listen_on    => $protocol,
-    puppet                => true,
+    puppet                => $puppet,
     puppet_listen_on      => $protocol,
     registered_name       => $::fqdn,
     registered_proxy_url  => "${protocol}://${::fqdn}:${port}",
     ssl                   => $ssl,
     ssl_port              => 8443,
-    tftp                  => false,
+    tftp                  => $tftp,
     trusted_hosts         => [$::fqdn, $foreman_host],
     version               => $version,
   }
