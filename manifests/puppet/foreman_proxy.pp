@@ -12,6 +12,9 @@
 # @param version               What version should be installed.
 class profiles::puppet::foreman_proxy (
   String $foreman_host = 'foreman',
+  Boolean $manage_bmc = false,
+  Boolean $manage_dhcp = false,
+  Boolean $manage_dns = false,
   Boolean $manage_sudoersd = true,
   String$oauth_consumer_key = 'secret',
   String $oauth_consumer_secret = 'secret',
@@ -31,9 +34,9 @@ class profiles::puppet::foreman_proxy (
     $ssl  = false
   }
   class { '::foreman_proxy':
-    bmc                   => false,
-    dhcp                  => false,
-    dns                   => false,
+    bmc                   => $manage_bmc,
+    dhcp                  => $manage_dhcp,
+    dns                   => $manage_dns,
     foreman_base_url      => "${protocol}://${foreman_host}",
     http                  => $http,
     http_port             => $port,
