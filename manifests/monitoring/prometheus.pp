@@ -4,6 +4,7 @@
 #  class { '::profiles::monitoring::prometheus': }
 #
 class profiles::monitoring::prometheus (
+  Boolean $blackbox = false,
   Boolean $client = true,
   Stdlib::Absolutepath $data_path = '/var/lib/prometheus',
   Optional[Stdlib::Absolutepath] $device = undef,
@@ -27,7 +28,7 @@ class profiles::monitoring::prometheus (
   } ],
   Array $sd_service_tags = ['metrics'],
   Boolean $server = false,
-  String $prometheus_version = '2.24.1',
+  String $prometheus_version = '2.26.0',
 ) {
   if $server {
     class { '::prometheus':
@@ -85,6 +86,13 @@ class profiles::monitoring::prometheus (
     if $manage_firewall_entry {
       profiles::bootstrap::firewall::entry { '200 allow prometheus':
         port => 9090,
+      }
+    }
+
+    if $blackbox {
+      class { '::profiles::monitoring::prometheus::blackbox_exporter':
+        manage_firewall_entry => $manage_firewall_entry,
+        manage_sd_service     => $manage_sd_service,
       }
     }
 

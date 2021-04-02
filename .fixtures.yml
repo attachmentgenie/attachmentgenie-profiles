@@ -13,7 +13,6 @@ fixtures:
       puppet_version: '>= 6.0.0'
     carbon_c_relay: 'mlambrichs/carbon_c_relay'
     concat: 'puppetlabs/concat'
-    consul: 'KyleAnderson/consul'
     collectd: 'puppet/collectd'
     composer: 'willdurand/composer'
     cron: 'puppet/cron'
@@ -96,6 +95,7 @@ fixtures:
   repositories:
     carbon: 'https://github.com/mlambrichs/puppet-carbon'
     carbon_relay_ng: 'https://github.com/mlambrichs/puppet-carbon_relay_ng.git'
+    consul: "https://github.com/solarkennedy/puppet-consul.git"
     example: 'https://github.com/attachmentgenie/attachmentgenie-example.git'
     flink: 'https://github.com/attachmentgenie/attachmentgenie-flink.git'
     graphite_web: 'https://github.com/attachmentgenie/puppet-graphite_web.git'
