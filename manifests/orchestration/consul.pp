@@ -27,7 +27,7 @@ class profiles::orchestration::consul (
   Array $sd_service_tags = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.9.1',
+  String $version = '1.9.4',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
@@ -94,6 +94,9 @@ class profiles::orchestration::consul (
       profiles::bootstrap::firewall::entry { '100 allow consul ui':
         port => 8500,
       }
+      profiles::bootstrap::firewall::entry { '100 allow consul HTTPS':
+        port => 8501,
+      }
     }
     if $manage_sd_service {
       ::profiles::orchestration::consul::service { $sd_service_name:
@@ -112,6 +115,9 @@ class profiles::orchestration::consul (
   if $manage_firewall_entry {
     profiles::bootstrap::firewall::entry { '100 allow consul serf LAN':
       port => 8301,
+    }
+    profiles::bootstrap::firewall::entry { '100 allow consul grpc':
+      port => 8502,
     }
     profiles::bootstrap::firewall::entry { '100 allow consul DNS TCP':
       port     => 8600,
