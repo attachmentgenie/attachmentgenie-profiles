@@ -56,7 +56,7 @@ class profiles::alerting::icingaweb2 (
         transport => 'api',
         username  => $api_user,
         password  => $api_password,
-        hostname  => $api_endpoint,
+        host      => $api_endpoint,
       }
     },
     ido_type          => 'pgsql',
