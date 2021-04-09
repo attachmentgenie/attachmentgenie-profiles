@@ -19,6 +19,7 @@
 class profiles::alerting::icingaweb2 (
   String $api_password = 'icinga',
   String $api_user = 'root',
+  String $api_endpoint = 'localhost',
   String $database_grant = 'all',
   String $database_host = '127.0.0.1',
   String $database_name = 'icingaweb2',
@@ -55,6 +56,7 @@ class profiles::alerting::icingaweb2 (
         transport => 'api',
         username  => $api_user,
         password  => $api_password,
+        host      => $api_endpoint,
       }
     },
     ido_type          => 'pgsql',
