@@ -52,7 +52,7 @@ class profiles::alerting::icingaweb2 (
 
   class {'icingaweb2::module::monitoring':
     commandtransports => {
-      icinga2         => {
+      icinga2 => {
         transport => 'api',
         username  => $api_user,
         password  => $api_password,
