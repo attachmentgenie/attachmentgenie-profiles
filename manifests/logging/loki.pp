@@ -25,7 +25,7 @@ class profiles::logging::loki (
   Optional[Hash] $server_config_hash = undef,
   Optional[Hash] $table_manager_config_hash = undef,
   Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']] $target = undef,
-  String $version = 'v2.1.0',
+  String $version = 'v2.2.1',
 ){
   if !defined(Package['unzip']) {
     package { 'unzip':

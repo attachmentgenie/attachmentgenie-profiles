@@ -5,7 +5,7 @@
 # @example
 #   include profiles::storage::minio
 class profiles::storage::minio (
-  String $checksum = '416890f951012c482eb75f6fc09db778708578dd3914b9a63ba89054344053be',
+  String $checksum = '59bb77de22ec686c303256ad5362e8958844baef1871b8b5c58ed11297ace008',
   Hash $config = {},
   Hash $config_default = {
     'MINIO_ACCESS_KEY'  => 'admin',
@@ -22,7 +22,7 @@ class profiles::storage::minio (
   Optional[Stdlib::Port::Unprivileged] $port = 9090,
   String $sd_service_name = 'minio',
   Array $sd_service_tags = ['metrics'],
-  String $version = 'RELEASE.2021-01-16T02-19-44Z',
+  String $version = 'RELEASE.2021-04-06T23-11-00Z',
 ) {
   $_config = deep_merge($config_default, $config)
 
