@@ -33,6 +33,9 @@ class profiles::tracing::tempo (
     profiles::bootstrap::firewall::entry { '200 allow tempo':
       port => 3100,
     }
+    profiles::bootstrap::firewall::entry { '200 allow tempo grpc':
+      port => 9095,
+    }
   }
 
   if $manage_sd_service {
