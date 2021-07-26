@@ -8,7 +8,7 @@ class profiles::monitoring::prometheus::node_exporter (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
-  String $version = '1.1.2',
+  String $version = '1.2.0',
 ) {
   class { '::prometheus::node_exporter':
     collectors_enable => $collectors,

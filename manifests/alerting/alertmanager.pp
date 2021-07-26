@@ -33,7 +33,7 @@ class profiles::alerting::alertmanager (
     'repeat_interval'=> '3h',
     'receiver'       => 'Admin',
   },
-  String $version = '0.21.0'
+  String $version = '0.22.2'
 ){
   class { '::prometheus::alertmanager':
     global         => $global,

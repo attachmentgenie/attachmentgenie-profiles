@@ -42,6 +42,7 @@
 # @param log_max_days                Keep logs for max days.
 # @param logmode                     Type of logging
 # @param manage_repo                 Manage repo.
+# @param plugins                     Plugins to install.
 # @param rpm_iteration               RPM iteration to install.
 # @param root_url                    Full URL used to access Grafana from a web browser.
 # @param secret_key                  Secret key.
@@ -87,6 +88,7 @@ class profiles::metrics::grafana (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = false,
   Boolean $manage_sd_service = false,
+  Hash $plugins = {},
   String $rpm_iteration = '1',
   String $root_url = '%(protocol)s://%(domain)s/',
   Array $sd_service_tags = ['metrics'],
@@ -95,7 +97,7 @@ class profiles::metrics::grafana (
   String $smtp_from_address = 'admin@grafana.localhost',
   String $smtp_from_name = 'Grafana',
   String $smtp_host = 'localhost:25',
-  String $version = '7.5.3',
+  String $version = '8.0.6',
 ) {
   $default_cfg        =  {
     server            => {
@@ -212,4 +214,5 @@ class profiles::metrics::grafana (
   create_resources( ::profiles::metrics::grafana::dashboard, $dashboards, $defaults )
 
   create_resources( ::profiles::metrics::grafana::datasource, $datasources, $defaults )
+  create_resources( ::profiles::metrics::grafana::plugin, $plugins)
 }

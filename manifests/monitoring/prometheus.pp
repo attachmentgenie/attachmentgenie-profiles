@@ -28,7 +28,7 @@ class profiles::monitoring::prometheus (
   } ],
   Array $sd_service_tags = ['metrics'],
   Boolean $server = false,
-  String $prometheus_version = '2.26.0',
+  String $prometheus_version = '2.28.1',
 ) {
   if $server {
     class { '::prometheus':

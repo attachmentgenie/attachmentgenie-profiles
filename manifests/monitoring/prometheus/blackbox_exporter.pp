@@ -8,7 +8,7 @@ class profiles::monitoring::prometheus::blackbox_exporter (
   Boolean $manage_sd_service = false,
   Hash $modules = {},
   Array $sd_service_tags = ['metrics'],
-  String $version = '0.18.0',
+  String $version = '0.19.0',
 ) {
   class { '::prometheus::blackbox_exporter':
     modules => $modules,
