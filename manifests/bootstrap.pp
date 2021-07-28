@@ -5,15 +5,16 @@
 #
 class profiles::bootstrap (
   Boolean $accounts = false,
-  Boolean $dnsmasq  = false,
+  Boolean $dnsmasq = false,
   Boolean $fail2ban = false,
   Boolean $firewall = false,
-  Boolean $network  = false,
-  Boolean $ntp      = false,
-  Boolean $puppet   = false,
-  Boolean $repos    = false,
-  Boolean $resolv   = false,
-  Boolean $ssh      = false,
+  Boolean $keepalive = false,
+  Boolean $network = false,
+  Boolean $ntp = false,
+  Boolean $puppet = false,
+  Boolean $repos = false,
+  Boolean $resolv = false,
+  Boolean $ssh = false,
 ) {
   if $accounts{
     class { '::profiles::bootstrap::accounts': }
@@ -26,6 +27,9 @@ class profiles::bootstrap (
       class { '::profiles::bootstrap::fail2ban': }
     }
     class { '::profiles::bootstrap::firewall': }
+  }
+  if $keepalive {
+    class { '::profiles::bootstrap::keepalive': }
   }
   if $network {
     class { '::profiles::bootstrap::network': }

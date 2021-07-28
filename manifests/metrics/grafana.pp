@@ -71,6 +71,7 @@ class profiles::metrics::grafana (
   Optional[String] $db_path = undef,
   String $db_type = 'sqlite3',
   String $db_user = '',
+  String $default_org = 'Main Org.',
   Boolean $disable_gravatar = false,
   String $domain = 'localhost',
   Hash $extra_cfg = {},
@@ -108,7 +109,7 @@ class profiles::metrics::grafana (
     },
     'auth.anonymous'  => {
       enabled  => true,
-      org_name => 'ArthurJames',
+      org_name => $default_org,
       org_role => 'Viewer'
     },
     'auth.basic'      => {
