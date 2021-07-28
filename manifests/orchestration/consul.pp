@@ -21,6 +21,7 @@ class profiles::orchestration::consul (
   Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = false,
   String $options = '-enable-script-checks -syslog',
+  Hash $prepared_queries = {},
   String $sd_service_check_interval = '10s',
   Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:8500",
   String $sd_service_name = 'consul-ui',
@@ -130,6 +131,7 @@ class profiles::orchestration::consul (
   }
 
   create_resources(::consul::check, $checks)
+  create_resources(::profiles::orchestration::consul::prepared_query, $prepared_queries)
   create_resources(::profiles::orchestration::consul::service, $services)
   create_resources(::consul::watch, $watches)
 }
