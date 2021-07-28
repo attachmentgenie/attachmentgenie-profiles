@@ -21,6 +21,8 @@ class profiles::alerting::alertmanager (
     }
   ],
   String $install_method = 'package',
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
   Array $receivers = [
     { 'name' => 'Admin',
       'email_configs'=> [ { 'to'=> 'root@localhost' }]
@@ -33,6 +35,8 @@ class profiles::alerting::alertmanager (
     'repeat_interval'=> '3h',
     'receiver'       => 'Admin',
   },
+  String $sd_service_name = 'alertmanager',
+  Array $sd_service_tags = ['metrics'],
   String $version = '0.22.2'
 ){
   class { '::prometheus::alertmanager':
@@ -42,5 +46,24 @@ class profiles::alerting::alertmanager (
     receivers      => $receivers,
     route          => $route,
     version        => $version,
+  }
+
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => 'http://localhost:9093',
+          interval => '10s'
+        }
+      ],
+      port   => 909,
+      tags   => $sd_service_tags,
+    }
+  }
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow alertmanager':
+      port => 9093,
+    }
   }
 }

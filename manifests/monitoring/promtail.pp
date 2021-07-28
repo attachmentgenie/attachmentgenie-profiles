@@ -6,6 +6,8 @@
 class profiles::monitoring::promtail (
   Stdlib::HTTPUrl $client_url,
   String[1] $checksum = '40d8d414b44baa78c5010cb7575d74eea035b6b00adb78e9676a045d6730a16f',
+  Boolean $manage_firewall_entry = true,
+  Boolean $manage_sd_service = false,
   Stdlib::Absolutepath $positions_file = '/tmp/positions.yaml',
   Array $scrape_configs = [
     {
@@ -47,6 +49,8 @@ class profiles::monitoring::promtail (
       ]
     }
   ],
+  String $sd_service_name = 'promtail',
+  Array $sd_service_tags = ['metrics'],
   String[1] $version = 'v2.2.1',
 ) {
 
@@ -61,5 +65,24 @@ class profiles::monitoring::promtail (
     server_config_hash    => { 'server' => { 'http_listen_port' => 9080 , 'grpc_listen_port' => 0}},
     service_ensure        => 'running',
     version               => $version,
+  }
+
+  if $manage_sd_service {
+    ::profiles::orchestration::consul::service { $sd_service_name:
+      checks => [
+        {
+          http     => 'http://localhost:9080',
+          interval => '10s'
+        }
+      ],
+      port   => 9080,
+      tags   => $sd_service_tags,
+    }
+  }
+
+  if $manage_firewall_entry {
+    profiles::bootstrap::firewall::entry { '200 allow promtail':
+      port => 9080,
+    }
   }
 }

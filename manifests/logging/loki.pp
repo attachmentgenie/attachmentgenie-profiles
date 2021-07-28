@@ -18,6 +18,8 @@ class profiles::logging::loki (
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
+  Stdlib::Port $port_grpc = 9095,
+  Stdlib::Port $port_tcp = 3100,
   Optional[Hash] $querier_config_hash = undef,
   Optional[Hash] $runtime_config_hash = undef,
   String $sd_service_name = 'loki',
@@ -59,7 +61,10 @@ class profiles::logging::loki (
 
   if $manage_firewall_entry {
     profiles::bootstrap::firewall::entry { '200 allow loki':
-      port => 3100,
+      port => $port_tcp,
+    }
+    profiles::bootstrap::firewall::entry { '200 allow loki grpc':
+      port => $port_grpc,
     }
   }
 
@@ -67,11 +72,11 @@ class profiles::logging::loki (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}:3100/ready",
+          http     => "http://localhost:${port_tcp}/ready",
           interval => '10s'
         }
       ],
-      port   => 3100,
+      port   => $port_tcp,
       tags   => $sd_service_tags,
     }
   }

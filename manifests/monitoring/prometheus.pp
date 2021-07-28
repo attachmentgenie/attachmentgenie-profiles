@@ -12,8 +12,8 @@ class profiles::monitoring::prometheus (
   Enum['url', 'package', 'none'] $install_method = 'none',
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
-  String $sd_service_name = 'prometheus',
   Boolean $manage_sd_service = false,
+  String $sd_service_name = 'prometheus',
   Boolean $pushgateway = false,
   Array $scrape_configs = [ {
     'job_name'        => 'prometheus',

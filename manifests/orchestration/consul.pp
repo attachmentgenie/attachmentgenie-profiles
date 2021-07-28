@@ -27,7 +27,7 @@ class profiles::orchestration::consul (
   Array $sd_service_tags = [],
   Boolean $server = false,
   Hash $services = {},
-  String $version = '1.9.4',
+  String $version = '1.10.1',
   Boolean $ui = false,
   Hash $watches = {},
 ) {
