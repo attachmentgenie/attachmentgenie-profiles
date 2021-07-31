@@ -56,7 +56,7 @@ class profiles::alerting::alertmanager (
           interval => '10s'
         }
       ],
-      port   => 909,
+      port   => 9093,
       tags   => $sd_service_tags,
     }
   }

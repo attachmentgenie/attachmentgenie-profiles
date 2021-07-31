@@ -23,7 +23,7 @@ class profiles::logging::loki (
   Optional[Hash] $querier_config_hash = undef,
   Optional[Hash] $runtime_config_hash = undef,
   String $sd_service_name = 'loki',
-  Array $sd_service_tags = [],
+  Array $sd_service_tags = ['metrics'],
   Optional[Hash] $server_config_hash = undef,
   Optional[Hash] $table_manager_config_hash = undef,
   Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']] $target = undef,

@@ -14,7 +14,7 @@ class profiles::tracing::tempo (
   Stdlib::Port $port_grpc = 9095,
   Stdlib::Port $port_tcp = 3100,
   String $sd_service_name = 'tempo',
-  Array $sd_service_tags = [],
+  Array $sd_service_tags = ['metrics'],
   String $version = '1.0.1',
   Optional[Hash] $compactor_config_hash = undef,
   Optional[Hash] $distributor_config_hash = undef,

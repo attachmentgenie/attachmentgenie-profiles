@@ -134,4 +134,6 @@ class profiles::orchestration::consul (
   create_resources(::profiles::orchestration::consul::prepared_query, $prepared_queries)
   create_resources(::profiles::orchestration::consul::service, $services)
   create_resources(::consul::watch, $watches)
+
+  Service['consul'] -> Consul_prepared_query <||>
 }

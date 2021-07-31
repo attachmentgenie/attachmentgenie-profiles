@@ -12,7 +12,7 @@ class profiles::mail::mailhog (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'mailhog',
-  Array $sd_service_tags = ['metrics'],
+  Array $sd_service_tags = [],
 ){
   class { '::mailhog':
     config         => $config,
