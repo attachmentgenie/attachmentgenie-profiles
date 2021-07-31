@@ -5,23 +5,26 @@
 #
 class profiles::monitoring::prometheus (
   Hash $alerts = {
-    'groups' => [
-      {
-        'name'  => 'alert.rules',
-        'rules' => [
-          {
-            'alert'       => 'InstanceDown',
-            'expr'        => 'up == 0',
-            'for'         => '5m',
-            'labels'      => {'severity' => 'page'},
-            'annotations' => {
-              'summary'     => 'Instance {{ $labels.instance }} down',
-              'description' => '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.'
+    'node_exporter' => {
+      'groups' => [
+        {
+          'name'  => 'alert.rules',
+          'rules' => [
+            {
+              'alert'       => 'InstanceDown',
+              'expr'        => 'up == 0',
+              'for'         => '5m',
+              'labels'      => { 'severity' => 'page' },
+              'annotations' => {
+                'summary'     => 'Instance {{ $labels.instance }} down',
+                'description' =>
+                '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.'
+              },
             },
-          },
-        ],
-      },
-    ],
+          ],
+        },
+      ],
+    },
   },
   Array $alertmanager_configs = [
     {
@@ -56,8 +59,8 @@ class profiles::monitoring::prometheus (
 ) {
   if $server {
     class { '::prometheus':
-      alerts                   => $alerts,
       alertmanagers_config     => $alertmanager_configs,
+      extra_alerts             => $alerts,
       localstorage             => $data_path,
       manage_prometheus_server => true,
       scrape_configs           => $scrape_configs,
