@@ -10,6 +10,8 @@
 # @param install_method How to install
 # @param version        Version to install
 class profiles::alerting::alertmanager (
+  Boolean $cluster = false,
+  String $extra_options = '',
   Hash $global = {
     'smtp_smarthost' =>'localhost:25',
     'smtp_from'=>'alertmanager@localhost'
@@ -40,6 +42,7 @@ class profiles::alerting::alertmanager (
   String $version = '0.22.2'
 ){
   class { '::prometheus::alertmanager':
+    extra_options  => $extra_options,
     global         => $global,
     inhibit_rules  => $inhibit_rules,
     install_method => $install_method,
@@ -64,6 +67,11 @@ class profiles::alerting::alertmanager (
   if $manage_firewall_entry {
     profiles::bootstrap::firewall::entry { '200 allow alertmanager':
       port => 9093,
+    }
+    if $cluster {
+      profiles::bootstrap::firewall::entry { '200 allow alertmanager gossip':
+        port => 9094,
+      }
     }
   }
 }

@@ -4,6 +4,7 @@
 #  class { '::profiles::monitoring::prometheus::blackbox_exporter': }
 #
 class profiles::monitoring::prometheus::blackbox_exporter (
+  String $extra_options = '',
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Hash $modules = {},
