@@ -133,6 +133,7 @@ class profiles::testing::jenkins (
     scm-api => {},
     script-security => {},
     snakeyaml-api => {},
+    sshd => {},
     ssh-credentials => {},
     structs => {},
     swarm => {},

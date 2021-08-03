@@ -9,13 +9,14 @@ class profiles::repo::nexus (
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
+  String $revision = '03',
   String $sd_service_name = 'nexus',
   Array $sd_service_tags = [],
-  String $version = '3.29.2',
+  String $version = '3.32.0',
 ) {
   class{ '::nexus':
     version       => $version,
-    revision      => '01',
+    revision      => $revision,
     download_site => 'http://download.sonatype.com/nexus/3',
     nexus_type    => 'unix',
   }
