@@ -7,11 +7,11 @@ define profiles::bootstrap::disk::mount(
   Stdlib::Absolutepath $device,
   Boolean $createfs = true,
   Enum['absent', 'present'] $ensure = present,
-  Enum['ext4'] $fs_type = 'ext4',
+  Enum['ext4','xfs'] $fs_type = 'ext4',
   Stdlib::Absolutepath $mountpath = $name,
   Boolean $mounted = true,
 ){
-  $mount_ensure    = $ensure ? {
+  $_mount_ensure    = $ensure ? {
     'absent' => absent,
     default  => $mounted ? {
       true      => mounted,
@@ -19,11 +19,16 @@ define profiles::bootstrap::disk::mount(
     }
   }
 
+  $_mount_options = $fs_type ? {
+    'xfs'   => '',
+    default => '-F'
+  }
+
   if $createfs {
     filesystem { $device:
       ensure  => $ensure,
       fs_type => $fs_type,
-      options => '-F',
+      options => $_mount_options,
     }
   }
 
@@ -36,7 +41,7 @@ define profiles::bootstrap::disk::mount(
     }
 
     mount { $mountpath:
-      ensure => $mount_ensure,
+      ensure => $_mount_ensure,
       name   => $mountpath,
       device => $device,
       fstype => $fs_type,

@@ -11,7 +11,7 @@ define profiles::database::postgresql::db (
 ) {
 
   if $encrypted {
-    $_password = postgresql_password($user, $password)
+    $_password = postgresql::postgresql_password($user, $password)
   } else {
     $_password = $password
   }

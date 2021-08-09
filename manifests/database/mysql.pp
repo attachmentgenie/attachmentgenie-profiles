@@ -18,11 +18,13 @@ class profiles::database::mysql (
 ) {
   $_listen_address = { 'mysqld' => { 'bind-address' => $listen_address } }
   class { '::mysql::server':
-    override_options => merge($override_options, $_listen_address),
-    root_password    => $root_password,
+    override_options        => merge($override_options, $_listen_address),
+    root_password           => $root_password,
+    remove_default_accounts => true,
+    restart                 => true,
   }
   class { '::mysql::server::account_security': }
-  create_resources(mysql::db, $databases)
+  create_resources(::profiles::database::mysql::db, $databases)
 
   class { '::mysql::client': }
 
