@@ -17,7 +17,7 @@ class profiles::database::mongodb (
   Optional[String]$server_package_name = undef,
   Optional[Boolean] $smallfiles = undef,
   Boolean $use_enterprise_repo = false,
-  String $version             = '4.4.7',
+  String $version             = '5.0.2',
 ) {
   class { '::mongodb::globals':
     bind_ip             => $bind_ip,

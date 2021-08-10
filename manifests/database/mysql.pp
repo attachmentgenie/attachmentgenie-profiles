@@ -23,7 +23,6 @@ class profiles::database::mysql (
     remove_default_accounts => true,
     restart                 => true,
   }
-  class { '::mysql::server::account_security': }
   create_resources(::profiles::database::mysql::db, $databases)
 
   class { '::mysql::client': }

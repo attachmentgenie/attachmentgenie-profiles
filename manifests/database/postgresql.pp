@@ -4,29 +4,36 @@
 #  class { '::profiles::database::postgresql': }
 #
 class profiles::database::postgresql (
-  $databases                = {},
-  Stdlib::Absolutepath $data_path = '/var/lib/pgsql',
+  $databases = {},
+  Stdlib::Absolutepath $data_path = '/var/lib/pgsql/data',
   Optional[Stdlib::Absolutepath] $device = undef,
-  $encoding                 = 'UTF-8',
+  $encoding = 'UTF-8',
   Optional[Hash] $hba_rules = undef,
-  $ip_mask_allow_all_users  = '127.0.0.1/32',
-  $listen_address           = 'localhost',
+  $ip_mask_allow_all_users = '127.0.0.1/32',
+  $listen_address = 'localhost',
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = false,
+  Boolean $patroni = false,
   String $sd_service_name = 'postgresql',
   Array $sd_service_tags = ['metrics'],
-  $version                  = '13',
+  String $superuser_password = 'changeme',
+  $version = '13',
 ) {
   class { '::postgresql::globals':
+    datadir             => $data_path,
     encoding            => $encoding,
+    manage_datadir      => $manage_disk ? { true => false, default => true },
     manage_package_repo => $manage_package_repo,
     version             => $version,
   }
   -> class { '::postgresql::server':
     ip_mask_allow_all_users => $ip_mask_allow_all_users,
     listen_addresses        => $listen_address,
+    postgres_password       => $superuser_password,
+    service_ensure          => $patroni ? { true => 'stopped', default => 'running' },
+    service_enable          => $patroni ? { true => false, default => true },
   }
   create_resources(::profiles::database::postgresql::db, $databases)
 
@@ -39,7 +46,7 @@ class profiles::database::postgresql (
   if $manage_disk {
     ::profiles::bootstrap::disk::mount {'postgresql':
       device    => $device,
-      mountpath => $data_path,
+      mountpath => dirname($data_path),
       before    => Package['postgresql-server'],
     }
   }
@@ -58,6 +65,15 @@ class profiles::database::postgresql (
       ],
       port   => 5432,
       tags   => $sd_service_tags,
+    }
+  }
+  if $patroni {
+    class { '::profiles::database::postgresql::patroni':
+      manage_firewall_entry => $manage_firewall_entry,
+      package_name          => $manage_sd_service ? { true => 'patroni', default => 'patroni-consul' },
+      pgsql_data_dir        => $data_path,
+      superuser_password    => $superuser_password,
+      use_consul            => $manage_sd_service ? { true => false, default => true },
     }
   }
 }
