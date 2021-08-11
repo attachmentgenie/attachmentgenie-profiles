@@ -69,8 +69,10 @@ class profiles::testing::jenkins (
     aws-java-sdk => {},
     authentication-tokens => {},
     bootstrap4-api => {},
+    bootstrap5-api => {},
     bouncycastle-api => {},
     branch-api => {},
+    caffeine-api => {},
     checks-api => {},
     configuration-as-code => {},
     configuration-as-code-groovy => {},
@@ -85,7 +87,7 @@ class profiles::testing::jenkins (
     docker-workflow => {},
     display-url-api => {},
     durable-task => {},
-    echarts-api => {},
+    echarts-api  => {},
     external-monitor-job => {},
     font-awesome-api => {},
     git => {},
@@ -102,7 +104,7 @@ class profiles::testing::jenkins (
     jquery3-api => {},
     jquery => {},
     jquery-detached => {},
-    junit => {},
+    junit  => {},
     kerberos-sso => {},
     ldap => {},
     lockable-resources => {},
@@ -116,7 +118,7 @@ class profiles::testing::jenkins (
     parameterized-trigger => {},
     plugin-util-api => {},
     okhttp-api => {},
-    pipeline-build-step => {},
+    pipeline-build-step  => {},
     pipeline-graph-analysis => {},
     pipeline-input-step => {},
     pipeline-milestone-step => {},
@@ -129,6 +131,7 @@ class profiles::testing::jenkins (
     pipeline-stage-view => {},
     plain-credentials  => {},
     popper-api => {},
+    popper2-api => {},
     run-condition => {},
     scm-api => {},
     script-security => {},
@@ -161,7 +164,7 @@ class profiles::testing::jenkins (
   Integer $slave_executors = $::processors['count'],
   String $slave_user = 'slave',
   String $slave_password = 'secret',
-  String $slave_version = '3.25',
+  String $slave_version = '3.27',
 ) {
   if $master {
     if $casc {
@@ -245,5 +248,6 @@ class profiles::testing::jenkins (
       ui_pass                  => $slave_password,
       version                  => $slave_version,
     }
+    Package['java'] -> Service['jenkins-slave']
   }
 }

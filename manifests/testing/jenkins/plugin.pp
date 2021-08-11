@@ -4,10 +4,12 @@
 #  ::profiles::testing::jenkins::plugin { 'foo.bar': }
 #
 define profiles::testing::jenkins::plugin (
+  Enum['hpi', 'jpi'] $extension = 'hpi',
   Optional[String] $version = undef,
 ){
 
   ::jenkins::plugin { $title:
-    version => $version,
+    extension => $extension,
+    version   => $version,
   }
 }
