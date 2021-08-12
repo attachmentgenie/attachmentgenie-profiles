@@ -102,10 +102,10 @@ class profiles::monitoring::icinga2 (
   }
 
   class { '::icinga2':
-    confd       => $confd,
-    constants   => $constants,
-    features    => $features,
-    manage_repo => true,
+    confd        => $confd,
+    constants    => $constants,
+    features     => $features,
+    manage_repos => $manage_repo,
   }
 
   class { '::icinga2::feature::api':
