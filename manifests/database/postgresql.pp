@@ -21,10 +21,11 @@ class profiles::database::postgresql (
   String $superuser_password = 'changeme',
   $version = '13',
 ) {
+  $_service_ensure = $patroni ? { true => 'stopped', default => 'running' }
   class { '::postgresql::globals':
     datadir             => $data_path,
     encoding            => $encoding,
-    manage_datadir      => $manage_disk ? { true => false, default => true },
+    manage_datadir      => ! $manage_disk,
     manage_package_repo => $manage_package_repo,
     version             => $version,
   }
@@ -32,8 +33,8 @@ class profiles::database::postgresql (
     ip_mask_allow_all_users => $ip_mask_allow_all_users,
     listen_addresses        => $listen_address,
     postgres_password       => $superuser_password,
-    service_ensure          => $patroni ? { true => 'stopped', default => 'running' },
-    service_enable          => $patroni ? { true => false, default => true },
+    service_ensure          => $_service_ensure,
+    service_enable          => ! $patroni,
   }
   create_resources(::profiles::database::postgresql::db, $databases)
 
@@ -68,12 +69,13 @@ class profiles::database::postgresql (
     }
   }
   if $patroni {
+    $_package_name = $manage_sd_service ? { true => 'patroni', default => 'patroni-consul' }
     class { '::profiles::database::postgresql::patroni':
       manage_firewall_entry => $manage_firewall_entry,
-      package_name          => $manage_sd_service ? { true => 'patroni', default => 'patroni-consul' },
+      package_name          => $_package_name,
       pgsql_data_dir        => $data_path,
       superuser_password    => $superuser_password,
-      use_consul            => $manage_sd_service ? { true => false, default => true },
+      use_consul            => ! $manage_sd_service,
     }
   }
 }
