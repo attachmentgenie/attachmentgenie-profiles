@@ -7,18 +7,18 @@
 class profiles::dashboard::statping (
   String $archive_source = 'https://github.com/statping/statping/releases/download/v0.90.74/statping-linux-amd64.tar.gz',
   Hash $config = {
-    'connection' => 'sqlite3',
-    'language' => 'en',
-    'allow_reports' => 'true',
-    'location' => '/etc/statping',
-    'sqlfile' => '/etc/statping/statping.db',
-    'disable_http' => 'false',
-    'demo_mode' => 'false',
-    'disable_logs' => 'false',
-    'use_assets' => 'false',
-    'sample_data' => 'false',
-    'use_cdn' => 'false',
-    'disable_colors' => 'false',
+    'connection'     => 'sqlite3',
+    'language'       => 'en',
+    'allow_reports'  => 'true', # lint:ignore:quoted_booleans
+    'location'       => '/etc/statping',
+    'sqlfile'        => '/etc/statping/statping.db',
+    'disable_http'   => 'false', # lint:ignore:quoted_booleans
+    'demo_mode'      => 'false', # lint:ignore:quoted_booleans
+    'disable_logs'   => 'false', # lint:ignore:quoted_booleans
+    'use_assets'     => 'false', # lint:ignore:quoted_booleans
+    'sample_data'    => 'false', # lint:ignore:quoted_booleans
+    'use_cdn'        => 'false', # lint:ignore:quoted_booleans
+    'disable_colors' => 'false', # lint:ignore:quoted_booleans
   },
   String $http_addr = '127.0.0.1',
   Stdlib::Port $http_port = 8080,
