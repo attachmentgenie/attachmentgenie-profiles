@@ -15,15 +15,17 @@ class profiles::database::mysql (
   String $root_password = 'secret',
   String $sd_service_name = 'mysql',
   Array $sd_service_tags = [],
+  Hash $users = {},
 ) {
   $_listen_address = { 'mysqld' => { 'bind-address' => $listen_address } }
   class { '::mysql::server':
-    override_options        => merge($override_options, $_listen_address),
+    override_options        => deep_merge($override_options, $_listen_address),
     root_password           => $root_password,
     remove_default_accounts => true,
     restart                 => true,
   }
   create_resources(::profiles::database::mysql::db, $databases)
+  create_resources(::profiles::database::mysql::user, $users)
 
   class { '::mysql::client': }
 

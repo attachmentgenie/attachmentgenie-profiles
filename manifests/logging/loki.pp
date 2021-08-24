@@ -32,7 +32,7 @@ class profiles::logging::loki (
   Optional[Hash] $table_manager_config_hash = undef,
   Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']] $target = undef,
   Optional[Hash] $tracing_config_hash = undef,
-  String $version = 'v2.2.1',
+  String $version = 'v2.3.0',
 ){
   if !defined(Package['unzip']) {
     package { 'unzip':

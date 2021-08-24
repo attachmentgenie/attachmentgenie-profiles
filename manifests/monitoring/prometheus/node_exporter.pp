@@ -5,13 +5,24 @@
 #
 class profiles::monitoring::prometheus::node_exporter (
   Array[String] $collectors =  ['tcpstat'],
+  String $group = 'node-exporter',
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
   String $version = '1.2.0',
 ) {
+  $textfile_path = "${profiles::monitoring::prometheus::data_path}/textfile"
+  $_collectors = concat($collectors, "textfile.directory=${textfile_path}")
+
+  file { $textfile_path:
+    ensure => 'directory',
+    owner  => 'root',
+    group  => $group,
+  }
+
   class { '::prometheus::node_exporter':
-    collectors_enable => $collectors,
+    collectors_enable => $_collectors,
+    group             => $group,
     version           => $version,
   }
 

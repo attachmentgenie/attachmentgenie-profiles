@@ -8,10 +8,12 @@ define profiles::database::mysql::db (
   String $password,
   String $user,
   String $grant = 'ALL',
+  Stdlib::Host $host = 'localhost',
 ) {
   mysql::db { $title:
-    user     => $user,
-    password => $password,
     grant    => $grant,
+    host     => $host,
+    password => $password,
+    user     => $user,
   }
 }

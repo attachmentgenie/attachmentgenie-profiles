@@ -49,22 +49,22 @@ class profiles::monitoring::prometheus (
     'static_configs'  => [
       {
         'targets' => ['localhost:9090'],
-        'labels'  => {'alias' => 'Prometheus'}
       }
     ],
   } ],
   Array $sd_service_tags = ['metrics'],
   Boolean $server = false,
-  String $prometheus_version = '2.28.1',
+  String $prometheus_version = '2.29.1',
 ) {
   if $server {
     class { '::prometheus':
-      alertmanagers_config     => $alertmanager_configs,
-      extra_alerts             => $alerts,
-      localstorage             => $data_path,
-      manage_prometheus_server => true,
-      scrape_configs           => $scrape_configs,
-      version                  => $prometheus_version,
+      alertmanagers_config           => $alertmanager_configs,
+      extra_alerts                   => $alerts,
+      include_default_scrape_configs => false,
+      localstorage                   => $data_path,
+      manage_prometheus_server       => true,
+      scrape_configs                 => $scrape_configs,
+      version                        => $prometheus_version,
     }
 
     if $manage_disk {
