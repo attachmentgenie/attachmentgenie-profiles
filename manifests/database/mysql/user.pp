@@ -5,20 +5,22 @@
 # @example
 #   profiles::database::mysql::user { 'namevar': }
 define profiles::database::mysql::user (
+  String $dbname,
   Array $grants,
   String $password,
-  String $table,
   Enum['absent','present'] $ensure = 'present',
   String $host = 'localhost',
 ) {
+  $_table = "${dbname}.*"
+
   mysql_user { "${title}@${host}":
     ensure        => $ensure,
     password_hash => mysql::password($password),
   }
-  -> mysql_grant { "${title}@${host}/${table}":
+  -> mysql_grant { "${title}@${host}/${_table}":
     ensure     => $ensure,
     privileges => $grants,
     user       => "${title}@${host}",
-    table      => $table,
+    table      => $_table,
   }
 }
