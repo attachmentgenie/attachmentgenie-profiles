@@ -11,7 +11,7 @@ define profiles::website::nginx::vhost (
   Boolean $manage_sd_service = false,
   Stdlib::Port $port = 80,
   Enum['http'] $protocol = 'http',
-  Array[String] $public_name = [$name],
+  Array[Stdlib::Host] $public_name = [$name],
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
 ) {
