@@ -3,6 +3,7 @@
 require 'spec_helper'
 
 describe 'profiles::metrics::grafana::plugin' do
+  let(:pre_condition) { 'include grafana' }
   let(:title) { 'namevar' }
   let(:params) do
     {}

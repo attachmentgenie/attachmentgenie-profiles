@@ -5,7 +5,10 @@ require 'spec_helper'
 describe 'profiles::database::mysql::db' do
   let(:title) { 'namevar' }
   let(:params) do
-    {}
+    {
+      'password' => 'secret',
+      'user'     => 'root'
+    }
   end
 
   on_supported_os.each do |os, os_facts|

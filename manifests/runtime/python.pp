@@ -18,7 +18,6 @@ class profiles::runtime::python (
     python_pips => $pip_packages,
     version     => 'system',
     use_epel    => $manage_repo,
-    virtualenv  => 'absent',
   }
   create_resources('package',$packages)
 }

@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'profiles::orchestration::consul::prepared_query' do
   let(:title) { 'namevar' }
   let(:params) do
-    {}
+    { 'failover_dcs' => ['dc2'] }
   end
 
   on_supported_os.each do |os, os_facts|
