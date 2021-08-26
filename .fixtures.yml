@@ -82,7 +82,7 @@ fixtures:
     stdlib: 'puppetlabs/stdlib'
     sudo: 'saz/sudo'
     statsd: 'jdowning/statsd'
-    systemd: 'camptocamp/systemd'
+    systemd: 'puppet/systemd'
     sysctl: 'thias/sysctl'
     transition: 'puppetlabs/transition'
     vault: 'jsok/vault'
