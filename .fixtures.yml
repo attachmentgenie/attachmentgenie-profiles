@@ -97,6 +97,7 @@ fixtures:
     carbon_relay_ng: 'https://github.com/mlambrichs/puppet-carbon_relay_ng.git'
     consul: "https://github.com/solarkennedy/puppet-consul.git"
     example: 'https://github.com/attachmentgenie/attachmentgenie-example.git'
+    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
     flink: 'https://github.com/attachmentgenie/attachmentgenie-flink.git'
     graphite_web: 'https://github.com/attachmentgenie/puppet-graphite_web.git'
     influxdb: 'https://github.com/dgolja/golja-influxdb.git'
@@ -104,6 +105,8 @@ fixtures:
     loki: 'https://github.com/attachmentgenie/attachmentgenie-loki.git'
     mailhog: 'https://github.com/attachmentgenie/attachmentgenie-mailhog.git'
     minio: 'https://github.com/kogitoapp/puppet-minio'
+    provision: 'https://github.com/puppetlabs/provision.git'
+    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
     ssh: 'https://github.com/attachmentgenie/attachmentgenie-ssh.git'
     timezone: 'https://github.com/attachmentgenie/attachmentgenie-timezone.git'
     traefik: 'https://github.com/attachmentgenie/puppet-traefik.git'
