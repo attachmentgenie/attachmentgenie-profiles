@@ -15,7 +15,7 @@
 
 ## Description
 
-Collection of profiles i find useful works together with [attachmentgenie-roles](https://github.com/attachmentgenie-roles)
+Collection of profiles for tools I find useful, works together with [attachmentgenie-roles](https://github.com/attachmentgenie-roles)
 
 ## Usage
 

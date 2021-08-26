@@ -29,6 +29,7 @@
 * [`profiles::bootstrap::example`](#profilesbootstrapexample): A short summary of the purpose of this class
 * [`profiles::bootstrap::fail2ban`](#profilesbootstrapfail2ban): This class can be used install fail2ban
 * [`profiles::bootstrap::firewall`](#profilesbootstrapfirewall): This class can be used install user firewall properties
+* [`profiles::bootstrap::keepalive`](#profilesbootstrapkeepalive): A short summary of the purpose of this class
 * [`profiles::bootstrap::network`](#profilesbootstrapnetwork): This class can be used install network
 * [`profiles::bootstrap::puppet`](#profilesbootstrappuppet): This class can be used install user puppet properties
 * [`profiles::bootstrap::repositories`](#profilesbootstraprepositories): This class can be used install user repositories properties
@@ -40,12 +41,14 @@
 * [`profiles::dashboard`](#profilesdashboard): This class can be used install dashboard.
 * [`profiles::dashboard::icinga2`](#profilesdashboardicinga2): This class can be used install the icinga2 dashboard: https://github.com/dnsmichi/dashing-icinga2  ex: profile::dashboard::icinga2::docker_en
 * [`profiles::dashboard::smashing`](#profilesdashboardsmashing): This class can be used install user smashing properties
+* [`profiles::dashboard::statping`](#profilesdashboardstatping): A short summary of the purpose of this class
 * [`profiles::database`](#profilesdatabase): This class can be used install metrics.
 * [`profiles::database::influxdb`](#profilesdatabaseinfluxdb): This class can be used install influxdb
 * [`profiles::database::mongodb`](#profilesdatabasemongodb): This class can be used install mongodb
 * [`profiles::database::mysql`](#profilesdatabasemysql): This class can be used install mysql
 * [`profiles::database::neo4j`](#profilesdatabaseneo4j): This class can be used install neo4j components.
 * [`profiles::database::postgresql`](#profilesdatabasepostgresql): This class can be used install postgresql
+* [`profiles::database::postgresql::patroni`](#profilesdatabasepostgresqlpatroni): A short summary of the purpose of this class
 * [`profiles::dns`](#profilesdns): This class can be used install dns.
 * [`profiles::dns::bind`](#profilesdnsbind): This class can be used install bind9
 * [`profiles::logging`](#profileslogging): This class can be used install logging.
@@ -65,6 +68,7 @@
 * [`profiles::monitoring::icinga2::slack`](#profilesmonitoringicinga2slack): Class to manage icinga2 slack integration.  Dont include this class directly.
 * [`profiles::monitoring::logstash`](#profilesmonitoringlogstash): This class can be used install logstash
 * [`profiles::monitoring::prometheus`](#profilesmonitoringprometheus): This class can be used install user prometheus properties
+* [`profiles::monitoring::prometheus::blackbox_exporter`](#profilesmonitoringprometheusblackbox_exporter): Class to manage prometheus node exporter
 * [`profiles::monitoring::prometheus::graphite_exporter`](#profilesmonitoringprometheusgraphite_exporter): Class to manage prometheus graphite exporter
 * [`profiles::monitoring::prometheus::node_exporter`](#profilesmonitoringprometheusnode_exporter): Class to manage prometheus node exporter
 * [`profiles::monitoring::prometheus::pushgateway`](#profilesmonitoringprometheuspushgateway): Class to manage prometheus node exporter
@@ -132,10 +136,15 @@
 * [`profiles::bootstrap::disk::mount`](#profilesbootstrapdiskmount): This class can be used install user mount properties
 * [`profiles::bootstrap::firewall::entry`](#profilesbootstrapfirewallentry): This class can be used install user firewall properties
 * [`profiles::bootstrap::sysctl::entry`](#profilesbootstrapsysctlentry): This class can be used install user sysctl properties
+* [`profiles::database::mongodb::db`](#profilesdatabasemongodbdb): A short summary of the purpose of this defined type.
+* [`profiles::database::mysql::db`](#profilesdatabasemysqldb): A short summary of the purpose of this defined type.
+* [`profiles::database::mysql::user`](#profilesdatabasemysqluser): A short summary of the purpose of this defined type.
 * [`profiles::database::postgresql::db`](#profilesdatabasepostgresqldb): This class can be used to create pgsql databases
 * [`profiles::dns::bind::zone`](#profilesdnsbindzone): This class can be used to create a bind9 zone
 * [`profiles::metrics::grafana::dashboard`](#profilesmetricsgrafanadashboard): == Type: profiles::metrics::grafana::dashboard  Type to manage grafana dashboard  === Examples  === Params
 * [`profiles::metrics::grafana::datasource`](#profilesmetricsgrafanadatasource): Class to manage grafana datasources.
+* [`profiles::metrics::grafana::plugin`](#profilesmetricsgrafanaplugin): A short summary of the purpose of this defined type.
+* [`profiles::orchestration::consul::prepared_query`](#profilesorchestrationconsulprepared_query): A short summary of the purpose of this defined type.
 * [`profiles::orchestration::consul::service`](#profilesorchestrationconsulservice): This class can be used to create a consul service
 * [`profiles::puppet::foreman::plugin`](#profilespuppetforemanplugin): Class to manage foreman plugins.
 * [`profiles::puppet::foreman::setting`](#profilespuppetforemansetting): Class to manage foreman parameters.
@@ -162,7 +171,7 @@
 
 ## Classes
 
-### `profiles::alerting`
+### <a name="profilesalerting"></a>`profiles::alerting`
 
 This class can be used install alerting.
 
@@ -176,9 +185,12 @@ class { '::profiles::alerting': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting` class.
+The following parameters are available in the `profiles::alerting` class:
 
-##### `alertmanager`
+* [`alertmanager`](#alertmanager)
+* [`icingaweb2`](#icingaweb2)
+
+##### <a name="alertmanager"></a>`alertmanager`
 
 Data type: `Boolean`
 
@@ -186,7 +198,7 @@ Manage alertmanager on this node.
 
 Default value: ``false``
 
-##### `icingaweb2`
+##### <a name="icingaweb2"></a>`icingaweb2`
 
 Data type: `Boolean`
 
@@ -194,7 +206,7 @@ Manage icingaweb on this node.
 
 Default value: ``false``
 
-### `profiles::alerting::alertmanager`
+### <a name="profilesalertingalertmanager"></a>`profiles::alerting::alertmanager`
 
 This class can be used install user alertmanager properties
 
@@ -208,9 +220,22 @@ class { '::profiles::alerting::alertmanager': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::alertmanager` class.
+The following parameters are available in the `profiles::alerting::alertmanager` class:
 
-##### `global`
+* [`global`](#global)
+* [`route`](#route)
+* [`receivers`](#receivers)
+* [`inhibit_rules`](#inhibit_rules)
+* [`install_method`](#install_method)
+* [`version`](#version)
+* [`cluster`](#cluster)
+* [`extra_options`](#extra_options)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="global"></a>`global`
 
 Data type: `Hash`
 
@@ -221,7 +246,7 @@ Default value: `{
     'smtp_from'=>'alertmanager@localhost'
   }`
 
-##### `route`
+##### <a name="route"></a>`route`
 
 Data type: `Hash`
 
@@ -235,7 +260,7 @@ Default value: `{
     'receiver'       => 'Admin',
   }`
 
-##### `receivers`
+##### <a name="receivers"></a>`receivers`
 
 Data type: `Array`
 
@@ -247,7 +272,7 @@ Default value: `[
     }
   ]`
 
-##### `inhibit_rules`
+##### <a name="inhibit_rules"></a>`inhibit_rules`
 
 Data type: `Array`
 
@@ -260,7 +285,7 @@ Default value: `[
     }
   ]`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -268,15 +293,63 @@ How to install
 
 Default value: `'package'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 Version to install
 
-Default value: `'0.21.0'`
+Default value: `'0.22.2'`
 
-### `profiles::alerting::icingaweb2`
+##### <a name="cluster"></a>`cluster`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="extra_options"></a>`extra_options`
+
+Data type: `String`
+
+
+
+Default value: `''`
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="sd_service_name"></a>`sd_service_name`
+
+Data type: `String`
+
+
+
+Default value: `'alertmanager'`
+
+##### <a name="sd_service_tags"></a>`sd_service_tags`
+
+Data type: `Array`
+
+
+
+Default value: `['metrics']`
+
+### <a name="profilesalertingicingaweb2"></a>`profiles::alerting::icingaweb2`
 
 This class can be used to setup icinga2_web.
 
@@ -290,9 +363,30 @@ class { '::profiles::alerting::icinga2_web': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2` class.
+The following parameters are available in the `profiles::alerting::icingaweb2` class:
 
-##### `api_password`
+* [`api_password`](#api_password)
+* [`api_user`](#api_user)
+* [`database_host`](#database_host)
+* [`database_name`](#database_name)
+* [`database_password`](#database_password)
+* [`database_user`](#database_user)
+* [`ido_database_host`](#ido_database_host)
+* [`ido_database_name`](#ido_database_name)
+* [`ido_database_password`](#ido_database_password)
+* [`ido_database_user`](#ido_database_user)
+* [`manage_repo`](#manage_repo)
+* [`modules`](#modules)
+* [`roles`](#roles)
+* [`api_endpoint`](#api_endpoint)
+* [`database_grant`](#database_grant)
+* [`manage_database`](#manage_database)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`resources`](#resources)
+
+##### <a name="api_password"></a>`api_password`
 
 Data type: `String`
 
@@ -300,7 +394,7 @@ Api password.
 
 Default value: `'icinga'`
 
-##### `api_user`
+##### <a name="api_user"></a>`api_user`
 
 Data type: `String`
 
@@ -308,7 +402,7 @@ Api user.
 
 Default value: `'root'`
 
-##### `database_host`
+##### <a name="database_host"></a>`database_host`
 
 Data type: `String`
 
@@ -316,7 +410,7 @@ Db host.
 
 Default value: `'127.0.0.1'`
 
-##### `database_name`
+##### <a name="database_name"></a>`database_name`
 
 Data type: `String`
 
@@ -324,7 +418,7 @@ Db name.
 
 Default value: `'icingaweb2'`
 
-##### `database_password`
+##### <a name="database_password"></a>`database_password`
 
 Data type: `String`
 
@@ -332,7 +426,7 @@ Db password.
 
 Default value: `'icingaweb2'`
 
-##### `database_user`
+##### <a name="database_user"></a>`database_user`
 
 Data type: `String`
 
@@ -340,7 +434,7 @@ Db user.
 
 Default value: `'icingaweb2'`
 
-##### `ido_database_host`
+##### <a name="ido_database_host"></a>`ido_database_host`
 
 Data type: `String`
 
@@ -348,7 +442,7 @@ Ido host.
 
 Default value: `'localhost'`
 
-##### `ido_database_name`
+##### <a name="ido_database_name"></a>`ido_database_name`
 
 Data type: `String`
 
@@ -356,7 +450,7 @@ Ido name.
 
 Default value: `'icinga2'`
 
-##### `ido_database_password`
+##### <a name="ido_database_password"></a>`ido_database_password`
 
 Data type: `String`
 
@@ -364,7 +458,7 @@ Ido password.
 
 Default value: `'icinga2'`
 
-##### `ido_database_user`
+##### <a name="ido_database_user"></a>`ido_database_user`
 
 Data type: `String`
 
@@ -372,7 +466,7 @@ Ido user.
 
 Default value: `'icinga2'`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -380,7 +474,7 @@ Manage icinga2 web repos.
 
 Default value: ``false``
 
-##### `modules`
+##### <a name="modules"></a>`modules`
 
 Data type: `Array`
 
@@ -388,7 +482,7 @@ Include other icingaweb2 modules.
 
 Default value: `[]`
 
-##### `roles`
+##### <a name="roles"></a>`roles`
 
 Data type: `Hash`
 
@@ -396,7 +490,15 @@ Additional roles.
 
 Default value: `{}`
 
-##### `database_grant`
+##### <a name="api_endpoint"></a>`api_endpoint`
+
+Data type: `String`
+
+
+
+Default value: `'localhost'`
+
+##### <a name="database_grant"></a>`database_grant`
 
 Data type: `String`
 
@@ -404,7 +506,7 @@ Data type: `String`
 
 Default value: `'all'`
 
-##### `manage_database`
+##### <a name="manage_database"></a>`manage_database`
 
 Data type: `Boolean`
 
@@ -412,7 +514,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -420,7 +522,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -428,7 +530,7 @@ Data type: `String`
 
 Default value: `'icinga'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -436,45 +538,63 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-### `profiles::alerting::icingaweb2::auth`
+##### <a name="resources"></a>`resources`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+### <a name="profilesalertingicingaweb2auth"></a>`profiles::alerting::icingaweb2::auth`
 
 The profiles::alerting::icingaweb2::auth class.
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::auth` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::auth` class:
 
-##### `bind_dn`
+* [`bind_dn`](#bind_dn)
+* [`bind_pw`](#bind_pw)
+* [`hostname`](#hostname)
+* [`ldap_userclass`](#ldap_userclass)
+* [`root_dn`](#root_dn)
+* [`auth_type`](#auth_type)
+* [`encryption`](#encryption)
+* [`ldap_filter`](#ldap_filter)
+* [`port`](#port)
 
-Data type: `String`
-
-
-
-##### `bind_pw`
-
-Data type: `String`
-
-
-
-##### `hostname`
+##### <a name="bind_dn"></a>`bind_dn`
 
 Data type: `String`
 
 
 
-##### `ldap_userclass`
+##### <a name="bind_pw"></a>`bind_pw`
 
 Data type: `String`
 
 
 
-##### `root_dn`
+##### <a name="hostname"></a>`hostname`
 
 Data type: `String`
 
 
 
-##### `auth_type`
+##### <a name="ldap_userclass"></a>`ldap_userclass`
+
+Data type: `String`
+
+
+
+##### <a name="root_dn"></a>`root_dn`
+
+Data type: `String`
+
+
+
+##### <a name="auth_type"></a>`auth_type`
 
 Data type: `String`
 
@@ -482,7 +602,7 @@ Data type: `String`
 
 Default value: `'ldap'`
 
-##### `encryption`
+##### <a name="encryption"></a>`encryption`
 
 Data type: `String`
 
@@ -490,7 +610,7 @@ Data type: `String`
 
 Default value: `'none'`
 
-##### `ldap_filter`
+##### <a name="ldap_filter"></a>`ldap_filter`
 
 Data type: `String`
 
@@ -498,7 +618,7 @@ Data type: `String`
 
 Default value: `''`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Integer`
 
@@ -506,7 +626,7 @@ Data type: `Integer`
 
 Default value: `389`
 
-### `profiles::alerting::icingaweb2::businessprocess`
+### <a name="profilesalertingicingaweb2businessprocess"></a>`profiles::alerting::icingaweb2::businessprocess`
 
 This class is used to setup the businessprocess module on icingaweb2.
 
@@ -523,9 +643,11 @@ class { '::profiles::alerting::icingaweb2::businessprocess': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::businessprocess` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::businessprocess` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -533,7 +655,7 @@ Data type: `String`
 
 Default value: `'v2.3.0'`
 
-### `profiles::alerting::icingaweb2::consul`
+### <a name="profilesalertingicingaweb2consul"></a>`profiles::alerting::icingaweb2::consul`
 
 This class is used to setup the consul module on icingaweb2.
 
@@ -550,9 +672,13 @@ class { '::profiles::alerting::icingaweb2::consul': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::consul` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::consul` class:
 
-##### `ensure`
+* [`ensure`](#ensure)
+* [`git_repository`](#git_repository)
+* [`git_revision`](#git_revision)
+
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['absent', 'present']`
 
@@ -560,7 +686,7 @@ Data type: `Enum['absent', 'present']`
 
 Default value: `'present'`
 
-##### `git_repository`
+##### <a name="git_repository"></a>`git_repository`
 
 Data type: `String`
 
@@ -568,7 +694,7 @@ Data type: `String`
 
 Default value: `'https://github.com/attachmentgenie/icingaweb2-module-consul.git'`
 
-##### `git_revision`
+##### <a name="git_revision"></a>`git_revision`
 
 Data type: `Optional[String]`
 
@@ -576,7 +702,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-### `profiles::alerting::icingaweb2::cube`
+### <a name="profilesalertingicingaweb2cube"></a>`profiles::alerting::icingaweb2::cube`
 
 This class is used to setup the cube module on icingaweb2.
 
@@ -593,9 +719,11 @@ class { '::profiles::alerting::icingaweb2::cube': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::cube` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::cube` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -603,7 +731,7 @@ Data type: `String`
 
 Default value: `'v1.1.1'`
 
-### `profiles::alerting::icingaweb2::director`
+### <a name="profilesalertingicingaweb2director"></a>`profiles::alerting::icingaweb2::director`
 
 This class is used to setup the director module on icingaweb2.
 
@@ -620,25 +748,42 @@ class { '::profiles::alerting::icingaweb2::director': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::director` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::director` class:
 
-##### `db_name`
+* [`db_name`](#db_name)
+* [`db_username`](#db_username)
+* [`db_password`](#db_password)
+* [`db_host`](#db_host)
+* [`api_user`](#api_user)
+* [`api_password`](#api_password)
+* [`api_host`](#api_host)
+* [`endpoint`](#endpoint)
+* [`database_grant`](#database_grant)
+* [`database_host`](#database_host)
+* [`database_name`](#database_name)
+* [`database_username`](#database_username)
+* [`database_password`](#database_password)
+* [`daemon_enable`](#daemon_enable)
+* [`manage_database`](#manage_database)
+* [`version`](#version)
+
+##### <a name="db_name"></a>`db_name`
 
 Database name for the director db
 
-##### `db_username`
+##### <a name="db_username"></a>`db_username`
 
 User for the database
 
-##### `db_password`
+##### <a name="db_password"></a>`db_password`
 
 The password for the user
 
-##### `db_host`
+##### <a name="db_host"></a>`db_host`
 
 The host where the database lives
 
-##### `api_user`
+##### <a name="api_user"></a>`api_user`
 
 Data type: `String`
 
@@ -646,7 +791,7 @@ User for connecting to the api
 
 Default value: `$::profiles::alerting::icingaweb2::api_user`
 
-##### `api_password`
+##### <a name="api_password"></a>`api_password`
 
 Data type: `String`
 
@@ -654,7 +799,7 @@ The api user's password
 
 Default value: `$::profiles::alerting::icingaweb2::api_password`
 
-##### `api_host`
+##### <a name="api_host"></a>`api_host`
 
 Data type: `String`
 
@@ -662,7 +807,7 @@ The host where the api lives
 
 Default value: `'localhost'`
 
-##### `endpoint`
+##### <a name="endpoint"></a>`endpoint`
 
 Data type: `String`
 
@@ -670,7 +815,7 @@ Endpoint to bind to
 
 Default value: `$::fqdn`
 
-##### `database_grant`
+##### <a name="database_grant"></a>`database_grant`
 
 Data type: `String`
 
@@ -678,7 +823,7 @@ Data type: `String`
 
 Default value: `'all'`
 
-##### `database_host`
+##### <a name="database_host"></a>`database_host`
 
 Data type: `String`
 
@@ -686,7 +831,7 @@ Data type: `String`
 
 Default value: `'localhost'`
 
-##### `database_name`
+##### <a name="database_name"></a>`database_name`
 
 Data type: `String`
 
@@ -694,7 +839,7 @@ Data type: `String`
 
 Default value: `'director'`
 
-##### `database_username`
+##### <a name="database_username"></a>`database_username`
 
 Data type: `String`
 
@@ -702,7 +847,7 @@ Data type: `String`
 
 Default value: `'director'`
 
-##### `database_password`
+##### <a name="database_password"></a>`database_password`
 
 Data type: `String`
 
@@ -710,7 +855,7 @@ Data type: `String`
 
 Default value: `'director'`
 
-##### `daemon_enable`
+##### <a name="daemon_enable"></a>`daemon_enable`
 
 Data type: `Boolean`
 
@@ -718,7 +863,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_database`
+##### <a name="manage_database"></a>`manage_database`
 
 Data type: `Boolean`
 
@@ -726,15 +871,15 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `Optional[String]`
 
 
 
-Default value: `'v1.7.2'`
+Default value: `'v1.8.0'`
 
-### `profiles::alerting::icingaweb2::fileshipper`
+### <a name="profilesalertingicingaweb2fileshipper"></a>`profiles::alerting::icingaweb2::fileshipper`
 
 This class is used to setup the fileshipper module on icingaweb2.
 
@@ -751,25 +896,35 @@ class { '::profiles::alerting::icingaweb2::fileshipper': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::fileshipper` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::fileshipper` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'v1.1.0'`
+Default value: `'v1.2.0'`
 
-### `profiles::alerting::icingaweb2::grafana`
+### <a name="profilesalertingicingaweb2grafana"></a>`profiles::alerting::icingaweb2::grafana`
 
 This class is used to setup the grafana module on icingaweb2.
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::grafana` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::grafana` class:
 
-##### `grafana_host`
+* [`grafana_host`](#grafana_host)
+* [`grafana_port`](#grafana_port)
+* [`grafana_username`](#grafana_username)
+* [`grafana_password`](#grafana_password)
+* [`grafana_datasource`](#grafana_datasource)
+* [`git_url`](#git_url)
+* [`version`](#version)
+
+##### <a name="grafana_host"></a>`grafana_host`
 
 Data type: `String`
 
@@ -777,7 +932,7 @@ Host grafana listens on
 
 Default value: `'localhost'`
 
-##### `grafana_port`
+##### <a name="grafana_port"></a>`grafana_port`
 
 Data type: `String`
 
@@ -785,7 +940,7 @@ Port grafana listens on
 
 Default value: `'3000'`
 
-##### `grafana_username`
+##### <a name="grafana_username"></a>`grafana_username`
 
 Data type: `String`
 
@@ -793,7 +948,7 @@ Grafana user
 
 Default value: `'icinga2'`
 
-##### `grafana_password`
+##### <a name="grafana_password"></a>`grafana_password`
 
 Data type: `String`
 
@@ -801,7 +956,7 @@ Grafana credentials
 
 Default value: `'icinga2'`
 
-##### `grafana_datasource`
+##### <a name="grafana_datasource"></a>`grafana_datasource`
 
 Data type: `String`
 
@@ -809,7 +964,7 @@ Grafana datasource
 
 Default value: `'influxdb'`
 
-##### `git_url`
+##### <a name="git_url"></a>`git_url`
 
 Data type: `String`
 
@@ -817,7 +972,7 @@ git repo to pull the plugin from
 
 Default value: `'https://github.com/Mikesch-mp/icingaweb2-module-grafana'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -825,7 +980,7 @@ Data type: `String`
 
 Default value: `'v1.3.6'`
 
-### `profiles::alerting::icingaweb2::graphite`
+### <a name="profilesalertingicingaweb2graphite"></a>`profiles::alerting::icingaweb2::graphite`
 
 This class is used to setup the graphite module on icingaweb2.
 
@@ -842,9 +997,12 @@ class { '::profiles::alerting::icingaweb2::graphite': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::graphite` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::graphite` class:
 
-##### `host`
+* [`host`](#host)
+* [`version`](#version)
+
+##### <a name="host"></a>`host`
 
 Data type: `Optional[Stdlib::Host]`
 
@@ -852,7 +1010,7 @@ Data type: `Optional[Stdlib::Host]`
 
 Default value: ``undef``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -860,7 +1018,7 @@ Data type: `String`
 
 Default value: `'v1.1.0'`
 
-### `profiles::alerting::icingaweb2::incubator`
+### <a name="profilesalertingicingaweb2incubator"></a>`profiles::alerting::icingaweb2::incubator`
 
 This class is used to setup the incubator module on icingaweb2.
 
@@ -877,17 +1035,19 @@ class { '::profiles::alerting::icingaweb2::incubator': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::incubator` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::incubator` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'v0.5.0'`
+Default value: `'v0.6.0'`
 
-### `profiles::alerting::icingaweb2::ipl`
+### <a name="profilesalertingicingaweb2ipl"></a>`profiles::alerting::icingaweb2::ipl`
 
 This class is used to setup the ipl module on icingaweb2.
 
@@ -904,9 +1064,11 @@ class { '::profiles::alerting::icingaweb2::ipl': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::ipl` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::ipl` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -914,7 +1076,7 @@ Data type: `String`
 
 Default value: `'v0.5.0'`
 
-### `profiles::alerting::icingaweb2::nomad`
+### <a name="profilesalertingicingaweb2nomad"></a>`profiles::alerting::icingaweb2::nomad`
 
 This class is used to setup the nomad module on icingaweb2.
 
@@ -931,9 +1093,13 @@ class { '::profiles::alerting::icingaweb2::nomad': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::nomad` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::nomad` class:
 
-##### `ensure`
+* [`ensure`](#ensure)
+* [`git_repository`](#git_repository)
+* [`git_revision`](#git_revision)
+
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['absent', 'present']`
 
@@ -941,7 +1107,7 @@ Data type: `Enum['absent', 'present']`
 
 Default value: `'present'`
 
-##### `git_repository`
+##### <a name="git_repository"></a>`git_repository`
 
 Data type: `String`
 
@@ -949,7 +1115,7 @@ Data type: `String`
 
 Default value: `'https://github.com/attachmentgenie/icingaweb2-module-nomad.git'`
 
-##### `git_revision`
+##### <a name="git_revision"></a>`git_revision`
 
 Data type: `Optional[String]`
 
@@ -957,7 +1123,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-### `profiles::alerting::icingaweb2::puppetdb`
+### <a name="profilesalertingicingaweb2puppetdb"></a>`profiles::alerting::icingaweb2::puppetdb`
 
 This class is used to setup the puppetdb module on icingaweb2.
 
@@ -974,9 +1140,12 @@ class { '::profiles::alerting::icingaweb2::puppetdb': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::puppetdb` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::puppetdb` class:
 
-##### `puppetdb_host`
+* [`puppetdb_host`](#puppetdb_host)
+* [`version`](#version)
+
+##### <a name="puppetdb_host"></a>`puppetdb_host`
 
 Data type: `String`
 
@@ -984,7 +1153,7 @@ Data type: `String`
 
 Default value: `$::fqdn`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -992,7 +1161,7 @@ Data type: `String`
 
 Default value: `'v1.0.0'`
 
-### `profiles::alerting::icingaweb2::reactbundle`
+### <a name="profilesalertingicingaweb2reactbundle"></a>`profiles::alerting::icingaweb2::reactbundle`
 
 This class is used to setup the reactbundle module on icingaweb2.
 
@@ -1009,17 +1178,19 @@ class { '::profiles::alerting::icingaweb2::reactbundle': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::reactbundle` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::reactbundle` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'v0.7.0'`
+Default value: `'v0.8.0'`
 
-### `profiles::alerting::icingaweb2::toplevelview`
+### <a name="profilesalertingicingaweb2toplevelview"></a>`profiles::alerting::icingaweb2::toplevelview`
 
 This class is used to setup the toplevelview module on icingaweb2.
 
@@ -1036,9 +1207,13 @@ class { '::profiles::alerting::icingaweb2::toplevelview': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::alerting::icingaweb2::toplevelview` class.
+The following parameters are available in the `profiles::alerting::icingaweb2::toplevelview` class:
 
-##### `ensure`
+* [`ensure`](#ensure)
+* [`git_repository`](#git_repository)
+* [`git_revision`](#git_revision)
+
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['absent', 'present']`
 
@@ -1046,7 +1221,7 @@ Data type: `Enum['absent', 'present']`
 
 Default value: `'present'`
 
-##### `git_repository`
+##### <a name="git_repository"></a>`git_repository`
 
 Data type: `String`
 
@@ -1054,7 +1229,7 @@ Data type: `String`
 
 Default value: `'https://github.com/Icinga/icingaweb2-module-toplevelview.git'`
 
-##### `git_revision`
+##### <a name="git_revision"></a>`git_revision`
 
 Data type: `Optional[String]`
 
@@ -1062,7 +1237,7 @@ Data type: `Optional[String]`
 
 Default value: `'v0.3.1'`
 
-### `profiles::bootstrap`
+### <a name="profilesbootstrap"></a>`profiles::bootstrap`
 
 This class can be used to setup a bare minimum node, on top of which we can add the required technology stack.
 
@@ -1076,25 +1251,21 @@ class { '::profiles::bootstrap': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap` class.
+The following parameters are available in the `profiles::bootstrap` class:
 
-##### `accounts`
+* [`accounts`](#accounts)
+* [`dnsmasq`](#dnsmasq)
+* [`fail2ban`](#fail2ban)
+* [`firewall`](#firewall)
+* [`keepalive`](#keepalive)
+* [`network`](#network)
+* [`ntp`](#ntp)
+* [`puppet`](#puppet)
+* [`repos`](#repos)
+* [`resolv`](#resolv)
+* [`ssh`](#ssh)
 
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `dnsmasq`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `fail2ban`
+##### <a name="accounts"></a>`accounts`
 
 Data type: `Boolean`
 
@@ -1102,7 +1273,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `firewall`
+##### <a name="dnsmasq"></a>`dnsmasq`
 
 Data type: `Boolean`
 
@@ -1110,7 +1281,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `network`
+##### <a name="fail2ban"></a>`fail2ban`
 
 Data type: `Boolean`
 
@@ -1118,7 +1289,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `ntp`
+##### <a name="firewall"></a>`firewall`
 
 Data type: `Boolean`
 
@@ -1126,7 +1297,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `puppet`
+##### <a name="keepalive"></a>`keepalive`
 
 Data type: `Boolean`
 
@@ -1134,7 +1305,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `repos`
+##### <a name="network"></a>`network`
 
 Data type: `Boolean`
 
@@ -1142,7 +1313,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `resolv`
+##### <a name="ntp"></a>`ntp`
 
 Data type: `Boolean`
 
@@ -1150,7 +1321,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `ssh`
+##### <a name="puppet"></a>`puppet`
 
 Data type: `Boolean`
 
@@ -1158,7 +1329,31 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::bootstrap::accounts`
+##### <a name="repos"></a>`repos`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="resolv"></a>`resolv`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="ssh"></a>`ssh`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+### <a name="profilesbootstrapaccounts"></a>`profiles::bootstrap::accounts`
 
 This class can be used install user accounts properties
 
@@ -1172,9 +1367,13 @@ class { '::profiles::bootstrap::accounts': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::accounts` class.
+The following parameters are available in the `profiles::bootstrap::accounts` class:
 
-##### `accounts`
+* [`accounts`](#accounts)
+* [`groups`](#groups)
+* [`sudo_confs`](#sudo_confs)
+
+##### <a name="accounts"></a>`accounts`
 
 Data type: `Hash`
 
@@ -1182,7 +1381,7 @@ User accounts to manage.
 
 Default value: `{}`
 
-##### `groups`
+##### <a name="groups"></a>`groups`
 
 Data type: `Hash`
 
@@ -1190,7 +1389,7 @@ Groups to manage.
 
 Default value: `{}`
 
-##### `sudo_confs`
+##### <a name="sudo_confs"></a>`sudo_confs`
 
 Data type: `Hash`
 
@@ -1198,7 +1397,7 @@ Sudo rules to manage.
 
 Default value: `{}`
 
-### `profiles::bootstrap::dnsmasq`
+### <a name="profilesbootstrapdnsmasq"></a>`profiles::bootstrap::dnsmasq`
 
 This class can be used install dnsmasq
 
@@ -1212,9 +1411,12 @@ class { '::profiles::bootstrap::dnsmasq': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::dnsmasq` class.
+The following parameters are available in the `profiles::bootstrap::dnsmasq` class:
 
-##### `client_address`
+* [`consul_client_address`](#consul_client_address)
+* [`forward_consul`](#forward_consul)
+
+##### <a name="consul_client_address"></a>`consul_client_address`
 
 Data type: `Stdlib::Host`
 
@@ -1222,7 +1424,7 @@ Data type: `Stdlib::Host`
 
 Default value: `'127.0.0.1'`
 
-##### `forward_consul`
+##### <a name="forward_consul"></a>`forward_consul`
 
 Data type: `Boolean`
 
@@ -1230,7 +1432,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::bootstrap::example`
+### <a name="profilesbootstrapexample"></a>`profiles::bootstrap::example`
 
 A description of what this class does
 
@@ -1244,9 +1446,37 @@ include profiles::bootstrap::example
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::example` class.
+The following parameters are available in the `profiles::bootstrap::example` class:
 
-##### `client`
+* [`client`](#client)
+* [`config`](#config)
+* [`config_default`](#config_default)
+* [`database_grant`](#database_grant)
+* [`database_name`](#database_name)
+* [`database_password`](#database_password)
+* [`database_user`](#database_user)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`expose_api`](#expose_api)
+* [`expose_metrics`](#expose_metrics)
+* [`expose_ui`](#expose_ui)
+* [`listen_address`](#listen_address)
+* [`manage_database`](#manage_database)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`manage_sd_service`](#manage_sd_service)
+* [`manage_sudoersd`](#manage_sudoersd)
+* [`manage_sysctl`](#manage_sysctl)
+* [`port`](#port)
+* [`runmode`](#runmode)
+* [`sd_service_check_interval`](#sd_service_check_interval)
+* [`sd_service_endpoint`](#sd_service_endpoint)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`server`](#server)
+
+##### <a name="client"></a>`client`
 
 Data type: `Boolean`
 
@@ -1254,7 +1484,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -1262,7 +1492,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `config_default`
+##### <a name="config_default"></a>`config_default`
 
 Data type: `Hash`
 
@@ -1270,7 +1500,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `database_grant`
+##### <a name="database_grant"></a>`database_grant`
 
 Data type: `String`
 
@@ -1278,151 +1508,7 @@ Data type: `String`
 
 Default value: `'all'`
 
-##### `database_name`
-
-Data type: `String`
-
-
-
-Default value: `'icingaweb2'`
-
-##### `database_password`
-
-Data type: `String`
-
-
-
-Default value: `'icingaweb2'`
-
-##### `database_user`
-
-Data type: `String`
-
-
-
-Default value: `'icingaweb2'`
-
-##### `data_path`
-
-Data type: `Stdlib::Absolutepath`
-
-
-
-Default value: `'/var/lib/example'`
-
-##### `device`
-
-Data type: `Optional[Stdlib::Absolutepath]`
-
-
-
-Default value: ``undef``
-
-##### `expose_api`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `expose_metrics`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `expose_ui`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `listen_address`
-
-Data type: `Stdlib::Host`
-
-
-
-Default value: `'127.0.0.1'`
-
-##### `manage_database`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_disk`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_firewall_entry`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_package_repo`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_sd_service`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_sudoersd`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `manage_sysctl`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `port`
-
-Data type: `Optional[Stdlib::Port::Unprivileged]`
-
-
-
-Default value: `8080`
-
-##### `runmode`
-
-Data type: `Optional[String]`
-
-
-
-Default value: ``undef``
-
-##### `sd_service_name`
+##### <a name="database_name"></a>`database_name`
 
 Data type: `String`
 
@@ -1430,15 +1516,39 @@ Data type: `String`
 
 Default value: `'example'`
 
-##### `sd_service_tags`
+##### <a name="database_password"></a>`database_password`
 
-Data type: `Array`
+Data type: `String`
 
 
 
-Default value: `['metrics']`
+Default value: `'example'`
 
-##### `server`
+##### <a name="database_user"></a>`database_user`
+
+Data type: `String`
+
+
+
+Default value: `'example'`
+
+##### <a name="data_path"></a>`data_path`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/var/lib/example'`
+
+##### <a name="device"></a>`device`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+
+
+Default value: ``undef``
+
+##### <a name="expose_api"></a>`expose_api`
 
 Data type: `Boolean`
 
@@ -1446,7 +1556,143 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::bootstrap::fail2ban`
+##### <a name="expose_metrics"></a>`expose_metrics`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="expose_ui"></a>`expose_ui`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="listen_address"></a>`listen_address`
+
+Data type: `Stdlib::Host`
+
+
+
+Default value: `'127.0.0.1'`
+
+##### <a name="manage_database"></a>`manage_database`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_disk"></a>`manage_disk`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_package_repo"></a>`manage_package_repo`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_sudoersd"></a>`manage_sudoersd`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_sysctl"></a>`manage_sysctl`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="port"></a>`port`
+
+Data type: `Optional[Stdlib::Port::Unprivileged]`
+
+
+
+Default value: `8080`
+
+##### <a name="runmode"></a>`runmode`
+
+Data type: `Optional[String]`
+
+
+
+Default value: ``undef``
+
+##### <a name="sd_service_check_interval"></a>`sd_service_check_interval`
+
+Data type: `String`
+
+
+
+Default value: `'10s'`
+
+##### <a name="sd_service_endpoint"></a>`sd_service_endpoint`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+
+
+Default value: ``undef``
+
+##### <a name="sd_service_name"></a>`sd_service_name`
+
+Data type: `String`
+
+
+
+Default value: `'example'`
+
+##### <a name="sd_service_tags"></a>`sd_service_tags`
+
+Data type: `Array`
+
+
+
+Default value: `['metrics']`
+
+##### <a name="server"></a>`server`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+### <a name="profilesbootstrapfail2ban"></a>`profiles::bootstrap::fail2ban`
 
 This class can be used install fail2ban
 
@@ -1460,9 +1706,11 @@ class { '::profiles::bootstrap::fail2ban': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::fail2ban` class.
+The following parameters are available in the `profiles::bootstrap::fail2ban` class:
 
-##### `services`
+* [`services`](#services)
+
+##### <a name="services"></a>`services`
 
 Data type: `Array`
 
@@ -1470,7 +1718,7 @@ Services to control.
 
 Default value: `['ssh', 'ssh-ddos']`
 
-### `profiles::bootstrap::firewall`
+### <a name="profilesbootstrapfirewall"></a>`profiles::bootstrap::firewall`
 
 This class can be used install user firewall properties
 
@@ -1484,9 +1732,13 @@ class { '::profiles::bootstrap::firewall': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::firewall` class.
+The following parameters are available in the `profiles::bootstrap::firewall` class:
 
-##### `ensure`
+* [`ensure`](#ensure)
+* [`entries`](#entries)
+* [`purge`](#purge)
+
+##### <a name="ensure"></a>`ensure`
 
 Data type: `String`
 
@@ -1494,7 +1746,7 @@ Service status.
 
 Default value: `'running'`
 
-##### `entries`
+##### <a name="entries"></a>`entries`
 
 Data type: `Hash`
 
@@ -1502,7 +1754,7 @@ Firewall entries.
 
 Default value: `{}`
 
-##### `purge`
+##### <a name="purge"></a>`purge`
 
 Data type: `Boolean`
 
@@ -1510,7 +1762,60 @@ Remove unmanaged firewall entries.
 
 Default value: ``true``
 
-### `profiles::bootstrap::network`
+### <a name="profilesbootstrapkeepalive"></a>`profiles::bootstrap::keepalive`
+
+A description of what this class does
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::bootstrap::keepalive
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::bootstrap::keepalive` class:
+
+* [`instances`](#instances)
+* [`scripts`](#scripts)
+* [`script_user`](#script_user)
+* [`processes`](#processes)
+
+##### <a name="instances"></a>`instances`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="scripts"></a>`scripts`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="script_user"></a>`script_user`
+
+Data type: `String[1]`
+
+
+
+Default value: `'root'`
+
+##### <a name="processes"></a>`processes`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+### <a name="profilesbootstrapnetwork"></a>`profiles::bootstrap::network`
 
 This class can be used install network
 
@@ -1524,9 +1829,11 @@ class { '::profiles::bootstrap::network': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::network` class.
+The following parameters are available in the `profiles::bootstrap::network` class:
 
-##### `enable_networkmanager`
+* [`enable_networkmanager`](#enable_networkmanager)
+
+##### <a name="enable_networkmanager"></a>`enable_networkmanager`
 
 Data type: `Boolean`
 
@@ -1534,7 +1841,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-### `profiles::bootstrap::puppet`
+### <a name="profilesbootstrappuppet"></a>`profiles::bootstrap::puppet`
 
 This class can be used install user puppet properties
 
@@ -1548,9 +1855,48 @@ class { '::profiles::bootstrap::puppet': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::puppet` class.
+The following parameters are available in the `profiles::bootstrap::puppet` class:
 
-##### `allow_any_crl_auth`
+* [`allow_any_crl_auth`](#allow_any_crl_auth)
+* [`autosign`](#autosign)
+* [`autosign_domains`](#autosign_domains)
+* [`dns_alt_names`](#dns_alt_names)
+* [`environment`](#environment)
+* [`foreman_repo`](#foreman_repo)
+* [`hiera_yaml_datadir`](#hiera_yaml_datadir)
+* [`install_toml`](#install_toml)
+* [`install_vault`](#install_vault)
+* [`puppetmaster`](#puppetmaster)
+* [`runmode`](#runmode)
+* [`runinterval`](#runinterval)
+* [`server`](#server)
+* [`server_additional_settings`](#server_additional_settings)
+* [`server_ca`](#server_ca)
+* [`server_common_modules_path`](#server_common_modules_path)
+* [`server_external_nodes`](#server_external_nodes)
+* [`server_foreman`](#server_foreman)
+* [`server_foreman_url`](#server_foreman_url)
+* [`server_jvm_max_heap_size`](#server_jvm_max_heap_size)
+* [`server_jvm_min_heap_size`](#server_jvm_min_heap_size)
+* [`server_parser`](#server_parser)
+* [`server_puppetdb_host`](#server_puppetdb_host)
+* [`server_reports`](#server_reports)
+* [`server_storeconfigs_backend`](#server_storeconfigs_backend)
+* [`show_diff`](#show_diff)
+* [`splay`](#splay)
+* [`splaylimit`](#splaylimit)
+* [`srv_domain`](#srv_domain)
+* [`use_srv_records`](#use_srv_records)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`server_graphite_host`](#server_graphite_host)
+* [`server_graphite_port`](#server_graphite_port)
+* [`server_ship_metrics`](#server_ship_metrics)
+* [`server_storeconfigs`](#server_storeconfigs)
+
+##### <a name="allow_any_crl_auth"></a>`allow_any_crl_auth`
 
 Data type: `Boolean`
 
@@ -1558,7 +1904,7 @@ Allow certificate signing by proxied requests.
 
 Default value: ``true``
 
-##### `autosign`
+##### <a name="autosign"></a>`autosign`
 
 Data type: `Variant[Boolean, Stdlib::Absolutepath]`
 
@@ -1566,7 +1912,7 @@ Autosigning requests.
 
 Default value: ``true``
 
-##### `autosign_domains`
+##### <a name="autosign_domains"></a>`autosign_domains`
 
 Data type: `Array`
 
@@ -1574,7 +1920,7 @@ List of domains to trust while autosigning.
 
 Default value: `['*.vagrant']`
 
-##### `dns_alt_names`
+##### <a name="dns_alt_names"></a>`dns_alt_names`
 
 Data type: `Array`
 
@@ -1582,7 +1928,7 @@ List of additional dns names to sign into certificate.
 
 Default value: `[]`
 
-##### `environment`
+##### <a name="environment"></a>`environment`
 
 Data type: `String`
 
@@ -1590,7 +1936,7 @@ Environment for node.
 
 Default value: `$::environment`
 
-##### `foreman_repo`
+##### <a name="foreman_repo"></a>`foreman_repo`
 
 Data type: `Boolean`
 
@@ -1598,7 +1944,7 @@ Manage foreman repository,
 
 Default value: ``false``
 
-##### `hiera_yaml_datadir`
+##### <a name="hiera_yaml_datadir"></a>`hiera_yaml_datadir`
 
 Data type: `String`
 
@@ -1606,7 +1952,7 @@ Hiera directory
 
 Default value: `'/var/lib/hiera'`
 
-##### `install_toml`
+##### <a name="install_toml"></a>`install_toml`
 
 Data type: `Boolean`
 
@@ -1614,7 +1960,7 @@ Install toml gem.
 
 Default value: ``false``
 
-##### `install_vault`
+##### <a name="install_vault"></a>`install_vault`
 
 Data type: `Boolean`
 
@@ -1622,7 +1968,7 @@ Install toml gem.
 
 Default value: ``false``
 
-##### `puppetmaster`
+##### <a name="puppetmaster"></a>`puppetmaster`
 
 Data type: `Optional[String]`
 
@@ -1630,7 +1976,7 @@ Puppetmaster fqdn
 
 Default value: `'puppet'`
 
-##### `runmode`
+##### <a name="runmode"></a>`runmode`
 
 Data type: `String`
 
@@ -1638,7 +1984,7 @@ How to run puppet
 
 Default value: `'service'`
 
-##### `runinterval`
+##### <a name="runinterval"></a>`runinterval`
 
 Data type: `Integer`
 
@@ -1646,7 +1992,7 @@ Run interval.
 
 Default value: `1800`
 
-##### `server`
+##### <a name="server"></a>`server`
 
 Data type: `Boolean`
 
@@ -1654,7 +2000,7 @@ Is this a puppetmaster.
 
 Default value: ``false``
 
-##### `server_additional_settings`
+##### <a name="server_additional_settings"></a>`server_additional_settings`
 
 Data type: `Hash`
 
@@ -1662,7 +2008,7 @@ Additional settings
 
 Default value: `{}`
 
-##### `server_ca`
+##### <a name="server_ca"></a>`server_ca`
 
 Data type: `Boolean`
 
@@ -1670,7 +2016,7 @@ Is this a CA.
 
 Default value: ``true``
 
-##### `server_common_modules_path`
+##### <a name="server_common_modules_path"></a>`server_common_modules_path`
 
 Data type: `Array`
 
@@ -1678,7 +2024,7 @@ List of module directories.
 
 Default value: `[]`
 
-##### `server_external_nodes`
+##### <a name="server_external_nodes"></a>`server_external_nodes`
 
 Data type: `String`
 
@@ -1686,7 +2032,7 @@ Location of ENC script.
 
 Default value: `'/etc/puppetlabs/puppet/node.rb'`
 
-##### `server_foreman`
+##### <a name="server_foreman"></a>`server_foreman`
 
 Data type: `Boolean`
 
@@ -1694,7 +2040,7 @@ Send reports to a foreman instance.
 
 Default value: ``false``
 
-##### `server_foreman_url`
+##### <a name="server_foreman_url"></a>`server_foreman_url`
 
 Data type: `String`
 
@@ -1702,7 +2048,7 @@ foreman url.
 
 Default value: `'http://foreman'`
 
-##### `server_jvm_max_heap_size`
+##### <a name="server_jvm_max_heap_size"></a>`server_jvm_max_heap_size`
 
 Data type: `String`
 
@@ -1710,7 +2056,7 @@ JVM max heap setting.
 
 Default value: `'512m'`
 
-##### `server_jvm_min_heap_size`
+##### <a name="server_jvm_min_heap_size"></a>`server_jvm_min_heap_size`
 
 Data type: `String`
 
@@ -1718,7 +2064,7 @@ JVM min heap setting.
 
 Default value: `'512m'`
 
-##### `server_parser`
+##### <a name="server_parser"></a>`server_parser`
 
 Data type: `String`
 
@@ -1726,7 +2072,7 @@ Puppet parser name.
 
 Default value: `'current'`
 
-##### `server_puppetdb_host`
+##### <a name="server_puppetdb_host"></a>`server_puppetdb_host`
 
 Data type: `Optional[String]`
 
@@ -1734,7 +2080,7 @@ Puppetdb fqdn.
 
 Default value: ``undef``
 
-##### `server_reports`
+##### <a name="server_reports"></a>`server_reports`
 
 Data type: `String`
 
@@ -1742,11 +2088,11 @@ How to store reports.
 
 Default value: `'store'`
 
-##### `server_storeconfigs_backend`
+##### <a name="server_storeconfigs_backend"></a>`server_storeconfigs_backend`
 
 Puppetdb version option.
 
-##### `show_diff`
+##### <a name="show_diff"></a>`show_diff`
 
 Data type: `Boolean`
 
@@ -1754,7 +2100,7 @@ Show diff in puppet report.
 
 Default value: ``true``
 
-##### `splay`
+##### <a name="splay"></a>`splay`
 
 Data type: `Boolean`
 
@@ -1762,7 +2108,7 @@ Start puppet at random time to spread load.
 
 Default value: ``true``
 
-##### `splaylimit`
+##### <a name="splaylimit"></a>`splaylimit`
 
 Data type: `String`
 
@@ -1770,7 +2116,7 @@ Splay with this timeframe.
 
 Default value: `'1800s'`
 
-##### `srv_domain`
+##### <a name="srv_domain"></a>`srv_domain`
 
 Data type: `String`
 
@@ -1778,7 +2124,7 @@ domain to query.
 
 Default value: `'example.org'`
 
-##### `use_srv_records`
+##### <a name="use_srv_records"></a>`use_srv_records`
 
 Data type: `Boolean`
 
@@ -1786,7 +2132,7 @@ Use srv records.
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -1794,7 +2140,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -1802,7 +2148,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -1810,7 +2156,7 @@ Data type: `String`
 
 Default value: `'puppet'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -1818,7 +2164,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `server_graphite_host`
+##### <a name="server_graphite_host"></a>`server_graphite_host`
 
 Data type: `Optional[Stdlib::Host]`
 
@@ -1826,7 +2172,7 @@ Data type: `Optional[Stdlib::Host]`
 
 Default value: ``undef``
 
-##### `server_graphite_port`
+##### <a name="server_graphite_port"></a>`server_graphite_port`
 
 Data type: `Optional[Stdlib::Port::Unprivileged]`
 
@@ -1834,7 +2180,7 @@ Data type: `Optional[Stdlib::Port::Unprivileged]`
 
 Default value: ``undef``
 
-##### `server_ship_metrics`
+##### <a name="server_ship_metrics"></a>`server_ship_metrics`
 
 Data type: `Boolean`
 
@@ -1842,7 +2188,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `server_storeconfigs`
+##### <a name="server_storeconfigs"></a>`server_storeconfigs`
 
 Data type: `Boolean`
 
@@ -1850,7 +2196,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::bootstrap::repositories`
+### <a name="profilesbootstraprepositories"></a>`profiles::bootstrap::repositories`
 
 This class can be used install user repositories properties
 
@@ -1864,37 +2210,47 @@ class { '::profiles::bootstrap::repositories': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::repositories` class.
+The following parameters are available in the `profiles::bootstrap::repositories` class:
 
-##### `epel`
+* [`epel`](#epel)
+* [`hashicorp`](#hashicorp)
+* [`puppetlabs_deps`](#puppetlabs_deps)
+* [`remi`](#remi)
+* [`repositories`](#repositories)
 
-Data type: `Boolean`
-
-Configure epel repository (redhat family).
-
-Default value: ``false``
-
-##### `puppetlabs_deps`
+##### <a name="epel"></a>`epel`
 
 Data type: `Boolean`
 
-Configure puppetlabs_deps repository (debian family).
+Configure epel repository .
 
 Default value: ``false``
 
-##### `purge`
-
-Purge unmanaged repositories.
-
-##### `remi`
+##### <a name="hashicorp"></a>`hashicorp`
 
 Data type: `Boolean`
 
-Configure remi repository (redhat family).
+Configure hashicorp.
 
 Default value: ``false``
 
-##### `repositories`
+##### <a name="puppetlabs_deps"></a>`puppetlabs_deps`
+
+Data type: `Boolean`
+
+Configure puppetlabs_deps.
+
+Default value: ``false``
+
+##### <a name="remi"></a>`remi`
+
+Data type: `Boolean`
+
+Configure remi repository.
+
+Default value: ``false``
+
+##### <a name="repositories"></a>`repositories`
 
 Data type: `Hash`
 
@@ -1902,7 +2258,7 @@ Repositories to configure.
 
 Default value: `{}`
 
-### `profiles::bootstrap::resolv`
+### <a name="profilesbootstrapresolv"></a>`profiles::bootstrap::resolv`
 
 This class can be used install resolv
 
@@ -1916,9 +2272,13 @@ class { '::profiles::bootstrap::resolv': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::resolv` class.
+The following parameters are available in the `profiles::bootstrap::resolv` class:
 
-##### `name_servers`
+* [`name_servers`](#name_servers)
+* [`domain`](#domain)
+* [`searchpath`](#searchpath)
+
+##### <a name="name_servers"></a>`name_servers`
 
 Data type: `Array`
 
@@ -1926,7 +2286,7 @@ Name servers to use in resolv.conf
 
 Default value: `['127.0.0.1']`
 
-##### `domain`
+##### <a name="domain"></a>`domain`
 
 Data type: `Optional[String]`
 
@@ -1934,7 +2294,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `searchpath`
+##### <a name="searchpath"></a>`searchpath`
 
 Data type: `Array`
 
@@ -1942,7 +2302,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::bootstrap::ssh`
+### <a name="profilesbootstrapssh"></a>`profiles::bootstrap::ssh`
 
 This class can be used install ssh components.
 
@@ -1956,9 +2316,14 @@ class { '::profiles::bootstrap::ssh': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::ssh` class.
+The following parameters are available in the `profiles::bootstrap::ssh` class:
 
-##### `allow_agent_forwarding`
+* [`allow_agent_forwarding`](#allow_agent_forwarding)
+* [`forward_agent`](#forward_agent)
+* [`password_authentication`](#password_authentication)
+* [`port`](#port)
+
+##### <a name="allow_agent_forwarding"></a>`allow_agent_forwarding`
 
 Data type: `String`
 
@@ -1966,7 +2331,7 @@ Allow forwarding of the agent.
 
 Default value: `'no'`
 
-##### `forward_agent`
+##### <a name="forward_agent"></a>`forward_agent`
 
 Data type: `String`
 
@@ -1974,7 +2339,7 @@ Forward the connection of the agent to the remote machine.
 
 Default value: `'no'`
 
-##### `password_authentication`
+##### <a name="password_authentication"></a>`password_authentication`
 
 Data type: `String`
 
@@ -1982,7 +2347,7 @@ Accept access using password.
 
 Default value: `'no'`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `String`
 
@@ -1990,7 +2355,7 @@ Port to bind to.
 
 Default value: `'22'`
 
-### `profiles::bootstrap::time`
+### <a name="profilesbootstraptime"></a>`profiles::bootstrap::time`
 
 This class can be used install time
 
@@ -2004,9 +2369,14 @@ class { '::profiles::bootstrap::time': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::time` class.
+The following parameters are available in the `profiles::bootstrap::time` class:
 
-##### `default_timezone`
+* [`default_timezone`](#default_timezone)
+* [`ntp_servers`](#ntp_servers)
+* [`restrict`](#restrict)
+* [`set_timezone`](#set_timezone)
+
+##### <a name="default_timezone"></a>`default_timezone`
 
 Data type: `String`
 
@@ -2014,7 +2384,7 @@ Data type: `String`
 
 Default value: `'Europe/Amsterdam'`
 
-##### `ntp_servers`
+##### <a name="ntp_servers"></a>`ntp_servers`
 
 Data type: `Array`
 
@@ -2022,7 +2392,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `restrict`
+##### <a name="restrict"></a>`restrict`
 
 Data type: `Array`
 
@@ -2030,7 +2400,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `set_timezone`
+##### <a name="set_timezone"></a>`set_timezone`
 
 Data type: `Boolean`
 
@@ -2038,7 +2408,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::cache`
+### <a name="profilescache"></a>`profiles::cache`
 
 This class can be used install cache components.
 
@@ -2052,9 +2422,11 @@ class { '::profiles::cache': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::cache` class.
+The following parameters are available in the `profiles::cache` class:
 
-##### `memcached`
+* [`memcached`](#memcached)
+
+##### <a name="memcached"></a>`memcached`
 
 Data type: `Boolean`
 
@@ -2062,7 +2434,7 @@ Manage memcached on this node.
 
 Default value: ``false``
 
-### `profiles::cache::memcached`
+### <a name="profilescachememcached"></a>`profiles::cache::memcached`
 
 This class can be used install user memcached properties
 
@@ -2076,9 +2448,12 @@ class { '::profiles::cache::memcached': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::cache::memcached` class.
+The following parameters are available in the `profiles::cache::memcached` class:
 
-##### `listen_ip`
+* [`listen_ip`](#listen_ip)
+* [`max_memory`](#max_memory)
+
+##### <a name="listen_ip"></a>`listen_ip`
 
 Data type: `Optional[Stdlib::Compat::Ip_address]`
 
@@ -2086,7 +2461,7 @@ Interface to bind to.
 
 Default value: `'127.0.0.1'`
 
-##### `max_memory`
+##### <a name="max_memory"></a>`max_memory`
 
 Data type: `Variant[Integer, String]`
 
@@ -2094,7 +2469,7 @@ Maximum Ram memcached can use.
 
 Default value: `'50%'`
 
-### `profiles::dashboard`
+### <a name="profilesdashboard"></a>`profiles::dashboard`
 
 This class can be used install dashboard.
 
@@ -2108,9 +2483,13 @@ class { '::profiles::dashboard': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::dashboard` class.
+The following parameters are available in the `profiles::dashboard` class:
 
-##### `smashing`
+* [`smashing`](#smashing)
+* [`icinga2`](#icinga2)
+* [`statping`](#statping)
+
+##### <a name="smashing"></a>`smashing`
 
 Data type: `Boolean`
 
@@ -2118,7 +2497,7 @@ Manage smashing on this node.
 
 Default value: ``false``
 
-##### `icinga2`
+##### <a name="icinga2"></a>`icinga2`
 
 Data type: `Boolean`
 
@@ -2126,7 +2505,15 @@ Mange icinga2web on this node.
 
 Default value: ``false``
 
-### `profiles::dashboard::icinga2`
+##### <a name="statping"></a>`statping`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+### <a name="profilesdashboardicinga2"></a>`profiles::dashboard::icinga2`
 
 This class can be used install the icinga2 dashboard:
 https://github.com/dnsmichi/dashing-icinga2
@@ -2149,15 +2536,23 @@ class { '::profiles::dashboard::icinga2': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::dashboard::icinga2` class.
+The following parameters are available in the `profiles::dashboard::icinga2` class:
 
-##### `api_password`
+* [`api_password`](#api_password)
+* [`api_username`](#api_username)
+* [`runmode`](#runmode)
+* [`package_name`](#package_name)
+* [`service_name`](#service_name)
+* [`docker_image`](#docker_image)
+* [`docker_env_parameters`](#docker_env_parameters)
+
+##### <a name="api_password"></a>`api_password`
 
 Data type: `String`
 
 The password of the api user, required.
 
-##### `api_username`
+##### <a name="api_username"></a>`api_username`
 
 Data type: `String`
 
@@ -2165,7 +2560,7 @@ The username of the api user.
 
 Default value: `'icingadashboard'`
 
-##### `runmode`
+##### <a name="runmode"></a>`runmode`
 
 Data type: `Optional[String]`
 
@@ -2173,7 +2568,7 @@ The way that the dasboard is running, can be package or docker.
 
 Default value: ``undef``
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `Optional[String]`
 
@@ -2181,7 +2576,7 @@ The name of the package, only needed when runmode is package.
 
 Default value: ``undef``
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `Optional[String]`
 
@@ -2189,7 +2584,7 @@ The name of the service, only needed when runmode is package.
 
 Default value: ``undef``
 
-##### `docker_image`
+##### <a name="docker_image"></a>`docker_image`
 
 Data type: `Optional[String]`
 
@@ -2197,13 +2592,13 @@ The name of the docker image, only needed when runmode is docker.
 
 Default value: ``undef``
 
-##### `docker_env_parameters`
+##### <a name="docker_env_parameters"></a>`docker_env_parameters`
 
 Data type: `Optional[Hash]`
 
 A hash containing the environment parameters, only needed when runmode is docker.
 
-### `profiles::dashboard::smashing`
+### <a name="profilesdashboardsmashing"></a>`profiles::dashboard::smashing`
 
 This class can be used install user smashing properties
 
@@ -2217,9 +2612,11 @@ class { '::profiles::dashboard::smashing': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::dashboard::smashing` class.
+The following parameters are available in the `profiles::dashboard::smashing` class:
 
-##### `provider`
+* [`provider`](#provider)
+
+##### <a name="provider"></a>`provider`
 
 Data type: `String`
 
@@ -2227,7 +2624,109 @@ Package provider
 
 Default value: `'gem'`
 
-### `profiles::database`
+### <a name="profilesdashboardstatping"></a>`profiles::dashboard::statping`
+
+A description of what this class does
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::dashboard::statping
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::dashboard::statping` class:
+
+* [`archive_source`](#archive_source)
+* [`config`](#config)
+* [`http_addr`](#http_addr)
+* [`http_port`](#http_port)
+* [`install_method`](#install_method)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="archive_source"></a>`archive_source`
+
+Data type: `String`
+
+
+
+Default value: `'https://github.com/statping/statping/releases/download/v0.90.74/statping-linux-amd64.tar.gz'`
+
+##### <a name="config"></a>`config`
+
+Data type: `Hash`
+
+
+
+Default value: `{
+    'connection'     => 'sqlite3',
+    'language'       => 'en',
+    'allow_reports'  => 'true', # lint:ignore:quoted_booleans
+    'location'       => '/etc/statping',
+    'sqlfile'        => '/etc/statping/statping.db',
+    'disable_http'   => 'false', # lint:ignore:quoted_booleans
+    'demo_mode'      => 'false', # lint:ignore:quoted_booleans
+    'disable_logs'   => 'false', # lint:ignore:quoted_booleans
+    'use_assets'     => 'false', # lint:ignore:quoted_booleans
+    'sample_data'    => 'false', # lint:ignore:quoted_booleans
+    'use_cdn'        => 'false', # lint:ignore:quoted_booleans
+    'disable_colors' => 'false', # lint:ignore:quoted_booleans
+  }`
+
+##### <a name="http_addr"></a>`http_addr`
+
+Data type: `String`
+
+
+
+Default value: `'127.0.0.1'`
+
+##### <a name="http_port"></a>`http_port`
+
+Data type: `Stdlib::Port`
+
+
+
+Default value: `8080`
+
+##### <a name="install_method"></a>`install_method`
+
+Data type: `Enum['archive','package']`
+
+
+
+Default value: `'package'`
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="sd_service_tags"></a>`sd_service_tags`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+### <a name="profilesdatabase"></a>`profiles::database`
 
 This class can be used install metrics.
 
@@ -2241,9 +2740,15 @@ class { '::profiles::database': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database` class.
+The following parameters are available in the `profiles::database` class:
 
-##### `influxdb`
+* [`influxdb`](#influxdb)
+* [`mongodb`](#mongodb)
+* [`mysql`](#mysql)
+* [`neo4j`](#neo4j)
+* [`postgresql`](#postgresql)
+
+##### <a name="influxdb"></a>`influxdb`
 
 Data type: `Boolean`
 
@@ -2251,7 +2756,7 @@ Manage influxdb on this node.
 
 Default value: ``false``
 
-##### `mongodb`
+##### <a name="mongodb"></a>`mongodb`
 
 Data type: `Boolean`
 
@@ -2259,7 +2764,7 @@ Manage mongodb on this node.
 
 Default value: ``false``
 
-##### `mysql`
+##### <a name="mysql"></a>`mysql`
 
 Data type: `Boolean`
 
@@ -2267,7 +2772,7 @@ Manage mysql on this node.
 
 Default value: ``false``
 
-##### `neo4j`
+##### <a name="neo4j"></a>`neo4j`
 
 Data type: `Boolean`
 
@@ -2275,7 +2780,7 @@ Manage neo4j on this node.
 
 Default value: ``false``
 
-##### `postgresql`
+##### <a name="postgresql"></a>`postgresql`
 
 Data type: `Boolean`
 
@@ -2283,7 +2788,7 @@ Manage postgresql on this node.
 
 Default value: ``false``
 
-### `profiles::database::influxdb`
+### <a name="profilesdatabaseinfluxdb"></a>`profiles::database::influxdb`
 
 This class can be used install influxdb
 
@@ -2297,13 +2802,20 @@ class { '::profiles::database::influxdb': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database::influxdb` class.
+The following parameters are available in the `profiles::database::influxdb` class:
 
-##### `manage_repo`
+* [`manage_repo`](#manage_repo)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+
+##### <a name="manage_repo"></a>`manage_repo`
 
 Manage repositories.
 
-##### `data_path`
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -2311,7 +2823,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/influxdb'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -2319,7 +2831,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -2327,7 +2839,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2335,7 +2847,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_package_repo`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
 
 Data type: `Boolean`
 
@@ -2343,7 +2855,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::database::mongodb`
+### <a name="profilesdatabasemongodb"></a>`profiles::database::mongodb`
 
 This class can be used install mongodb
 
@@ -2357,9 +2869,32 @@ class { '::profiles::database::mongodb': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database::mongodb` class.
+The following parameters are available in the `profiles::database::mongodb` class:
 
-##### `client_package_name`
+* [`bind_ip`](#bind_ip)
+* [`client_package_name`](#client_package_name)
+* [`databases`](#databases)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`replset`](#replset)
+* [`replset_members`](#replset_members)
+* [`server_package_name`](#server_package_name)
+* [`smallfiles`](#smallfiles)
+* [`use_enterprise_repo`](#use_enterprise_repo)
+* [`version`](#version)
+
+##### <a name="bind_ip"></a>`bind_ip`
+
+Data type: `Array[Stdlib::Compat::Ip_address]`
+
+
+
+Default value: `['127.0.0.1']`
+
+##### <a name="client_package_name"></a>`client_package_name`
 
 Data type: `Optional[String]`
 
@@ -2367,7 +2902,15 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `data_path`
+##### <a name="databases"></a>`databases`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -2375,7 +2918,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/mongodb'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -2383,7 +2926,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -2391,7 +2934,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2399,7 +2942,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_package_repo`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
 
 Data type: `Boolean`
 
@@ -2407,7 +2950,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `mongos_package_name`
+##### <a name="replset"></a>`replset`
 
 Data type: `Optional[String]`
 
@@ -2415,7 +2958,15 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `server_package_name`
+##### <a name="replset_members"></a>`replset_members`
+
+Data type: `Optional[Array]`
+
+
+
+Default value: ``undef``
+
+##### <a name="server_package_name"></a>`server_package_name`
 
 Data type: `Optional[String]`
 
@@ -2423,7 +2974,15 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `use_enterprise_repo`
+##### <a name="smallfiles"></a>`smallfiles`
+
+Data type: `Optional[Boolean]`
+
+
+
+Default value: ``undef``
+
+##### <a name="use_enterprise_repo"></a>`use_enterprise_repo`
 
 Data type: `Boolean`
 
@@ -2431,15 +2990,15 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'4.0.11'`
+Default value: `'5.0.2'`
 
-### `profiles::database::mysql`
+### <a name="profilesdatabasemysql"></a>`profiles::database::mysql`
 
 This class can be used install mysql
 
@@ -2453,9 +3012,22 @@ class { '::profiles::database::mysql': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database::mysql` class.
+The following parameters are available in the `profiles::database::mysql` class:
 
-##### `databases`
+* [`databases`](#databases)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`listen_address`](#listen_address)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`override_options`](#override_options)
+* [`root_password`](#root_password)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`users`](#users)
+
+##### <a name="databases"></a>`databases`
 
 Data type: `Hash`
 
@@ -2463,7 +3035,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `data_path`
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -2471,7 +3043,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/mysql'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -2479,7 +3051,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `Any`
 
@@ -2487,7 +3059,7 @@ Data type: `Any`
 
 Default value: `'localhost'`
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -2495,7 +3067,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2503,7 +3075,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -2511,7 +3083,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `override_options`
+##### <a name="override_options"></a>`override_options`
 
 Data type: `Hash`
 
@@ -2519,7 +3091,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `root_password`
+##### <a name="root_password"></a>`root_password`
 
 Data type: `String`
 
@@ -2527,7 +3099,7 @@ Data type: `String`
 
 Default value: `'secret'`
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -2535,7 +3107,7 @@ Data type: `String`
 
 Default value: `'mysql'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -2543,7 +3115,15 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::database::neo4j`
+##### <a name="users"></a>`users`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+### <a name="profilesdatabaseneo4j"></a>`profiles::database::neo4j`
 
 This class can be used install neo4j components.
 
@@ -2557,9 +3137,17 @@ class { '::profiles::database::neo4j': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database::neo4j` class.
+The following parameters are available in the `profiles::database::neo4j` class:
 
-##### `data_path`
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`install_method`](#install_method)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`version`](#version)
+
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -2567,7 +3155,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/neo4j/data'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -2575,7 +3163,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -2583,7 +3171,7 @@ Data type: `String`
 
 Default value: `'package'`
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -2591,7 +3179,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2599,7 +3187,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_package_repo`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
 
 Data type: `Boolean`
 
@@ -2607,7 +3195,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -2615,7 +3203,7 @@ Data type: `String`
 
 Default value: `'installed'`
 
-### `profiles::database::postgresql`
+### <a name="profilesdatabasepostgresql"></a>`profiles::database::postgresql`
 
 This class can be used install postgresql
 
@@ -2629,9 +3217,26 @@ class { '::profiles::database::postgresql': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database::postgresql` class.
+The following parameters are available in the `profiles::database::postgresql` class:
 
-##### `databases`
+* [`databases`](#databases)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`encoding`](#encoding)
+* [`hba_rules`](#hba_rules)
+* [`ip_mask_allow_all_users`](#ip_mask_allow_all_users)
+* [`listen_address`](#listen_address)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`manage_sd_service`](#manage_sd_service)
+* [`patroni`](#patroni)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`superuser_password`](#superuser_password)
+* [`version`](#version)
+
+##### <a name="databases"></a>`databases`
 
 Data type: `Any`
 
@@ -2639,15 +3244,15 @@ Data type: `Any`
 
 Default value: `{}`
 
-##### `data_path`
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
 
 
-Default value: `'/var/lib/pgsql'`
+Default value: `'/var/lib/pgsql/data'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -2655,7 +3260,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `encoding`
+##### <a name="encoding"></a>`encoding`
 
 Data type: `Any`
 
@@ -2663,7 +3268,7 @@ Data type: `Any`
 
 Default value: `'UTF-8'`
 
-##### `hba_rules`
+##### <a name="hba_rules"></a>`hba_rules`
 
 Data type: `Optional[Hash]`
 
@@ -2671,7 +3276,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `ip_mask_allow_all_users`
+##### <a name="ip_mask_allow_all_users"></a>`ip_mask_allow_all_users`
 
 Data type: `Any`
 
@@ -2679,7 +3284,7 @@ Data type: `Any`
 
 Default value: `'127.0.0.1/32'`
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `Any`
 
@@ -2687,7 +3292,7 @@ Data type: `Any`
 
 Default value: `'localhost'`
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -2695,7 +3300,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2703,7 +3308,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_package_repo`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
 
 Data type: `Boolean`
 
@@ -2711,7 +3316,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -2719,7 +3324,15 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="patroni"></a>`patroni`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -2727,7 +3340,7 @@ Data type: `String`
 
 Default value: `'postgresql'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -2735,15 +3348,103 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `version`
+##### <a name="superuser_password"></a>`superuser_password`
+
+Data type: `String`
+
+
+
+Default value: `'changeme'`
+
+##### <a name="version"></a>`version`
 
 Data type: `Any`
 
 
 
-Default value: `'11'`
+Default value: `'13'`
 
-### `profiles::dns`
+### <a name="profilesdatabasepostgresqlpatroni"></a>`profiles::database::postgresql::patroni`
+
+A description of what this class does
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::database::postgresql::patroni
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::database::postgresql::patroni` class:
+
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`package_name`](#package_name)
+* [`pgsql_bin_dir`](#pgsql_bin_dir)
+* [`pgsql_data_dir`](#pgsql_data_dir)
+* [`scope`](#scope)
+* [`superuser_password`](#superuser_password)
+* [`use_consul`](#use_consul)
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="package_name"></a>`package_name`
+
+Data type: `String`
+
+
+
+Default value: `'patroni'`
+
+##### <a name="pgsql_bin_dir"></a>`pgsql_bin_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/usr/pgsql-13/bin'`
+
+##### <a name="pgsql_data_dir"></a>`pgsql_data_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/var/lib/patroni'`
+
+##### <a name="scope"></a>`scope`
+
+Data type: `String`
+
+
+
+Default value: `'patroni'`
+
+##### <a name="superuser_password"></a>`superuser_password`
+
+Data type: `String`
+
+
+
+Default value: `'changeme'`
+
+##### <a name="use_consul"></a>`use_consul`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+### <a name="profilesdns"></a>`profiles::dns`
 
 This class can be used install dns.
 
@@ -2757,9 +3458,12 @@ class { '::profiles::dns': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::dns` class.
+The following parameters are available in the `profiles::dns` class:
 
-##### `bind`
+* [`bind`](#bind)
+* [`dnsmasq`](#dnsmasq)
+
+##### <a name="bind"></a>`bind`
 
 Data type: `Boolean`
 
@@ -2767,11 +3471,11 @@ Manage bind on this node.
 
 Default value: ``false``
 
-##### `dnsmasq`
+##### <a name="dnsmasq"></a>`dnsmasq`
 
 Mange dnsmasqweb on this node.
 
-### `profiles::dns::bind`
+### <a name="profilesdnsbind"></a>`profiles::dns::bind`
 
 This class can be used install bind9
 
@@ -2785,9 +3489,12 @@ class { '::profiles::dns::bind': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::dns::bind` class.
+The following parameters are available in the `profiles::dns::bind` class:
 
-##### `forward_consul`
+* [`forward_consul`](#forward_consul)
+* [`zones`](#zones)
+
+##### <a name="forward_consul"></a>`forward_consul`
 
 Data type: `Boolean`
 
@@ -2795,7 +3502,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `zones`
+##### <a name="zones"></a>`zones`
 
 Data type: `Hash`
 
@@ -2803,7 +3510,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-### `profiles::logging`
+### <a name="profileslogging"></a>`profiles::logging`
 
 This class can be used install logging.
 
@@ -2817,9 +3524,13 @@ class { '::profiles::logging': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::logging` class.
+The following parameters are available in the `profiles::logging` class:
 
-##### `elasticsearch`
+* [`elasticsearch`](#elasticsearch)
+* [`kibana`](#kibana)
+* [`loki`](#loki)
+
+##### <a name="elasticsearch"></a>`elasticsearch`
 
 Data type: `Boolean`
 
@@ -2827,7 +3538,7 @@ Manage elasticsearch on this node.
 
 Default value: ``false``
 
-##### `kibana`
+##### <a name="kibana"></a>`kibana`
 
 Data type: `Boolean`
 
@@ -2835,7 +3546,7 @@ Manage kibana on this node.
 
 Default value: ``false``
 
-##### `loki`
+##### <a name="loki"></a>`loki`
 
 Data type: `Boolean`
 
@@ -2843,7 +3554,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::logging::elasticsearch`
+### <a name="profilesloggingelasticsearch"></a>`profiles::logging::elasticsearch`
 
 This class can be used install elasticsearch components.
 
@@ -2857,9 +3568,16 @@ class { '::profiles::logging::elasticsearch': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::logging::elasticsearch` class.
+The following parameters are available in the `profiles::logging::elasticsearch` class:
 
-##### `instances`
+* [`instances`](#instances)
+* [`manage_repo`](#manage_repo)
+* [`repo_version`](#repo_version)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="instances"></a>`instances`
 
 Data type: `Hash`
 
@@ -2867,7 +3585,7 @@ ES instances to start.
 
 Default value: `{ "${::fqdn}" => {} }`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -2875,7 +3593,7 @@ Let profile install java.
 
 Default value: ``false``
 
-##### `repo_version`
+##### <a name="repo_version"></a>`repo_version`
 
 Data type: `String`
 
@@ -2883,7 +3601,7 @@ Version family to install.
 
 Default value: `'7.x'`
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2891,7 +3609,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -2899,7 +3617,7 @@ Data type: `String`
 
 Default value: `'postgresql'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -2907,7 +3625,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::logging::kibana`
+### <a name="profilesloggingkibana"></a>`profiles::logging::kibana`
 
 This class can be used install kibana components.
 
@@ -2921,9 +3639,17 @@ class { '::profiles::logging::kibana': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::logging::kibana` class.
+The following parameters are available in the `profiles::logging::kibana` class:
 
-##### `manage_repo`
+* [`manage_repo`](#manage_repo)
+* [`version`](#version)
+* [`config`](#config)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -2931,7 +3657,7 @@ Let profile install java.
 
 Default value: ``false``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -2939,7 +3665,7 @@ Version to install.
 
 Default value: `present`
 
-##### `config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash[String[1], Variant[String[1], Integer, Boolean, Array, Hash]]`
 
@@ -2947,7 +3673,7 @@ Data type: `Hash[String[1], Variant[String[1], Integer, Boolean, Array, Hash]]`
 
 Default value: `{}`
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -2955,7 +3681,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -2963,7 +3689,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -2971,7 +3697,7 @@ Data type: `String`
 
 Default value: `'kibana'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -2979,7 +3705,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::logging::loki`
+### <a name="profilesloggingloki"></a>`profiles::logging::loki`
 
 This class can be used install loki components.
 
@@ -2993,21 +3719,51 @@ class { '::profiles::logging::loki': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::logging::loki` class.
+The following parameters are available in the `profiles::logging::loki` class:
 
-##### `schema_config_hash`
+* [`schema_config_hash`](#schema_config_hash)
+* [`storage_config_hash`](#storage_config_hash)
+* [`auth_enabled`](#auth_enabled)
+* [`chunk_store_config_hash`](#chunk_store_config_hash)
+* [`compactor_config_hash`](#compactor_config_hash)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`distributor_config_hash`](#distributor_config_hash)
+* [`frontend_worker_config_hash`](#frontend_worker_config_hash)
+* [`ingester_client_config_hash`](#ingester_client_config_hash)
+* [`ingester_config_hash`](#ingester_config_hash)
+* [`limits_config_hash`](#limits_config_hash)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`port_grpc`](#port_grpc)
+* [`port_tcp`](#port_tcp)
+* [`querier_config_hash`](#querier_config_hash)
+* [`query_frontend_config_hash`](#query_frontend_config_hash)
+* [`queryrange_config_hash`](#queryrange_config_hash)
+* [`ruler_config_hash`](#ruler_config_hash)
+* [`runtime_config_hash`](#runtime_config_hash)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`server_config_hash`](#server_config_hash)
+* [`table_manager_config_hash`](#table_manager_config_hash)
+* [`target`](#target)
+* [`tracing_config_hash`](#tracing_config_hash)
+* [`version`](#version)
+
+##### <a name="schema_config_hash"></a>`schema_config_hash`
 
 Data type: `Hash`
 
 
 
-##### `storage_config_hash`
+##### <a name="storage_config_hash"></a>`storage_config_hash`
 
 Data type: `Hash`
 
 
 
-##### `auth_enabled`
+##### <a name="auth_enabled"></a>`auth_enabled`
 
 Data type: `Optional[Boolean]`
 
@@ -3015,7 +3771,7 @@ Data type: `Optional[Boolean]`
 
 Default value: ``undef``
 
-##### `chunk_store_config_hash`
+##### <a name="chunk_store_config_hash"></a>`chunk_store_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3023,7 +3779,15 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `data_path`
+##### <a name="compactor_config_hash"></a>`compactor_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -3031,7 +3795,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/loki'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -3039,7 +3803,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `distributor_config_hash`
+##### <a name="distributor_config_hash"></a>`distributor_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3047,7 +3811,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `frontend_worker_config_hash`
+##### <a name="frontend_worker_config_hash"></a>`frontend_worker_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3055,7 +3819,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `ingester_client_config_hash`
+##### <a name="ingester_client_config_hash"></a>`ingester_client_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3063,7 +3827,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `ingester_config_hash`
+##### <a name="ingester_config_hash"></a>`ingester_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3071,7 +3835,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `limits_config_hash`
+##### <a name="limits_config_hash"></a>`limits_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3079,7 +3843,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -3087,7 +3851,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -3095,7 +3859,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -3103,7 +3867,23 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `querier_config_hash`
+##### <a name="port_grpc"></a>`port_grpc`
+
+Data type: `Stdlib::Port`
+
+
+
+Default value: `9095`
+
+##### <a name="port_tcp"></a>`port_tcp`
+
+Data type: `Stdlib::Port`
+
+
+
+Default value: `3100`
+
+##### <a name="querier_config_hash"></a>`querier_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3111,7 +3891,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `runtime_config_hash`
+##### <a name="query_frontend_config_hash"></a>`query_frontend_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3119,7 +3899,31 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `sd_service_name`
+##### <a name="queryrange_config_hash"></a>`queryrange_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="ruler_config_hash"></a>`ruler_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="runtime_config_hash"></a>`runtime_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -3127,23 +3931,15 @@ Data type: `String`
 
 Default value: `'loki'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
 
 
-Default value: `[]`
+Default value: `['metrics']`
 
-##### `server_config_hash`
-
-Data type: `Optional[Hash]`
-
-
-
-Default value: ``undef``
-
-##### `table_manager_config_hash`
+##### <a name="server_config_hash"></a>`server_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -3151,7 +3947,15 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `target`
+##### <a name="table_manager_config_hash"></a>`table_manager_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="target"></a>`target`
 
 Data type: `Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']]`
 
@@ -3159,15 +3963,23 @@ Data type: `Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distri
 
 Default value: ``undef``
 
-##### `version`
+##### <a name="tracing_config_hash"></a>`tracing_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'v2.0.0'`
+Default value: `'v2.3.0'`
 
-### `profiles::mail`
+### <a name="profilesmail"></a>`profiles::mail`
 
 This class can be used install mail.
 
@@ -3181,9 +3993,11 @@ class { '::profiles::mail': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::mail` class.
+The following parameters are available in the `profiles::mail` class:
 
-##### `mailhog`
+* [`mailhog`](#mailhog)
+
+##### <a name="mailhog"></a>`mailhog`
 
 Data type: `Boolean`
 
@@ -3191,7 +4005,7 @@ Manage mailhog on this node.
 
 Default value: ``false``
 
-### `profiles::mail::mailhog`
+### <a name="profilesmailmailhog"></a>`profiles::mail::mailhog`
 
 This class can be used install user mailhog properties
 
@@ -3205,9 +4019,18 @@ class { '::profiles::mail::mailhog': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::mail::mailhog` class.
+The following parameters are available in the `profiles::mail::mailhog` class:
 
-##### `install_method`
+* [`install_method`](#install_method)
+* [`wget_source`](#wget_source)
+* [`archive_source`](#archive_source)
+* [`config`](#config)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -3215,15 +4038,59 @@ How to install.
 
 Default value: `'package'`
 
-##### `wget_source`
-
-Data type: `Optional[String]`
+##### <a name="wget_source"></a>`wget_source`
 
 Location to download mailhog.
 
-Default value: ``undef``
+##### <a name="archive_source"></a>`archive_source`
 
-### `profiles::metrics`
+Data type: `String`
+
+
+
+Default value: `'https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64'`
+
+##### <a name="config"></a>`config`
+
+Data type: `String`
+
+
+
+Default value: `'-ui-bind-addr=127.0.0.1:8025 -api-bind-addr=127.0.0.1:8025'`
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="sd_service_name"></a>`sd_service_name`
+
+Data type: `String`
+
+
+
+Default value: `'mailhog'`
+
+##### <a name="sd_service_tags"></a>`sd_service_tags`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+### <a name="profilesmetrics"></a>`profiles::metrics`
 
 This class can be used install metrics components
 
@@ -3237,9 +4104,13 @@ class { '::profiles::metrics': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::metrics` class.
+The following parameters are available in the `profiles::metrics` class:
 
-##### `carbon`
+* [`carbon`](#carbon)
+* [`grafana`](#grafana)
+* [`graphite_web`](#graphite_web)
+
+##### <a name="carbon"></a>`carbon`
 
 Data type: `Boolean`
 
@@ -3247,7 +4118,7 @@ Manage carbon on this node.
 
 Default value: ``false``
 
-##### `grafana`
+##### <a name="grafana"></a>`grafana`
 
 Data type: `Boolean`
 
@@ -3255,7 +4126,7 @@ Manage grafana on this node.
 
 Default value: ``false``
 
-##### `graphite_web`
+##### <a name="graphite_web"></a>`graphite_web`
 
 Data type: `Boolean`
 
@@ -3263,7 +4134,7 @@ Manage graphite_web on this node.
 
 Default value: ``false``
 
-### `profiles::metrics::carbon`
+### <a name="profilesmetricscarbon"></a>`profiles::metrics::carbon`
 
 == Class: profiles::metrics::carbon
 
@@ -3283,9 +4154,21 @@ class { 'profiles::metrics::carbon': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::metrics::carbon` class.
+The following parameters are available in the `profiles::metrics::carbon` class:
 
-##### `carbon_cache_enabled`
+* [`carbon_cache_enabled`](#carbon_cache_enabled)
+* [`carbon_caches`](#carbon_caches)
+* [`carbon_ensure`](#carbon_ensure)
+* [`carbon_type`](#carbon_type)
+* [`line_receiver_interface`](#line_receiver_interface)
+* [`pickle_receiver_interface`](#pickle_receiver_interface)
+* [`protobuf_receiver_enabled`](#protobuf_receiver_enabled)
+* [`relay_type`](#relay_type)
+* [`udp_listener_enabled`](#udp_listener_enabled)
+* [`udp_receiver_interface`](#udp_receiver_interface)
+* [`use_whitelist`](#use_whitelist)
+
+##### <a name="carbon_cache_enabled"></a>`carbon_cache_enabled`
 
 Data type: `Boolean`
 
@@ -3293,7 +4176,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `carbon_caches`
+##### <a name="carbon_caches"></a>`carbon_caches`
 
 Data type: `Hash`
 
@@ -3301,7 +4184,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `carbon_ensure`
+##### <a name="carbon_ensure"></a>`carbon_ensure`
 
 Data type: `String`
 
@@ -3309,7 +4192,7 @@ Data type: `String`
 
 Default value: `present`
 
-##### `carbon_type`
+##### <a name="carbon_type"></a>`carbon_type`
 
 Data type: `String`
 
@@ -3317,7 +4200,7 @@ Data type: `String`
 
 Default value: `'carbon'`
 
-##### `line_receiver_interface`
+##### <a name="line_receiver_interface"></a>`line_receiver_interface`
 
 Data type: `String`
 
@@ -3325,7 +4208,7 @@ Data type: `String`
 
 Default value: `'0.0.0.0'`
 
-##### `pickle_receiver_interface`
+##### <a name="pickle_receiver_interface"></a>`pickle_receiver_interface`
 
 Data type: `String`
 
@@ -3333,7 +4216,7 @@ Data type: `String`
 
 Default value: `'0.0.0.0'`
 
-##### `protobuf_receiver_enabled`
+##### <a name="protobuf_receiver_enabled"></a>`protobuf_receiver_enabled`
 
 Data type: `String`
 
@@ -3341,7 +4224,7 @@ Data type: `String`
 
 Default value: `'False'`
 
-##### `relay_type`
+##### <a name="relay_type"></a>`relay_type`
 
 Data type: `String`
 
@@ -3349,7 +4232,7 @@ Data type: `String`
 
 Default value: `'carbon'`
 
-##### `udp_listener_enabled`
+##### <a name="udp_listener_enabled"></a>`udp_listener_enabled`
 
 Data type: `String`
 
@@ -3357,7 +4240,7 @@ Data type: `String`
 
 Default value: `'False'`
 
-##### `udp_receiver_interface`
+##### <a name="udp_receiver_interface"></a>`udp_receiver_interface`
 
 Data type: `String`
 
@@ -3365,7 +4248,7 @@ Data type: `String`
 
 Default value: `'0.0.0.0'`
 
-##### `use_whitelist`
+##### <a name="use_whitelist"></a>`use_whitelist`
 
 Data type: `String`
 
@@ -3373,7 +4256,7 @@ Data type: `String`
 
 Default value: `'True'`
 
-### `profiles::metrics::grafana`
+### <a name="profilesmetricsgrafana"></a>`profiles::metrics::grafana`
 
 == Class: profiles::metrics::grafana
 
@@ -3393,9 +4276,59 @@ class { '::profiles::metrics::grafana': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::metrics::grafana` class.
+The following parameters are available in the `profiles::metrics::grafana` class:
 
-##### `allow_sign_up`
+* [`allow_sign_up`](#allow_sign_up)
+* [`allow_org_create`](#allow_org_create)
+* [`auto_assign_org`](#auto_assign_org)
+* [`auth_assign_org_role`](#auth_assign_org_role)
+* [`admin_password`](#admin_password)
+* [`admin_user`](#admin_user)
+* [`cookie_username`](#cookie_username)
+* [`cookie_remember_name`](#cookie_remember_name)
+* [`dashboards`](#dashboards)
+* [`data_source_proxy_whitelist`](#data_source_proxy_whitelist)
+* [`datasources`](#datasources)
+* [`db_datadir`](#db_datadir)
+* [`db_host`](#db_host)
+* [`db_name`](#db_name)
+* [`db_password`](#db_password)
+* [`db_path`](#db_path)
+* [`db_type`](#db_type)
+* [`db_user`](#db_user)
+* [`disable_gravatar`](#disable_gravatar)
+* [`domain`](#domain)
+* [`extra_cfg`](#extra_cfg)
+* [`install_method`](#install_method)
+* [`http_addr`](#http_addr)
+* [`log_buffer_length`](#log_buffer_length)
+* [`log_rotate`](#log_rotate)
+* [`log_max_lines`](#log_max_lines)
+* [`log_max_lines_shift`](#log_max_lines_shift)
+* [`log_daily_rotate`](#log_daily_rotate)
+* [`login_remember_days`](#login_remember_days)
+* [`log_level`](#log_level)
+* [`log_max_days`](#log_max_days)
+* [`logmode`](#logmode)
+* [`manage_repo`](#manage_repo)
+* [`plugins`](#plugins)
+* [`rpm_iteration`](#rpm_iteration)
+* [`root_url`](#root_url)
+* [`secret_key`](#secret_key)
+* [`smtp_enable`](#smtp_enable)
+* [`smtp_from_address`](#smtp_from_address)
+* [`smtp_from_name`](#smtp_from_name)
+* [`smtp_host`](#smtp_host)
+* [`version`](#version)
+* [`db_grant`](#db_grant)
+* [`db_port`](#db_port)
+* [`default_org`](#default_org)
+* [`manage_database`](#manage_database)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="allow_sign_up"></a>`allow_sign_up`
 
 Data type: `Boolean`
 
@@ -3403,7 +4336,7 @@ Allow users to sign up
 
 Default value: ``false``
 
-##### `allow_org_create`
+##### <a name="allow_org_create"></a>`allow_org_create`
 
 Data type: `Boolean`
 
@@ -3411,7 +4344,7 @@ Allow organisations to be setup.
 
 Default value: ``false``
 
-##### `auto_assign_org`
+##### <a name="auto_assign_org"></a>`auto_assign_org`
 
 Data type: `Boolean`
 
@@ -3419,7 +4352,7 @@ Automatically asign an organisation.
 
 Default value: ``true``
 
-##### `auth_assign_org_role`
+##### <a name="auth_assign_org_role"></a>`auth_assign_org_role`
 
 Data type: `String`
 
@@ -3427,7 +4360,7 @@ Basic role.
 
 Default value: `'Viewer'`
 
-##### `admin_password`
+##### <a name="admin_password"></a>`admin_password`
 
 Data type: `String`
 
@@ -3435,7 +4368,7 @@ Admin password.
 
 Default value: `'secret'`
 
-##### `admin_user`
+##### <a name="admin_user"></a>`admin_user`
 
 Data type: `String`
 
@@ -3443,7 +4376,7 @@ Admin username
 
 Default value: `'admin'`
 
-##### `cookie_username`
+##### <a name="cookie_username"></a>`cookie_username`
 
 Data type: `String`
 
@@ -3451,7 +4384,7 @@ Cookie name
 
 Default value: `'grafana_user'`
 
-##### `cookie_remember_name`
+##### <a name="cookie_remember_name"></a>`cookie_remember_name`
 
 Data type: `String`
 
@@ -3459,7 +4392,7 @@ Cookie remember setting
 
 Default value: `'grafana_remember'`
 
-##### `dashboards`
+##### <a name="dashboards"></a>`dashboards`
 
 Data type: `Hash`
 
@@ -3467,7 +4400,7 @@ Set of dashboards to load
 
 Default value: `{}`
 
-##### `data_source_proxy_whitelist`
+##### <a name="data_source_proxy_whitelist"></a>`data_source_proxy_whitelist`
 
 Data type: `String`
 
@@ -3475,7 +4408,7 @@ Proxy Whitelist.
 
 Default value: `''`
 
-##### `datasources`
+##### <a name="datasources"></a>`datasources`
 
 Data type: `Hash`
 
@@ -3483,7 +4416,7 @@ List of datasources.
 
 Default value: `{}`
 
-##### `db_datadir`
+##### <a name="db_datadir"></a>`db_datadir`
 
 Data type: `String`
 
@@ -3491,15 +4424,15 @@ Directory to store data in.
 
 Default value: `'/var/lib/pgsql/data'`
 
-##### `db_host`
+##### <a name="db_host"></a>`db_host`
 
-Data type: `String`
+Data type: `Stdlib::Host`
 
 Db connection string
 
-Default value: `'127.0.0.1:5432'`
+Default value: `'127.0.0.1'`
 
-##### `db_name`
+##### <a name="db_name"></a>`db_name`
 
 Data type: `String`
 
@@ -3507,7 +4440,7 @@ DB name.
 
 Default value: `'grafana'`
 
-##### `db_password`
+##### <a name="db_password"></a>`db_password`
 
 Data type: `String`
 
@@ -3515,7 +4448,7 @@ DB password.
 
 Default value: `''`
 
-##### `db_path`
+##### <a name="db_path"></a>`db_path`
 
 Data type: `Optional[String]`
 
@@ -3523,15 +4456,15 @@ DB path [sqlite only]
 
 Default value: ``undef``
 
-##### `db_type`
+##### <a name="db_type"></a>`db_type`
 
-Data type: `String`
+Data type: `Enum['mysql','postgres','sqlite3']`
 
 DB type,
 
 Default value: `'sqlite3'`
 
-##### `db_user`
+##### <a name="db_user"></a>`db_user`
 
 Data type: `String`
 
@@ -3539,7 +4472,7 @@ DB user.
 
 Default value: `''`
 
-##### `disable_gravatar`
+##### <a name="disable_gravatar"></a>`disable_gravatar`
 
 Data type: `Boolean`
 
@@ -3547,7 +4480,7 @@ Disable gravatar downloadingg
 
 Default value: ``false``
 
-##### `domain`
+##### <a name="domain"></a>`domain`
 
 Data type: `String`
 
@@ -3555,7 +4488,7 @@ Part of the root_url.
 
 Default value: `'localhost'`
 
-##### `extra_cfg`
+##### <a name="extra_cfg"></a>`extra_cfg`
 
 Data type: `Hash`
 
@@ -3563,7 +4496,7 @@ Additional configuration to pass to grafana
 
 Default value: `{}`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -3571,7 +4504,7 @@ How to install grafana.
 
 Default value: `'repo'`
 
-##### `http_addr`
+##### <a name="http_addr"></a>`http_addr`
 
 Data type: `String`
 
@@ -3579,7 +4512,7 @@ Address to bing to.
 
 Default value: `'127.0.0.1'`
 
-##### `log_buffer_length`
+##### <a name="log_buffer_length"></a>`log_buffer_length`
 
 Data type: `Integer`
 
@@ -3587,7 +4520,7 @@ Log bufeer length
 
 Default value: `10000`
 
-##### `log_rotate`
+##### <a name="log_rotate"></a>`log_rotate`
 
 Data type: `Boolean`
 
@@ -3595,7 +4528,7 @@ Log rotation
 
 Default value: ``true``
 
-##### `log_max_lines`
+##### <a name="log_max_lines"></a>`log_max_lines`
 
 Data type: `Integer`
 
@@ -3603,7 +4536,7 @@ Log max size
 
 Default value: `1000000`
 
-##### `log_max_lines_shift`
+##### <a name="log_max_lines_shift"></a>`log_max_lines_shift`
 
 Data type: `Integer`
 
@@ -3611,7 +4544,7 @@ Log max lines shift
 
 Default value: `28`
 
-##### `log_daily_rotate`
+##### <a name="log_daily_rotate"></a>`log_daily_rotate`
 
 Data type: `Boolean`
 
@@ -3619,7 +4552,7 @@ Rotate log daily.
 
 Default value: ``true``
 
-##### `login_remember_days`
+##### <a name="login_remember_days"></a>`login_remember_days`
 
 Data type: `Integer`
 
@@ -3627,7 +4560,7 @@ Remember Login.
 
 Default value: `7`
 
-##### `log_level`
+##### <a name="log_level"></a>`log_level`
 
 Data type: `String`
 
@@ -3635,7 +4568,7 @@ Loglevel
 
 Default value: `'Info'`
 
-##### `log_max_days`
+##### <a name="log_max_days"></a>`log_max_days`
 
 Data type: `Integer`
 
@@ -3643,7 +4576,7 @@ Keep logs for max days.
 
 Default value: `7`
 
-##### `logmode`
+##### <a name="logmode"></a>`logmode`
 
 Data type: `String`
 
@@ -3651,7 +4584,7 @@ Type of logging
 
 Default value: `'console, file'`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -3659,7 +4592,15 @@ Manage repo.
 
 Default value: ``false``
 
-##### `rpm_iteration`
+##### <a name="plugins"></a>`plugins`
+
+Data type: `Hash`
+
+Plugins to install.
+
+Default value: `{}`
+
+##### <a name="rpm_iteration"></a>`rpm_iteration`
 
 Data type: `String`
 
@@ -3667,7 +4608,7 @@ RPM iteration to install.
 
 Default value: `'1'`
 
-##### `root_url`
+##### <a name="root_url"></a>`root_url`
 
 Data type: `String`
 
@@ -3675,7 +4616,7 @@ Full URL used to access Grafana from a web browser.
 
 Default value: `'%(protocol)s://%(domain)s/'`
 
-##### `secret_key`
+##### <a name="secret_key"></a>`secret_key`
 
 Data type: `String`
 
@@ -3683,7 +4624,7 @@ Secret key.
 
 Default value: `'inWSYLbKCoLko'`
 
-##### `smtp_enable`
+##### <a name="smtp_enable"></a>`smtp_enable`
 
 Data type: `Boolean`
 
@@ -3691,7 +4632,7 @@ Enable smtp.
 
 Default value: ``false``
 
-##### `smtp_from_address`
+##### <a name="smtp_from_address"></a>`smtp_from_address`
 
 Data type: `String`
 
@@ -3699,7 +4640,7 @@ Address used when sending out emails.
 
 Default value: `'admin@grafana.localhost'`
 
-##### `smtp_from_name`
+##### <a name="smtp_from_name"></a>`smtp_from_name`
 
 Data type: `String`
 
@@ -3707,7 +4648,7 @@ Name to be used when sending out emails.
 
 Default value: `'Grafana'`
 
-##### `smtp_host`
+##### <a name="smtp_host"></a>`smtp_host`
 
 Data type: `String`
 
@@ -3715,15 +4656,39 @@ SMTP-server to use.
 
 Default value: `'localhost:25'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 Version to install.
 
-Default value: `'7.3.3'`
+Default value: `'8.1.2'`
 
-##### `manage_firewall_entry`
+##### <a name="db_grant"></a>`db_grant`
+
+Data type: `String`
+
+
+
+Default value: `'all'`
+
+##### <a name="db_port"></a>`db_port`
+
+Data type: `Stdlib::Port`
+
+
+
+Default value: `5432`
+
+##### <a name="default_org"></a>`default_org`
+
+Data type: `String`
+
+
+
+Default value: `'Main Org.'`
+
+##### <a name="manage_database"></a>`manage_database`
 
 Data type: `Boolean`
 
@@ -3731,7 +4696,15 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -3739,7 +4712,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -3747,7 +4720,7 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-### `profiles::metrics::graphite_web`
+### <a name="profilesmetricsgraphite_web"></a>`profiles::metrics::graphite_web`
 
 == Class profiles::metrics::graphite_web
 
@@ -3761,9 +4734,15 @@ class { 'profiles::metrics::graphite_web': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::metrics::graphite_web` class.
+The following parameters are available in the `profiles::metrics::graphite_web` class:
 
-##### `carbon_caches`
+* [`carbon_caches`](#carbon_caches)
+* [`database_engine`](#database_engine)
+* [`databases`](#databases)
+* [`debug`](#debug)
+* [`memcached_enabled`](#memcached_enabled)
+
+##### <a name="carbon_caches"></a>`carbon_caches`
 
 Data type: `Hash`
 
@@ -3771,7 +4750,7 @@ List of cache instances.
 
 Default value: `{}`
 
-##### `database_engine`
+##### <a name="database_engine"></a>`database_engine`
 
 Data type: `String`
 
@@ -3779,7 +4758,7 @@ Type of database.
 
 Default value: `'postgresql'`
 
-##### `databases`
+##### <a name="databases"></a>`databases`
 
 Data type: `Hash`
 
@@ -3794,7 +4773,7 @@ Default value: `{ 'default' =>
     }
   }`
 
-##### `debug`
+##### <a name="debug"></a>`debug`
 
 Data type: `String`
 
@@ -3802,7 +4781,7 @@ Switch for debugging graphite
 
 Default value: `'False'`
 
-##### `memcached_enabled`
+##### <a name="memcached_enabled"></a>`memcached_enabled`
 
 Data type: `Boolean`
 
@@ -3810,7 +4789,7 @@ Use memcache as caching layer
 
 Default value: ``true``
 
-### `profiles::monitoring`
+### <a name="profilesmonitoring"></a>`profiles::monitoring`
 
 This class can be used install monitoring components
 
@@ -3824,9 +4803,17 @@ class { '::profiles::monitoring': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring` class.
+The following parameters are available in the `profiles::monitoring` class:
 
-##### `carbon_relay`
+* [`carbon_relay`](#carbon_relay)
+* [`collectd`](#collectd)
+* [`icinga2`](#icinga2)
+* [`logstash`](#logstash)
+* [`prometheus`](#prometheus)
+* [`promtail`](#promtail)
+* [`statsd`](#statsd)
+
+##### <a name="carbon_relay"></a>`carbon_relay`
 
 Data type: `Boolean`
 
@@ -3834,7 +4821,7 @@ Manage carbon_relay on this node.
 
 Default value: ``false``
 
-##### `collectd`
+##### <a name="collectd"></a>`collectd`
 
 Data type: `Boolean`
 
@@ -3842,7 +4829,7 @@ Manage collectd on this node.
 
 Default value: ``false``
 
-##### `icinga2`
+##### <a name="icinga2"></a>`icinga2`
 
 Data type: `Boolean`
 
@@ -3850,7 +4837,7 @@ Manage icinga on this node.
 
 Default value: ``false``
 
-##### `logstash`
+##### <a name="logstash"></a>`logstash`
 
 Data type: `Boolean`
 
@@ -3858,7 +4845,7 @@ Manage logstash on this node.
 
 Default value: ``false``
 
-##### `prometheus`
+##### <a name="prometheus"></a>`prometheus`
 
 Data type: `Boolean`
 
@@ -3866,7 +4853,7 @@ Manage prometheus on this node.
 
 Default value: ``false``
 
-##### `promtail`
+##### <a name="promtail"></a>`promtail`
 
 Data type: `Boolean`
 
@@ -3874,7 +4861,7 @@ Manage promtail on this node.
 
 Default value: ``false``
 
-##### `statsd`
+##### <a name="statsd"></a>`statsd`
 
 Data type: `Boolean`
 
@@ -3882,7 +4869,7 @@ Manage statsd on this node.
 
 Default value: ``false``
 
-### `profiles::monitoring::carbon_relay`
+### <a name="profilesmonitoringcarbon_relay"></a>`profiles::monitoring::carbon_relay`
 
 This class can be used install carbon_relay properties
 
@@ -3896,9 +4883,16 @@ class { '::profiles::monitoring::carbon_relay': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::carbon_relay` class.
+The following parameters are available in the `profiles::monitoring::carbon_relay` class:
 
-##### `admin_address`
+* [`admin_address`](#admin_address)
+* [`carbon_caches`](#carbon_caches)
+* [`config_matches`](#config_matches)
+* [`http_address`](#http_address)
+* [`listen_address`](#listen_address)
+* [`relay_type`](#relay_type)
+
+##### <a name="admin_address"></a>`admin_address`
 
 Data type: `String`
 
@@ -3906,7 +4900,7 @@ Address to bind the admin interface too (ng only)
 
 Default value: `'127.0.0.1'`
 
-##### `carbon_caches`
+##### <a name="carbon_caches"></a>`carbon_caches`
 
 Data type: `Hash`
 
@@ -3914,7 +4908,7 @@ List of carbon caches to forward to.
 
 Default value: `{}`
 
-##### `config_matches`
+##### <a name="config_matches"></a>`config_matches`
 
 Data type: `Hash`
 
@@ -3922,7 +4916,7 @@ Forwarding instructions. (c-relay only)
 
 Default value: `{}`
 
-##### `http_address`
+##### <a name="http_address"></a>`http_address`
 
 Data type: `String`
 
@@ -3930,7 +4924,7 @@ Address to bind admin interface to.
 
 Default value: `'127.0.0.1'`
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `String`
 
@@ -3938,7 +4932,7 @@ Address to bind to.
 
 Default value: `'0.0.0.0'`
 
-##### `relay_type`
+##### <a name="relay_type"></a>`relay_type`
 
 Data type: `Enum['carbon', 'carbon-c-relay','carbon-relay-ng']`
 
@@ -3946,7 +4940,7 @@ What version of the relay to install.
 
 Default value: `'carbon'`
 
-### `profiles::monitoring::collectd`
+### <a name="profilesmonitoringcollectd"></a>`profiles::monitoring::collectd`
 
 This class can be used install collectd
 
@@ -3960,9 +4954,16 @@ class { '::profiles::monitoring::collectd': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::collectd` class.
+The following parameters are available in the `profiles::monitoring::collectd` class:
 
-##### `additional_packages`
+* [`additional_packages`](#additional_packages)
+* [`manage_repo`](#manage_repo)
+* [`manage_service`](#manage_service)
+* [`minimum_version`](#minimum_version)
+* [`plugins`](#plugins)
+* [`purge_config`](#purge_config)
+
+##### <a name="additional_packages"></a>`additional_packages`
 
 Data type: `Hash`
 
@@ -3970,7 +4971,7 @@ Extra packages to install to satisfy plugin requirements
 
 Default value: `{}`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -3978,7 +4979,7 @@ Configure upstream rpm repo.
 
 Default value: ``false``
 
-##### `manage_service`
+##### <a name="manage_service"></a>`manage_service`
 
 Data type: `Boolean`
 
@@ -3986,7 +4987,7 @@ Run collectd as a service.
 
 Default value: ``true``
 
-##### `minimum_version`
+##### <a name="minimum_version"></a>`minimum_version`
 
 Data type: `String`
 
@@ -3994,7 +4995,7 @@ Install this version or newer.
 
 Default value: `'5.5'`
 
-##### `plugins`
+##### <a name="plugins"></a>`plugins`
 
 Data type: `Hash`
 
@@ -4002,7 +5003,7 @@ List of plugin to install and their settings.
 
 Default value: `{}`
 
-##### `purge_config`
+##### <a name="purge_config"></a>`purge_config`
 
 Data type: `Boolean`
 
@@ -4010,7 +5011,7 @@ Purge default config file.
 
 Default value: ``false``
 
-### `profiles::monitoring::icinga2`
+### <a name="profilesmonitoringicinga2"></a>`profiles::monitoring::icinga2`
 
 This class can be used to setup icinga2.
 
@@ -4024,9 +5025,49 @@ class { '::profiles::monitoring::icinga2': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::icinga2` class.
+The following parameters are available in the `profiles::monitoring::icinga2` class:
 
-##### `api_endpoint`
+* [`api_endpoint`](#api_endpoint)
+* [`api_password`](#api_password)
+* [`api_pki`](#api_pki)
+* [`api_user`](#api_user)
+* [`api_users`](#api_users)
+* [`checkcommands`](#checkcommands)
+* [`client`](#client)
+* [`confd`](#confd)
+* [`database_host`](#database_host)
+* [`database_name`](#database_name)
+* [`database_password`](#database_password)
+* [`database_user`](#database_user)
+* [`features`](#features)
+* [`fragments`](#fragments)
+* [`group`](#group)
+* [`hostgroups`](#hostgroups)
+* [`ipaddress`](#ipaddress)
+* [`manage_repo`](#manage_repo)
+* [`notifications`](#notifications)
+* [`owner`](#owner)
+* [`parent_endpoints`](#parent_endpoints)
+* [`parent_zone`](#parent_zone)
+* [`plugins_package`](#plugins_package)
+* [`server`](#server)
+* [`servicegroups`](#servicegroups)
+* [`services`](#services)
+* [`slack`](#slack)
+* [`slack_channel`](#slack_channel)
+* [`slack_webhook`](#slack_webhook)
+* [`templates`](#templates)
+* [`timeperiods`](#timeperiods)
+* [`usergroups`](#usergroups)
+* [`users`](#users)
+* [`vars`](#vars)
+* [`database_grant`](#database_grant)
+* [`graphite_host`](#graphite_host)
+* [`graphite_port`](#graphite_port)
+* [`manage_database`](#manage_database)
+* [`ship_metrics`](#ship_metrics)
+
+##### <a name="api_endpoint"></a>`api_endpoint`
 
 Data type: `Optional[String]`
 
@@ -4034,7 +5075,7 @@ Public API endpoint.
 
 Default value: ``undef``
 
-##### `api_password`
+##### <a name="api_password"></a>`api_password`
 
 Data type: `String`
 
@@ -4042,7 +5083,7 @@ Api password.
 
 Default value: `'icinga'`
 
-##### `api_pki`
+##### <a name="api_pki"></a>`api_pki`
 
 Data type: `String`
 
@@ -4050,7 +5091,7 @@ Cypher to use for api certs.
 
 Default value: `'puppet'`
 
-##### `api_user`
+##### <a name="api_user"></a>`api_user`
 
 Data type: `String`
 
@@ -4058,7 +5099,7 @@ Api user.
 
 Default value: `'root'`
 
-##### `api_users`
+##### <a name="api_users"></a>`api_users`
 
 Data type: `Optional[Hash]`
 
@@ -4066,7 +5107,7 @@ Hash of api users to generate.
 
 Default value: ``undef``
 
-##### `checkcommands`
+##### <a name="checkcommands"></a>`checkcommands`
 
 Data type: `Hash`
 
@@ -4074,7 +5115,7 @@ List of checks
 
 Default value: `{}`
 
-##### `client`
+##### <a name="client"></a>`client`
 
 Data type: `Boolean`
 
@@ -4082,7 +5123,7 @@ Is this a icinga client.
 
 Default value: ``true``
 
-##### `confd`
+##### <a name="confd"></a>`confd`
 
 Data type: `Variant[Boolean,String]`
 
@@ -4090,7 +5131,7 @@ Include conf.d directory or specify your own.
 
 Default value: ``false``
 
-##### `database_host`
+##### <a name="database_host"></a>`database_host`
 
 Data type: `String`
 
@@ -4098,7 +5139,7 @@ Db host.
 
 Default value: `'127.0.0.1'`
 
-##### `database_name`
+##### <a name="database_name"></a>`database_name`
 
 Data type: `String`
 
@@ -4106,7 +5147,7 @@ Db name.
 
 Default value: `'icinga2'`
 
-##### `database_password`
+##### <a name="database_password"></a>`database_password`
 
 Data type: `String`
 
@@ -4114,7 +5155,7 @@ Db password.
 
 Default value: `'icinga2'`
 
-##### `database_user`
+##### <a name="database_user"></a>`database_user`
 
 Data type: `String`
 
@@ -4122,7 +5163,7 @@ Db user.
 
 Default value: `'icinga2'`
 
-##### `features`
+##### <a name="features"></a>`features`
 
 Data type: `Array`
 
@@ -4130,145 +5171,7 @@ Enabled features.
 
 Default value: `[ 'checker', 'command', 'mainlog', 'notification' ]`
 
-##### `group`
-
-Data type: `String`
-
-Group
-
-Default value: `'icinga'`
-
-##### `ipaddress`
-
-Primary ipaddress.
-
-##### `manage_repo`
-
-Data type: `Boolean`
-
-Manage icinga repository.
-
-Default value: ``false``
-
-##### `owner`
-
-Data type: `String`
-
-Owner
-
-Default value: `'icinga'`
-
-##### `parent_endpoints`
-
-Data type: `Hash`
-
-Icinga parents.
-
-##### `parent_zone`
-
-Data type: `String`
-
-Icinga zone.
-
-Default value: `'master'`
-
-##### `plugins_package`
-
-Data type: `String`
-
-Package with plugins to install.
-
-Default value: `'nagios-plugins-all'`
-
-##### `server`
-
-Data type: `Boolean`
-
-Is this a icinga masters.
-
-Default value: ``false``
-
-##### `services`
-
-Data type: `Hash`
-
-services
-
-Default value: `{}`
-
-##### `servicegroups`
-
-Data type: `Hash`
-
-Servicegroups
-
-Default value: `{}`
-
-##### `slack`
-
-Data type: `Boolean`
-
-Slack integration.
-
-Default value: ``false``
-
-##### `slack_channel`
-
-Data type: `String`
-
-Slack channel to send notifications to.
-
-Default value: `'#icinga'`
-
-##### `slack_webhook`
-
-Data type: `Optional[String]`
-
-Slack webhook url.
-
-Default value: ``undef``
-
-##### `timeperiods`
-
-Data type: `Hash`
-
-Timeperiods
-
-Default value: `{}`
-
-##### `usergroups`
-
-Data type: `Hash`
-
-User groups
-
-Default value: `{}`
-
-##### `vars`
-
-Data type: `Hash`
-
-Icinga vars.
-
-Default value: `{}`
-
-##### `templates`
-
-Data type: `Hash`
-
-Templates.
-
-Default value: `{}`
-
-##### `notifications`
-
-Data type: `Hash`
-
-Notification objects to generate.
-
-Default value: `{}`
-
-##### `fragments`
+##### <a name="fragments"></a>`fragments`
 
 Data type: `Hash`
 
@@ -4276,7 +5179,161 @@ Custom configuration fragments.
 
 Default value: `{}`
 
-##### `database_grant`
+##### <a name="group"></a>`group`
+
+Data type: `String`
+
+Group
+
+Default value: `'icinga'`
+
+##### <a name="hostgroups"></a>`hostgroups`
+
+Data type: `Hash`
+
+Host groups
+
+Default value: `{}`
+
+##### <a name="ipaddress"></a>`ipaddress`
+
+Primary ipaddress.
+
+##### <a name="manage_repo"></a>`manage_repo`
+
+Data type: `Boolean`
+
+Manage icinga repository.
+
+Default value: ``false``
+
+##### <a name="notifications"></a>`notifications`
+
+Data type: `Hash`
+
+Notification objects to generate.
+
+Default value: `{}`
+
+##### <a name="owner"></a>`owner`
+
+Data type: `String`
+
+Owner
+
+Default value: `'icinga'`
+
+##### <a name="parent_endpoints"></a>`parent_endpoints`
+
+Data type: `Hash`
+
+Icinga parents.
+
+##### <a name="parent_zone"></a>`parent_zone`
+
+Data type: `String`
+
+Icinga zone.
+
+Default value: `'master'`
+
+##### <a name="plugins_package"></a>`plugins_package`
+
+Data type: `String`
+
+Package with plugins to install.
+
+Default value: `'nagios-plugins-all'`
+
+##### <a name="server"></a>`server`
+
+Data type: `Boolean`
+
+Is this a icinga masters.
+
+Default value: ``false``
+
+##### <a name="servicegroups"></a>`servicegroups`
+
+Data type: `Hash`
+
+Servicegroups
+
+Default value: `{}`
+
+##### <a name="services"></a>`services`
+
+Data type: `Hash`
+
+services
+
+Default value: `{}`
+
+##### <a name="slack"></a>`slack`
+
+Data type: `Boolean`
+
+Slack integration.
+
+Default value: ``false``
+
+##### <a name="slack_channel"></a>`slack_channel`
+
+Data type: `String`
+
+Slack channel to send notifications to.
+
+Default value: `'#icinga'`
+
+##### <a name="slack_webhook"></a>`slack_webhook`
+
+Data type: `Optional[String]`
+
+Slack webhook url.
+
+Default value: ``undef``
+
+##### <a name="templates"></a>`templates`
+
+Data type: `Hash`
+
+Templates.
+
+Default value: `{}`
+
+##### <a name="timeperiods"></a>`timeperiods`
+
+Data type: `Hash`
+
+Timeperiods
+
+Default value: `{}`
+
+##### <a name="usergroups"></a>`usergroups`
+
+Data type: `Hash`
+
+User groups
+
+Default value: `{}`
+
+##### <a name="users"></a>`users`
+
+Data type: `Hash`
+
+Users
+
+Default value: `{}`
+
+##### <a name="vars"></a>`vars`
+
+Data type: `Hash`
+
+Icinga vars.
+
+Default value: `{}`
+
+##### <a name="database_grant"></a>`database_grant`
 
 Data type: `String`
 
@@ -4284,7 +5341,7 @@ Data type: `String`
 
 Default value: `'all'`
 
-##### `graphite_host`
+##### <a name="graphite_host"></a>`graphite_host`
 
 Data type: `Optional[Stdlib::Host]`
 
@@ -4292,7 +5349,7 @@ Data type: `Optional[Stdlib::Host]`
 
 Default value: ``undef``
 
-##### `graphite_port`
+##### <a name="graphite_port"></a>`graphite_port`
 
 Data type: `Optional[Stdlib::Port::Unprivileged]`
 
@@ -4300,7 +5357,7 @@ Data type: `Optional[Stdlib::Port::Unprivileged]`
 
 Default value: ``undef``
 
-##### `manage_database`
+##### <a name="manage_database"></a>`manage_database`
 
 Data type: `Boolean`
 
@@ -4308,7 +5365,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `ship_metrics`
+##### <a name="ship_metrics"></a>`ship_metrics`
 
 Data type: `Boolean`
 
@@ -4316,7 +5373,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::monitoring::icinga2::slack`
+### <a name="profilesmonitoringicinga2slack"></a>`profiles::monitoring::icinga2::slack`
 
 Class to manage icinga2 slack integration.
 
@@ -4324,21 +5381,27 @@ Dont include this class directly.
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::icinga2::slack` class.
+The following parameters are available in the `profiles::monitoring::icinga2::slack` class:
 
-##### `icinga_endpoint`
+* [`icinga_endpoint`](#icinga_endpoint)
+* [`slack_webhook`](#slack_webhook)
+* [`package`](#package)
+* [`slack_channel`](#slack_channel)
+* [`username`](#username)
+
+##### <a name="icinga_endpoint"></a>`icinga_endpoint`
 
 Data type: `Any`
 
 Icinga url
 
-##### `slack_webhook`
+##### <a name="slack_webhook"></a>`slack_webhook`
 
 Data type: `Any`
 
 Slack url
 
-##### `package`
+##### <a name="package"></a>`package`
 
 Data type: `Any`
 
@@ -4346,7 +5409,7 @@ Packagename
 
 Default value: `'icinga2-slack-notifications'`
 
-##### `slack_channel`
+##### <a name="slack_channel"></a>`slack_channel`
 
 Data type: `Any`
 
@@ -4354,7 +5417,7 @@ Slack channel
 
 Default value: `'#icinga'`
 
-##### `username`
+##### <a name="username"></a>`username`
 
 Data type: `Any`
 
@@ -4362,7 +5425,7 @@ Username
 
 Default value: `'slack'`
 
-### `profiles::monitoring::logstash`
+### <a name="profilesmonitoringlogstash"></a>`profiles::monitoring::logstash`
 
 This class can be used install logstash
 
@@ -4376,9 +5439,17 @@ class { '::profiles::monitoring::logstash': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::logstash` class.
+The following parameters are available in the `profiles::monitoring::logstash` class:
 
-##### `config_files`
+* [`config_files`](#config_files)
+* [`ensure`](#ensure)
+* [`group`](#group)
+* [`manage_repo`](#manage_repo)
+* [`repo_version`](#repo_version)
+* [`user`](#user)
+* [`version`](#version)
+
+##### <a name="config_files"></a>`config_files`
 
 Data type: `Hash`
 
@@ -4386,7 +5457,7 @@ Content for logstash input, filters and output.
 
 Default value: `{}`
 
-##### `ensure`
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum[absent,present]`
 
@@ -4394,7 +5465,7 @@ Present or absent.
 
 Default value: `present`
 
-##### `group`
+##### <a name="group"></a>`group`
 
 Data type: `String`
 
@@ -4402,7 +5473,7 @@ Logstash group.
 
 Default value: `'root'`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -4410,15 +5481,15 @@ Setup repository to install logstash from.
 
 Default value: ``false``
 
-##### `repo_version`
+##### <a name="repo_version"></a>`repo_version`
 
 Data type: `String`
 
 Version family to install from.
 
-Default value: `'5.x'`
+Default value: `'7.x'`
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `String`
 
@@ -4426,7 +5497,7 @@ Logstash user.
 
 Default value: `'root'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `Boolean`
 
@@ -4434,7 +5505,7 @@ Which version of logstash to install.
 
 Default value: ``false``
 
-### `profiles::monitoring::prometheus`
+### <a name="profilesmonitoringprometheus"></a>`profiles::monitoring::prometheus`
 
 This class can be used install user prometheus properties
 
@@ -4448,9 +5519,76 @@ class { '::profiles::monitoring::prometheus': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::prometheus` class.
+The following parameters are available in the `profiles::monitoring::prometheus` class:
 
-##### `client`
+* [`alerts`](#alerts)
+* [`alertmanager_configs`](#alertmanager_configs)
+* [`blackbox`](#blackbox)
+* [`client`](#client)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`graphite_exporters`](#graphite_exporters)
+* [`install_method`](#install_method)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`pushgateway`](#pushgateway)
+* [`scrape_configs`](#scrape_configs)
+* [`sd_service_tags`](#sd_service_tags)
+* [`server`](#server)
+* [`prometheus_version`](#prometheus_version)
+
+##### <a name="alerts"></a>`alerts`
+
+Data type: `Hash`
+
+
+
+Default value: `{
+    'node_exporter' => {
+      'groups' => [
+        {
+          'name'  => 'alert.rules',
+          'rules' => [
+            {
+              'alert'       => 'InstanceDown',
+              'expr'        => 'up == 0',
+              'for'         => '5m',
+              'labels'      => { 'severity' => 'page' },
+              'annotations' => {
+                'summary'     => 'Instance {{ $labels.instance }} down',
+                'description' =>
+                '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.'
+              },
+            },
+          ],
+        },
+      ],
+    },
+  }`
+
+##### <a name="alertmanager_configs"></a>`alertmanager_configs`
+
+Data type: `Array`
+
+
+
+Default value: `[
+    {
+      'static_configs' => [{'targets' => ['localhost:9093']}],
+    },
+  ]`
+
+##### <a name="blackbox"></a>`blackbox`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="client"></a>`client`
 
 Data type: `Boolean`
 
@@ -4458,7 +5596,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `data_path`
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -4466,7 +5604,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/prometheus'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -4474,7 +5612,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `graphite_exporters`
+##### <a name="graphite_exporters"></a>`graphite_exporters`
 
 Data type: `Boolean`
 
@@ -4482,7 +5620,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `Enum['url', 'package', 'none']`
 
@@ -4490,7 +5628,7 @@ Data type: `Enum['url', 'package', 'none']`
 
 Default value: `'none'`
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -4498,7 +5636,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -4506,7 +5644,15 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `sd_service_name`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -4514,7 +5660,7 @@ Data type: `String`
 
 Default value: `'prometheus'`
 
-##### `manage_sd_service`
+##### <a name="pushgateway"></a>`pushgateway`
 
 Data type: `Boolean`
 
@@ -4522,15 +5668,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `pushgateway`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `scrape_configs`
+##### <a name="scrape_configs"></a>`scrape_configs`
 
 Data type: `Array`
 
@@ -4543,12 +5681,11 @@ Default value: `[ {
     'static_configs'  => [
       {
         'targets' => ['localhost:9090'],
-        'labels'  => {'alias' => 'Prometheus'}
       }
     ],
   } ]`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -4556,7 +5693,7 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `server`
+##### <a name="server"></a>`server`
 
 Data type: `Boolean`
 
@@ -4564,15 +5701,86 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `prometheus_version`
+##### <a name="prometheus_version"></a>`prometheus_version`
 
 Data type: `String`
 
 
 
-Default value: `'2.22.2'`
+Default value: `'2.29.1'`
 
-### `profiles::monitoring::prometheus::graphite_exporter`
+### <a name="profilesmonitoringprometheusblackbox_exporter"></a>`profiles::monitoring::prometheus::blackbox_exporter`
+
+Class to manage prometheus node exporter
+
+#### Examples
+
+##### when declaring the carbon_relay class
+
+```puppet
+class { '::profiles::monitoring::prometheus::blackbox_exporter': }
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::monitoring::prometheus::blackbox_exporter` class:
+
+* [`extra_options`](#extra_options)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`modules`](#modules)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
+
+##### <a name="extra_options"></a>`extra_options`
+
+Data type: `String`
+
+
+
+Default value: `''`
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="modules"></a>`modules`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="sd_service_tags"></a>`sd_service_tags`
+
+Data type: `Array`
+
+
+
+Default value: `['metrics']`
+
+##### <a name="version"></a>`version`
+
+Data type: `String`
+
+
+
+Default value: `'0.19.0'`
+
+### <a name="profilesmonitoringprometheusgraphite_exporter"></a>`profiles::monitoring::prometheus::graphite_exporter`
 
 Class to manage prometheus graphite exporter
 
@@ -4586,9 +5794,15 @@ class { '::profiles::monitoring::prometheus::graphite_exporter': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::prometheus::graphite_exporter` class.
+The following parameters are available in the `profiles::monitoring::prometheus::graphite_exporter` class:
 
-##### `manage_firewall_entry`
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_tags`](#sd_service_tags)
+* [`sd_service_tags_exporter`](#sd_service_tags_exporter)
+* [`version`](#version)
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -4596,7 +5810,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -4604,7 +5818,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -4612,7 +5826,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `sd_service_tags_exporter`
+##### <a name="sd_service_tags_exporter"></a>`sd_service_tags_exporter`
 
 Data type: `Array`
 
@@ -4620,15 +5834,15 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'0.9.0'`
+Default value: `'0.10.1'`
 
-### `profiles::monitoring::prometheus::node_exporter`
+### <a name="profilesmonitoringprometheusnode_exporter"></a>`profiles::monitoring::prometheus::node_exporter`
 
 Class to manage prometheus node exporter
 
@@ -4642,17 +5856,32 @@ class { '::profiles::monitoring::prometheus::node_exporter': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::prometheus::node_exporter` class.
+The following parameters are available in the `profiles::monitoring::prometheus::node_exporter` class:
 
-##### `collectors`
+* [`collectors`](#collectors)
+* [`group`](#group)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
 
-Data type: `Array`
+##### <a name="collectors"></a>`collectors`
+
+Data type: `Array[String]`
 
 
 
-Default value: `['diskstats','filesystem','loadavg','meminfo','netdev','stat','tcpstat','time','vmstat']`
+Default value: `['tcpstat']`
 
-##### `manage_firewall_entry`
+##### <a name="group"></a>`group`
+
+Data type: `String`
+
+
+
+Default value: `'node-exporter'`
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -4660,7 +5889,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -4668,7 +5897,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -4676,15 +5905,15 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'1.0.1'`
+Default value: `'1.2.0'`
 
-### `profiles::monitoring::prometheus::pushgateway`
+### <a name="profilesmonitoringprometheuspushgateway"></a>`profiles::monitoring::prometheus::pushgateway`
 
 Class to manage prometheus node exporter
 
@@ -4698,9 +5927,14 @@ class { '::profiles::monitoring::prometheus::pushgateway': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::prometheus::pushgateway` class.
+The following parameters are available in the `profiles::monitoring::prometheus::pushgateway` class:
 
-##### `manage_firewall_entry`
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -4708,7 +5942,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -4716,7 +5950,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -4724,15 +5958,15 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'1.2.0'`
+Default value: `'1.4.1'`
 
-### `profiles::monitoring::prometheus::statsd_exporter`
+### <a name="profilesmonitoringprometheusstatsd_exporter"></a>`profiles::monitoring::prometheus::statsd_exporter`
 
 Class to manage prometheus statsd exporter
 
@@ -4746,9 +5980,15 @@ class { '::profiles::monitoring::prometheus::statsd_exporter': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::prometheus::statsd_exporter` class.
+The following parameters are available in the `profiles::monitoring::prometheus::statsd_exporter` class:
 
-##### `manage_firewall_entry`
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_tags`](#sd_service_tags)
+* [`sd_service_tags_exporter`](#sd_service_tags_exporter)
+* [`version`](#version)
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -4756,7 +5996,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -4764,7 +6004,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -4772,7 +6012,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `sd_service_tags_exporter`
+##### <a name="sd_service_tags_exporter"></a>`sd_service_tags_exporter`
 
 Data type: `Array`
 
@@ -4780,15 +6020,15 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'0.18.0'`
+Default value: `'0.21.0'`
 
-### `profiles::monitoring::promtail`
+### <a name="profilesmonitoringpromtail"></a>`profiles::monitoring::promtail`
 
 This class can be used install promtail
 
@@ -4802,23 +6042,49 @@ class { '::profiles::monitoring::promtail': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::promtail` class.
+The following parameters are available in the `profiles::monitoring::promtail` class:
 
-##### `client_url`
+* [`client_urls`](#client_urls)
+* [`checksum`](#checksum)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`positions_file`](#positions_file)
+* [`scrape_configs`](#scrape_configs)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
 
-Data type: `Stdlib::HTTPUrl`
+##### <a name="client_urls"></a>`client_urls`
+
+Data type: `Array[Hash]`
 
 
 
-##### `checksum`
+##### <a name="checksum"></a>`checksum`
 
 Data type: `String[1]`
 
 
 
-Default value: `'d37e94e6ce0604f9faea7738f9c35d83afbdca9e5e92537600764a3b18cfe088'`
+Default value: `'9ca9f0bf63bec77664d3b62110107d2430c43137943a70713c6f11fa23d48130'`
 
-##### `positions_file`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="positions_file"></a>`positions_file`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -4826,7 +6092,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/tmp/positions.yaml'`
 
-##### `scrape_configs`
+##### <a name="scrape_configs"></a>`scrape_configs`
 
 Data type: `Array`
 
@@ -4873,15 +6139,31 @@ Default value: `[
     }
   ]`
 
-##### `version`
+##### <a name="sd_service_name"></a>`sd_service_name`
+
+Data type: `String`
+
+
+
+Default value: `'promtail'`
+
+##### <a name="sd_service_tags"></a>`sd_service_tags`
+
+Data type: `Array`
+
+
+
+Default value: `['metrics']`
+
+##### <a name="version"></a>`version`
 
 Data type: `String[1]`
 
 
 
-Default value: `'v2.0.0'`
+Default value: `'v2.3.0'`
 
-### `profiles::monitoring::statsd`
+### <a name="profilesmonitoringstatsd"></a>`profiles::monitoring::statsd`
 
 This class can be used install statsd properties
 
@@ -4895,9 +6177,25 @@ class { '::profiles::monitoring::statsd': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::monitoring::statsd` class.
+The following parameters are available in the `profiles::monitoring::statsd` class:
 
-##### `address`
+* [`address`](#address)
+* [`backends`](#backends)
+* [`flush_interval`](#flush_interval)
+* [`graphite_host`](#graphite_host)
+* [`graphite_port`](#graphite_port)
+* [`influxdb_database`](#influxdb_database)
+* [`influxdb_flush`](#influxdb_flush)
+* [`influxdb_host`](#influxdb_host)
+* [`influxdb_password`](#influxdb_password)
+* [`influxdb_port`](#influxdb_port)
+* [`influxdb_username`](#influxdb_username)
+* [`influxdb_version`](#influxdb_version)
+* [`install_method`](#install_method)
+* [`mgmt_address`](#mgmt_address)
+* [`port`](#port)
+
+##### <a name="address"></a>`address`
 
 Data type: `String`
 
@@ -4905,7 +6203,7 @@ Adress to bind to.
 
 Default value: `'127.0.0.1'`
 
-##### `backends`
+##### <a name="backends"></a>`backends`
 
 Data type: `Array`
 
@@ -4913,7 +6211,7 @@ Which backends to configure.
 
 Default value: `[ './backends/graphite' ]`
 
-##### `flush_interval`
+##### <a name="flush_interval"></a>`flush_interval`
 
 Data type: `Integer`
 
@@ -4921,7 +6219,7 @@ Data type: `Integer`
 
 Default value: `60000`
 
-##### `graphite_host`
+##### <a name="graphite_host"></a>`graphite_host`
 
 Data type: `String`
 
@@ -4929,7 +6227,7 @@ Graphite address.
 
 Default value: `'127.0.0.1'`
 
-##### `graphite_port`
+##### <a name="graphite_port"></a>`graphite_port`
 
 Data type: `Integer`
 
@@ -4937,7 +6235,7 @@ Graphite port.
 
 Default value: `2003`
 
-##### `influxdb_database`
+##### <a name="influxdb_database"></a>`influxdb_database`
 
 Data type: `String`
 
@@ -4945,7 +6243,7 @@ Database name
 
 Default value: `'statsd'`
 
-##### `influxdb_flush`
+##### <a name="influxdb_flush"></a>`influxdb_flush`
 
 Data type: `Boolean`
 
@@ -4953,7 +6251,7 @@ Flush datapoints
 
 Default value: ``true``
 
-##### `influxdb_host`
+##### <a name="influxdb_host"></a>`influxdb_host`
 
 Data type: `String`
 
@@ -4961,7 +6259,7 @@ Influxdb address.
 
 Default value: `'127.0.0.1'`
 
-##### `influxdb_password`
+##### <a name="influxdb_password"></a>`influxdb_password`
 
 Data type: `String`
 
@@ -4969,7 +6267,7 @@ DB password.
 
 Default value: `'root'`
 
-##### `influxdb_port`
+##### <a name="influxdb_port"></a>`influxdb_port`
 
 Data type: `Integer`
 
@@ -4977,7 +6275,7 @@ Influxdb port.
 
 Default value: `8086`
 
-##### `influxdb_username`
+##### <a name="influxdb_username"></a>`influxdb_username`
 
 Data type: `String`
 
@@ -4985,7 +6283,7 @@ DB username.
 
 Default value: `'root'`
 
-##### `influxdb_version`
+##### <a name="influxdb_version"></a>`influxdb_version`
 
 Data type: `String`
 
@@ -4993,7 +6291,7 @@ DB version.
 
 Default value: `'1.2'`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -5001,7 +6299,7 @@ Install method.
 
 Default value: `'yum'`
 
-##### `mgmt_address`
+##### <a name="mgmt_address"></a>`mgmt_address`
 
 Data type: `String`
 
@@ -5009,7 +6307,7 @@ Address to bind to.
 
 Default value: `'127.0.0.1'`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Integer`
 
@@ -5017,7 +6315,7 @@ Port to bind to.
 
 Default value: `8125`
 
-### `profiles::mq`
+### <a name="profilesmq"></a>`profiles::mq`
 
 This class can be used install mq components.
 
@@ -5031,9 +6329,11 @@ class { '::profiles::mq': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::mq` class.
+The following parameters are available in the `profiles::mq` class:
 
-##### `activemq`
+* [`activemq`](#activemq)
+
+##### <a name="activemq"></a>`activemq`
 
 Data type: `Boolean`
 
@@ -5041,7 +6341,7 @@ Manage activemq on this node.
 
 Default value: ``false``
 
-### `profiles::mq::activemq`
+### <a name="profilesmqactivemq"></a>`profiles::mq::activemq`
 
 This class can be used install user activemq properties
 
@@ -5055,9 +6355,17 @@ class { '::profiles::mq::activemq': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::mq::activemq` class.
+The following parameters are available in the `profiles::mq::activemq` class:
 
-##### `instance`
+* [`instance`](#instance)
+* [`mq_admin_username`](#mq_admin_username)
+* [`mq_admin_password`](#mq_admin_password)
+* [`mq_cluster_username`](#mq_cluster_username)
+* [`mq_cluster_password`](#mq_cluster_password)
+* [`version`](#version)
+* [`webconsole`](#webconsole)
+
+##### <a name="instance"></a>`instance`
 
 Data type: `String`
 
@@ -5065,7 +6373,7 @@ Instance name.
 
 Default value: `'mcollective'`
 
-##### `mq_admin_username`
+##### <a name="mq_admin_username"></a>`mq_admin_username`
 
 Data type: `String`
 
@@ -5073,7 +6381,7 @@ Admin username.
 
 Default value: `'mco-admin'`
 
-##### `mq_admin_password`
+##### <a name="mq_admin_password"></a>`mq_admin_password`
 
 Data type: `String`
 
@@ -5081,7 +6389,7 @@ Admin password.
 
 Default value: `'marionette'`
 
-##### `mq_cluster_username`
+##### <a name="mq_cluster_username"></a>`mq_cluster_username`
 
 Data type: `String`
 
@@ -5089,7 +6397,7 @@ Cluster username.
 
 Default value: `'mco-cluster'`
 
-##### `mq_cluster_password`
+##### <a name="mq_cluster_password"></a>`mq_cluster_password`
 
 Data type: `String`
 
@@ -5097,7 +6405,7 @@ Cluster password.
 
 Default value: `'marionette'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -5105,7 +6413,7 @@ Which version to install.
 
 Default value: `'5.9.1-2.el7'`
 
-##### `webconsole`
+##### <a name="webconsole"></a>`webconsole`
 
 Data type: `Boolean`
 
@@ -5113,7 +6421,7 @@ Install webconsole.
 
 Default value: ``true``
 
-### `profiles::orchestration`
+### <a name="profilesorchestration"></a>`profiles::orchestration`
 
 This class can be used install orchestration components.
 
@@ -5127,9 +6435,13 @@ class { '::profiles::orchestration': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::orchestration` class.
+The following parameters are available in the `profiles::orchestration` class:
 
-##### `consul`
+* [`consul`](#consul)
+* [`mcollective`](#mcollective)
+* [`rundeck`](#rundeck)
+
+##### <a name="consul"></a>`consul`
 
 Data type: `Boolean`
 
@@ -5137,7 +6449,7 @@ Manage consul on this node.
 
 Default value: ``false``
 
-##### `mcollective`
+##### <a name="mcollective"></a>`mcollective`
 
 Data type: `Boolean`
 
@@ -5145,7 +6457,7 @@ Manage mcollective on this node.
 
 Default value: ``false``
 
-##### `rundeck`
+##### <a name="rundeck"></a>`rundeck`
 
 Data type: `Boolean`
 
@@ -5153,7 +6465,7 @@ Manage rundeck on this node.
 
 Default value: ``false``
 
-### `profiles::orchestration::consul`
+### <a name="profilesorchestrationconsul"></a>`profiles::orchestration::consul`
 
 This class can be used install consul components.
 
@@ -5167,9 +6479,42 @@ class { '::profiles::orchestration::consul': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::orchestration::consul` class.
+The following parameters are available in the `profiles::orchestration::consul` class:
 
-##### `checks`
+* [`bin_dir`](#bin_dir)
+* [`checks`](#checks)
+* [`config`](#config)
+* [`config_defaults`](#config_defaults)
+* [`config_dir`](#config_dir)
+* [`connect`](#connect)
+* [`conect_grpc_port`](#conect_grpc_port)
+* [`connect_sidecar_port_range`](#connect_sidecar_port_range)
+* [`install_method`](#install_method)
+* [`join_wan`](#join_wan)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`manage_sd_service`](#manage_sd_service)
+* [`options`](#options)
+* [`prepared_queries`](#prepared_queries)
+* [`sd_service_check_interval`](#sd_service_check_interval)
+* [`sd_service_endpoint`](#sd_service_endpoint)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`server`](#server)
+* [`services`](#services)
+* [`version`](#version)
+* [`ui`](#ui)
+* [`watches`](#watches)
+
+##### <a name="bin_dir"></a>`bin_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/usr/local/bin'`
+
+##### <a name="checks"></a>`checks`
 
 Data type: `Hash`
 
@@ -5177,7 +6522,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -5185,7 +6530,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `config_defaults`
+##### <a name="config_defaults"></a>`config_defaults`
 
 Data type: `Hash`
 
@@ -5196,7 +6541,7 @@ Default value: `{
     'datacenter' => 'vagrant',
   }`
 
-##### `config_dir`
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -5204,7 +6549,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/etc/consul.d'`
 
-##### `connect`
+##### <a name="connect"></a>`connect`
 
 Data type: `Boolean`
 
@@ -5212,7 +6557,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `conect_grpc_port`
+##### <a name="conect_grpc_port"></a>`conect_grpc_port`
 
 Data type: `Stdlib::Port::Unprivileged`
 
@@ -5220,7 +6565,7 @@ Data type: `Stdlib::Port::Unprivileged`
 
 Default value: `8502`
 
-##### `connect_sidecar_port_range`
+##### <a name="connect_sidecar_port_range"></a>`connect_sidecar_port_range`
 
 Data type: `String`
 
@@ -5228,7 +6573,15 @@ Data type: `String`
 
 Default value: `'21000-21255'`
 
-##### `join_wan`
+##### <a name="install_method"></a>`install_method`
+
+Data type: `Enum['docker', 'url', 'package', 'none']`
+
+
+
+Default value: `'url'`
+
+##### <a name="join_wan"></a>`join_wan`
 
 Data type: `Optional[String[1]]`
 
@@ -5236,7 +6589,7 @@ Data type: `Optional[String[1]]`
 
 Default value: ``undef``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -5244,7 +6597,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
 
 Data type: `Boolean`
 
@@ -5252,7 +6605,15 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `options`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="options"></a>`options`
 
 Data type: `String`
 
@@ -5260,7 +6621,31 @@ Data type: `String`
 
 Default value: `'-enable-script-checks -syslog'`
 
-##### `sd_service_name`
+##### <a name="prepared_queries"></a>`prepared_queries`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="sd_service_check_interval"></a>`sd_service_check_interval`
+
+Data type: `String`
+
+
+
+Default value: `'10s'`
+
+##### <a name="sd_service_endpoint"></a>`sd_service_endpoint`
+
+Data type: `Stdlib::HTTPUrl`
+
+
+
+Default value: `"http://${::ipaddress}:8500"`
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -5268,7 +6653,7 @@ Data type: `String`
 
 Default value: `'consul-ui'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -5276,7 +6661,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `server`
+##### <a name="server"></a>`server`
 
 Data type: `Boolean`
 
@@ -5284,7 +6669,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `services`
+##### <a name="services"></a>`services`
 
 Data type: `Hash`
 
@@ -5292,15 +6677,15 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'1.8.5'`
+Default value: `'1.10.1'`
 
-##### `ui`
+##### <a name="ui"></a>`ui`
 
 Data type: `Boolean`
 
@@ -5308,7 +6693,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `watches`
+##### <a name="watches"></a>`watches`
 
 Data type: `Hash`
 
@@ -5316,7 +6701,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-### `profiles::orchestration::mcollective`
+### <a name="profilesorchestrationmcollective"></a>`profiles::orchestration::mcollective`
 
 This class can be used install user mcollective properties
 
@@ -5330,9 +6715,14 @@ class { '::profiles::orchestration::mcollective': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::orchestration::mcollective` class.
+The following parameters are available in the `profiles::orchestration::mcollective` class:
 
-##### `client`
+* [`client`](#client)
+* [`client_user`](#client_user)
+* [`middleware_hosts`](#middleware_hosts)
+* [`users`](#users)
+
+##### <a name="client"></a>`client`
 
 Data type: `Boolean`
 
@@ -5340,7 +6730,7 @@ Manage client settings
 
 Default value: ``false``
 
-##### `client_user`
+##### <a name="client_user"></a>`client_user`
 
 Data type: `String`
 
@@ -5348,7 +6738,7 @@ Which user to manage.
 
 Default value: `'vagrant'`
 
-##### `middleware_hosts`
+##### <a name="middleware_hosts"></a>`middleware_hosts`
 
 Data type: `Array`
 
@@ -5356,7 +6746,7 @@ Which activemq servers to connect to.
 
 Default value: `[$::fqdn]`
 
-##### `users`
+##### <a name="users"></a>`users`
 
 Data type: `Hash`
 
@@ -5364,7 +6754,7 @@ Users to manage.
 
 Default value: `{ 'vagrant' => {} }`
 
-### `profiles::orchestration::rundeck`
+### <a name="profilesorchestrationrundeck"></a>`profiles::orchestration::rundeck`
 
 This class can be used install rundeck components.
 
@@ -5378,9 +6768,28 @@ class { '::profiles::orchestration::rundeck': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::orchestration::rundeck` class.
+The following parameters are available in the `profiles::orchestration::rundeck` class:
 
-##### `auth_config`
+* [`auth_config`](#auth_config)
+* [`auth_types`](#auth_types)
+* [`grails_server_url`](#grails_server_url)
+* [`group`](#group)
+* [`jvm_args`](#jvm_args)
+* [`manage_repo`](#manage_repo)
+* [`package`](#package)
+* [`projects`](#projects)
+* [`puppetdb`](#puppetdb)
+* [`puppetdb_template`](#puppetdb_template)
+* [`puppetdb_version`](#puppetdb_version)
+* [`rundeck_user`](#rundeck_user)
+* [`user`](#user)
+* [`listen_address`](#listen_address)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="auth_config"></a>`auth_config`
 
 Data type: `Hash`
 
@@ -5395,7 +6804,7 @@ Default value: `{
     },
   }`
 
-##### `auth_types`
+##### <a name="auth_types"></a>`auth_types`
 
 Data type: `Array`
 
@@ -5403,7 +6812,7 @@ The method(s) used to authenticate to rundeck.
 
 Default value: `['file']`
 
-##### `grails_server_url`
+##### <a name="grails_server_url"></a>`grails_server_url`
 
 Data type: `String`
 
@@ -5411,7 +6820,7 @@ External url.
 
 Default value: `"http://${::fqdn}"`
 
-##### `group`
+##### <a name="group"></a>`group`
 
 Data type: `String`
 
@@ -5419,7 +6828,7 @@ Rundeck user.
 
 Default value: `'rundeck'`
 
-##### `jvm_args`
+##### <a name="jvm_args"></a>`jvm_args`
 
 Data type: `String`
 
@@ -5427,7 +6836,7 @@ Additional rundeck jvm arguments.
 
 Default value: `''`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -5435,15 +6844,15 @@ Manage rpm repository.
 
 Default value: ``false``
 
-##### `package`
+##### <a name="package"></a>`package`
 
 Data type: `String`
 
 Package to install.
 
-Default value: `'3.3.0.20200701'`
+Default value: `'3.3.8.20210111'`
 
-##### `projects`
+##### <a name="projects"></a>`projects`
 
 Data type: `Hash`
 
@@ -5451,7 +6860,7 @@ Projects to manage
 
 Default value: `{}`
 
-##### `puppetdb`
+##### <a name="puppetdb"></a>`puppetdb`
 
 Data type: `Boolean`
 
@@ -5459,7 +6868,7 @@ Install puppetdb plugin
 
 Default value: ``false``
 
-##### `puppetdb_template`
+##### <a name="puppetdb_template"></a>`puppetdb_template`
 
 Data type: `String`
 
@@ -5467,7 +6876,7 @@ template to create mapping file.
 
 Default value: `'profiles/defaultMapping.json.erb'`
 
-##### `puppetdb_version`
+##### <a name="puppetdb_version"></a>`puppetdb_version`
 
 Data type: `String`
 
@@ -5475,7 +6884,7 @@ What version to install.
 
 Default value: `'0.9.5'`
 
-##### `rundeck_user`
+##### <a name="rundeck_user"></a>`rundeck_user`
 
 Data type: `String`
 
@@ -5483,7 +6892,7 @@ Username for the rundeck user.
 
 Default value: `'rundeck'`
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `String`
 
@@ -5491,7 +6900,7 @@ Rundeck user
 
 Default value: `'rundeck'`
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `Any`
 
@@ -5499,7 +6908,7 @@ Data type: `Any`
 
 Default value: `'127.0.0.1'`
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -5507,7 +6916,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -5515,7 +6924,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -5523,7 +6932,7 @@ Data type: `String`
 
 Default value: `'rundeck'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -5531,7 +6940,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::orchestration::rundeck::puppetdb`
+### <a name="profilesorchestrationrundeckpuppetdb"></a>`profiles::orchestration::rundeck::puppetdb`
 
 Class to manage rundeck puppetdb integration.
 
@@ -5539,39 +6948,45 @@ Dont include this class directly.
 
 #### Parameters
 
-The following parameters are available in the `profiles::orchestration::rundeck::puppetdb` class.
+The following parameters are available in the `profiles::orchestration::rundeck::puppetdb` class:
 
-##### `group`
+* [`group`](#group)
+* [`template`](#template)
+* [`rundeck_user`](#rundeck_user)
+* [`version`](#version)
+* [`user`](#user)
+
+##### <a name="group"></a>`group`
 
 Data type: `Any`
 
 Rundeck group.
 
-##### `template`
+##### <a name="template"></a>`template`
 
 Data type: `Any`
 
 Template to create mapping file.
 
-##### `rundeck_user`
+##### <a name="rundeck_user"></a>`rundeck_user`
 
 Data type: `Any`
 
 Rundeck user
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `Any`
 
 What version to install.
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `Any`
 
 Rundeck user
 
-### `profiles::puppet`
+### <a name="profilespuppet"></a>`profiles::puppet`
 
 This class can be used install puppet components.
 
@@ -5585,9 +7000,15 @@ class { '::profiles::puppet': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet` class.
+The following parameters are available in the `profiles::puppet` class:
 
-##### `foreman`
+* [`foreman`](#foreman)
+* [`foreman_proxy`](#foreman_proxy)
+* [`puppetdb`](#puppetdb)
+* [`puppetmaster`](#puppetmaster)
+* [`r10k`](#r10k)
+
+##### <a name="foreman"></a>`foreman`
 
 Data type: `Any`
 
@@ -5595,7 +7016,7 @@ Manage foreman on this node.
 
 Default value: ``false``
 
-##### `foreman_proxy`
+##### <a name="foreman_proxy"></a>`foreman_proxy`
 
 Data type: `Any`
 
@@ -5603,7 +7024,7 @@ Manage foreman_proxy on this node.
 
 Default value: ``false``
 
-##### `puppetdb`
+##### <a name="puppetdb"></a>`puppetdb`
 
 Data type: `Any`
 
@@ -5611,7 +7032,7 @@ Manage puppetdb on this node.
 
 Default value: ``false``
 
-##### `puppetmaster`
+##### <a name="puppetmaster"></a>`puppetmaster`
 
 Data type: `Any`
 
@@ -5619,7 +7040,7 @@ Manage puppetmaster on this node.
 
 Default value: ``false``
 
-##### `r10k`
+##### <a name="r10k"></a>`r10k`
 
 Data type: `Any`
 
@@ -5627,7 +7048,7 @@ Manage r10k on this node.
 
 Default value: ``false``
 
-### `profiles::puppet::foreman`
+### <a name="profilespuppetforeman"></a>`profiles::puppet::foreman`
 
 This class can be used install user foreman properties
 
@@ -5641,17 +7062,52 @@ class { '::profiles::puppet::foreman': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet::foreman` class.
+The following parameters are available in the `profiles::puppet::foreman` class:
 
-##### `db_host`
+* [`db_host`](#db_host)
+* [`db_manage`](#db_manage)
+* [`db_manage_rake`](#db_manage_rake)
+* [`db_password`](#db_password)
+* [`foreman_admin_password`](#foreman_admin_password)
+* [`foreman_host`](#foreman_host)
+* [`foreman_repo`](#foreman_repo)
+* [`locations_enabled`](#locations_enabled)
+* [`oauth_consumer_key`](#oauth_consumer_key)
+* [`oauth_consumer_secret`](#oauth_consumer_secret)
+* [`organizations_enabled`](#organizations_enabled)
+* [`passenger`](#passenger)
+* [`plugins`](#plugins)
+* [`protocol`](#protocol)
+* [`selinux`](#selinux)
+* [`server_ssl_ca`](#server_ssl_ca)
+* [`server_ssl_chain`](#server_ssl_chain)
+* [`server_ssl_cert`](#server_ssl_cert)
+* [`server_ssl_key`](#server_ssl_key)
+* [`server_ssl_crl`](#server_ssl_crl)
+* [`settings`](#settings)
+* [`unattended`](#unattended)
+* [`user_groups`](#user_groups)
+* [`database_host`](#database_host)
+* [`database_grant`](#database_grant)
+* [`database_name`](#database_name)
+* [`database_password`](#database_password)
+* [`database_user`](#database_user)
+* [`expose_metrics`](#expose_metrics)
+* [`manage_database`](#manage_database)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="db_host"></a>`db_host`
 
 Db host.
 
-##### `db_manage`
+##### <a name="db_manage"></a>`db_manage`
 
 Manage the DB backend.
 
-##### `db_manage_rake`
+##### <a name="db_manage_rake"></a>`db_manage_rake`
 
 Data type: `Boolean`
 
@@ -5659,11 +7115,11 @@ Manage the DB rake jobs.
 
 Default value: ``true``
 
-##### `db_password`
+##### <a name="db_password"></a>`db_password`
 
 Db password.
 
-##### `foreman_admin_password`
+##### <a name="foreman_admin_password"></a>`foreman_admin_password`
 
 Data type: `String`
 
@@ -5671,7 +7127,7 @@ Foreman admin password.
 
 Default value: `'secret'`
 
-##### `foreman_host`
+##### <a name="foreman_host"></a>`foreman_host`
 
 Data type: `String`
 
@@ -5679,19 +7135,19 @@ Foreman fqdn.
 
 Default value: `$::fqdn`
 
-##### `foreman_repo`
+##### <a name="foreman_repo"></a>`foreman_repo`
 
 Data type: `String`
 
 Foreman repo to use.
 
-Default value: `'2.1'`
+Default value: `'2.3'`
 
-##### `locations_enabled`
+##### <a name="locations_enabled"></a>`locations_enabled`
 
 Enable locations.
 
-##### `oauth_consumer_key`
+##### <a name="oauth_consumer_key"></a>`oauth_consumer_key`
 
 Data type: `String`
 
@@ -5699,7 +7155,7 @@ oauth_consumer_key.
 
 Default value: `'secret'`
 
-##### `oauth_consumer_secret`
+##### <a name="oauth_consumer_secret"></a>`oauth_consumer_secret`
 
 Data type: `String`
 
@@ -5707,11 +7163,11 @@ oauth_consumer_secret.
 
 Default value: `'secret'`
 
-##### `organizations_enabled`
+##### <a name="organizations_enabled"></a>`organizations_enabled`
 
 Enable organizations.
 
-##### `passenger`
+##### <a name="passenger"></a>`passenger`
 
 Data type: `Boolean`
 
@@ -5719,7 +7175,7 @@ Run behind passenger.
 
 Default value: ``true``
 
-##### `plugins`
+##### <a name="plugins"></a>`plugins`
 
 Data type: `Hash`
 
@@ -5727,7 +7183,7 @@ Foreman plugins to install.
 
 Default value: `{}`
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `Enum['http','https']`
 
@@ -5735,7 +7191,7 @@ Protocol to reach Foreman.
 
 Default value: `'https'`
 
-##### `selinux`
+##### <a name="selinux"></a>`selinux`
 
 Data type: `Boolean`
 
@@ -5743,7 +7199,7 @@ Install foreman-selinux.
 
 Default value: ``false``
 
-##### `server_ssl_ca`
+##### <a name="server_ssl_ca"></a>`server_ssl_ca`
 
 Data type: `String`
 
@@ -5751,7 +7207,7 @@ SSL ca.
 
 Default value: `'/etc/puppetlabs/puppet/ssl/certs/ca.pem'`
 
-##### `server_ssl_chain`
+##### <a name="server_ssl_chain"></a>`server_ssl_chain`
 
 Data type: `String`
 
@@ -5759,7 +7215,7 @@ SSL chain.
 
 Default value: `'/etc/puppetlabs/puppet/ssl/certs/ca.pem'`
 
-##### `server_ssl_cert`
+##### <a name="server_ssl_cert"></a>`server_ssl_cert`
 
 Data type: `String`
 
@@ -5767,7 +7223,7 @@ SSL cert.
 
 Default value: `"/etc/puppetlabs/puppet/ssl/certs/${::fqdn}.pem"`
 
-##### `server_ssl_key`
+##### <a name="server_ssl_key"></a>`server_ssl_key`
 
 Data type: `String`
 
@@ -5775,7 +7231,7 @@ SSL key.
 
 Default value: `"/etc/puppetlabs/puppet/ssl/private_keys/${::fqdn}.pem"`
 
-##### `server_ssl_crl`
+##### <a name="server_ssl_crl"></a>`server_ssl_crl`
 
 Data type: `String`
 
@@ -5783,7 +7239,7 @@ SSL crl.
 
 Default value: `'/etc/puppetlabs/puppet/ssl/ca/ca_crl.pem'`
 
-##### `settings`
+##### <a name="settings"></a>`settings`
 
 Data type: `Hash`
 
@@ -5791,7 +7247,7 @@ List of foreman settings.
 
 Default value: `{}`
 
-##### `unattended`
+##### <a name="unattended"></a>`unattended`
 
 Data type: `Boolean`
 
@@ -5799,7 +7255,7 @@ Allow unattended installs.
 
 Default value: ``true``
 
-##### `user_groups`
+##### <a name="user_groups"></a>`user_groups`
 
 Data type: `Array`
 
@@ -5807,7 +7263,7 @@ List of groups for foreman user to join.
 
 Default value: `['puppet']`
 
-##### `database_host`
+##### <a name="database_host"></a>`database_host`
 
 Data type: `String`
 
@@ -5815,7 +7271,7 @@ Data type: `String`
 
 Default value: `'localhost'`
 
-##### `database_grant`
+##### <a name="database_grant"></a>`database_grant`
 
 Data type: `String`
 
@@ -5823,7 +7279,7 @@ Data type: `String`
 
 Default value: `'all'`
 
-##### `database_name`
+##### <a name="database_name"></a>`database_name`
 
 Data type: `String`
 
@@ -5831,7 +7287,7 @@ Data type: `String`
 
 Default value: `'foreman'`
 
-##### `database_password`
+##### <a name="database_password"></a>`database_password`
 
 Data type: `String`
 
@@ -5839,7 +7295,7 @@ Data type: `String`
 
 Default value: `'foreman'`
 
-##### `database_user`
+##### <a name="database_user"></a>`database_user`
 
 Data type: `String`
 
@@ -5847,7 +7303,7 @@ Data type: `String`
 
 Default value: `'foreman'`
 
-##### `expose_metrics`
+##### <a name="expose_metrics"></a>`expose_metrics`
 
 Data type: `Boolean`
 
@@ -5855,7 +7311,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_database`
+##### <a name="manage_database"></a>`manage_database`
 
 Data type: `Boolean`
 
@@ -5863,7 +7319,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -5871,7 +7327,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -5879,7 +7335,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -5887,7 +7343,7 @@ Data type: `String`
 
 Default value: `'foreman'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -5895,13 +7351,13 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-### `profiles::puppet::foreman::params`
+### <a name="profilespuppetforemanparams"></a>`profiles::puppet::foreman::params`
 
 Class to manage foreman parameters.
 
 Dont include this class directly.
 
-### `profiles::puppet::foreman_proxy`
+### <a name="profilespuppetforeman_proxy"></a>`profiles::puppet::foreman_proxy`
 
 This class can be used install user foreman_proxy properties
 
@@ -5915,9 +7371,22 @@ class { '::profiles::puppet::foreman_proxy': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet::foreman_proxy` class.
+The following parameters are available in the `profiles::puppet::foreman_proxy` class:
 
-##### `foreman_host`
+* [`foreman_host`](#foreman_host)
+* [`oauth_consumer_key`](#oauth_consumer_key)
+* [`oauth_consumer_secret`](#oauth_consumer_secret)
+* [`manage_sudoersd`](#manage_sudoersd)
+* [`protocol`](#protocol)
+* [`puppetca`](#puppetca)
+* [`version`](#version)
+* [`manage_bmc`](#manage_bmc)
+* [`manage_dhcp`](#manage_dhcp)
+* [`manage_dns`](#manage_dns)
+* [`puppet`](#puppet)
+* [`tftp`](#tftp)
+
+##### <a name="foreman_host"></a>`foreman_host`
 
 Data type: `String`
 
@@ -5925,7 +7394,7 @@ Foreman fqdn.
 
 Default value: `'foreman'`
 
-##### `oauth_consumer_key`
+##### <a name="oauth_consumer_key"></a>`oauth_consumer_key`
 
 Data type: `String`
 
@@ -5933,7 +7402,7 @@ oauth_consumer_key.
 
 Default value: `'secret'`
 
-##### `oauth_consumer_secret`
+##### <a name="oauth_consumer_secret"></a>`oauth_consumer_secret`
 
 Data type: `String`
 
@@ -5941,7 +7410,7 @@ oauth_consumer_secret.
 
 Default value: `'secret'`
 
-##### `manage_sudoersd`
+##### <a name="manage_sudoersd"></a>`manage_sudoersd`
 
 Data type: `Boolean`
 
@@ -5949,7 +7418,7 @@ Whether to manage File['/etc/sudoers.d'] or not.
 
 Default value: ``true``
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `String`
 
@@ -5957,7 +7426,7 @@ Protocol to reach Foreman.
 
 Default value: `'https'`
 
-##### `puppetca`
+##### <a name="puppetca"></a>`puppetca`
 
 Data type: `Boolean`
 
@@ -5965,7 +7434,7 @@ Is there a CA on this node.
 
 Default value: ``false``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -5973,7 +7442,47 @@ What version should be installed.
 
 Default value: `'present'`
 
-### `profiles::puppet::puppetdb`
+##### <a name="manage_bmc"></a>`manage_bmc`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_dhcp"></a>`manage_dhcp`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_dns"></a>`manage_dns`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="puppet"></a>`puppet`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="tftp"></a>`tftp`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+### <a name="profilespuppetpuppetdb"></a>`profiles::puppet::puppetdb`
 
 This class can be used install user puppetdb properties
 
@@ -5987,9 +7496,24 @@ class { '::profiles::puppet::puppetdb': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet::puppetdb` class.
+The following parameters are available in the `profiles::puppet::puppetdb` class:
 
-##### `database_host`
+* [`database_host`](#database_host)
+* [`database_password`](#database_password)
+* [`listen_address`](#listen_address)
+* [`manage_firewall`](#manage_firewall)
+* [`ssl_listen_address`](#ssl_listen_address)
+* [`database_grant`](#database_grant)
+* [`database_name`](#database_name)
+* [`database_user`](#database_user)
+* [`install_client_tools`](#install_client_tools)
+* [`manage_database`](#manage_database)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="database_host"></a>`database_host`
 
 Data type: `String`
 
@@ -5997,7 +7521,7 @@ Db host.
 
 Default value: `'localhost'`
 
-##### `database_password`
+##### <a name="database_password"></a>`database_password`
 
 Data type: `String`
 
@@ -6005,7 +7529,7 @@ Db password.
 
 Default value: `'puppetdb'`
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `String`
 
@@ -6013,11 +7537,11 @@ Interface to bind to.
 
 Default value: `'0.0.0.0'`
 
-##### `manage_firewall`
+##### <a name="manage_firewall"></a>`manage_firewall`
 
 Manage firewall entries.
 
-##### `ssl_listen_address`
+##### <a name="ssl_listen_address"></a>`ssl_listen_address`
 
 Data type: `String`
 
@@ -6025,7 +7549,7 @@ Interface to bind ssl to.
 
 Default value: `'0.0.0.0'`
 
-##### `database_grant`
+##### <a name="database_grant"></a>`database_grant`
 
 Data type: `String`
 
@@ -6033,7 +7557,7 @@ Data type: `String`
 
 Default value: `'all'`
 
-##### `database_name`
+##### <a name="database_name"></a>`database_name`
 
 Data type: `String`
 
@@ -6041,7 +7565,7 @@ Data type: `String`
 
 Default value: `'puppetdb'`
 
-##### `database_user`
+##### <a name="database_user"></a>`database_user`
 
 Data type: `String`
 
@@ -6049,7 +7573,7 @@ Data type: `String`
 
 Default value: `'puppetdb'`
 
-##### `install_client_tools`
+##### <a name="install_client_tools"></a>`install_client_tools`
 
 Data type: `Boolean`
 
@@ -6057,7 +7581,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_database`
+##### <a name="manage_database"></a>`manage_database`
 
 Data type: `Boolean`
 
@@ -6065,7 +7589,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -6073,7 +7597,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -6081,7 +7605,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -6089,7 +7613,7 @@ Data type: `String`
 
 Default value: `'puppetdb'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -6097,7 +7621,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::puppet::r10k`
+### <a name="profilespuppetr10k"></a>`profiles::puppet::r10k`
 
 This class can be used install user r10k properties
 
@@ -6111,9 +7635,13 @@ class { '::profiles::puppet::r10k': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet::r10k` class.
+The following parameters are available in the `profiles::puppet::r10k` class:
 
-##### `basedir`
+* [`basedir`](#basedir)
+* [`mcollective`](#mcollective)
+* [`puppet_repo_url`](#puppet_repo_url)
+
+##### <a name="basedir"></a>`basedir`
 
 Data type: `String`
 
@@ -6121,7 +7649,7 @@ Environments directory.
 
 Default value: `'/etc/puppetlabs/code/environments'`
 
-##### `mcollective`
+##### <a name="mcollective"></a>`mcollective`
 
 Data type: `Boolean`
 
@@ -6129,7 +7657,7 @@ Manage mcollective bindings.
 
 Default value: ``false``
 
-##### `puppet_repo_url`
+##### <a name="puppet_repo_url"></a>`puppet_repo_url`
 
 Data type: `Optional[String]`
 
@@ -6137,7 +7665,7 @@ Url to git repo where puppet code is stored.
 
 Default value: ``undef``
 
-### `profiles::repo`
+### <a name="profilesrepo"></a>`profiles::repo`
 
 This class can be used install repo components
 
@@ -6151,17 +7679,12 @@ class { '::profiles::repo': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::repo` class.
+The following parameters are available in the `profiles::repo` class:
 
-##### `aptly`
+* [`aptly`](#aptly)
+* [`nexus`](#nexus)
 
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### `nexus`
+##### <a name="aptly"></a>`aptly`
 
 Data type: `Boolean`
 
@@ -6169,7 +7692,15 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::repo::aptly`
+##### <a name="nexus"></a>`nexus`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+### <a name="profilesrepoaptly"></a>`profiles::repo::aptly`
 
 This class can be used install aptly components.
 
@@ -6183,9 +7714,19 @@ class { '::profiles::repo::aptly': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::repo::aptly` class.
+The following parameters are available in the `profiles::repo::aptly` class:
 
-##### `api`
+* [`api`](#api)
+* [`api_port`](#api_port)
+* [`config`](#config)
+* [`enable_cli_and_http`](#enable_cli_and_http)
+* [`key_server`](#key_server)
+* [`manage_repo`](#manage_repo)
+* [`mirrors`](#mirrors)
+* [`mount_point`](#mount_point)
+* [`repos`](#repos)
+
+##### <a name="api"></a>`api`
 
 Data type: `Boolean`
 
@@ -6193,7 +7734,7 @@ Setup Api.
 
 Default value: ``true``
 
-##### `api_port`
+##### <a name="api_port"></a>`api_port`
 
 Data type: `Integer`
 
@@ -6201,7 +7742,7 @@ Api port.
 
 Default value: `8080`
 
-##### `config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -6209,7 +7750,7 @@ Aptly config hash
 
 Default value: `{}`
 
-##### `enable_cli_and_http`
+##### <a name="enable_cli_and_http"></a>`enable_cli_and_http`
 
 Data type: `Boolean`
 
@@ -6217,7 +7758,7 @@ Allow api and cli access.
 
 Default value: ``true``
 
-##### `key_server`
+##### <a name="key_server"></a>`key_server`
 
 Data type: `String`
 
@@ -6225,7 +7766,7 @@ Key server to use.
 
 Default value: `'keys.gnupg.net'`
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -6233,7 +7774,7 @@ Let profile install repo.
 
 Default value: ``false``
 
-##### `mirrors`
+##### <a name="mirrors"></a>`mirrors`
 
 Data type: `Hash`
 
@@ -6241,7 +7782,7 @@ Mirrors to manage
 
 Default value: `{}`
 
-##### `mount_point`
+##### <a name="mount_point"></a>`mount_point`
 
 Data type: `String`
 
@@ -6249,7 +7790,7 @@ Directory to store packages.
 
 Default value: `'/var/lib/aptly'`
 
-##### `repos`
+##### <a name="repos"></a>`repos`
 
 Data type: `Hash`
 
@@ -6257,7 +7798,7 @@ Repos to manage
 
 Default value: `{}`
 
-### `profiles::repo::nexus`
+### <a name="profilesreponexus"></a>`profiles::repo::nexus`
 
 This class can be used install nexus components.
 
@@ -6271,9 +7812,19 @@ class { '::profiles::repo::nexus': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::repo::nexus` class.
+The following parameters are available in the `profiles::repo::nexus` class:
 
-##### `data_path`
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`revision`](#revision)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
+
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -6281,7 +7832,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/srv'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -6289,7 +7840,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -6297,7 +7848,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -6305,7 +7856,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -6313,7 +7864,15 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="revision"></a>`revision`
+
+Data type: `String`
+
+
+
+Default value: `'03'`
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -6321,7 +7880,7 @@ Data type: `String`
 
 Default value: `'nexus'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -6329,15 +7888,15 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'3.27.0'`
+Default value: `'3.32.0'`
 
-### `profiles::runtime`
+### <a name="profilesruntime"></a>`profiles::runtime`
 
 This class can be used install runtime components.
 
@@ -6351,9 +7910,18 @@ class { '::profiles::runtime': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime` class.
+The following parameters are available in the `profiles::runtime` class:
 
-##### `docker`
+* [`docker`](#docker)
+* [`java`](#java)
+* [`golang`](#golang)
+* [`nodejs`](#nodejs)
+* [`php`](#php)
+* [`python`](#python)
+* [`ruby`](#ruby)
+* [`scala`](#scala)
+
+##### <a name="docker"></a>`docker`
 
 Data type: `Boolean`
 
@@ -6361,7 +7929,7 @@ Manage docker on this node.
 
 Default value: ``false``
 
-##### `java`
+##### <a name="java"></a>`java`
 
 Data type: `Boolean`
 
@@ -6369,7 +7937,7 @@ Manage java on this node.
 
 Default value: ``false``
 
-##### `golang`
+##### <a name="golang"></a>`golang`
 
 Data type: `Boolean`
 
@@ -6377,7 +7945,7 @@ Manage golang on this node.
 
 Default value: ``false``
 
-##### `nodejs`
+##### <a name="nodejs"></a>`nodejs`
 
 Data type: `Boolean`
 
@@ -6385,7 +7953,7 @@ Manage nodejs on this node.
 
 Default value: ``false``
 
-##### `php`
+##### <a name="php"></a>`php`
 
 Data type: `Boolean`
 
@@ -6393,7 +7961,7 @@ Manage php on this node.
 
 Default value: ``false``
 
-##### `python`
+##### <a name="python"></a>`python`
 
 Data type: `Boolean`
 
@@ -6401,7 +7969,7 @@ Manage python on this node.
 
 Default value: ``false``
 
-##### `ruby`
+##### <a name="ruby"></a>`ruby`
 
 Data type: `Boolean`
 
@@ -6409,7 +7977,7 @@ Manage ruby on this node.
 
 Default value: ``false``
 
-##### `scala`
+##### <a name="scala"></a>`scala`
 
 Data type: `Boolean`
 
@@ -6417,7 +7985,7 @@ Manage scala on this node.
 
 Default value: ``false``
 
-### `profiles::runtime::docker`
+### <a name="profilesruntimedocker"></a>`profiles::runtime::docker`
 
 This class can be used install docker components.
 
@@ -6431,9 +7999,11 @@ class { '::profiles::runtime::docker': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::docker` class.
+The following parameters are available in the `profiles::runtime::docker` class:
 
-##### `registries`
+* [`registries`](#registries)
+
+##### <a name="registries"></a>`registries`
 
 Data type: `Hash`
 
@@ -6441,7 +8011,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-### `profiles::runtime::golang`
+### <a name="profilesruntimegolang"></a>`profiles::runtime::golang`
 
 This class can be used install golang
 
@@ -6453,7 +8023,7 @@ This class can be used install golang
 class { '::profiles::runtime::golang': }
 ```
 
-### `profiles::runtime::java`
+### <a name="profilesruntimejava"></a>`profiles::runtime::java`
 
 This class can be used install java components.
 
@@ -6467,9 +8037,12 @@ class { '::profiles::runtime::java': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::java` class.
+The following parameters are available in the `profiles::runtime::java` class:
 
-##### `package`
+* [`package`](#package)
+* [`package_options`](#package_options)
+
+##### <a name="package"></a>`package`
 
 Data type: `String`
 
@@ -6477,7 +8050,7 @@ Package to install.
 
 Default value: `'java-11-openjdk-devel'`
 
-##### `package_options`
+##### <a name="package_options"></a>`package_options`
 
 Data type: `Optional[String]`
 
@@ -6485,7 +8058,7 @@ Additional package parameters.
 
 Default value: ``undef``
 
-### `profiles::runtime::nodejs`
+### <a name="profilesruntimenodejs"></a>`profiles::runtime::nodejs`
 
 This class can be used install nodejs
 
@@ -6499,9 +8072,15 @@ class { '::profiles::runtime::nodejs': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::nodejs` class.
+The following parameters are available in the `profiles::runtime::nodejs` class:
 
-##### `manage_repo`
+* [`manage_repo`](#manage_repo)
+* [`npm_package_ensure`](#npm_package_ensure)
+* [`npm_packages`](#npm_packages)
+* [`packages`](#packages)
+* [`repo_url_suffix`](#repo_url_suffix)
+
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -6509,7 +8088,7 @@ Manage repo.
 
 Default value: ``false``
 
-##### `npm_package_ensure`
+##### <a name="npm_package_ensure"></a>`npm_package_ensure`
 
 Data type: `String`
 
@@ -6517,7 +8096,7 @@ Install npm.
 
 Default value: `'installed'`
 
-##### `npm_packages`
+##### <a name="npm_packages"></a>`npm_packages`
 
 Data type: `Hash`
 
@@ -6525,7 +8104,7 @@ List of packages to install using npm
 
 Default value: `{}`
 
-##### `packages`
+##### <a name="packages"></a>`packages`
 
 Data type: `Hash`
 
@@ -6533,15 +8112,15 @@ List of packages to install
 
 Default value: `{}`
 
-##### `repo_url_suffix`
+##### <a name="repo_url_suffix"></a>`repo_url_suffix`
 
 Data type: `String`
 
 Version to install.
 
-Default value: `'8.x'`
+Default value: `'14.x'`
 
-### `profiles::runtime::php`
+### <a name="profilesruntimephp"></a>`profiles::runtime::php`
 
 This class can be used install php
 
@@ -6555,9 +8134,27 @@ class { '::profiles::runtime::package': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::php` class.
+The following parameters are available in the `profiles::runtime::php` class:
 
-##### `collect_resources`
+* [`collect_resources`](#collect_resources)
+* [`extensions`](#extensions)
+* [`extensions_default`](#extensions_default)
+* [`fpm_package`](#fpm_package)
+* [`fpm_pools`](#fpm_pools)
+* [`fpm_service_name`](#fpm_service_name)
+* [`install_cachetool`](#install_cachetool)
+* [`install_composer`](#install_composer)
+* [`install_fpm`](#install_fpm)
+* [`manage_repo`](#manage_repo)
+* [`modules`](#modules)
+* [`resource_tag`](#resource_tag)
+* [`settings`](#settings)
+* [`settings_default`](#settings_default)
+* [`version`](#version)
+* [`xdebug`](#xdebug)
+* [`xdebug_config`](#xdebug_config)
+
+##### <a name="collect_resources"></a>`collect_resources`
 
 Data type: `Boolean`
 
@@ -6565,7 +8162,7 @@ Collect Exported Resources.
 
 Default value: ``true``
 
-##### `extensions`
+##### <a name="extensions"></a>`extensions`
 
 Data type: `Hash`
 
@@ -6573,7 +8170,7 @@ Extensions to install.
 
 Default value: `{}`
 
-##### `extensions_default`
+##### <a name="extensions_default"></a>`extensions_default`
 
 Data type: `Hash`
 
@@ -6612,7 +8209,7 @@ Default value: `{
     'xml'      => {},
   }`
 
-##### `fpm_package`
+##### <a name="fpm_package"></a>`fpm_package`
 
 Data type: `Optional[String]`
 
@@ -6620,7 +8217,7 @@ Fpm package to install.
 
 Default value: ``undef``
 
-##### `fpm_pools`
+##### <a name="fpm_pools"></a>`fpm_pools`
 
 Data type: `Hash`
 
@@ -6628,7 +8225,7 @@ Fpm pools to to setup.
 
 Default value: `{}`
 
-##### `fpm_service_name`
+##### <a name="fpm_service_name"></a>`fpm_service_name`
 
 Data type: `Optional[String]`
 
@@ -6636,7 +8233,7 @@ Fpm service name.
 
 Default value: ``undef``
 
-##### `install_cachetool`
+##### <a name="install_cachetool"></a>`install_cachetool`
 
 Data type: `Boolean`
 
@@ -6644,7 +8241,7 @@ Install cachetool.
 
 Default value: ``true``
 
-##### `install_composer`
+##### <a name="install_composer"></a>`install_composer`
 
 Data type: `Boolean`
 
@@ -6652,7 +8249,7 @@ Install composer.
 
 Default value: ``false``
 
-##### `install_fpm`
+##### <a name="install_fpm"></a>`install_fpm`
 
 Data type: `Boolean`
 
@@ -6660,7 +8257,7 @@ Install fpm.
 
 Default value: ``true``
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -6668,7 +8265,7 @@ Manage repo.
 
 Default value: ``false``
 
-##### `modules`
+##### <a name="modules"></a>`modules`
 
 Data type: `Array`
 
@@ -6676,7 +8273,7 @@ PHP modules to install
 
 Default value: `[]`
 
-##### `resource_tag`
+##### <a name="resource_tag"></a>`resource_tag`
 
 Data type: `String`
 
@@ -6684,7 +8281,7 @@ Only export resources that are using this tag.
 
 Default value: `$::fqdn`
 
-##### `settings`
+##### <a name="settings"></a>`settings`
 
 Data type: `Hash`
 
@@ -6692,7 +8289,7 @@ PHP conf settings.
 
 Default value: `{}`
 
-##### `settings_default`
+##### <a name="settings_default"></a>`settings_default`
 
 Data type: `Hash`
 
@@ -6728,7 +8325,7 @@ Default value: `{
     'PHP/zend.assertions'         => 0,
   }`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -6736,7 +8333,7 @@ Version to install.
 
 Default value: `'74'`
 
-##### `xdebug`
+##### <a name="xdebug"></a>`xdebug`
 
 Data type: `Boolean`
 
@@ -6744,7 +8341,7 @@ Install xdebug extension.
 
 Default value: ``false``
 
-##### `xdebug_config`
+##### <a name="xdebug_config"></a>`xdebug_config`
 
 Data type: `Hash`
 
@@ -6766,7 +8363,7 @@ Default value: `{
     'scream'                        => 0,
   }`
 
-### `profiles::runtime::php::cachetool`
+### <a name="profilesruntimephpcachetool"></a>`profiles::runtime::php::cachetool`
 
 This class can be used to install cachetool
 
@@ -6780,9 +8377,17 @@ class { '::profiles::runtime::php::cachetool': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::php::cachetool` class.
+The following parameters are available in the `profiles::runtime::php::cachetool` class:
 
-##### `group`
+* [`group`](#group)
+* [`install_dir`](#install_dir)
+* [`install_method`](#install_method)
+* [`package_name`](#package_name)
+* [`package_version`](#package_version)
+* [`phar_source`](#phar_source)
+* [`user`](#user)
+
+##### <a name="group"></a>`group`
 
 Data type: `Optional[String]`
 
@@ -6790,7 +8395,7 @@ Group of file
 
 Default value: ``undef``
 
-##### `install_dir`
+##### <a name="install_dir"></a>`install_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -6798,7 +8403,7 @@ Install directory
 
 Default value: `'/usr/local/bin'`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `Profiles::InstallMethod`
 
@@ -6806,7 +8411,7 @@ Install type.
 
 Default value: `'archive'`
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `String`
 
@@ -6814,7 +8419,7 @@ Package name.
 
 Default value: `'cachetool'`
 
-##### `package_version`
+##### <a name="package_version"></a>`package_version`
 
 Data type: `String`
 
@@ -6822,7 +8427,7 @@ Version to be installed.
 
 Default value: `'installed'`
 
-##### `phar_source`
+##### <a name="phar_source"></a>`phar_source`
 
 Data type: `String`
 
@@ -6830,7 +8435,7 @@ Download source.
 
 Default value: `'http://gordalina.github.io/cachetool/downloads/cachetool.phar'`
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `String`
 
@@ -6838,15 +8443,17 @@ Owner of the file.
 
 Default value: `'root'`
 
-### `profiles::runtime::php::repo`
+### <a name="profilesruntimephprepo"></a>`profiles::runtime::php::repo`
 
 The profiles::runtime::php::repo class.
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::php::repo` class.
+The following parameters are available in the `profiles::runtime::php::repo` class:
 
-##### `version`
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
 
 Data type: `Any`
 
@@ -6854,7 +8461,7 @@ Version to install.
 
 Default value: `'74'`
 
-### `profiles::runtime::python`
+### <a name="profilesruntimepython"></a>`profiles::runtime::python`
 
 This class can be used install user python properties
 
@@ -6868,9 +8475,13 @@ class { '::profiles::runtime::python': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::python` class.
+The following parameters are available in the `profiles::runtime::python` class:
 
-##### `manage_repo`
+* [`manage_repo`](#manage_repo)
+* [`pip_packages`](#pip_packages)
+* [`packages`](#packages)
+
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -6878,7 +8489,7 @@ Manage epel repository.
 
 Default value: ``false``
 
-##### `pip_packages`
+##### <a name="pip_packages"></a>`pip_packages`
 
 Data type: `Hash`
 
@@ -6886,7 +8497,7 @@ List of pip packages to install.
 
 Default value: `{}`
 
-##### `packages`
+##### <a name="packages"></a>`packages`
 
 Data type: `Hash`
 
@@ -6894,7 +8505,7 @@ List of packages to install
 
 Default value: `{}`
 
-### `profiles::runtime::ruby`
+### <a name="profilesruntimeruby"></a>`profiles::runtime::ruby`
 
 This class can be used install ruby
 
@@ -6908,9 +8519,13 @@ class { '::profiles::runtime::ruby': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::ruby` class.
+The following parameters are available in the `profiles::runtime::ruby` class:
 
-##### `gem_packages`
+* [`gem_packages`](#gem_packages)
+* [`packages`](#packages)
+* [`rubygems_package`](#rubygems_package)
+
+##### <a name="gem_packages"></a>`gem_packages`
 
 Data type: `Hash`
 
@@ -6918,7 +8533,7 @@ List of packages to install using gem
 
 Default value: `{}`
 
-##### `packages`
+##### <a name="packages"></a>`packages`
 
 Data type: `Hash`
 
@@ -6926,7 +8541,7 @@ List of packages to install
 
 Default value: `{}`
 
-##### `rubygems_package`
+##### <a name="rubygems_package"></a>`rubygems_package`
 
 Data type: `String`
 
@@ -6934,7 +8549,7 @@ Rubygems package.
 
 Default value: `'rubygems'`
 
-### `profiles::runtime::scala`
+### <a name="profilesruntimescala"></a>`profiles::runtime::scala`
 
 This class can be used install scala components.
 
@@ -6948,9 +8563,11 @@ class { '::profiles::runtime::scala': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::scala` class.
+The following parameters are available in the `profiles::runtime::scala` class:
 
-##### `development`
+* [`development`](#development)
+
+##### <a name="development"></a>`development`
 
 Data type: `Boolean`
 
@@ -6958,7 +8575,7 @@ Manage development packages on this node.
 
 Default value: ``false``
 
-### `profiles::scheduling`
+### <a name="profilesscheduling"></a>`profiles::scheduling`
 
 This class can be used install scheduling components.
 
@@ -6972,9 +8589,11 @@ class { '::profiles::scheduling': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::scheduling` class.
+The following parameters are available in the `profiles::scheduling` class:
 
-##### `nomad`
+* [`nomad`](#nomad)
+
+##### <a name="nomad"></a>`nomad`
 
 Data type: `Boolean`
 
@@ -6982,7 +8601,7 @@ Manage nomad on this node.
 
 Default value: ``false``
 
-### `profiles::scheduling::nomad`
+### <a name="profilesschedulingnomad"></a>`profiles::scheduling::nomad`
 
 This class can be used install nomad components.
 
@@ -6996,9 +8615,34 @@ class { '::profiles::scheduling::nomad': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::scheduling::nomad` class.
+The following parameters are available in the `profiles::scheduling::nomad` class:
 
-##### `config`
+* [`bin_dir`](#bin_dir)
+* [`config`](#config)
+* [`config_defaults`](#config_defaults)
+* [`config_dir`](#config_dir)
+* [`consul_connect`](#consul_connect)
+* [`install_method`](#install_method)
+* [`job_port_range`](#job_port_range)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`manage_sd_service`](#manage_sd_service)
+* [`manage_sysctl`](#manage_sysctl)
+* [`sd_service_check_interval`](#sd_service_check_interval)
+* [`sd_service_endpoint`](#sd_service_endpoint)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
+
+##### <a name="bin_dir"></a>`bin_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/usr/local/bin'`
+
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -7006,7 +8650,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `config_defaults`
+##### <a name="config_defaults"></a>`config_defaults`
 
 Data type: `Hash`
 
@@ -7020,7 +8664,7 @@ Default value: `{
     'datacenter' => 'vagrant',
   }`
 
-##### `config_dir`
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -7028,7 +8672,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/etc/nomad.d'`
 
-##### `consul_connect`
+##### <a name="consul_connect"></a>`consul_connect`
 
 Data type: `Boolean`
 
@@ -7036,7 +8680,15 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `job_port_range`
+##### <a name="install_method"></a>`install_method`
+
+Data type: `Enum['url', 'package', 'none']`
+
+
+
+Default value: `'url'`
+
+##### <a name="job_port_range"></a>`job_port_range`
 
 Data type: `String`
 
@@ -7044,7 +8696,7 @@ Data type: `String`
 
 Default value: `'20000-32000'`
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -7052,7 +8704,15 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -7060,7 +8720,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sysctl`
+##### <a name="manage_sysctl"></a>`manage_sysctl`
 
 Data type: `Boolean`
 
@@ -7068,7 +8728,23 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `sd_service_name`
+##### <a name="sd_service_check_interval"></a>`sd_service_check_interval`
+
+Data type: `String`
+
+
+
+Default value: `'10s'`
+
+##### <a name="sd_service_endpoint"></a>`sd_service_endpoint`
+
+Data type: `Stdlib::HTTPUrl`
+
+
+
+Default value: `"http://${::ipaddress}:4646"`
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -7076,7 +8752,7 @@ Data type: `String`
 
 Default value: `'nomad-ui'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -7084,15 +8760,15 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'0.12.8'`
+Default value: `'1.0.4'`
 
-### `profiles::scheduling::nomad::cni_plugins`
+### <a name="profilesschedulingnomadcni_plugins"></a>`profiles::scheduling::nomad::cni_plugins`
 
 This class can be used install nomad cni plugins.
 
@@ -7106,9 +8782,17 @@ class { '::profiles::scheduling::nomad::cni_plugins': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::scheduling::nomad::cni_plugins` class.
+The following parameters are available in the `profiles::scheduling::nomad::cni_plugins` class:
 
-##### `arch`
+* [`arch`](#arch)
+* [`download_url`](#download_url)
+* [`download_url_base`](#download_url_base)
+* [`download_extension`](#download_extension)
+* [`package_name`](#package_name)
+* [`install_method`](#install_method)
+* [`version`](#version)
+
+##### <a name="arch"></a>`arch`
 
 Data type: `Any`
 
@@ -7116,7 +8800,7 @@ Data type: `Any`
 
 Default value: `'amd64'`
 
-##### `download_url`
+##### <a name="download_url"></a>`download_url`
 
 Data type: `Any`
 
@@ -7124,7 +8808,7 @@ Data type: `Any`
 
 Default value: ``undef``
 
-##### `download_url_base`
+##### <a name="download_url_base"></a>`download_url_base`
 
 Data type: `Any`
 
@@ -7132,7 +8816,7 @@ Data type: `Any`
 
 Default value: `'https://github.com/containernetworking/plugins/releases/download'`
 
-##### `download_extension`
+##### <a name="download_extension"></a>`download_extension`
 
 Data type: `Any`
 
@@ -7140,7 +8824,7 @@ Data type: `Any`
 
 Default value: `'tgz'`
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `Any`
 
@@ -7148,7 +8832,7 @@ Data type: `Any`
 
 Default value: `'cni-plugins'`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `Enum['none','url']`
 
@@ -7156,15 +8840,15 @@ Data type: `Enum['none','url']`
 
 Default value: `'url'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'v0.8.7'`
+Default value: `'v0.9.0'`
 
-### `profiles::security`
+### <a name="profilessecurity"></a>`profiles::security`
 
 This class can be used install security components.
 
@@ -7178,9 +8862,12 @@ class { '::profiles::security': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::security` class.
+The following parameters are available in the `profiles::security` class:
 
-##### `selinux`
+* [`selinux`](#selinux)
+* [`vault`](#vault)
+
+##### <a name="selinux"></a>`selinux`
 
 Data type: `Boolean`
 
@@ -7188,7 +8875,7 @@ Manage selinux on this node.
 
 Default value: ``false``
 
-##### `vault`
+##### <a name="vault"></a>`vault`
 
 Data type: `Boolean`
 
@@ -7196,7 +8883,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::security::selinux`
+### <a name="profilessecurityselinux"></a>`profiles::security::selinux`
 
 This class can be used install selinux components.
 
@@ -7210,9 +8897,11 @@ class { '::profiles::selinux': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::security::selinux` class.
+The following parameters are available in the `profiles::security::selinux` class:
 
-##### `mode`
+* [`mode`](#mode)
+
+##### <a name="mode"></a>`mode`
 
 Data type: `String`
 
@@ -7220,7 +8909,7 @@ Selinux operation mode.
 
 Default value: `'disabled'`
 
-### `profiles::security::vault`
+### <a name="profilessecurityvault"></a>`profiles::security::vault`
 
 This class can be used install vault components.
 
@@ -7234,9 +8923,35 @@ class { '::profiles::security::vault': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::security::vault` class.
+The following parameters are available in the `profiles::security::vault` class:
 
-##### `config_dir`
+* [`bin_dir`](#bin_dir)
+* [`config_dir`](#config_dir)
+* [`enable_ui`](#enable_ui)
+* [`listener`](#listener)
+* [`extra_config`](#extra_config)
+* [`install_method`](#install_method)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_package_repo`](#manage_package_repo)
+* [`manage_sd_service`](#manage_sd_service)
+* [`manage_storage_dir`](#manage_storage_dir)
+* [`sd_service_check_interval`](#sd_service_check_interval)
+* [`sd_service_endpoint`](#sd_service_endpoint)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`storage`](#storage)
+* [`telemetry`](#telemetry)
+* [`version`](#version)
+
+##### <a name="bin_dir"></a>`bin_dir`
+
+Data type: `Stdlib::Absolutepath`
+
+
+
+Default value: `'/usr/local/bin'`
+
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Any`
 
@@ -7244,7 +8959,7 @@ Data type: `Any`
 
 Default value: `'/etc/vault.d'`
 
-##### `enable_ui`
+##### <a name="enable_ui"></a>`enable_ui`
 
 Data type: `Any`
 
@@ -7252,7 +8967,7 @@ Data type: `Any`
 
 Default value: ``true``
 
-##### `listener`
+##### <a name="listener"></a>`listener`
 
 Data type: `Variant[Hash, Array[Hash]]`
 
@@ -7266,7 +8981,7 @@ Default value: `{
     },
   }`
 
-##### `extra_config`
+##### <a name="extra_config"></a>`extra_config`
 
 Data type: `Hash`
 
@@ -7274,7 +8989,15 @@ Data type: `Hash`
 
 Default value: `{ 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' => 'https://127.0.0.1:8201' }`
 
-##### `manage_firewall_entry`
+##### <a name="install_method"></a>`install_method`
+
+Data type: `Enum['archive', 'repo']`
+
+
+
+Default value: `'archive'`
+
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -7282,7 +9005,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_package_repo"></a>`manage_package_repo`
 
 Data type: `Boolean`
 
@@ -7290,15 +9013,39 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_storage_dir`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
 
 
-Default value: ``true``
+Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="manage_storage_dir"></a>`manage_storage_dir`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="sd_service_check_interval"></a>`sd_service_check_interval`
+
+Data type: `String`
+
+
+
+Default value: `'10s'`
+
+##### <a name="sd_service_endpoint"></a>`sd_service_endpoint`
+
+Data type: `Stdlib::HTTPUrl`
+
+
+
+Default value: `"http://${::ipaddress}:8200"`
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -7306,7 +9053,7 @@ Data type: `String`
 
 Default value: `'vault-ui'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -7314,7 +9061,7 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `storage`
+##### <a name="storage"></a>`storage`
 
 Data type: `Hash`
 
@@ -7322,7 +9069,7 @@ Data type: `Hash`
 
 Default value: `{ 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' }}`
 
-##### `telemetry`
+##### <a name="telemetry"></a>`telemetry`
 
 Data type: `Optional[Hash]`
 
@@ -7330,15 +9077,15 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'1.6.0'`
+Default value: `'1.7.0'`
 
-### `profiles::storage`
+### <a name="profilesstorage"></a>`profiles::storage`
 
 A description of what this class does
 
@@ -7352,9 +9099,11 @@ include profiles::storage
 
 #### Parameters
 
-The following parameters are available in the `profiles::storage` class.
+The following parameters are available in the `profiles::storage` class:
 
-##### `minio`
+* [`minio`](#minio)
+
+##### <a name="minio"></a>`minio`
 
 Data type: `Boolean`
 
@@ -7362,7 +9111,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::storage::minio`
+### <a name="profilesstorageminio"></a>`profiles::storage::minio`
 
 A description of what this class does
 
@@ -7376,17 +9125,31 @@ include profiles::storage::minio
 
 #### Parameters
 
-The following parameters are available in the `profiles::storage::minio` class.
+The following parameters are available in the `profiles::storage::minio` class:
 
-##### `checksum`
+* [`checksum`](#checksum)
+* [`config`](#config)
+* [`config_default`](#config_default)
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`listen_address`](#listen_address)
+* [`port`](#port)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
+
+##### <a name="checksum"></a>`checksum`
 
 Data type: `String`
 
 
 
-Default value: `'e83fb22cfbe7ed8df7fd336a905bcb02292714c4ffd21f75a833de365e2c5e7d'`
+Default value: `'59bb77de22ec686c303256ad5362e8958844baef1871b8b5c58ed11297ace008'`
 
-##### `config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -7394,7 +9157,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `config_default`
+##### <a name="config_default"></a>`config_default`
 
 Data type: `Hash`
 
@@ -7407,7 +9170,7 @@ Default value: `{
     'MINIO_BROWSER'     => 'on',
   }`
 
-##### `data_path`
+##### <a name="data_path"></a>`data_path`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -7415,7 +9178,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/var/lib/minio'`
 
-##### `device`
+##### <a name="device"></a>`device`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -7423,7 +9186,7 @@ Data type: `Optional[Stdlib::Absolutepath]`
 
 Default value: ``undef``
 
-##### `manage_disk`
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -7431,7 +9194,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -7439,7 +9202,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -7447,7 +9210,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `Stdlib::Host`
 
@@ -7455,7 +9218,7 @@ Data type: `Stdlib::Host`
 
 Default value: `'127.0.0.1'`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Optional[Stdlib::Port::Unprivileged]`
 
@@ -7463,15 +9226,15 @@ Data type: `Optional[Stdlib::Port::Unprivileged]`
 
 Default value: `9090`
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
 
 
-Default value: `'example'`
+Default value: `'minio'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -7479,15 +9242,15 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'RELEASE.2020-11-13T20-10-18Z'`
+Default value: `'RELEASE.2021-04-06T23-11-00Z'`
 
-### `profiles::streaming`
+### <a name="profilesstreaming"></a>`profiles::streaming`
 
 This class can be used install streaming and zookeeper.
 
@@ -7501,9 +9264,13 @@ class { '::profiles::streaming': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::streaming` class.
+The following parameters are available in the `profiles::streaming` class:
 
-##### `flink`
+* [`flink`](#flink)
+* [`kafka`](#kafka)
+* [`zookeeper`](#zookeeper)
+
+##### <a name="flink"></a>`flink`
 
 Data type: `Boolean`
 
@@ -7511,7 +9278,7 @@ Manage flink on this node.
 
 Default value: ``false``
 
-##### `kafka`
+##### <a name="kafka"></a>`kafka`
 
 Data type: `Boolean`
 
@@ -7519,7 +9286,7 @@ Manage kafka on this node.
 
 Default value: ``false``
 
-##### `zookeeper`
+##### <a name="zookeeper"></a>`zookeeper`
 
 Data type: `Boolean`
 
@@ -7527,7 +9294,7 @@ Manage zookeeper on this node.
 
 Default value: ``false``
 
-### `profiles::streaming::flink`
+### <a name="profilesstreamingflink"></a>`profiles::streaming::flink`
 
 This class can be used to setup flink.
 
@@ -7541,9 +9308,12 @@ class { '::profiles::flink': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::streaming::flink` class.
+The following parameters are available in the `profiles::streaming::flink` class:
 
-##### `archive_source`
+* [`archive_source`](#archive_source)
+* [`install_method`](#install_method)
+
+##### <a name="archive_source"></a>`archive_source`
 
 Data type: `String`
 
@@ -7551,7 +9321,7 @@ Flink Download url.
 
 Default value: `'http://apache.mirror.triple-it.nl/flink/flink-1.11.1/flink-1.11.1-bin-scala_2.11.tgz'`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -7559,7 +9329,7 @@ How to install flink.
 
 Default value: `'package'`
 
-### `profiles::streaming::kafka`
+### <a name="profilesstreamingkafka"></a>`profiles::streaming::kafka`
 
 This class can be used install kafka components.
 
@@ -7573,9 +9343,16 @@ class { '::profiles::streaming::kafka': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::streaming::kafka` class.
+The following parameters are available in the `profiles::streaming::kafka` class:
 
-##### `install_dir`
+* [`install_dir`](#install_dir)
+* [`install_method`](#install_method)
+* [`package`](#package)
+* [`scala_version`](#scala_version)
+* [`version`](#version)
+* [`zookeeper_config`](#zookeeper_config)
+
+##### <a name="install_dir"></a>`install_dir`
 
 Data type: `String`
 
@@ -7583,7 +9360,7 @@ Directory to install to.
 
 Default value: `'/opt/kafka_2.12-2.4.1'`
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -7591,7 +9368,7 @@ How to install kafka.
 
 Default value: `'package'`
 
-##### `package`
+##### <a name="package"></a>`package`
 
 Data type: `String`
 
@@ -7599,7 +9376,7 @@ Package to install.
 
 Default value: `'kafka_2.12'`
 
-##### `scala_version`
+##### <a name="scala_version"></a>`scala_version`
 
 Data type: `String`
 
@@ -7607,7 +9384,7 @@ Version of scala to depend on.
 
 Default value: `'2.12'`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -7615,7 +9392,7 @@ Version of kafka to install.
 
 Default value: `'2.4.1'`
 
-##### `zookeeper_config`
+##### <a name="zookeeper_config"></a>`zookeeper_config`
 
 Data type: `Hash`
 
@@ -7626,7 +9403,7 @@ Default value: `{ 'broker.id'                     => '0',
                             'log.dir'                       => '/opt/kafka/data',
                             'zookeeper.connect'             => 'localhost:2181' }`
 
-### `profiles::streaming::zookeeper`
+### <a name="profilesstreamingzookeeper"></a>`profiles::streaming::zookeeper`
 
 This class can be used install zookeeper components.
 
@@ -7640,9 +9417,20 @@ class { '::profiles::streaming::zookeeper': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::streaming::zookeeper` class.
+The following parameters are available in the `profiles::streaming::zookeeper` class:
 
-##### `cdhver`
+* [`cdhver`](#cdhver)
+* [`cfg_dir`](#cfg_dir)
+* [`cleanup_sh`](#cleanup_sh)
+* [`initialize_datastore`](#initialize_datastore)
+* [`install_method`](#install_method)
+* [`manage_service_file`](#manage_service_file)
+* [`packages`](#packages)
+* [`repo`](#repo)
+* [`service_name`](#service_name)
+* [`zoo_dir`](#zoo_dir)
+
+##### <a name="cdhver"></a>`cdhver`
 
 Data type: `String`
 
@@ -7650,7 +9438,7 @@ Cloudera RPM Repo version.
 
 Default value: `'5'`
 
-##### `cfg_dir`
+##### <a name="cfg_dir"></a>`cfg_dir`
 
 Data type: `String`
 
@@ -7658,7 +9446,7 @@ Zookeeper configuration directory.
 
 Default value: `'/opt/zookeeper/conf'`
 
-##### `cleanup_sh`
+##### <a name="cleanup_sh"></a>`cleanup_sh`
 
 Data type: `String`
 
@@ -7666,7 +9454,7 @@ Location to zkCleanup.sh
 
 Default value: `'/opt/zookeeper/bin/zkCleanup.sh'`
 
-##### `initialize_datastore`
+##### <a name="initialize_datastore"></a>`initialize_datastore`
 
 Data type: `Boolean`
 
@@ -7674,7 +9462,7 @@ Create datastore.
 
 Default value: ``false``
 
-##### `install_method`
+##### <a name="install_method"></a>`install_method`
 
 Data type: `String`
 
@@ -7682,11 +9470,11 @@ Install method.
 
 Default value: `'package'`
 
-##### `manage_service_file`
+##### <a name="manage_service_file"></a>`manage_service_file`
 
 Manage service file.
 
-##### `packages`
+##### <a name="packages"></a>`packages`
 
 Data type: `Array`
 
@@ -7694,7 +9482,7 @@ List of pacakages to install.
 
 Default value: `['zookeeper']`
 
-##### `repo`
+##### <a name="repo"></a>`repo`
 
 Data type: `Optional[String]`
 
@@ -7702,7 +9490,7 @@ Repository name.
 
 Default value: ``undef``
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `String`
 
@@ -7710,7 +9498,7 @@ Service name.
 
 Default value: `'zookeeper'`
 
-##### `zoo_dir`
+##### <a name="zoo_dir"></a>`zoo_dir`
 
 Data type: `String`
 
@@ -7718,7 +9506,7 @@ Zookeeper directory.
 
 Default value: `'/opt/zookeeper'`
 
-### `profiles::testing`
+### <a name="profilestesting"></a>`profiles::testing`
 
 This class can be used install testing components.
 
@@ -7732,9 +9520,12 @@ class { '::profiles::testing': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::testing` class.
+The following parameters are available in the `profiles::testing` class:
 
-##### `develop`
+* [`develop`](#develop)
+* [`jenkins`](#jenkins)
+
+##### <a name="develop"></a>`develop`
 
 Data type: `Boolean`
 
@@ -7742,7 +9533,7 @@ Manage ability to develop on this node.
 
 Default value: ``false``
 
-##### `jenkins`
+##### <a name="jenkins"></a>`jenkins`
 
 Data type: `Boolean`
 
@@ -7750,7 +9541,7 @@ Manage jenkins on this node.
 
 Default value: ``false``
 
-### `profiles::testing::develop`
+### <a name="profilestestingdevelop"></a>`profiles::testing::develop`
 
 This class can be used install develop components.
 
@@ -7764,9 +9555,11 @@ class { '::profiles::testing::develop': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::testing::develop` class.
+The following parameters are available in the `profiles::testing::develop` class:
 
-##### `packages`
+* [`packages`](#packages)
+
+##### <a name="packages"></a>`packages`
 
 Data type: `Array`
 
@@ -7774,7 +9567,7 @@ Packages to install.
 
 Default value: `['git']`
 
-### `profiles::testing::jenkins`
+### <a name="profilestestingjenkins"></a>`profiles::testing::jenkins`
 
 This class can be used install jenkins components.
 
@@ -7788,9 +9581,35 @@ class { '::profiles::testing::jenkins': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::testing::jenkins` class.
+The following parameters are available in the `profiles::testing::jenkins` class:
 
-##### `casc`
+* [`casc`](#casc)
+* [`casc_config`](#casc_config)
+* [`casc_config_default`](#casc_config_default)
+* [`casc_reload_token`](#casc_reload_token)
+* [`config_hash`](#config_hash)
+* [`java_options`](#java_options)
+* [`listen_address`](#listen_address)
+* [`lts`](#lts)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`manage_repo`](#manage_repo)
+* [`master`](#master)
+* [`master_url`](#master_url)
+* [`plugins`](#plugins)
+* [`plugins_default`](#plugins_default)
+* [`port`](#port)
+* [`purge_plugins`](#purge_plugins)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`slave`](#slave)
+* [`slave_disable_ssl_verification`](#slave_disable_ssl_verification)
+* [`slave_executors`](#slave_executors)
+* [`slave_user`](#slave_user)
+* [`slave_password`](#slave_password)
+* [`slave_version`](#slave_version)
+
+##### <a name="casc"></a>`casc`
 
 Data type: `Boolean`
 
@@ -7798,7 +9617,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `casc_config`
+##### <a name="casc_config"></a>`casc_config`
 
 Data type: `Hash`
 
@@ -7806,7 +9625,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `casc_config_default`
+##### <a name="casc_config_default"></a>`casc_config_default`
 
 Data type: `Hash`
 
@@ -7858,7 +9677,7 @@ Default value: `{
     }
   }`
 
-##### `casc_reload_token`
+##### <a name="casc_reload_token"></a>`casc_reload_token`
 
 Data type: `String`
 
@@ -7866,7 +9685,7 @@ Data type: `String`
 
 Default value: `'supersecret'`
 
-##### `config_hash`
+##### <a name="config_hash"></a>`config_hash`
 
 Data type: `Hash`
 
@@ -7874,7 +9693,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `java_options`
+##### <a name="java_options"></a>`java_options`
 
 Data type: `String`
 
@@ -7882,7 +9701,7 @@ Data type: `String`
 
 Default value: `'-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false'`
 
-##### `listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `Stdlib::Host`
 
@@ -7890,7 +9709,7 @@ Data type: `Stdlib::Host`
 
 Default value: `'127.0.0.1'`
 
-##### `lts`
+##### <a name="lts"></a>`lts`
 
 Data type: `Boolean`
 
@@ -7898,7 +9717,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -7906,7 +9725,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -7914,7 +9733,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
@@ -7922,7 +9741,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `master`
+##### <a name="master"></a>`master`
 
 Data type: `Boolean`
 
@@ -7930,7 +9749,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `master_url`
+##### <a name="master_url"></a>`master_url`
 
 Data type: `String`
 
@@ -7938,7 +9757,7 @@ Data type: `String`
 
 Default value: `"http://${::fqdn}"`
 
-##### `plugins`
+##### <a name="plugins"></a>`plugins`
 
 Data type: `Hash`
 
@@ -7946,7 +9765,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `plugins_default`
+##### <a name="plugins_default"></a>`plugins_default`
 
 Data type: `Hash`
 
@@ -7956,10 +9775,17 @@ Default value: `{
     ace-editor => {},
     antisamy-markup-formatter => {},
     apache-httpcomponents-client-4-api => {},
+    aws-java-sdk => {},
     authentication-tokens => {},
+    bootstrap4-api => {},
+    bootstrap5-api => {},
     bouncycastle-api => {},
     branch-api => {},
+    caffeine-api => {},
+    checks-api => {},
     configuration-as-code => {},
+    configuration-as-code-groovy => {},
+    configuration-as-code-secret-ssm => {},
     command-launcher => {},
     cloudbees-folder => {},
     conditional-buildstep => {},
@@ -7970,20 +9796,25 @@ Default value: `{
     docker-workflow => {},
     display-url-api => {},
     durable-task => {},
+    echarts-api  => {},
     external-monitor-job => {},
+    font-awesome-api => {},
     git => {},
     git-client => {},
     git-server => {},
     handlebars => {},
+    hashicorp-vault-plugin => {},
     jdk-tool => {},
     job-dsl => {},
     jackson2-api => {},
     javadoc => {},
     jaxb => {},
     jsch => {},
+    jquery3-api => {},
     jquery => {},
     jquery-detached => {},
-    junit => {},
+    junit  => {},
+    kerberos-sso => {},
     ldap => {},
     lockable-resources => {},
     mailer => {},
@@ -7994,12 +9825,13 @@ Default value: `{
     momentjs => {},
     pam-auth => {},
     parameterized-trigger => {},
-    pipeline-build-step => {},
+    plugin-util-api => {},
+    okhttp-api => {},
+    pipeline-build-step  => {},
     pipeline-graph-analysis => {},
     pipeline-input-step => {},
     pipeline-milestone-step => {},
     pipeline-model-api => {},
-    pipeline-model-declarative-agent => {},
     pipeline-model-definition => {},
     pipeline-model-extensions => {},
     pipeline-rest-api => {},
@@ -8007,9 +9839,13 @@ Default value: `{
     pipeline-stage-tags-metadata => {},
     pipeline-stage-view => {},
     plain-credentials  => {},
+    popper-api => {},
+    popper2-api => {},
     run-condition => {},
     scm-api => {},
     script-security => {},
+    snakeyaml-api => {},
+    sshd => {},
     ssh-credentials => {},
     structs => {},
     swarm => {},
@@ -8029,7 +9865,7 @@ Default value: `{
     workflow-support => {},
   }`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Stdlib::Port::Unprivileged`
 
@@ -8037,7 +9873,7 @@ Data type: `Stdlib::Port::Unprivileged`
 
 Default value: `8080`
 
-##### `purge_plugins`
+##### <a name="purge_plugins"></a>`purge_plugins`
 
 Data type: `Boolean`
 
@@ -8045,7 +9881,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -8053,7 +9889,7 @@ Data type: `String`
 
 Default value: `'jenkins'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -8061,7 +9897,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-##### `slave`
+##### <a name="slave"></a>`slave`
 
 Data type: `Boolean`
 
@@ -8069,7 +9905,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `slave_disable_ssl_verification`
+##### <a name="slave_disable_ssl_verification"></a>`slave_disable_ssl_verification`
 
 Data type: `Boolean`
 
@@ -8077,7 +9913,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `slave_executors`
+##### <a name="slave_executors"></a>`slave_executors`
 
 Data type: `Integer`
 
@@ -8085,7 +9921,7 @@ Data type: `Integer`
 
 Default value: `$::processors['count']`
 
-##### `slave_user`
+##### <a name="slave_user"></a>`slave_user`
 
 Data type: `String`
 
@@ -8093,7 +9929,7 @@ Data type: `String`
 
 Default value: `'slave'`
 
-##### `slave_password`
+##### <a name="slave_password"></a>`slave_password`
 
 Data type: `String`
 
@@ -8101,15 +9937,15 @@ Data type: `String`
 
 Default value: `'secret'`
 
-##### `slave_version`
+##### <a name="slave_version"></a>`slave_version`
 
 Data type: `String`
 
 
 
-Default value: `'3.22'`
+Default value: `'3.27'`
 
-### `profiles::tools`
+### <a name="profilestools"></a>`profiles::tools`
 
 This class can be used install tools components.
 
@@ -8123,9 +9959,12 @@ class { '::profiles::tools': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::tools` class.
+The following parameters are available in the `profiles::tools` class:
 
-##### `compile`
+* [`compile`](#compile)
+* [`package`](#package)
+
+##### <a name="compile"></a>`compile`
 
 Data type: `Boolean`
 
@@ -8133,7 +9972,7 @@ Manage ability to compile on this node.
 
 Default value: ``false``
 
-##### `package`
+##### <a name="package"></a>`package`
 
 Data type: `Boolean`
 
@@ -8141,7 +9980,7 @@ Manage abiltiy to create packages on this node.
 
 Default value: ``false``
 
-### `profiles::tools::compile`
+### <a name="profilestoolscompile"></a>`profiles::tools::compile`
 
 This class can be used install compile components.
 
@@ -8153,7 +9992,7 @@ This class can be used install compile components.
 class { '::profiles::tools::compile': }
 ```
 
-### `profiles::tools::package`
+### <a name="profilestoolspackage"></a>`profiles::tools::package`
 
 This class can be used install packaging dependencies
 
@@ -8165,7 +10004,21 @@ This class can be used install packaging dependencies
 class { '::profiles::tools::package': }
 ```
 
-### `profiles::tracing`
+#### Parameters
+
+The following parameters are available in the `profiles::tools::package` class:
+
+* [`version`](#version)
+
+##### <a name="version"></a>`version`
+
+Data type: `Any`
+
+
+
+Default value: `'1.12'`
+
+### <a name="profilestracing"></a>`profiles::tracing`
 
 A description of what this class does
 
@@ -8179,9 +10032,11 @@ include profiles::tracing
 
 #### Parameters
 
-The following parameters are available in the `profiles::tracing` class.
+The following parameters are available in the `profiles::tracing` class:
 
-##### `tempo`
+* [`tempo`](#tempo)
+
+##### <a name="tempo"></a>`tempo`
 
 Data type: `Boolean`
 
@@ -8189,7 +10044,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::tracing::tempo`
+### <a name="profilestracingtempo"></a>`profiles::tracing::tempo`
 
 A description of what this class does
 
@@ -8203,17 +10058,45 @@ include profiles::tracing::tempo
 
 #### Parameters
 
-The following parameters are available in the `profiles::tracing::tempo` class.
+The following parameters are available in the `profiles::tracing::tempo` class:
 
-##### `manage_firewall_entry`
+* [`data_path`](#data_path)
+* [`device`](#device)
+* [`manage_disk`](#manage_disk)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`multitenancy_enabled`](#multitenancy_enabled)
+* [`port_grpc`](#port_grpc)
+* [`port_tcp`](#port_tcp)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`version`](#version)
+* [`compactor_config_hash`](#compactor_config_hash)
+* [`distributor_config_hash`](#distributor_config_hash)
+* [`ingester_config_hash`](#ingester_config_hash)
+* [`memberlist_config_hash`](#memberlist_config_hash)
+* [`server_config_hash`](#server_config_hash)
+* [`storage_config_hash`](#storage_config_hash)
+* [`query_frontend_config_hash`](#query_frontend_config_hash)
+* [`querier_config_hash`](#querier_config_hash)
 
-Data type: `Boolean`
+##### <a name="data_path"></a>`data_path`
+
+Data type: `Stdlib::Absolutepath`
 
 
 
-Default value: ``true``
+Default value: `'/var/lib/tempo'`
 
-##### `manage_sd_service`
+##### <a name="device"></a>`device`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+
+
+Default value: ``undef``
+
+##### <a name="manage_disk"></a>`manage_disk`
 
 Data type: `Boolean`
 
@@ -8221,7 +10104,47 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="manage_sd_service"></a>`manage_sd_service`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="multitenancy_enabled"></a>`multitenancy_enabled`
+
+Data type: `Boolean`
+
+
+
+Default value: ``false``
+
+##### <a name="port_grpc"></a>`port_grpc`
+
+Data type: `Stdlib::Port`
+
+
+
+Default value: `9095`
+
+##### <a name="port_tcp"></a>`port_tcp`
+
+Data type: `Stdlib::Port`
+
+
+
+Default value: `3100`
+
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -8229,31 +10152,23 @@ Data type: `String`
 
 Default value: `'tempo'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
 
 
-Default value: `[]`
+Default value: `['metrics']`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'0.3.0'`
+Default value: `'1.0.1'`
 
-##### `auth_enabled`
-
-Data type: `Optional[Boolean]`
-
-
-
-Default value: ``undef``
-
-##### `compactor_config_hash`
+##### <a name="compactor_config_hash"></a>`compactor_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -8261,7 +10176,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `distributor_config_hash`
+##### <a name="distributor_config_hash"></a>`distributor_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -8269,7 +10184,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `ingester_config_hash`
+##### <a name="ingester_config_hash"></a>`ingester_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -8277,7 +10192,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `memberlist_config_hash`
+##### <a name="memberlist_config_hash"></a>`memberlist_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -8285,7 +10200,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `server_config_hash`
+##### <a name="server_config_hash"></a>`server_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -8293,7 +10208,7 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-##### `storage_config_hash`
+##### <a name="storage_config_hash"></a>`storage_config_hash`
 
 Data type: `Optional[Hash]`
 
@@ -8301,7 +10216,23 @@ Data type: `Optional[Hash]`
 
 Default value: ``undef``
 
-### `profiles::website`
+##### <a name="query_frontend_config_hash"></a>`query_frontend_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="querier_config_hash"></a>`querier_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+### <a name="profileswebsite"></a>`profiles::website`
 
 == Class: profiles::website
 
@@ -8321,9 +10252,17 @@ class { '::profiles::website': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::website` class.
+The following parameters are available in the `profiles::website` class:
 
-##### `apache`
+* [`apache`](#apache)
+* [`haproxy`](#haproxy)
+* [`letsencrypt`](#letsencrypt)
+* [`nginx`](#nginx)
+* [`traefik`](#traefik)
+* [`uwsgi`](#uwsgi)
+* [`traefik2`](#traefik2)
+
+##### <a name="apache"></a>`apache`
 
 Data type: `Boolean`
 
@@ -8331,7 +10270,7 @@ Manage apache on this node.
 
 Default value: ``false``
 
-##### `haproxy`
+##### <a name="haproxy"></a>`haproxy`
 
 Data type: `Boolean`
 
@@ -8339,7 +10278,7 @@ Manage haproxy on this node.
 
 Default value: ``false``
 
-##### `letsencrypt`
+##### <a name="letsencrypt"></a>`letsencrypt`
 
 Data type: `Boolean`
 
@@ -8347,7 +10286,7 @@ Manage letsencrypt certificates on this node.
 
 Default value: ``false``
 
-##### `nginx`
+##### <a name="nginx"></a>`nginx`
 
 Data type: `Boolean`
 
@@ -8355,7 +10294,7 @@ Manage nginx on this node.
 
 Default value: ``false``
 
-##### `traefik`
+##### <a name="traefik"></a>`traefik`
 
 Data type: `Boolean`
 
@@ -8363,7 +10302,7 @@ Manage nginx on this node.
 
 Default value: ``false``
 
-##### `uwsgi`
+##### <a name="uwsgi"></a>`uwsgi`
 
 Data type: `Boolean`
 
@@ -8371,7 +10310,7 @@ Manage uwsgi on this node.
 
 Default value: ``false``
 
-##### `traefik2`
+##### <a name="traefik2"></a>`traefik2`
 
 Data type: `Boolean`
 
@@ -8379,7 +10318,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-### `profiles::website::apache`
+### <a name="profileswebsiteapache"></a>`profiles::website::apache`
 
 This class can be used install apache and web properties
 
@@ -8393,9 +10332,18 @@ class { '::profiles::website::apache': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::apache` class.
+The following parameters are available in the `profiles::website::apache` class:
 
-##### `default_mods`
+* [`default_mods`](#default_mods)
+* [`default_vhost`](#default_vhost)
+* [`modules`](#modules)
+* [`mpm_module`](#mpm_module)
+* [`purge_configs`](#purge_configs)
+* [`purge_vhost_dir`](#purge_vhost_dir)
+* [`vhosts`](#vhosts)
+* [`vhost_packages`](#vhost_packages)
+
+##### <a name="default_mods"></a>`default_mods`
 
 Data type: `Boolean`
 
@@ -8403,7 +10351,7 @@ Modules to install.
 
 Default value: ``true``
 
-##### `default_vhost`
+##### <a name="default_vhost"></a>`default_vhost`
 
 Data type: `Boolean`
 
@@ -8411,7 +10359,7 @@ Keep default vhost
 
 Default value: ``false``
 
-##### `modules`
+##### <a name="modules"></a>`modules`
 
 Data type: `Hash`
 
@@ -8422,7 +10370,7 @@ Default value: `{
     'proxy_fcgi' => {},
   }`
 
-##### `mpm_module`
+##### <a name="mpm_module"></a>`mpm_module`
 
 Data type: `String`
 
@@ -8430,7 +10378,7 @@ MPM module.
 
 Default value: `'prefork'`
 
-##### `purge_configs`
+##### <a name="purge_configs"></a>`purge_configs`
 
 Data type: `Boolean`
 
@@ -8438,7 +10386,7 @@ Purge unmanaged config files.
 
 Default value: ``false``
 
-##### `purge_vhost_dir`
+##### <a name="purge_vhost_dir"></a>`purge_vhost_dir`
 
 Data type: `Boolean`
 
@@ -8446,7 +10394,7 @@ Purge unmanaged vhost files.
 
 Default value: ``false``
 
-##### `vhosts`
+##### <a name="vhosts"></a>`vhosts`
 
 Data type: `Hash`
 
@@ -8454,7 +10402,7 @@ Vhosts to manage.
 
 Default value: `{}`
 
-##### `vhost_packages`
+##### <a name="vhost_packages"></a>`vhost_packages`
 
 Data type: `Hash`
 
@@ -8462,7 +10410,7 @@ Packages to manage that contain vhosts files.
 
 Default value: `{}`
 
-### `profiles::website::haproxy`
+### <a name="profileswebsitehaproxy"></a>`profiles::website::haproxy`
 
 This class can be used install haproxy
 
@@ -8476,9 +10424,12 @@ class { '::profiles::website::haproxy': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::haproxy` class.
+The following parameters are available in the `profiles::website::haproxy` class:
 
-##### `listeners`
+* [`listeners`](#listeners)
+* [`members`](#members)
+
+##### <a name="listeners"></a>`listeners`
 
 Data type: `Hash`
 
@@ -8486,7 +10437,7 @@ listeners to configure.
 
 Default value: `{}`
 
-##### `members`
+##### <a name="members"></a>`members`
 
 Data type: `Hash`
 
@@ -8494,7 +10445,7 @@ Balance members to configure.
 
 Default value: `{}`
 
-### `profiles::website::letsencrypt`
+### <a name="profileswebsiteletsencrypt"></a>`profiles::website::letsencrypt`
 
 This class can be used install user letsencrypt properties
 
@@ -8508,9 +10459,13 @@ class { '::profiles::website::letsencrypt': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::letsencrypt` class.
+The following parameters are available in the `profiles::website::letsencrypt` class:
 
-##### `certs`
+* [`certs`](#certs)
+* [`email_registration`](#email_registration)
+* [`unsafe_registration`](#unsafe_registration)
+
+##### <a name="certs"></a>`certs`
 
 Data type: `Hash`
 
@@ -8518,7 +10473,7 @@ List of certs to accuire.
 
 Default value: `{}`
 
-##### `email_registration`
+##### <a name="email_registration"></a>`email_registration`
 
 Data type: `String`
 
@@ -8526,7 +10481,7 @@ Email address to register with
 
 Default value: `''`
 
-##### `unsafe_registration`
+##### <a name="unsafe_registration"></a>`unsafe_registration`
 
 Data type: `Boolean`
 
@@ -8534,7 +10489,7 @@ Make request anonymous.
 
 Default value: ``false``
 
-### `profiles::website::nginx`
+### <a name="profileswebsitenginx"></a>`profiles::website::nginx`
 
 Class: profiles::website::nginx
 
@@ -8554,9 +10509,21 @@ class { '::profiles::website::nginx': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::nginx` class.
+The following parameters are available in the `profiles::website::nginx` class:
 
-##### `client_body_buffer_size`
+* [`client_body_buffer_size`](#client_body_buffer_size)
+* [`client_max_body_size`](#client_max_body_size)
+* [`daemon_user`](#daemon_user)
+* [`upstreams`](#upstreams)
+* [`purge_configs`](#purge_configs)
+* [`stream`](#stream)
+* [`streams`](#streams)
+* [`vhosts`](#vhosts)
+* [`vhost_packages`](#vhost_packages)
+* [`upstream_defined_type`](#upstream_defined_type)
+* [`proxies`](#proxies)
+
+##### <a name="client_body_buffer_size"></a>`client_body_buffer_size`
 
 Data type: `String`
 
@@ -8564,7 +10531,7 @@ Sets buffer size for reading client request body.
 
 Default value: `'1k'`
 
-##### `client_max_body_size`
+##### <a name="client_max_body_size"></a>`client_max_body_size`
 
 Data type: `String`
 
@@ -8572,7 +10539,7 @@ Sets the maximum allowed size of the client request body.
 
 Default value: `'1k'`
 
-##### `daemon_user`
+##### <a name="daemon_user"></a>`daemon_user`
 
 Data type: `String`
 
@@ -8580,7 +10547,7 @@ User that runs nginx
 
 Default value: `'nginx'`
 
-##### `upstreams`
+##### <a name="upstreams"></a>`upstreams`
 
 Data type: `Hash`
 
@@ -8588,7 +10555,7 @@ Set(s) of upstream servers to use
 
 Default value: `{}`
 
-##### `purge_configs`
+##### <a name="purge_configs"></a>`purge_configs`
 
 Data type: `Boolean`
 
@@ -8596,7 +10563,7 @@ Purge unmanaged config files.
 
 Default value: ``true``
 
-##### `stream`
+##### <a name="stream"></a>`stream`
 
 Data type: `Boolean`
 
@@ -8604,7 +10571,7 @@ Enable streaming hosts.
 
 Default value: ``false``
 
-##### `streams`
+##### <a name="streams"></a>`streams`
 
 Data type: `Hash`
 
@@ -8612,7 +10579,7 @@ Set(s) of streams.
 
 Default value: `{}`
 
-##### `vhosts`
+##### <a name="vhosts"></a>`vhosts`
 
 Data type: `Hash`
 
@@ -8620,7 +10587,7 @@ Set(s) of vhost to create
 
 Default value: `{}`
 
-##### `vhost_packages`
+##### <a name="vhost_packages"></a>`vhost_packages`
 
 Data type: `Hash`
 
@@ -8628,7 +10595,15 @@ Packages to manage that contain vhosts files.
 
 Default value: `{}`
 
-##### `proxies`
+##### <a name="upstream_defined_type"></a>`upstream_defined_type`
+
+Data type: `Boolean`
+
+Boolean to directly use the upstream nginx server type.
+
+Default value: ``false``
+
+##### <a name="proxies"></a>`proxies`
 
 Data type: `Hash`
 
@@ -8636,7 +10611,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-### `profiles::website::traefik`
+### <a name="profileswebsitetraefik"></a>`profiles::website::traefik`
 
 Class: profiles::website::traefik
 
@@ -8654,9 +10629,28 @@ class { '::profiles::website::traefik': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::traefik` class.
+The following parameters are available in the `profiles::website::traefik` class:
 
-##### `acme_email_address`
+* [`acme_email_address`](#acme_email_address)
+* [`config_dir`](#config_dir)
+* [`config`](#config)
+* [`consul_domain`](#consul_domain)
+* [`consul_endpoint`](#consul_endpoint)
+* [`protocol`](#protocol)
+* [`expose_api`](#expose_api)
+* [`expose_metrics`](#expose_metrics)
+* [`expose_ui`](#expose_ui)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`tls_cipher_suites`](#tls_cipher_suites)
+* [`tls_min_version`](#tls_min_version)
+* [`tls_sni_strict`](#tls_sni_strict)
+* [`use_consul`](#use_consul)
+* [`version`](#version)
+
+##### <a name="acme_email_address"></a>`acme_email_address`
 
 Data type: `Optional[String]`
 
@@ -8664,7 +10658,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `config_dir`
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -8672,7 +10666,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `'/etc/traefik.d'`
 
-##### `config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -8683,7 +10677,7 @@ Default value: `{
     'logLevel' => 'ERROR',
   }`
 
-##### `consul_domain`
+##### <a name="consul_domain"></a>`consul_domain`
 
 Data type: `String`
 
@@ -8691,7 +10685,7 @@ Data type: `String`
 
 Default value: `'consul'`
 
-##### `consul_endpoint`
+##### <a name="consul_endpoint"></a>`consul_endpoint`
 
 Data type: `String`
 
@@ -8699,7 +10693,7 @@ Data type: `String`
 
 Default value: `'127.0.0.1:8500'`
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `Enum['http','https']`
 
@@ -8707,7 +10701,7 @@ Data type: `Enum['http','https']`
 
 Default value: `'https'`
 
-##### `expose_api`
+##### <a name="expose_api"></a>`expose_api`
 
 Data type: `Boolean`
 
@@ -8715,7 +10709,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `expose_metrics`
+##### <a name="expose_metrics"></a>`expose_metrics`
 
 Data type: `Boolean`
 
@@ -8723,7 +10717,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `expose_ui`
+##### <a name="expose_ui"></a>`expose_ui`
 
 Data type: `Boolean`
 
@@ -8731,7 +10725,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -8739,7 +10733,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -8747,7 +10741,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -8755,7 +10749,7 @@ Data type: `String`
 
 Default value: `'traefik'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -8763,7 +10757,7 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `tls_cipher_suites`
+##### <a name="tls_cipher_suites"></a>`tls_cipher_suites`
 
 Data type: `Array`
 
@@ -8776,7 +10770,7 @@ Default value: `[
     'TLS_FALLBACK_SCSV'
   ]`
 
-##### `tls_min_version`
+##### <a name="tls_min_version"></a>`tls_min_version`
 
 Data type: `Enum['VersionTLS12','VersionTLS13']`
 
@@ -8784,7 +10778,7 @@ Data type: `Enum['VersionTLS12','VersionTLS13']`
 
 Default value: `'VersionTLS12'`
 
-##### `tls_sni_strict`
+##### <a name="tls_sni_strict"></a>`tls_sni_strict`
 
 Data type: `Boolean`
 
@@ -8792,7 +10786,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `use_consul`
+##### <a name="use_consul"></a>`use_consul`
 
 Data type: `Boolean`
 
@@ -8800,7 +10794,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
@@ -8808,7 +10802,7 @@ Data type: `String`
 
 Default value: `'1.7.26'`
 
-### `profiles::website::traefik2`
+### <a name="profileswebsitetraefik2"></a>`profiles::website::traefik2`
 
 A description of what this class does
 
@@ -8822,9 +10816,22 @@ include profiles::website::traefik2
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::traefik2` class.
+The following parameters are available in the `profiles::website::traefik2` class:
 
-##### `dynamic_config`
+* [`dynamic_config`](#dynamic_config)
+* [`expose_api`](#expose_api)
+* [`expose_metrics`](#expose_metrics)
+* [`expose_ui`](#expose_ui)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`protocol`](#protocol)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+* [`static_config`](#static_config)
+* [`traefik_api_port`](#traefik_api_port)
+* [`version`](#version)
+
+##### <a name="dynamic_config"></a>`dynamic_config`
 
 Data type: `Hash`
 
@@ -8832,7 +10839,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `expose_api`
+##### <a name="expose_api"></a>`expose_api`
 
 Data type: `Boolean`
 
@@ -8840,7 +10847,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `expose_metrics`
+##### <a name="expose_metrics"></a>`expose_metrics`
 
 Data type: `Boolean`
 
@@ -8848,7 +10855,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `expose_ui`
+##### <a name="expose_ui"></a>`expose_ui`
 
 Data type: `Boolean`
 
@@ -8856,7 +10863,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -8864,7 +10871,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -8872,7 +10879,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `Enum['http','https']`
 
@@ -8880,7 +10887,7 @@ Data type: `Enum['http','https']`
 
 Default value: `'https'`
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -8888,7 +10895,7 @@ Data type: `String`
 
 Default value: `'traefik'`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -8896,7 +10903,7 @@ Data type: `Array`
 
 Default value: `['metrics']`
 
-##### `static_config`
+##### <a name="static_config"></a>`static_config`
 
 Data type: `Hash`
 
@@ -8904,7 +10911,7 @@ Data type: `Hash`
 
 Default value: `{}`
 
-##### `traefik_api_port`
+##### <a name="traefik_api_port"></a>`traefik_api_port`
 
 Data type: `Integer`
 
@@ -8912,15 +10919,15 @@ Data type: `Integer`
 
 Default value: `8080`
 
-##### `version`
+##### <a name="version"></a>`version`
 
 Data type: `String`
 
 
 
-Default value: `'2.3.2'`
+Default value: `'2.4.5'`
 
-### `profiles::website::uwsgi`
+### <a name="profileswebsiteuwsgi"></a>`profiles::website::uwsgi`
 
 == Class: profiles::website::uwsgi
 
@@ -8930,9 +10937,25 @@ Profile for uwsgi including plugins.
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::uwsgi` class.
+The following parameters are available in the `profiles::website::uwsgi` class:
 
-##### `apps`
+* [`apps`](#apps)
+* [`emperor_options`](#emperor_options)
+* [`group`](#group)
+* [`install_pip`](#install_pip)
+* [`install_python_dev`](#install_python_dev)
+* [`package_name`](#package_name)
+* [`package_ensure`](#package_ensure)
+* [`package_provider`](#package_provider)
+* [`plugins`](#plugins)
+* [`service_ensure`](#service_ensure)
+* [`service_enable`](#service_enable)
+* [`service_name`](#service_name)
+* [`service_provider`](#service_provider)
+* [`socket`](#socket)
+* [`user`](#user)
+
+##### <a name="apps"></a>`apps`
 
 Data type: `Hash`
 
@@ -8940,7 +10963,7 @@ List of applications that run under uwsgi
 
 Default value: `{}`
 
-##### `emperor_options`
+##### <a name="emperor_options"></a>`emperor_options`
 
 Data type: `Hash`
 
@@ -8948,7 +10971,7 @@ Extra options to set in the emperor config file
 
 Default value: `{}`
 
-##### `group`
+##### <a name="group"></a>`group`
 
 Data type: `String`
 
@@ -8956,7 +10979,7 @@ Group the service belongs to
 
 Default value: `'uwgsi'`
 
-##### `install_pip`
+##### <a name="install_pip"></a>`install_pip`
 
 Data type: `Boolean`
 
@@ -8964,7 +10987,7 @@ Use pip to install uwsgi
 
 Default value: ``false``
 
-##### `install_python_dev`
+##### <a name="install_python_dev"></a>`install_python_dev`
 
 Data type: `Boolean`
 
@@ -8972,7 +10995,7 @@ Indicates if python-dev package should be installed
 
 Default value: ``false``
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `String`
 
@@ -8980,7 +11003,7 @@ Name of uwsgi package
 
 Default value: `'uwsgi'`
 
-##### `package_ensure`
+##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -8988,7 +11011,7 @@ Indicates what state the package should be in
 
 Default value: `'installed'`
 
-##### `package_provider`
+##### <a name="package_provider"></a>`package_provider`
 
 Data type: `String`
 
@@ -8996,7 +11019,7 @@ Indicates what backend to use for this package
 
 Default value: `'yum'`
 
-##### `plugins`
+##### <a name="plugins"></a>`plugins`
 
 Data type: `Array`
 
@@ -9004,7 +11027,7 @@ List of uwsgi plugins
 
 Default value: `[]`
 
-##### `service_ensure`
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Boolean`
 
@@ -9012,7 +11035,7 @@ Indicates whether the service should be running
 
 Default value: ``true``
 
-##### `service_enable`
+##### <a name="service_enable"></a>`service_enable`
 
 Data type: `Boolean`
 
@@ -9020,7 +11043,7 @@ Indicates whether the service should be enabled to start
 
 Default value: ``true``
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `String`
 
@@ -9028,7 +11051,7 @@ Name of the running service
 
 Default value: `'uwsgi-emperor'`
 
-##### `service_provider`
+##### <a name="service_provider"></a>`service_provider`
 
 Data type: `String`
 
@@ -9036,7 +11059,7 @@ The specific backend for this service
 
 Default value: `'systemd'`
 
-##### `socket`
+##### <a name="socket"></a>`socket`
 
 Data type: `Optional[String]`
 
@@ -9044,7 +11067,7 @@ Directory where the sockets will be created
 
 Default value: ``undef``
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `String`
 
@@ -9054,7 +11077,7 @@ Default value: `'uwgsi'`
 
 ## Defined types
 
-### `profiles::bootstrap::disk::mount`
+### <a name="profilesbootstrapdiskmount"></a>`profiles::bootstrap::disk::mount`
 
 This class can be used install user mount properties
 
@@ -9068,15 +11091,22 @@ This class can be used install user mount properties
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::disk::mount` defined type.
+The following parameters are available in the `profiles::bootstrap::disk::mount` defined type:
 
-##### `device`
+* [`device`](#device)
+* [`createfs`](#createfs)
+* [`ensure`](#ensure)
+* [`fs_type`](#fs_type)
+* [`mountpath`](#mountpath)
+* [`mounted`](#mounted)
+
+##### <a name="device"></a>`device`
 
 Data type: `Stdlib::Absolutepath`
 
 
 
-##### `createfs`
+##### <a name="createfs"></a>`createfs`
 
 Data type: `Boolean`
 
@@ -9084,7 +11114,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `ensure`
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['absent', 'present']`
 
@@ -9092,15 +11122,15 @@ Data type: `Enum['absent', 'present']`
 
 Default value: `present`
 
-##### `fs_type`
+##### <a name="fs_type"></a>`fs_type`
 
-Data type: `Enum['ext4']`
+Data type: `Enum['ext4','xfs']`
 
 
 
 Default value: `'ext4'`
 
-##### `mountpath`
+##### <a name="mountpath"></a>`mountpath`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -9108,7 +11138,7 @@ Data type: `Stdlib::Absolutepath`
 
 Default value: `$name`
 
-##### `mounted`
+##### <a name="mounted"></a>`mounted`
 
 Data type: `Boolean`
 
@@ -9116,7 +11146,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-### `profiles::bootstrap::firewall::entry`
+### <a name="profilesbootstrapfirewallentry"></a>`profiles::bootstrap::firewall::entry`
 
 This class can be used install user firewall properties
 
@@ -9132,9 +11162,17 @@ This class can be used install user firewall properties
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::firewall::entry` defined type.
+The following parameters are available in the `profiles::bootstrap::firewall::entry` defined type:
 
-##### `action`
+* [`action`](#action)
+* [`chain`](#chain)
+* [`interface`](#interface)
+* [`port`](#port)
+* [`protocol`](#protocol)
+* [`provider`](#provider)
+* [`state`](#state)
+
+##### <a name="action"></a>`action`
 
 Data type: `Profiles::FirewallAction`
 
@@ -9142,7 +11180,7 @@ Action to perform.
 
 Default value: `'accept'`
 
-##### `chain`
+##### <a name="chain"></a>`chain`
 
 Data type: `Profiles::FirewallChain`
 
@@ -9150,7 +11188,7 @@ User base chain
 
 Default value: `'INPUT'`
 
-##### `interface`
+##### <a name="interface"></a>`interface`
 
 Data type: `Optional[String]`
 
@@ -9158,7 +11196,7 @@ Interface to describe.
 
 Default value: ``undef``
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Optional[Variant[Integer, Array[Integer],Array[String]]]`
 
@@ -9166,7 +11204,7 @@ System port.
 
 Default value: ``undef``
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `Profiles::FirewallProtocol`
 
@@ -9174,7 +11212,7 @@ Protocol to use.
 
 Default value: `'tcp'`
 
-##### `provider`
+##### <a name="provider"></a>`provider`
 
 Data type: `Profiles::FirewallProvider`
 
@@ -9182,7 +11220,7 @@ Provider to use.
 
 Default value: `'iptables'`
 
-##### `state`
+##### <a name="state"></a>`state`
 
 Data type: `Optional[Variant[Profiles::FirewallState, Array[Profiles::FirewallState]]]`
 
@@ -9190,7 +11228,7 @@ Packet State
 
 Default value: ``undef``
 
-### `profiles::bootstrap::sysctl::entry`
+### <a name="profilesbootstrapsysctlentry"></a>`profiles::bootstrap::sysctl::entry`
 
 This class can be used install user sysctl properties
 
@@ -9204,9 +11242,13 @@ This class can be used install user sysctl properties
 
 #### Parameters
 
-The following parameters are available in the `profiles::bootstrap::sysctl::entry` defined type.
+The following parameters are available in the `profiles::bootstrap::sysctl::entry` defined type:
 
-##### `ensure`
+* [`ensure`](#ensure)
+* [`comment`](#comment)
+* [`value`](#value)
+
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['absent','present']`
 
@@ -9214,7 +11256,7 @@ Data type: `Enum['absent','present']`
 
 Default value: `'present'`
 
-##### `comment`
+##### <a name="comment"></a>`comment`
 
 Data type: `String`
 
@@ -9222,7 +11264,7 @@ Data type: `String`
 
 Default value: `''`
 
-##### `value`
+##### <a name="value"></a>`value`
 
 Data type: `Any`
 
@@ -9230,7 +11272,154 @@ Data type: `Any`
 
 Default value: `1`
 
-### `profiles::database::postgresql::db`
+### <a name="profilesdatabasemongodbdb"></a>`profiles::database::mongodb::db`
+
+A description of what this defined type does
+
+#### Examples
+
+##### 
+
+```puppet
+profiles::database::mongodb::db { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::database::mongodb::db` defined type:
+
+* [`user`](#user)
+* [`password_hash`](#password_hash)
+* [`password`](#password)
+
+##### <a name="user"></a>`user`
+
+Data type: `String`
+
+
+
+##### <a name="password_hash"></a>`password_hash`
+
+Data type: `Optional[String]`
+
+
+
+Default value: ``undef``
+
+##### <a name="password"></a>`password`
+
+Data type: `Optional[String]`
+
+
+
+Default value: ``undef``
+
+### <a name="profilesdatabasemysqldb"></a>`profiles::database::mysql::db`
+
+A description of what this defined type does
+
+#### Examples
+
+##### 
+
+```puppet
+profiles::database::mysql::db { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::database::mysql::db` defined type:
+
+* [`password`](#password)
+* [`user`](#user)
+* [`grant`](#grant)
+* [`host`](#host)
+
+##### <a name="password"></a>`password`
+
+Data type: `String`
+
+
+
+##### <a name="user"></a>`user`
+
+Data type: `String`
+
+
+
+##### <a name="grant"></a>`grant`
+
+Data type: `String`
+
+
+
+Default value: `'ALL'`
+
+##### <a name="host"></a>`host`
+
+Data type: `Stdlib::Host`
+
+
+
+Default value: `'localhost'`
+
+### <a name="profilesdatabasemysqluser"></a>`profiles::database::mysql::user`
+
+A description of what this defined type does
+
+#### Examples
+
+##### 
+
+```puppet
+profiles::database::mysql::user { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::database::mysql::user` defined type:
+
+* [`dbname`](#dbname)
+* [`grants`](#grants)
+* [`password`](#password)
+* [`ensure`](#ensure)
+* [`host`](#host)
+
+##### <a name="dbname"></a>`dbname`
+
+Data type: `String`
+
+
+
+##### <a name="grants"></a>`grants`
+
+Data type: `Array`
+
+
+
+##### <a name="password"></a>`password`
+
+Data type: `String`
+
+
+
+##### <a name="ensure"></a>`ensure`
+
+Data type: `Enum['absent','present']`
+
+
+
+Default value: `'present'`
+
+##### <a name="host"></a>`host`
+
+Data type: `String`
+
+
+
+Default value: `'localhost'`
+
+### <a name="profilesdatabasepostgresqldb"></a>`profiles::database::postgresql::db`
 
 This class can be used to create pgsql databases
 
@@ -9244,21 +11433,26 @@ class { '::profiles::database::postgresql::db': }
 
 #### Parameters
 
-The following parameters are available in the `profiles::database::postgresql::db` defined type.
+The following parameters are available in the `profiles::database::postgresql::db` defined type:
 
-##### `password`
+* [`password`](#password)
+* [`user`](#user)
+* [`encrypted`](#encrypted)
+* [`grant`](#grant)
+
+##### <a name="password"></a>`password`
 
 Data type: `String`
 
 
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `String`
 
 
 
-##### `encrypted`
+##### <a name="encrypted"></a>`encrypted`
 
 Data type: `Boolean`
 
@@ -9266,7 +11460,7 @@ Data type: `Boolean`
 
 Default value: ``true``
 
-##### `grant`
+##### <a name="grant"></a>`grant`
 
 Data type: `String`
 
@@ -9274,7 +11468,7 @@ Data type: `String`
 
 Default value: `'ALL'`
 
-### `profiles::dns::bind::zone`
+### <a name="profilesdnsbindzone"></a>`profiles::dns::bind::zone`
 
 This class can be used to create a bind9 zone
 
@@ -9288,9 +11482,14 @@ This class can be used to create a bind9 zone
 
 #### Parameters
 
-The following parameters are available in the `profiles::dns::bind::zone` defined type.
+The following parameters are available in the `profiles::dns::bind::zone` defined type:
 
-##### `reverse`
+* [`reverse`](#reverse)
+* [`soa`](#soa)
+* [`soaip`](#soaip)
+* [`update_policy`](#update_policy)
+
+##### <a name="reverse"></a>`reverse`
 
 Data type: `Boolean`
 
@@ -9298,7 +11497,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `soa`
+##### <a name="soa"></a>`soa`
 
 Data type: `String`
 
@@ -9306,7 +11505,7 @@ Data type: `String`
 
 Default value: `$::fqdn`
 
-##### `soaip`
+##### <a name="soaip"></a>`soaip`
 
 Data type: `Optional[Stdlib::IP::Address::V4]`
 
@@ -9314,7 +11513,7 @@ Data type: `Optional[Stdlib::IP::Address::V4]`
 
 Default value: ``undef``
 
-##### `update_policy`
+##### <a name="update_policy"></a>`update_policy`
 
 Data type: `Optional[Dns::UpdatePolicy]`
 
@@ -9322,7 +11521,7 @@ Data type: `Optional[Dns::UpdatePolicy]`
 
 Default value: ``undef``
 
-### `profiles::metrics::grafana::dashboard`
+### <a name="profilesmetricsgrafanadashboard"></a>`profiles::metrics::grafana::dashboard`
 
 == Type: profiles::metrics::grafana::dashboard
 
@@ -9344,9 +11543,14 @@ profiles::metrics::grafana::dashboard { 'example':
 
 #### Parameters
 
-The following parameters are available in the `profiles::metrics::grafana::dashboard` defined type.
+The following parameters are available in the `profiles::metrics::grafana::dashboard` defined type:
 
-##### `content`
+* [`content`](#content)
+* [`grafana_password`](#grafana_password)
+* [`grafana_url`](#grafana_url)
+* [`grafana_user`](#grafana_user)
+
+##### <a name="content"></a>`content`
 
 Data type: `Optional[String]`
 
@@ -9354,7 +11558,7 @@ Path to json-file.
 
 Default value: ``undef``
 
-##### `grafana_password`
+##### <a name="grafana_password"></a>`grafana_password`
 
 Data type: `Optional[String]`
 
@@ -9362,7 +11566,7 @@ Password for admin account.
 
 Default value: ``undef``
 
-##### `grafana_url`
+##### <a name="grafana_url"></a>`grafana_url`
 
 Data type: `Optional[String]`
 
@@ -9370,7 +11574,7 @@ Grafana endpoint.
 
 Default value: ``undef``
 
-##### `grafana_user`
+##### <a name="grafana_user"></a>`grafana_user`
 
 Data type: `Optional[String]`
 
@@ -9378,7 +11582,7 @@ Grafana admin user.
 
 Default value: ``undef``
 
-### `profiles::metrics::grafana::datasource`
+### <a name="profilesmetricsgrafanadatasource"></a>`profiles::metrics::grafana::datasource`
 
 Class to manage grafana datasources.
 
@@ -9394,9 +11598,20 @@ profiles::metrics::grafana::datasource { 'example':
 
 #### Parameters
 
-The following parameters are available in the `profiles::metrics::grafana::datasource` defined type.
+The following parameters are available in the `profiles::metrics::grafana::datasource` defined type:
 
-##### `access_mode`
+* [`access_mode`](#access_mode)
+* [`database`](#database)
+* [`grafana_password`](#grafana_password)
+* [`grafana_url`](#grafana_url)
+* [`grafana_user`](#grafana_user)
+* [`is_default`](#is_default)
+* [`password`](#password)
+* [`type`](#type)
+* [`url`](#url)
+* [`user`](#user)
+
+##### <a name="access_mode"></a>`access_mode`
 
 Data type: `Optional[String]`
 
@@ -9404,7 +11619,7 @@ Proxy vs direct.
 
 Default value: ``undef``
 
-##### `database`
+##### <a name="database"></a>`database`
 
 Data type: `Optional[String]`
 
@@ -9412,7 +11627,7 @@ Backend database.
 
 Default value: ``undef``
 
-##### `grafana_password`
+##### <a name="grafana_password"></a>`grafana_password`
 
 Data type: `Optional[String]`
 
@@ -9420,7 +11635,7 @@ Password for admin account.
 
 Default value: ``undef``
 
-##### `grafana_url`
+##### <a name="grafana_url"></a>`grafana_url`
 
 Data type: `Optional[String]`
 
@@ -9428,7 +11643,7 @@ Grafana endpoint.
 
 Default value: ``undef``
 
-##### `grafana_user`
+##### <a name="grafana_user"></a>`grafana_user`
 
 Data type: `Optional[String]`
 
@@ -9436,7 +11651,7 @@ Grafana admin user.
 
 Default value: ``undef``
 
-##### `is_default`
+##### <a name="is_default"></a>`is_default`
 
 Data type: `Optional[Boolean]`
 
@@ -9444,7 +11659,7 @@ Make datasource the default.
 
 Default value: ``false``
 
-##### `password`
+##### <a name="password"></a>`password`
 
 Data type: `Optional[String]`
 
@@ -9452,7 +11667,7 @@ Backend credential.
 
 Default value: ``undef``
 
-##### `type`
+##### <a name="type"></a>`type`
 
 Data type: `Optional[String]`
 
@@ -9460,7 +11675,7 @@ Backend type.
 
 Default value: ``undef``
 
-##### `url`
+##### <a name="url"></a>`url`
 
 Data type: `Optional[String]`
 
@@ -9468,7 +11683,7 @@ Backend location.
 
 Default value: ``undef``
 
-##### `user`
+##### <a name="user"></a>`user`
 
 Data type: `Optional[String]`
 
@@ -9476,7 +11691,129 @@ Backend credential.
 
 Default value: ``undef``
 
-### `profiles::orchestration::consul::service`
+### <a name="profilesmetricsgrafanaplugin"></a>`profiles::metrics::grafana::plugin`
+
+A description of what this defined type does
+
+#### Examples
+
+##### 
+
+```puppet
+profiles::metrics::grafana::plugin { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::metrics::grafana::plugin` defined type:
+
+* [`plugin_url`](#plugin_url)
+* [`repo`](#repo)
+
+##### <a name="plugin_url"></a>`plugin_url`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+
+
+Default value: ``undef``
+
+##### <a name="repo"></a>`repo`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+
+
+Default value: ``undef``
+
+### <a name="profilesorchestrationconsulprepared_query"></a>`profiles::orchestration::consul::prepared_query`
+
+A description of what this defined type does
+
+#### Examples
+
+##### 
+
+```puppet
+profiles::orchestration::consul::prepared_query { 'namevar': }
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::orchestration::consul::prepared_query` defined type:
+
+* [`failover_dcs`](#failover_dcs)
+* [`ensure`](#ensure)
+* [`failover_n`](#failover_n)
+* [`hostname`](#hostname)
+* [`only_passing`](#only_passing)
+* [`protocol`](#protocol)
+* [`tags`](#tags)
+* [`ttl`](#ttl)
+
+##### <a name="failover_dcs"></a>`failover_dcs`
+
+Data type: `Array`
+
+
+
+##### <a name="ensure"></a>`ensure`
+
+Data type: `Enum['absent','present']`
+
+
+
+Default value: `'present'`
+
+##### <a name="failover_n"></a>`failover_n`
+
+Data type: `Integer`
+
+
+
+Default value: `1`
+
+##### <a name="hostname"></a>`hostname`
+
+Data type: `Stdlib::Host`
+
+
+
+Default value: `'127.0.0.1'`
+
+##### <a name="only_passing"></a>`only_passing`
+
+Data type: `Boolean`
+
+
+
+Default value: ``true``
+
+##### <a name="protocol"></a>`protocol`
+
+Data type: `Enum['http','https']`
+
+
+
+Default value: `'http'`
+
+##### <a name="tags"></a>`tags`
+
+Data type: `Array`
+
+
+
+Default value: `[]`
+
+##### <a name="ttl"></a>`ttl`
+
+Data type: `Integer`
+
+
+
+Default value: `10`
+
+### <a name="profilesorchestrationconsulservice"></a>`profiles::orchestration::consul::service`
 
 This class can be used to create a consul service
 
@@ -9490,9 +11827,15 @@ This class can be used to create a consul service
 
 #### Parameters
 
-The following parameters are available in the `profiles::orchestration::consul::service` defined type.
+The following parameters are available in the `profiles::orchestration::consul::service` defined type:
 
-##### `checks`
+* [`checks`](#checks)
+* [`port`](#port)
+* [`service_name`](#service_name)
+* [`service_config_hash`](#service_config_hash)
+* [`tags`](#tags)
+
+##### <a name="checks"></a>`checks`
 
 Data type: `Array[Hash]`
 
@@ -9500,7 +11843,7 @@ Data type: `Array[Hash]`
 
 Default value: `[]`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Stdlib::Port`
 
@@ -9508,7 +11851,7 @@ Data type: `Stdlib::Port`
 
 Default value: ``undef``
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `String`
 
@@ -9516,7 +11859,15 @@ Data type: `String`
 
 Default value: `$title`
 
-##### `tags`
+##### <a name="service_config_hash"></a>`service_config_hash`
+
+Data type: `Hash`
+
+
+
+Default value: `{}`
+
+##### <a name="tags"></a>`tags`
 
 Data type: `Array[String]`
 
@@ -9524,7 +11875,7 @@ Data type: `Array[String]`
 
 Default value: `[]`
 
-### `profiles::puppet::foreman::plugin`
+### <a name="profilespuppetforemanplugin"></a>`profiles::puppet::foreman::plugin`
 
 Class to manage foreman plugins.
 
@@ -9540,13 +11891,16 @@ profiles::puppet::puppet::foreman::plugin { 'example':
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet::foreman::plugin` defined type.
+The following parameters are available in the `profiles::puppet::foreman::plugin` defined type:
 
-##### `value`
+* [`value`](#value)
+* [`package`](#package)
+
+##### <a name="value"></a>`value`
 
 plugin value.
 
-##### `package`
+##### <a name="package"></a>`package`
 
 Data type: `String[1]`
 
@@ -9554,7 +11908,7 @@ Data type: `String[1]`
 
 Default value: `"${::foreman::plugin_prefix}${title}"`
 
-### `profiles::puppet::foreman::setting`
+### <a name="profilespuppetforemansetting"></a>`profiles::puppet::foreman::setting`
 
 Class to manage foreman parameters.
 
@@ -9570,15 +11924,17 @@ profiles::puppet::puppet::foreman::setting { 'example':
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet::foreman::setting` defined type.
+The following parameters are available in the `profiles::puppet::foreman::setting` defined type:
 
-##### `value`
+* [`value`](#value)
+
+##### <a name="value"></a>`value`
 
 Data type: `Variant[Boolean, Integer, String]`
 
 Setting value.
 
-### `profiles::runtime::php::pool`
+### <a name="profilesruntimephppool"></a>`profiles::runtime::php::pool`
 
 This class can be used to create a php-fpm pool
 
@@ -9592,9 +11948,16 @@ This class can be used to create a php-fpm pool
 
 #### Parameters
 
-The following parameters are available in the `profiles::runtime::php::pool` defined type.
+The following parameters are available in the `profiles::runtime::php::pool` defined type:
 
-##### `address`
+* [`address`](#address)
+* [`cachetool_config`](#cachetool_config)
+* [`cachetool_config_dir`](#cachetool_config_dir)
+* [`port`](#port)
+* [`process_manager`](#process_manager)
+* [`type`](#type)
+
+##### <a name="address"></a>`address`
 
 Data type: `Stdlib::IP::Address`
 
@@ -9602,7 +11965,7 @@ Ipaddress to bind to.
 
 Default value: `'127.0.0.1'`
 
-##### `cachetool_config`
+##### <a name="cachetool_config"></a>`cachetool_config`
 
 Data type: `Boolean`
 
@@ -9610,7 +11973,7 @@ Install cachetool config.
 
 Default value: ``true``
 
-##### `cachetool_config_dir`
+##### <a name="cachetool_config_dir"></a>`cachetool_config_dir`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -9618,7 +11981,7 @@ directory to install cachetool config in.
 
 Default value: ``undef``
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Stdlib::Port::Unprivileged`
 
@@ -9626,7 +11989,7 @@ Port to bind to.
 
 Default value: `9000`
 
-##### `process_manager`
+##### <a name="process_manager"></a>`process_manager`
 
 Data type: `Enum['static','dynamic','ondemand']`
 
@@ -9634,7 +11997,7 @@ Way to run the fpm process manager.
 
 Default value: `'static'`
 
-##### `type`
+##### <a name="type"></a>`type`
 
 Data type: `Enum['port','socket']`
 
@@ -9642,7 +12005,7 @@ Way to run fpm.
 
 Default value: `'port'`
 
-### `profiles::testing::jenkins::plugin`
+### <a name="profilestestingjenkinsplugin"></a>`profiles::testing::jenkins::plugin`
 
 This class can be used to install a jenkins plugin
 
@@ -9656,9 +12019,20 @@ This class can be used to install a jenkins plugin
 
 #### Parameters
 
-The following parameters are available in the `profiles::testing::jenkins::plugin` defined type.
+The following parameters are available in the `profiles::testing::jenkins::plugin` defined type:
 
-##### `version`
+* [`extension`](#extension)
+* [`version`](#version)
+
+##### <a name="extension"></a>`extension`
+
+Data type: `Enum['hpi', 'jpi']`
+
+
+
+Default value: `'hpi'`
+
+##### <a name="version"></a>`version`
 
 Data type: `Optional[String]`
 
@@ -9666,7 +12040,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-### `profiles::website::nginx::proxy`
+### <a name="profileswebsitenginxproxy"></a>`profiles::website::nginx::proxy`
 
 This class can be used to create a nginx proxy
 
@@ -9680,15 +12054,29 @@ This class can be used to create a nginx proxy
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::nginx::proxy` defined type.
+The following parameters are available in the `profiles::website::nginx::proxy` defined type:
 
-##### `proxy_url`
+* [`proxy_url`](#proxy_url)
+* [`client_max_body_size`](#client_max_body_size)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`port`](#port)
+* [`protocol`](#protocol)
+* [`proxy_buffering`](#proxy_buffering)
+* [`proxy_http_version`](#proxy_http_version)
+* [`proxy_read_timeout`](#proxy_read_timeout)
+* [`proxy_set_header`](#proxy_set_header)
+* [`public_name`](#public_name)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="proxy_url"></a>`proxy_url`
 
 Data type: `Stdlib::HTTPUrl`
 
 
 
-##### `client_max_body_size`
+##### <a name="client_max_body_size"></a>`client_max_body_size`
 
 Data type: `Any`
 
@@ -9696,7 +12084,7 @@ Data type: `Any`
 
 Default value: ``undef``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -9704,7 +12092,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -9712,7 +12100,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Stdlib::Port`
 
@@ -9720,7 +12108,7 @@ Data type: `Stdlib::Port`
 
 Default value: `80`
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `Enum['http']`
 
@@ -9728,7 +12116,7 @@ Data type: `Enum['http']`
 
 Default value: `'http'`
 
-##### `proxy_buffering`
+##### <a name="proxy_buffering"></a>`proxy_buffering`
 
 Data type: `Optional[String]`
 
@@ -9736,7 +12124,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `proxy_http_version`
+##### <a name="proxy_http_version"></a>`proxy_http_version`
 
 Data type: `Optional[String]`
 
@@ -9744,7 +12132,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `proxy_read_timeout`
+##### <a name="proxy_read_timeout"></a>`proxy_read_timeout`
 
 Data type: `String`
 
@@ -9752,7 +12140,7 @@ Data type: `String`
 
 Default value: `'90s'`
 
-##### `proxy_set_header`
+##### <a name="proxy_set_header"></a>`proxy_set_header`
 
 Data type: `Array`
 
@@ -9765,15 +12153,15 @@ Default value: `[
     'Proxy ""',
   ]`
 
-##### `public_name`
+##### <a name="public_name"></a>`public_name`
 
-Data type: `Stdlib::Host`
+Data type: `Array[Stdlib::Host]`
 
 
 
-Default value: `$name`
+Default value: `[$name]`
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -9781,7 +12169,7 @@ Data type: `String`
 
 Default value: `$name`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -9789,7 +12177,7 @@ Data type: `Array`
 
 Default value: `[]`
 
-### `profiles::website::nginx::vhost`
+### <a name="profileswebsitenginxvhost"></a>`profiles::website::nginx::vhost`
 
 This class can be used to create a nginx vhost
 
@@ -9803,15 +12191,26 @@ This class can be used to create a nginx vhost
 
 #### Parameters
 
-The following parameters are available in the `profiles::website::nginx::vhost` defined type.
+The following parameters are available in the `profiles::website::nginx::vhost` defined type:
 
-##### `www_root`
+* [`www_root`](#www_root)
+* [`fastcgi`](#fastcgi)
+* [`fastcgi_index`](#fastcgi_index)
+* [`manage_firewall_entry`](#manage_firewall_entry)
+* [`manage_sd_service`](#manage_sd_service)
+* [`port`](#port)
+* [`protocol`](#protocol)
+* [`public_name`](#public_name)
+* [`sd_service_name`](#sd_service_name)
+* [`sd_service_tags`](#sd_service_tags)
+
+##### <a name="www_root"></a>`www_root`
 
 Data type: `Stdlib::Absolutepath`
 
 
 
-##### `fastcgi`
+##### <a name="fastcgi"></a>`fastcgi`
 
 Data type: `Optional[String]`
 
@@ -9819,7 +12218,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `fastcgi_index`
+##### <a name="fastcgi_index"></a>`fastcgi_index`
 
 Data type: `Optional[String]`
 
@@ -9827,7 +12226,7 @@ Data type: `Optional[String]`
 
 Default value: ``undef``
 
-##### `manage_firewall_entry`
+##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
 Data type: `Boolean`
 
@@ -9835,7 +12234,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `manage_sd_service`
+##### <a name="manage_sd_service"></a>`manage_sd_service`
 
 Data type: `Boolean`
 
@@ -9843,7 +12242,7 @@ Data type: `Boolean`
 
 Default value: ``false``
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Stdlib::Port`
 
@@ -9851,7 +12250,7 @@ Data type: `Stdlib::Port`
 
 Default value: `80`
 
-##### `protocol`
+##### <a name="protocol"></a>`protocol`
 
 Data type: `Enum['http']`
 
@@ -9859,15 +12258,15 @@ Data type: `Enum['http']`
 
 Default value: `'http'`
 
-##### `public_name`
+##### <a name="public_name"></a>`public_name`
 
-Data type: `Array[String]`
+Data type: `Array[Stdlib::Host]`
 
 
 
 Default value: `[$name]`
 
-##### `sd_service_name`
+##### <a name="sd_service_name"></a>`sd_service_name`
 
 Data type: `String`
 
@@ -9875,7 +12274,7 @@ Data type: `String`
 
 Default value: `$name`
 
-##### `sd_service_tags`
+##### <a name="sd_service_tags"></a>`sd_service_tags`
 
 Data type: `Array`
 
@@ -9885,53 +12284,79 @@ Default value: `[]`
 
 ## Data types
 
-### `Profiles::FirewallAction`
+### <a name="profilesfirewallaction"></a>`Profiles::FirewallAction`
 
 The Profiles::FirewallAction data type.
 
-Alias of `Enum['accept', 'drop', 'reject']`
+Alias of
 
-### `Profiles::FirewallChain`
+```puppet
+Enum['accept', 'drop', 'reject']
+```
+
+### <a name="profilesfirewallchain"></a>`Profiles::FirewallChain`
 
 The Profiles::FirewallChain data type.
 
-Alias of `Enum['INPUT', 'FORWARD', 'OUTPUT', 'PREROUTING', 'POSTROUTING']`
+Alias of
 
-### `Profiles::FirewallProtocol`
+```puppet
+Enum['INPUT', 'FORWARD', 'OUTPUT', 'PREROUTING', 'POSTROUTING']
+```
+
+### <a name="profilesfirewallprotocol"></a>`Profiles::FirewallProtocol`
 
 The Profiles::FirewallProtocol data type.
 
-Alias of `Enum['icmp', 'tcp', 'sctp', 'udp', 'all']`
+Alias of
 
-### `Profiles::FirewallProvider`
+```puppet
+Enum['icmp', 'tcp', 'sctp', 'udp', 'all']
+```
+
+### <a name="profilesfirewallprovider"></a>`Profiles::FirewallProvider`
 
 The Profiles::FirewallProvider data type.
 
-Alias of `Enum['ip6tables', 'iptables']`
+Alias of
 
-### `Profiles::FirewallState`
+```puppet
+Enum['ip6tables', 'iptables']
+```
+
+### <a name="profilesfirewallstate"></a>`Profiles::FirewallState`
 
 The Profiles::FirewallState data type.
 
-Alias of `Enum['INVALID', 'ESTABLISHED', 'NEW', 'RELATED', 'UNRELATED']`
+Alias of
 
-### `Profiles::InstallMethod`
+```puppet
+Enum['INVALID', 'ESTABLISHED', 'NEW', 'RELATED', 'UNRELATED']
+```
+
+### <a name="profilesinstallmethod"></a>`Profiles::InstallMethod`
 
 The Profiles::InstallMethod data type.
 
-Alias of `Enum['archive', 'package']`
+Alias of
+
+```puppet
+Enum['archive', 'package']
+```
 
 ## Plans
 
-### `profiles::apt_update`
+### <a name="profilesapt_update"></a>`profiles::apt_update`
 
 The profiles::apt_update class.
 
 #### Parameters
 
-The following parameters are available in the `profiles::apt_update` plan.
+The following parameters are available in the `profiles::apt_update` plan:
 
-##### `targets`
+* [`targets`](#targets)
+
+##### <a name="targets"></a>`targets`
 
 Data type: `TargetSpec`
 
@@ -9939,29 +12364,34 @@ Data type: `TargetSpec`
 
 Default value: `'prod'`
 
-### `profiles::puppet_run`
+### <a name="profilespuppet_run"></a>`profiles::puppet_run`
 
 The profiles::puppet_run class.
 
 #### Parameters
 
-The following parameters are available in the `profiles::puppet_run` plan.
+The following parameters are available in the `profiles::puppet_run` plan:
 
-##### `targets`
+* [`targets`](#targets)
+
+##### <a name="targets"></a>`targets`
 
 Data type: `TargetSpec`
 
 
 
-### `profiles::r10k_deploy`
+### <a name="profilesr10k_deploy"></a>`profiles::r10k_deploy`
 
 The profiles::r10k_deploy class.
 
 #### Parameters
 
-The following parameters are available in the `profiles::r10k_deploy` plan.
+The following parameters are available in the `profiles::r10k_deploy` plan:
 
-##### `environment`
+* [`environment`](#environment)
+* [`targets`](#targets)
+
+##### <a name="environment"></a>`environment`
 
 Data type: `String`
 
@@ -9969,7 +12399,7 @@ Data type: `String`
 
 Default value: `''`
 
-##### `targets`
+##### <a name="targets"></a>`targets`
 
 Data type: `TargetSpec`
 
@@ -9977,15 +12407,17 @@ Data type: `TargetSpec`
 
 Default value: `'puppet'`
 
-### `profiles::yum_update`
+### <a name="profilesyum_update"></a>`profiles::yum_update`
 
 The profiles::yum_update class.
 
 #### Parameters
 
-The following parameters are available in the `profiles::yum_update` plan.
+The following parameters are available in the `profiles::yum_update` plan:
 
-##### `targets`
+* [`targets`](#targets)
+
+##### <a name="targets"></a>`targets`
 
 Data type: `TargetSpec`
 
