@@ -9,8 +9,8 @@
   "issues_url": "https://github.com/attachmentgenie/attachmentgenie-profiles/issues",
   "dependencies": [
     {
-      "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 4.13.1 < 7.0.0"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.25.0 < 9.0.0"
     }
   ],
   "operatingsystem_support": [
