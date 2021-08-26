@@ -1,9 +1,6 @@
 # attachmentgenie-profiles
 
-[![](https://img.shields.io/puppetforge/pdk-version/attachmentgenie/profiles.svg?style=popout)](https://forge.puppetlabs.com/attachmentgenie/profiles)
-[![](https://img.shields.io/puppetforge/v/attachmentgenie/profiles.svg?style=popout)](https://forge.puppetlabs.com/attachmentgenie/profiles)
-[![](https://img.shields.io/puppetforge/dt/attachmentgenie/profiles.svg?style=popout)](https://forge.puppetlabs.com/attachmentgenie/profiles)
-[![](https://travis-ci.org/attachmentgenie/attachmentgenie-profiles.svg?branch=master)](https://travis-ci.org/attachmentgenie/attachmentgenie-profiles)
+[![Spec Tests](https://github.com/attachmentgenie/attachmentgenie-profiles/actions/workflows/spec.yml/badge.svg)](https://github.com/attachmentgenie/attachmentgenie-profiles/actions/workflows/spec.yml)
 [![License](https://img.shields.io/github/license/attachmentgenie/attachmentgenie-profiles?stype=popout)](https://github.com/attachmentgenie/attachmentgenie-profiles/blob/master/LICENSE)
 
 - [Description](#description)
@@ -20,7 +17,7 @@ Collection of profiles for tools I find useful, works together with [attachmentg
 ## Usage
 
 All options and configuration can be done through interacting with the parameters
-on the main example class.
+on the main profiles class.
 These are now documented via [Puppet Strings](https://github.com/puppetlabs/puppet-strings)
 
 You can view example usage in [REFERENCE](REFERENCE.md).
