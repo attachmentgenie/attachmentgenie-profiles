@@ -201,6 +201,7 @@ class profiles::metrics::grafana (
           user     => $db_user,
         }
         Profiles::Database::Mysql::Db[$db_name] -> Service['grafana']
+        Service['mysqld'] -> Service['grafana']
       }
       'postgres': {
         profiles::database::postgresql::db { $db_name:
@@ -209,6 +210,7 @@ class profiles::metrics::grafana (
           user     => $db_user,
         }
         Profiles::Database::Postgresql::Db[$db_name] -> Service['grafana']
+        Service['postgresqld'] -> Service['grafana']
       }
       default: { fail("${db_type} is not supported")}
     }

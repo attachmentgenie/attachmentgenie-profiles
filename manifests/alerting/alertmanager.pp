@@ -39,7 +39,7 @@ class profiles::alerting::alertmanager (
   },
   String $sd_service_name = 'alertmanager',
   Array $sd_service_tags = ['metrics'],
-  String $version = '0.22.2'
+  String $version = '0.23.0'
 ){
   class { '::prometheus::alertmanager':
     extra_options  => $extra_options,

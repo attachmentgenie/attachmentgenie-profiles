@@ -3,16 +3,18 @@
 # @example when declaring the monitroin class
 #  class { '::profiles::monitoring': }
 #
-# @param carbon_relay Manage carbon_relay on this node.
-# @param collectd     Manage collectd on this node.
-# @param icinga2      Manage icinga on this node.
-# @param logstash     Manage logstash on this node.
-# @param prometheus   Manage prometheus on this node.
-# @param promtail     Manage promtail on this node.
-# @param statsd       Manage statsd on this node.
+# @param carbon_relay   Manage carbon_relay on this node.
+# @param collectd       Manage collectd on this node.
+# @param grafana_agent  Manage grafana_agent on this node.
+# @param icinga2        Manage icinga on this node.
+# @param logstash       Manage logstash on this node.
+# @param prometheus     Manage prometheus on this node.
+# @param promtail       Manage promtail on this node.
+# @param statsd         Manage statsd on this node.
 class profiles::monitoring (
   Boolean $carbon_relay = false,
   Boolean $collectd = false,
+  Boolean $grafana_agent = false,
   Boolean $icinga2= false,
   Boolean $logstash = false,
   Boolean $prometheus = false,
@@ -24,6 +26,9 @@ class profiles::monitoring (
   }
   if $collectd {
     class { '::profiles::monitoring::collectd': }
+  }
+  if $grafana_agent {
+    class { '::profiles::monitoring::grafana_agent': }
   }
   if $icinga2 {
     class { '::profiles::monitoring::icinga2': }
