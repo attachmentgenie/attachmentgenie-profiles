@@ -103,6 +103,7 @@ fixtures:
     example: 'https://github.com/attachmentgenie/attachmentgenie-example.git'
     facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
     flink: 'https://github.com/attachmentgenie/attachmentgenie-flink.git'
+    grafana_agent: 'https://github.com/attachmentgenie/attachmentgenie-grafana_agent'
     graphite_web: 'https://github.com/attachmentgenie/puppet-graphite_web.git'
     influxdb: 'https://github.com/dgolja/golja-influxdb.git'
     locales: 'https://github.com/attachmentgenie/attachmentgenie-locales.git'
