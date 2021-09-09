@@ -82,7 +82,7 @@ fixtures:
     redis: 'puppet/redis'
     remote_file: 'lwf/remote_file'
     resolv_conf: 'saz/resolv_conf'
-    ruby:    'puppetlabs/ruby'
+    ruby: 'puppetlabs/ruby'
     rundeck: 'puppet/rundeck'
     selinux: 'puppet/selinux'
     staging: 'puppet/staging'
