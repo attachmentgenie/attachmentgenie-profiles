@@ -5,13 +5,15 @@
 # @example
 #   include profiles::storage::minio
 class profiles::storage::minio (
-  String $checksum = '59bb77de22ec686c303256ad5362e8958844baef1871b8b5c58ed11297ace008',
+  String $checksum = 'b665126482965f5c9d46189b21545221ea59b9caa051660adbf2e911464e6768',
+  String $client_checksum = '43f5a8ea5b0387c56f6c81f42bf6cc05942a5956eba9c088d0fe351b3e990b07',
+  String $client_version = 'RELEASE.2021-09-02T09-21-27Z',
   Hash $config = {},
   Hash $config_default = {
-    'MINIO_ACCESS_KEY'  => 'admin',
-    'MINIO_SECRET_KEY'  => 'supersecret',
+    'MINIO_ROOT_USER' => 'admin',
+    'MINIO_ROOT_PASSWORD' => 'supersecret',
     'MINIO_REGION_NAME' => 'us-east-1',
-    'MINIO_BROWSER'     => 'on',
+    'MINIO_BROWSER' => 'on',
   },
   Stdlib::Absolutepath $data_path = '/var/lib/minio',
   Optional[Stdlib::Absolutepath] $device = undef,
@@ -19,20 +21,27 @@ class profiles::storage::minio (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Stdlib::Host $listen_address = '127.0.0.1',
-  Optional[Stdlib::Port::Unprivileged] $port = 9090,
+  Optional[Stdlib::Port::Unprivileged] $port_api = 9090,
+  Optional[Stdlib::Port::Unprivileged] $port_console = 9091,
   String $sd_service_name = 'minio',
   Array $sd_service_tags = ['metrics'],
-  String $version = 'RELEASE.2021-04-06T23-11-00Z',
+  String $version = 'RELEASE.2021-09-09T21-37-07Z',
 ) {
+
+  $console_config = {
+    'MINIO_OPTS' => "--console-address ${listen_address}:${port_console}",
+  }
   $_config = deep_merge($config_default, $config)
 
   class { '::minio':
-    configuration          => $_config,
+    client_checksum        => $client_checksum,
+    client_version         => $client_version,
+    configuration          => deep_merge($console_config, $_config),
     checksum               => $checksum,
     checksum_type          => 'sha256',
     installation_directory => '/usr/local/bin/minio',
     listen_ip              => $listen_address,
-    listen_port            => $port,
+    listen_port            => $port_api,
     storage_root           => $data_path,
     version                => $version,
   }
@@ -47,7 +56,7 @@ class profiles::storage::minio (
 
   if $manage_firewall_entry {
     profiles::bootstrap::firewall::entry { '200 allow minio':
-      port => [$port],
+      port => [$port_api, $port_console],
     }
   }
 
@@ -55,11 +64,11 @@ class profiles::storage::minio (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          tcp      => "${::ipaddress}:${port}",
+          tcp      => "${::ipaddress}:${port_api}",
           interval => '10s'
         }
       ],
-      port   => $port,
+      port   => $port_api,
       tags   => $sd_service_tags,
     }
   }
