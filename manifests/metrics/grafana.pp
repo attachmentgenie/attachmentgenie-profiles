@@ -101,7 +101,7 @@ class profiles::metrics::grafana (
   String $smtp_from_address = 'admin@grafana.localhost',
   String $smtp_from_name = 'Grafana',
   String $smtp_host = 'localhost:25',
-  String $version = '8.1.2',
+  String $version = '8.2.0',
 ) {
   $default_cfg        =  {
     server            => {

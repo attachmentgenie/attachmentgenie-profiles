@@ -94,7 +94,7 @@ class profiles::runtime::php (
     'PHP/max_file_uploads'        => 5,
     'PHP/zend.assertions'         => 0,
   },
-  String $version = '74',
+  String $version = '80',
   Boolean $xdebug = false,
   Hash $xdebug_config = {
     'cli_color'                     => 1,
