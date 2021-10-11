@@ -4,32 +4,32 @@
 #  class { '::profiles::scheduling::nomad': }
 #
 class profiles::scheduling::nomad (
-  Stdlib::Absolutepath $bin_dir = '/usr/local/bin',
-  Hash $config = {},
-  Hash $config_defaults = {
-    'consul' => {
+  Stdlib::Absolutepath $bin_dir                  = '/usr/local/bin',
+  Hash $config                                   = {},
+  Hash $config_defaults                          = {
+    'consul'     => {
       'address' => '127.0.0.1:8500',
     },
     'data_dir'   => '/var/lib/nomad',
     'datacenter' => 'vagrant',
   },
-  Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
-  Boolean $consul_connect = false,
-  Stdlib::Absolutepath $data_path = '/opt/nomad',
-  Optional[Stdlib::Absolutepath] $device = undef,
+  Stdlib::Absolutepath $config_dir               = '/etc/nomad.d',
+  Boolean $consul_connect                        = false,
+  Stdlib::Absolutepath $data_path                = '/opt/nomad',
+  Optional[Stdlib::Absolutepath] $device         = undef,
   Enum['url', 'package', 'none'] $install_method = 'url',
-  String $job_port_range = '20000-32000',
-  Boolean $manage_disk = false,
-  Boolean $manage_firewall_entry = true,
-  Boolean $manage_package_repo = false,
-  Boolean $manage_sd_service = true,
-  Boolean $manage_service_file = true,
-  Boolean $manage_sysctl = true,
-  String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['networking']['ip']}:4646",
-  String $sd_service_name = 'nomad-ui',
-  Array $sd_service_tags = [],
-  String $version = '1.3.0',
+  String $job_port_range                         = '20000-32000',
+  Boolean $manage_disk                           = false,
+  Boolean $manage_firewall_entry                 = true,
+  Boolean $manage_package_repo                   = false,
+  Boolean $manage_sd_service                     = true,
+  Boolean $manage_service_file                   = true,
+  Boolean $manage_sysctl                         = true,
+  String $sd_service_check_interval              = '10s',
+  Stdlib::HTTPUrl $sd_service_endpoint           = "http://${facts['networking']['ip']}:4646",
+  String $sd_service_name                        = 'nomad-ui',
+  Array $sd_service_tags                         = [],
+  String $version                                = '1.3.0',
 ) {
   if $consul_connect {
     include profiles::scheduling::nomad::cni_plugins
@@ -42,7 +42,7 @@ class profiles::scheduling::nomad (
   }
 
   if $install_method == 'url' {
-    if ! defined(Package['unzip']) {
+    if !defined(Package['unzip']) {
       package { 'unzip':
         ensure => present,
       }

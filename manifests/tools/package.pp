@@ -4,10 +4,10 @@
 #  class { '::profiles::tools::package': }
 #
 class profiles::tools::package (
-  $version = '1.12',
+  $fpm_version = '1.13.1',
 ) {
   package { 'fpm':
-    ensure   => $version,
+    ensure   => $fpm_version,
     provider => 'gem',
   }
 }

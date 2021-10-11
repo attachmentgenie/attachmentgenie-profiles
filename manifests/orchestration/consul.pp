@@ -4,38 +4,38 @@
 #  class { '::profiles::orchestration::consul': }
 #
 class profiles::orchestration::consul (
-  Stdlib::Absolutepath $bin_dir = '/usr/local/bin',
-  Hash $checks = {},
-  Hash $config = {},
-  Hash $config_defaults = {
+  Stdlib::Absolutepath $bin_dir                            = '/usr/local/bin',
+  Hash $checks                                             = {},
+  Hash $config                                             = {},
+  Hash $config_defaults                                    = {
     'data_dir'   => '/var/lib/consul',
     'datacenter' => 'vagrant',
   },
-  Stdlib::Absolutepath $config_dir = '/etc/consul.d',
-  Boolean $connect = false,
-  Stdlib::Port::Unprivileged $conect_grpc_port = 8502,
-  String $connect_sidecar_port_range = '21000-21255',
+  Stdlib::Absolutepath $config_dir                         = '/etc/consul.d',
+  Boolean $connect                                         = false,
+  Stdlib::Port::Unprivileged $conect_grpc_port             = 8502,
+  String $connect_sidecar_port_range                       = '21000-21255',
   Enum['docker', 'url', 'package', 'none'] $install_method = 'url',
-  Optional[String[1]] $join_wan = undef,
-  Boolean $manage_firewall_entry = true,
-  Boolean $manage_package_repo = false,
-  Boolean $manage_sd_service = false,
-  String $options = '-enable-script-checks -syslog',
-  Hash $prepared_queries = {},
-  String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['networking']['ip']}:8500",
-  String $sd_service_name = 'consul-ui',
-  Array $sd_service_tags = [],
-  Boolean $server = false,
-  Hash $services = {},
-  String $version = '1.12.0',
-  Boolean $ui = false,
-  Hash $watches = {},
+  Optional[String[1]] $join_wan                            = undef,
+  Boolean $manage_firewall_entry                           = true,
+  Boolean $manage_package_repo                             = false,
+  Boolean $manage_sd_service                               = false,
+  String $options                                          = '-enable-script-checks -syslog',
+  Hash $prepared_queries                                   = {},
+  String $sd_service_check_interval                        = '10s',
+  Stdlib::HTTPUrl $sd_service_endpoint                     = "http://${facts['networking']['ip']}:8500",
+  String $sd_service_name                                  = 'consul-ui',
+  Array $sd_service_tags                                   = [],
+  Boolean $server                                          = false,
+  Hash $services                                           = {},
+  String $version                                          = '1.12.0',
+  Boolean $ui                                              = false,
+  Hash $watches                                            = {},
 ) {
   if $connect {
     $connect_config = {
-      'connect'    => { 'enabled' => true },
-      'ports'      => { 'grpc' => $conect_grpc_port },
+      'connect' => { 'enabled' => true },
+      'ports'   => { 'grpc' => $conect_grpc_port },
     }
     $_config = deep_merge($connect_config, $config)
 
@@ -50,7 +50,7 @@ class profiles::orchestration::consul (
   }
 
   if $install_method == 'url' {
-    if ! defined(Package['unzip']) {
+    if !defined(Package['unzip']) {
       package { 'unzip':
         ensure => present,
       }

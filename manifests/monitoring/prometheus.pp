@@ -21,7 +21,7 @@
 # @param server Install prometheus
 # @param prometheus_version Version to install
 class profiles::monitoring::prometheus (
-  Hash $alerts = {
+  Hash $alerts                                   = {
     'node_exporter' => {
       'groups' => [
         {
@@ -34,7 +34,8 @@ class profiles::monitoring::prometheus (
               'labels'      => { 'severity' => 'page' },
               'annotations' => {
                 'summary'     => 'Instance {{ $labels.instance }} down',
-                'description' => '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
+                'description' =>
+                '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
               },
             },
           ],
@@ -42,35 +43,35 @@ class profiles::monitoring::prometheus (
       ],
     },
   },
-  Array $alertmanager_configs = [
+  Array $alertmanager_configs                    = [
     {
       'static_configs' => [{ 'targets' => ['localhost:9093'] }],
     },
   ],
-  Boolean $blackbox = false,
-  Boolean $client = true,
-  Stdlib::Absolutepath $data_path = '/var/lib/prometheus',
-  Optional[Stdlib::Absolutepath] $device = undef,
-  Boolean $graphite_exporters = false,
+  Boolean $blackbox                              = false,
+  Boolean $client                                = true,
+  Stdlib::Absolutepath $data_path                = '/var/lib/prometheus',
+  Optional[Stdlib::Absolutepath] $device         = undef,
+  Boolean $graphite_exporters                    = false,
   Enum['url', 'package', 'none'] $install_method = 'none',
-  Boolean $manage_disk = false,
-  Boolean $manage_firewall_entry = true,
-  Boolean $manage_sd_service = false,
-  String $sd_service_name = 'prometheus',
-  Boolean $pushgateway = false,
-  Array $scrape_configs = [{
-      'job_name'        => 'prometheus',
-      'scrape_interval' => '10s',
-      'scrape_timeout'  => '10s',
-      'static_configs'  => [
-        {
-          'targets' => ['localhost:9090'],
-        }
-      ],
+  Boolean $manage_disk                           = false,
+  Boolean $manage_firewall_entry                 = true,
+  Boolean $manage_sd_service                     = false,
+  String $sd_service_name                        = 'prometheus',
+  Boolean $pushgateway                           = false,
+  Array $scrape_configs                          = [{
+    'job_name'        => 'prometheus',
+    'scrape_interval' => '10s',
+    'scrape_timeout'  => '10s',
+    'static_configs'  => [
+      {
+        'targets' => ['localhost:9090'],
+      }
+    ],
   }],
-  Array $sd_service_tags = ['metrics'],
-  Boolean $server = false,
-  String $prometheus_version = '2.31.1',
+  Array $sd_service_tags                         = ['metrics'],
+  Boolean $server                                = false,
+  String $prometheus_version                     = '2.31.1',
 ) {
   if $server {
     class { 'prometheus':

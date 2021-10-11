@@ -4,32 +4,33 @@
 #  class { '::profiles::security::vault': }
 #
 class profiles::security::vault (
-  Stdlib::Absolutepath $bin_dir = '/usr/local/bin',
-  $config_dir = '/etc/vault.d',
-  $enable_ui = true,
-  Variant[Hash, Array[Hash]] $listener = {
+  Stdlib::Absolutepath $bin_dir           = '/usr/local/bin',
+  $config_dir                             = '/etc/vault.d',
+  $enable_ui                              = true,
+  Variant[Hash, Array[Hash]] $listener    = {
     'tcp' => {
       'address'         => '127.0.0.1:8200',
       'cluster_address' => '127.0.0.1:8201',
       'tls_disable'     => 1,
     },
   },
-  Hash $extra_config = { 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' => 'https://127.0.0.1:8201' },
+  Hash $extra_config                      = { 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' =>
+  'https://127.0.0.1:8201' },
   Enum['archive', 'repo'] $install_method = 'archive',
-  Boolean $manage_firewall_entry = true,
-  Boolean $manage_package_repo = false,
-  Boolean $manage_sd_service = false,
-  Boolean $manage_storage_dir = false,
-  String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['networking']['ip']}:8200",
-  String $sd_service_name = 'vault-ui',
-  Array $sd_service_tags = ['metrics'],
-  Hash $storage = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' } },
-  Optional[Hash] $telemetry = undef,
-  String $version = '1.10.3',
+  Boolean $manage_firewall_entry          = true,
+  Boolean $manage_package_repo            = false,
+  Boolean $manage_sd_service              = false,
+  Boolean $manage_storage_dir             = false,
+  String $sd_service_check_interval       = '10s',
+  Stdlib::HTTPUrl $sd_service_endpoint    = "http://${facts['networking']['ip']}:8200",
+  String $sd_service_name                 = 'vault-ui',
+  Array $sd_service_tags                  = ['metrics'],
+  Hash $storage                           = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' } },
+  Optional[Hash] $telemetry               = undef,
+  String $version                         = '1.10.3',
 ) {
   if $install_method == 'archive' {
-    if ! defined(Package['unzip']) {
+    if !defined(Package['unzip']) {
       package { 'unzip':
         ensure => present,
       }
