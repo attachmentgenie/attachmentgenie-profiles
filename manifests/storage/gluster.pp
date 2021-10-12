@@ -11,6 +11,7 @@ class profiles::storage::gluster (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = true,
   Boolean $manage_sd_service = false,
+  Hash $mounts = {},
   Hash $peers = {},
   String[1] $pool = 'production',
   String[1] $release = '9.3',
@@ -31,6 +32,8 @@ class profiles::storage::gluster (
     use_exported_resources => $use_exported_resources,
     version                => $version,
   }
+
+  create_resources('gluster::mount', $mounts)
 
   $peers_defaults = {
     pool    => $pool,
