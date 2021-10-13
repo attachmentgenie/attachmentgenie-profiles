@@ -14,7 +14,6 @@
 # @param oauth_consumer_key     oauth_consumer_key.
 # @param oauth_consumer_secret  oauth_consumer_secret.
 # @param organizations_enabled  Enable organizations.
-# @param passenger              Run behind passenger.
 # @param plugins                Foreman plugins to install.
 # @param protocol               Protocol to reach Foreman.
 # @param selinux                Install foreman-selinux.
@@ -25,7 +24,6 @@
 # @param server_ssl_crl         SSL crl.
 # @param settings               List of foreman settings.
 # @param unattended             Allow unattended installs.
-# @param user_groups            List of groups for foreman user to join.
 class profiles::puppet::foreman (
   String $database_host = 'localhost',
   String $database_grant = 'all',
@@ -36,13 +34,12 @@ class profiles::puppet::foreman (
   Boolean $expose_metrics = false,
   String $foreman_admin_password = 'secret',
   String $foreman_host  = $::fqdn,
-  String $foreman_repo = '2.3',
+  String $foreman_repo = '2.5',
   Boolean $manage_database = true,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   String $oauth_consumer_key = 'secret',
   String $oauth_consumer_secret = 'secret',
-  Boolean $passenger = true,
   Hash $plugins = {},
   Enum['http','https'] $protocol = 'https',
   String $sd_service_name = 'foreman',
@@ -55,7 +52,6 @@ class profiles::puppet::foreman (
   String $server_ssl_crl = '/etc/puppetlabs/puppet/ssl/ca/ca_crl.pem',
   Hash $settings = {},
   Boolean $unattended = true,
-  Array $user_groups = ['puppet'],
 ) inherits profiles::puppet::foreman::params {
   if $protocol == 'https' {
     $ssl  = true
@@ -76,7 +72,6 @@ class profiles::puppet::foreman (
     initial_admin_password       => $foreman_admin_password,
     oauth_consumer_key           => $oauth_consumer_key,
     oauth_consumer_secret        => $oauth_consumer_secret,
-    passenger                    => $passenger,
     ssl                          => $ssl,
     server_ssl_ca                => $server_ssl_ca,
     server_ssl_chain             => $server_ssl_chain,
@@ -85,7 +80,6 @@ class profiles::puppet::foreman (
     server_ssl_crl               => $server_ssl_crl,
     telemetry_prometheus_enabled => $expose_metrics,
     unattended                   => $unattended,
-    user_groups                  => $user_groups,
   }
   class { '::foreman::cli':
     foreman_url => "${protocol}://${foreman_host}",
@@ -97,10 +91,6 @@ class profiles::puppet::foreman (
     tag    => 'do_a',
   }
   create_resources(::profiles::puppet::foreman::setting, $settings, $settings_defaults)
-
-  if $passenger {
-    Class['apache::service'] -> Foreman_config_entry <| tag == 'do_a' |>
-  }
 
   if $manage_database {
     profiles::database::postgresql::db { $database_name:
