@@ -33,6 +33,8 @@ class profiles::puppet::foreman_proxy (
     $port = 8000
     $ssl  = false
   }
+  Anchor <| title == 'foreman::repo' |> ~> Class['foreman_proxy::install']
+
   class { '::foreman_proxy':
     bmc                   => $manage_bmc,
     dhcp                  => $manage_dhcp,

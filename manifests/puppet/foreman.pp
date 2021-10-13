@@ -58,10 +58,9 @@ class profiles::puppet::foreman (
   } else {
     $ssl  = false
   }
-  class { 'foreman::repo':
-    repo => $foreman_repo,
-  }
-  -> class { '::foreman':
+  Anchor <| title == 'foreman::repo' |> ~> Class['foreman::install']
+
+  class { '::foreman':
     db_database                  => $database_name,
     db_host                      => $database_host,
     db_manage                    => false,
