@@ -9,6 +9,7 @@
 # @param manage_firewall    Manage firewall entries.
 # @param ssl_listen_address Interface to bind ssl to.
 class profiles::puppet::puppetdb (
+  Array $certificate_whitelist = [],
   String $database_host = 'localhost',
   String $database_grant = 'all',
   String $database_name = 'puppetdb',
@@ -24,13 +25,14 @@ class profiles::puppet::puppetdb (
   String $ssl_listen_address = '0.0.0.0',
 ) {
   class { '::puppetdb::server':
-    database_host      => $database_host,
-    database_name      => $database_name,
-    database_password  => $database_password,
-    database_username  => $database_user,
-    listen_address     => $listen_address,
-    manage_firewall    => false,
-    ssl_listen_address => $ssl_listen_address,
+    certificate_whitelist => $certificate_whitelist,
+    database_host         => $database_host,
+    database_name         => $database_name,
+    database_password     => $database_password,
+    database_username     => $database_user,
+    listen_address        => $listen_address,
+    manage_firewall       => false,
+    ssl_listen_address    => $ssl_listen_address,
   }
 
   if $install_client_tools {
