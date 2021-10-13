@@ -11,27 +11,27 @@
 # @param puppetca              Is there a CA on this node.
 # @param version               What version should be installed.
 class profiles::puppet::foreman_proxy (
-  String $foreman_host = 'foreman',
-  Boolean $manage_bmc = false,
-  Boolean $manage_dhcp = false,
-  Boolean $manage_dns = false,
-  Boolean $manage_sudoersd = true,
-  String$oauth_consumer_key = 'secret',
+  String $foreman_host          = 'foreman',
+  Boolean $manage_bmc           = false,
+  Boolean $manage_dhcp          = false,
+  Boolean $manage_dns           = false,
+  Boolean $manage_sudoersd      = true,
+  String$oauth_consumer_key     = 'secret',
   String $oauth_consumer_secret = 'secret',
-  String $protocol = 'https',
-  Boolean $puppet = true,
-  Boolean $puppetca = false,
-  Boolean $tftp = false,
-  String $version = 'present',
+  String $protocol              = 'https',
+  Boolean $puppet               = true,
+  Boolean $puppetca             = false,
+  Boolean $tftp                 = false,
+  String $version               = 'present',
 ) {
   if $protocol == 'https' {
     $http = false
     $port = 8443
-    $ssl  = true
+    $ssl = true
   } else {
     $http = true
     $port = 8000
-    $ssl  = false
+    $ssl = false
   }
   class { 'foreman_proxy':
     bmc                   => $manage_bmc,

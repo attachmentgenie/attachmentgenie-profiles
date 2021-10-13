@@ -4,12 +4,16 @@
 #  class { '::profiles::bootstrap::repositories': }
 #
 # @param epel            Configure epel repository .
+# @param foreman         Configure foreman repository .
+# @param foreman_repo    What version of foreman to install.
 # @param hashicorp       Configure hashicorp.
 # @param puppetlabs_deps Configure puppetlabs_deps.
 # @param remi            Configure remi repository.
 # @param repositories    Repositories to configure.
 class profiles::bootstrap::repositories (
   Boolean $epel            = false,
+  Boolean $foreman         = false,
+  String $foreman_repo     = '2.5',
   Boolean $hashicorp       = false,
   Boolean $puppetlabs_deps = false,
   Boolean $remi            = false,
@@ -17,6 +21,12 @@ class profiles::bootstrap::repositories (
 ) {
   if $epel {
     class { 'epel': }
+    Yumrepo['epel'] -> Package <||>
+  }
+  if $foreman {
+    class { 'foreman::repo':
+      repo => $foreman_repo,
+    }
     Yumrepo['epel'] -> Package <||>
   }
   if $hashicorp {
