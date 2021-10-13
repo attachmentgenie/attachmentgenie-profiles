@@ -9,19 +9,20 @@
 # @param manage_firewall    Manage firewall entries.
 # @param ssl_listen_address Interface to bind ssl to.
 class profiles::puppet::puppetdb (
-  String $database_host = 'localhost',
-  String $database_grant = 'all',
-  String $database_name = 'puppetdb',
-  String $database_password = 'puppetdb',
-  String $database_user = 'puppetdb',
-  Boolean $install_client_tools = true,
-  String $listen_address = '0.0.0.0',
-  Boolean $manage_database = true,
+  Array $certificate_whitelist   = [],
+  String $database_host          = 'localhost',
+  String $database_grant         = 'all',
+  String $database_name          = 'puppetdb',
+  String $database_password      = 'puppetdb',
+  String $database_user          = 'puppetdb',
+  Boolean $install_client_tools  = true,
+  String $listen_address         = '0.0.0.0',
+  Boolean $manage_database       = true,
   Boolean $manage_firewall_entry = true,
-  Boolean $manage_sd_service = false,
-  String $sd_service_name = 'puppetdb',
-  Array $sd_service_tags = [],
-  String $ssl_listen_address = '0.0.0.0',
+  Boolean $manage_sd_service     = false,
+  String $sd_service_name        = 'puppetdb',
+  Array $sd_service_tags         = [],
+  String $ssl_listen_address     = '0.0.0.0',
 ) {
   class { 'puppetdb::server':
     database_host      => $database_host,
