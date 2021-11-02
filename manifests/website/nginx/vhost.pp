@@ -14,7 +14,22 @@ define profiles::website::nginx::vhost (
   Array[Stdlib::Host] $public_name = [$name],
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
+  Boolean $ssl = false,
+  Optional[String] $ssl_cert = undef,
+  Optional[String] $ssl_key = undef,
 ) {
+
+  case $ss {
+    true: {
+      $_ssl_options = {
+        'ssl'      => $ssl,
+        'ssl_only' => $ssl,
+        'ssl_cert' => $ssl_cert,
+        'ssl_key'  => $ssl_key,
+      }
+    }
+    default: { $_ssl_options = { 'ssl' => $ssl } }
+  }
 
   ::nginx::resource::server { $name:
     fastcgi       => $fastcgi,
@@ -22,6 +37,7 @@ define profiles::website::nginx::vhost (
     listen_port   => $port,
     server_name   => $public_name,
     www_root      => $www_root,
+    *             => $_ssl_options,
   }
 
   if $manage_firewall_entry {
