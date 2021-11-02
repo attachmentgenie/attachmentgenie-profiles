@@ -19,7 +19,7 @@ define profiles::website::nginx::vhost (
   Optional[String] $ssl_key = undef,
 ) {
 
-  case $ss {
+  case $ssl {
     true: {
       $_ssl_options = {
         'ssl'      => $ssl,
