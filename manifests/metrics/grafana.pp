@@ -101,7 +101,7 @@ class profiles::metrics::grafana (
   String $smtp_from_address = 'admin@grafana.localhost',
   String $smtp_from_name = 'Grafana',
   String $smtp_host = 'localhost:25',
-  String $version = '8.1.2',
+  String $version = '8.3.2',
 ) {
   $default_cfg        =  {
     server            => {
@@ -200,7 +200,7 @@ class profiles::metrics::grafana (
           password => $db_password,
           user     => $db_user,
         }
-        Profiles::Database::Mysql::Db[$db_name] -> Service['grafana']
+        Mysql::Db[$db_name] -> Service['grafana']
         Service['mysqld'] -> Service['grafana']
       }
       'postgres': {

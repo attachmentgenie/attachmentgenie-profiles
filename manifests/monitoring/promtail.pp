@@ -5,7 +5,7 @@
 #
 class profiles::monitoring::promtail (
   Array[Hash] $client_urls,
-  String[1] $checksum = '9ca9f0bf63bec77664d3b62110107d2430c43137943a70713c6f11fa23d48130',
+  String[1] $checksum = '978391a174e71cfef444ab9dc012f95d5d7eae0d682eaf1da2ea18f793452031',
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Stdlib::Absolutepath $positions_file = '/tmp/positions.yaml',
@@ -51,7 +51,7 @@ class profiles::monitoring::promtail (
   ],
   String $sd_service_name = 'promtail',
   Array $sd_service_tags = ['metrics'],
-  String[1] $version = 'v2.3.0',
+  String[1] $version = 'v2.4.1',
 ) {
 
   $_clients_config_hash = { 'clients' => $client_urls}

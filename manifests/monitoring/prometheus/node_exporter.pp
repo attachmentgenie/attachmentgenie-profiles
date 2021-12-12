@@ -9,7 +9,7 @@ class profiles::monitoring::prometheus::node_exporter (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
   Array $sd_service_tags = ['metrics'],
-  String $version = '1.2.2',
+  String $version = '1.3.1',
 ) {
   $textfile_path = "${profiles::monitoring::prometheus::data_path}/textfile"
   $_collectors = concat($collectors, "textfile.directory=${textfile_path}")
