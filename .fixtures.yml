@@ -33,8 +33,10 @@ fixtures:
     firewall: 'puppetlabs/firewall'
     foreman:
       repo: 'theforeman/foreman'
-      ref: '15.0.0'
-    foreman_proxy: 'theforeman/foreman_proxy'
+      ref: '16.1.0'
+    foreman_proxy:
+      repo: 'theforeman/foreman_proxy'
+      ref: '19.0.0'
     gcc: 'puppetlabs/gcc'
     git: 'puppetlabs/git'
     gitlab: 'puppet/gitlab'
@@ -103,6 +105,7 @@ fixtures:
     example: 'https://github.com/attachmentgenie/attachmentgenie-example.git'
     facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
     flink: 'https://github.com/attachmentgenie/attachmentgenie-flink.git'
+    grafana_agent: 'https://github.com/attachmentgenie/attachmentgenie-grafana_agent.git'
     graphite_web: 'https://github.com/attachmentgenie/puppet-graphite_web.git'
     influxdb: 'https://github.com/dgolja/golja-influxdb.git'
     locales: 'https://github.com/attachmentgenie/attachmentgenie-locales.git'
