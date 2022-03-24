@@ -119,9 +119,14 @@ class profiles::monitoring::prometheus (
       }
     }
   }
-
   # ordering matters => https://github.com/voxpupuli/puppet-prometheus/issues/208
   if $client {
+    if !$server and !$manage_disk {
+      file { $data_path:
+        ensure => 'directory',
+        mode   => '0755',
+      }
+    }
     class { '::profiles::monitoring::prometheus::node_exporter':
       manage_firewall_entry => $manage_firewall_entry,
       manage_sd_service     => $manage_sd_service,
