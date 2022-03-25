@@ -10,12 +10,19 @@ class profiles::monitoring::grafana_agent (
   Optional[Hash] $prometheus_config_hash = undef,
   Optional[Hash] $server_config_hash = undef,
   Optional[Hash] $tempo_config_hash = undef,
+  String[1] $version = '0.23.0',
 ){
+  if !defined(Package['unzip']) {
+    package { 'unzip':
+      ensure => present,
+    }
+  }
   class { 'grafana_agent':
     intergrations_config_hash => $intergrations_config_hash,
     loki_config_hash          => $loki_config_hash,
     prometheus_config_hash    => $prometheus_config_hash,
     server_config_hash        => $server_config_hash,
     tempo_config_hash         => $tempo_config_hash,
+    version                   => $version,
   }
 }
