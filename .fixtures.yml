@@ -73,6 +73,7 @@ fixtures:
     php: 'puppet/php'
     postgresql: 'puppetlabs/postgresql'
     prometheus: 'puppet/prometheus'
+    promtail: 'grafana/promtail'
     puppet: 'theforeman/puppet'
     puppet_authorization: 'puppetlabs/puppet_authorization'
     puppetdb: 'puppetlabs/puppetdb'
