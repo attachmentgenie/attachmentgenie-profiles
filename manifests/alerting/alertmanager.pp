@@ -11,7 +11,7 @@
 # @param version        Version to install
 class profiles::alerting::alertmanager (
   Boolean $cluster = false,
-  String $extra_options = '',
+  String $extra_options = undef,
   Hash $global = {
     'smtp_smarthost' =>'localhost:25',
     'smtp_from'=>'alertmanager@localhost'
