@@ -17,7 +17,7 @@ class profiles::monitoring::prometheus (
               'labels'      => { 'severity' => 'page' },
               'annotations' => {
                 'summary'     => 'Instance {{ $labels.instance }} down',
-                'description' => 
+                'description' =>
                   '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
               },
             },

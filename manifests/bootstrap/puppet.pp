@@ -154,7 +154,7 @@ class profiles::bootstrap::puppet (
       ::profiles::orchestration::consul::service { $sd_service_name:
         checks => [
           {
-            tcp      => "${facts['facts["networking"]["ip"]']}:8140",
+            tcp      => "${facts['networking']['ip']}:8140",
             interval => '10s'
           },
         ],

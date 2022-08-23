@@ -23,7 +23,7 @@ class profiles::orchestration::consul (
   String $options = '-enable-script-checks -syslog',
   Hash $prepared_queries = {},
   String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['facts["networking"]["ip"]']}:8500",
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['networking']['ip']}:8500",
   String $sd_service_name = 'consul-ui',
   Array $sd_service_tags = [],
   Boolean $server = false,

@@ -50,8 +50,8 @@ class profiles::puppet::foreman (
   Boolean $selinux = false,
   String $server_ssl_ca = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
   String $server_ssl_chain = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
-  String $server_ssl_cert = "/etc/puppetlabs/puppet/ssl/certs/${facts['facts["networking"]["fqdn"]']}.pem",
-  String $server_ssl_key = "/etc/puppetlabs/puppet/ssl/private_keys/${facts['facts["networking"]["fqdn"]']}.pem",
+  String $server_ssl_cert = "/etc/puppetlabs/puppet/ssl/certs/${facts['networking']['fqdn']}.pem",
+  String $server_ssl_key = "/etc/puppetlabs/puppet/ssl/private_keys/${facts['networking']['fqdn']}.pem",
   String $server_ssl_crl = '/etc/puppetlabs/puppet/ssl/ca/ca_crl.pem',
   Hash $settings = {},
   Boolean $unattended = true,
@@ -121,7 +121,7 @@ class profiles::puppet::foreman (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${facts['facts["networking"]["ip"]']}",
+          http     => "http://${facts['networking']['ip']}",
           interval => '10s'
         },
       ],

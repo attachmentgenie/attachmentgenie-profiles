@@ -22,7 +22,7 @@ class profiles::scheduling::nomad (
   Boolean $manage_sd_service = true,
   Boolean $manage_sysctl = true,
   String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['facts["networking"]["ip"]']}:4646",
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['networking']['ip']}:4646",
   String $sd_service_name = 'nomad-ui',
   Array $sd_service_tags = [],
   String $version = '1.3.0',

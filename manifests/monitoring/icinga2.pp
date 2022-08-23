@@ -131,13 +131,13 @@ class profiles::monitoring::icinga2 (
     if !($server) {
       @@::icinga2::object::endpoint { $facts['networking']['fqdn']:
         host   => $facts['networking']['hostname'],
-        target => "/etc/icinga2/zones.d/${parent_zone}/${facts['facts["networking"]["hostname"]']}.conf",
+        target => "/etc/icinga2/zones.d/${parent_zone}/${facts['networking']['hostname']}.conf",
       }
 
       @@::icinga2::object::zone { $facts['networking']['fqdn']:
         endpoints => [$facts['networking']['fqdn']],
         parent    => $parent_zone,
-        target    => "/etc/icinga2/zones.d/${parent_zone}/${facts['facts["networking"]["hostname"]']}.conf",
+        target    => "/etc/icinga2/zones.d/${parent_zone}/${facts['networking']['hostname']}.conf",
       }
     }
 
@@ -145,7 +145,7 @@ class profiles::monitoring::icinga2 (
       address      => $facts['networking']['ip'],
       display_name => $facts['networking']['hostname'],
       import       => ['linux-host'],
-      target       => "/etc/icinga2/zones.d/${parent_zone}/${facts['facts["networking"]["hostname"]']}.conf",
+      target       => "/etc/icinga2/zones.d/${parent_zone}/${facts['networking']['hostname']}.conf",
       vars         => $vars,
     }
   }

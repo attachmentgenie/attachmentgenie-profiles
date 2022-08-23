@@ -36,7 +36,7 @@ class profiles::repo::nexus (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${facts['facts["networking"]["ip"]']}:8081",
+          http     => "http://${facts['networking']['ip']}:8081",
           interval => '10s'
         },
       ],

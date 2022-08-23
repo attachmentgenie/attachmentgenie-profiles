@@ -26,7 +26,7 @@ class profiles::bootstrap::repositories (
   if $puppetlabs_deps {
     yumrepo { 'puppetlabs-deps':
       descr    => 'Puppet Labs Packages',
-      baseurl  => "http://yum.puppetlabs.com/el/${facts['facts["os"]["release"]["major"]']}/dependencies/\$basearch",
+      baseurl  => "http://yum.puppetlabs.com/el/${facts['os']['release']['major']}/dependencies/\$basearch",
       enabled  => 1,
       gpgcheck => 0,
     }
@@ -34,9 +34,9 @@ class profiles::bootstrap::repositories (
   }
   if $remi {
     yumrepo { 'remi':
-      descr      => "Remi's RPM repository for Enterprise Linux ${facts['facts["os"]["release"]["major"]']} - \$basearch",
+      descr      => "Remi's RPM repository for Enterprise Linux ${facts['os']['release']['major']} - \$basearch",
       baseurl    => 'absent',
-      mirrorlist => "http://rpms.remirepo.net/enterprise/${facts['facts["os"]["release"]["major"]']}/remi/mirror",
+      mirrorlist => "http://rpms.remirepo.net/enterprise/${facts['os']['release']['major']}/remi/mirror",
       enabled    => 1,
       gpgcheck   => 0,
     }

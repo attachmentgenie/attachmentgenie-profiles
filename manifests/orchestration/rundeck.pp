@@ -26,7 +26,7 @@ class profiles::orchestration::rundeck (
     },
   },
   Array $auth_types         = ['file'],
-  String $grails_server_url = "http://${facts['facts["networking"]["fqdn"]']}",
+  String $grails_server_url = "http://${facts['networking']['fqdn']}",
   String $group             = 'rundeck',
   String $jvm_args          = '',
   $listen_address           = '127.0.0.1',

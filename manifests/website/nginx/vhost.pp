@@ -32,7 +32,7 @@ define profiles::website::nginx::vhost (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "${protocol}://${facts['facts["networking"]["ip"]']}:${port}",
+          http     => "${protocol}://${facts['networking']['ip']}:${port}",
           interval => '10s'
         },
       ],

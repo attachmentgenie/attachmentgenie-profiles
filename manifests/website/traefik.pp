@@ -136,7 +136,7 @@ class profiles::website::traefik (
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              http     => "http://${facts['facts["networking"]["ip"]']}:8080",
+              http     => "http://${facts['networking']['ip']}:8080",
               interval => '10s'
             },
           ],

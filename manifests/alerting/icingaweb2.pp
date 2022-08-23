@@ -92,7 +92,7 @@ class profiles::alerting::icingaweb2 (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          tcp      => "${facts['facts["networking"]["ip"]']}:80",
+          tcp      => "${facts['networking']['ip']}:80",
           interval => '10s'
         },
       ],

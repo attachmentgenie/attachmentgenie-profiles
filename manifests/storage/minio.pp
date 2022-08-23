@@ -55,7 +55,7 @@ class profiles::storage::minio (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          tcp      => "${facts['facts["networking"]["ip"]']}:${port}",
+          tcp      => "${facts['networking']['ip']}:${port}",
           interval => '10s'
         },
       ],

@@ -47,7 +47,7 @@ class profiles::testing::jenkins (
     },
     unclassified => {
       location => {
-        url => "http://${facts['facts["networking"]["fqdn"]']}",
+        url => "http://${facts['networking']['fqdn']}",
       },
     },
   },
@@ -60,7 +60,7 @@ class profiles::testing::jenkins (
   Boolean $manage_sd_service = false,
   Boolean $manage_repo = false,
   Boolean $master = true,
-  String $master_url = "http://${facts['facts["networking"]["fqdn"]']}",
+  String $master_url = "http://${facts['networking']['fqdn']}",
   Hash $plugins = {},
   Hash $plugins_default = {
     ace-editor => {},
@@ -195,7 +195,7 @@ class profiles::testing::jenkins (
     if $casc {
       $_casc_config = deep_merge($casc_config_default, $casc_config)
 
-      file { "${facts['jenkins::localstatedir']}/jenkins.yaml":
+      file { "${jenkins::localstatedir}/jenkins.yaml":
         content => template('profiles/testing/jenkins/jenkins.yaml.erb'),
         group   => $::jenkins::group,
         owner   => $::jenkins::user,
@@ -205,7 +205,7 @@ class profiles::testing::jenkins (
       exec { 'jenkins casc reload':
         command     => "curl -XPOST http://${listen_address}:${port}/reload-configuration-as-code/?casc-reload-token=${casc_reload_token}",
         path        => '/bin:/usr/bin',
-        subscribe   => File["${facts['jenkins::localstatedir']}/jenkins.yaml"],
+        subscribe   => File["${jenkins::localstatedir}/jenkins.yaml"],
         refreshonly => true,
         require     => Service['jenkins'],
         tries       => 3,

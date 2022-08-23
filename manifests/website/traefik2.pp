@@ -47,7 +47,7 @@ class profiles::website::traefik2 (
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              http     => "http://${facts['facts["networking"]["ip"]']}:${traefik_api_port}/ping/",
+              http     => "http://${facts['networking']['ip']}:${traefik_api_port}/ping/",
               interval => '10s'
             },
           ],
