@@ -16,20 +16,19 @@ class profiles::puppet (
   $r10k = false,
 ) {
   if $foreman {
-    class { '::profiles::puppet::foreman': }
+    class { 'profiles::puppet::foreman': }
     if $foreman and $foreman_proxy {
-      Class['::foreman']
-      -> Class['::foreman_proxy::register']
+      Class['foreman']
+      -> Class['foreman_proxy::register']
     }
   }
   if $puppetdb {
-    class { '::profiles::puppet::puppetdb': }
+    class { 'profiles::puppet::puppetdb': }
   }
   if $puppetmaster and $foreman_proxy {
-    class { '::profiles::puppet::foreman_proxy': }
+    class { 'profiles::puppet::foreman_proxy': }
   }
   if $r10k {
-    class { '::profiles::puppet::r10k': }
+    class { 'profiles::puppet::r10k': }
   }
-
 }

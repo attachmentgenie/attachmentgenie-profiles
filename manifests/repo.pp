@@ -8,9 +8,9 @@ class profiles::repo (
   Boolean $nexus = false
 ) {
   if $aptly {
-    class { '::profiles::repo::aptly': }
+    class { 'profiles::repo::aptly': }
   }
   if $nexus {
-    class { '::profiles::repo::nexus': }
+    class { 'profiles::repo::nexus': }
   }
 }

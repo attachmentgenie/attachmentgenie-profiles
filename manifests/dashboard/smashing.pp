@@ -6,7 +6,7 @@
 # @param provider   Package provider
 class profiles::dashboard::smashing (
   String $provider = 'gem'
-){
+) {
   package { 'smashing' :
     ensure   => installed,
     provider => $provider,

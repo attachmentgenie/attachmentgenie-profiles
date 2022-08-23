@@ -17,19 +17,17 @@
 class profiles::metrics::graphite_web (
   Hash $carbon_caches = {},
   String $database_engine = 'postgresql',
-  Hash $databases = { 'default' =>
-    { name     => 'graphite',
+  Hash $databases = { 'default' => { name     => 'graphite',
       engine   => 'django.db.backends.postgresql_psycopg2',
       user     => 'graphite',
       password => 'secret',
-      host     => '127.0.0.1'
-    }
+      host     => '127.0.0.1',
+    },
   },
   String $debug = 'False',
   Boolean $memcached_enabled = true
 ) {
-
-  class { '::graphite_web':
+  class { 'graphite_web':
     carbon_caches          => $carbon_caches,
     config_debug           => $debug,
     config_database_engine => $database_engine,

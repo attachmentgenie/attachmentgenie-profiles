@@ -7,7 +7,7 @@
 class profiles::security::selinux (
   String $mode = 'disabled',
 ) {
-  class { '::selinux':
+  class { 'selinux':
     mode => $mode,
   }
 }

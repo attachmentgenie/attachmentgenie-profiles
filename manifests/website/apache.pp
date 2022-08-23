@@ -24,7 +24,7 @@ class profiles::website::apache (
   Hash $vhosts = {},
   Hash $vhost_packages = {},
 ) {
-  class { '::apache':
+  class { 'apache':
     default_mods     => $default_mods,
     default_vhost    => $default_vhost,
     file_mode        => '0640',

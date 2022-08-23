@@ -8,15 +8,11 @@
 class profiles::dashboard (
   Boolean $icinga2 = false,
   Boolean $smashing = false,
-  Boolean $statping = false,
 ) {
   if $icinga2 {
-    class { '::profiles::dashboard::icinga2': }
+    class { 'profiles::dashboard::icinga2': }
   }
   if $smashing {
-    class { '::profiles::dashboard::smashing': }
-  }
-  if $statping {
-    class { '::profiles::dashboard::statping': }
+    class { 'profiles::dashboard::smashing': }
   }
 }

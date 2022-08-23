@@ -9,8 +9,7 @@
 class profiles::alerting::icingaweb2::businessprocess (
   String $version = 'v2.3.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::businessprocess':
+  class { 'icingaweb2::module::businessprocess':
     git_revision => $version,
     require      => [
       Package['git'],

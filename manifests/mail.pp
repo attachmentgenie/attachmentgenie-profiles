@@ -8,6 +8,6 @@ class profiles::mail (
   Boolean $mailhog = false,
 ) {
   if $mailhog {
-    class { '::profiles::mail::mailhog': }
+    class { 'profiles::mail::mailhog': }
   }
 }

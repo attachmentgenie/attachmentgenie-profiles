@@ -31,9 +31,9 @@ class profiles::repo::aptly (
   $default_config = {
     'rootDir'          => $mount_point,
     'gpgDisableSign'   => false,
-    'gpgDisableVerify' => false
+    'gpgDisableVerify' => false,
   }
-  class { '::aptly':
+  class { 'aptly':
     aptly_mirrors => $mirrors,
     aptly_repos   => $repos,
     config        => merge($default_config, $config),
@@ -41,7 +41,7 @@ class profiles::repo::aptly (
     repo          => $manage_repo,
   }
   if $api {
-    class { '::aptly::api':
+    class { 'aptly::api':
       enable_cli_and_http => $enable_cli_and_http,
       listen              => ":${api_port}",
     }

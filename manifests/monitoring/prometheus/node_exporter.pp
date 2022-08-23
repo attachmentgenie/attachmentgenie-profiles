@@ -4,7 +4,7 @@
 #  class { '::profiles::monitoring::prometheus::node_exporter': }
 #
 class profiles::monitoring::prometheus::node_exporter (
-  Array[String] $collectors =  ['tcpstat'],
+  Array[String] $collectors = ['tcpstat'],
   String $group = 'node-exporter',
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
@@ -20,7 +20,7 @@ class profiles::monitoring::prometheus::node_exporter (
     group  => $group,
   }
 
-  class { '::prometheus::node_exporter':
+  class { 'prometheus::node_exporter':
     collectors_enable => $_collectors,
     group             => $group,
     version           => $version,
@@ -32,7 +32,7 @@ class profiles::monitoring::prometheus::node_exporter (
         {
           http     => 'http://localhost:9100',
           interval => '10s'
-        }
+        },
       ],
       port   => 9100,
       tags   => $sd_service_tags,

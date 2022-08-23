@@ -32,7 +32,7 @@ class profiles::website::nginx (
   Hash $vhost_packages = {},
   Boolean $upstream_defined_type = false,
 ) {
-  class { '::nginx':
+  class { 'nginx':
     client_body_buffer_size => $client_body_buffer_size,
     client_max_body_size    => $client_max_body_size,
     confd_only              => true,

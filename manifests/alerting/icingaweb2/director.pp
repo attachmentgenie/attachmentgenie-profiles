@@ -15,21 +15,20 @@
 # @param api_host     The host where the api lives
 # @param endpoint     Endpoint to bind to
 class profiles::alerting::icingaweb2::director (
-  String $api_user = $::profiles::alerting::icingaweb2::api_user,
-  String $api_password = $::profiles::alerting::icingaweb2::api_password,
+  String $api_user = $profiles::alerting::icingaweb2::api_user,
+  String $api_password = $profiles::alerting::icingaweb2::api_password,
   String $api_host = 'localhost',
   String $database_grant = 'all',
   String $database_host = 'localhost',
   String $database_name = 'director',
   String $database_username = 'director',
   String $database_password = 'director',
-  String $endpoint = $::fqdn,
+  String $endpoint = $facts['networking']['fqdn'],
   Boolean $daemon_enable = true,
   Boolean $manage_database = true,
   Optional[String] $version = 'v1.8.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::director':
+  class { 'icingaweb2::module::director':
     db_name       => $database_name,
     db_username   => $database_username,
     db_password   => $database_password,
@@ -59,7 +58,7 @@ class profiles::alerting::icingaweb2::director (
     -> systemd::unit_file { 'icinga-director.service':
       source => "puppet:///modules/${module_name}/alerting/icingaweb2/icinga-director.service",
     }
-    ~> service {'icinga-director':
+    ~> service { 'icinga-director':
       ensure => 'running',
     }
   }

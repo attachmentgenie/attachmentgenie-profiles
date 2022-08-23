@@ -11,7 +11,6 @@ class profiles::alerting::icingaweb2::consul (
   String $git_repository   = 'https://github.com/attachmentgenie/icingaweb2-module-consul.git',
   Optional[String]  $git_revision     = undef,
 ) inherits profiles::alerting::icingaweb2 {
-
   icingaweb2::module { 'consul':
     ensure         => $ensure,
     git_repository => $git_repository,

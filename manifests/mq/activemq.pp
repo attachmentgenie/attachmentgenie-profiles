@@ -19,13 +19,13 @@ class profiles::mq::activemq (
   String $version = '5.9.1-2.el7',
   Boolean $webconsole = true,
 ) {
-  class { '::activemq':
+  class { 'activemq':
     instance            => $instance,
     mq_admin_username   => $mq_admin_username,
     mq_admin_password   => $mq_admin_password,
     mq_cluster_username => $mq_cluster_username,
     mq_cluster_password => $mq_cluster_password,
-    mq_cluster_brokers  => [$::fqdn],
+    mq_cluster_brokers  => [$facts['networking']['fqdn']],
     version             => $version,
     webconsole          => $webconsole,
   }

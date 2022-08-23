@@ -14,8 +14,8 @@ class profiles::runtime::nodejs (
   Hash $npm_packages = {},
   Hash $packages = {},
   String $repo_url_suffix = '14.x',
-){
-  class { '::nodejs':
+) {
+  class { 'nodejs':
     manage_package_repo => $manage_repo,
     npm_package_ensure  => $npm_package_ensure,
     repo_pin            => 500,

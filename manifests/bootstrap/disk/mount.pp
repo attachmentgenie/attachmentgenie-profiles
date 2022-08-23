@@ -3,14 +3,14 @@
 # @example when declaring the mount defined type
 #  ::profiles::bootstrap::disk::mount{'/dev/sdb': }
 #
-define profiles::bootstrap::disk::mount(
+define profiles::bootstrap::disk::mount (
   Stdlib::Absolutepath $device,
   Boolean $createfs = true,
   Enum['absent', 'present'] $ensure = present,
   Enum['ext4','xfs'] $fs_type = 'ext4',
   Stdlib::Absolutepath $mountpath = $name,
   Boolean $mounted = true,
-){
+) {
   $_mount_ensure    = $ensure ? {
     'absent' => absent,
     default  => $mounted ? {
@@ -34,7 +34,7 @@ define profiles::bootstrap::disk::mount(
 
   if $createfs or $ensure != 'present' {
     exec { "ensure mountpoint '${mountpath}' exists":
-      path    => [ '/bin', '/usr/bin' ],
+      path    => ['/bin', '/usr/bin'],
       command => "mkdir -p ${mountpath}",
       unless  => "test -d ${mountpath}",
       before  => Mount[$mountpath],

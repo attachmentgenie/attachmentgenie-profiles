@@ -8,11 +8,11 @@
 class profiles::tools (
   Boolean $compile = false,
   Boolean $package = false,
-){
+) {
   if $compile {
-    class { '::profiles::tools::compile': }
+    class { 'profiles::tools::compile': }
   }
   if $package {
-    class { '::profiles::tools::package': }
+    class { 'profiles::tools::package': }
   }
 }

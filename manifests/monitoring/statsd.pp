@@ -20,7 +20,7 @@
 # @param port              Port to bind to.
 class profiles::monitoring::statsd (
   String $address           = '127.0.0.1',
-  Array $backends           = [ './backends/graphite' ],
+  Array $backends           = ['./backends/graphite'],
   Integer $flush_interval   = 60000,
   String $graphite_host     = '127.0.0.1',
   Integer $graphite_port    = 2003,
@@ -35,7 +35,7 @@ class profiles::monitoring::statsd (
   String $mgmt_address      = '127.0.0.1',
   Integer$port              = 8125,
 ) {
-  class { '::statsd':
+  class { 'statsd':
     address           => $address,
     backends          => $backends,
     flushInterval     => $flush_interval,

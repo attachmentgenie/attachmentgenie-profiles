@@ -23,7 +23,7 @@ class profiles::orchestration::consul (
   String $options = '-enable-script-checks -syslog',
   Hash $prepared_queries = {},
   String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:8500",
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['facts["networking"]["ip"]']}:8500",
   String $sd_service_name = 'consul-ui',
   Array $sd_service_tags = [],
   Boolean $server = false,
@@ -49,7 +49,7 @@ class profiles::orchestration::consul (
     $_config = $config
   }
 
-  if $install_method == 'url'{
+  if $install_method == 'url' {
     if ! defined(Package['unzip']) {
       package { 'unzip':
         ensure => present,
@@ -64,7 +64,7 @@ class profiles::orchestration::consul (
     $_bin_dir = $bin_dir
   }
 
-  class { '::consul':
+  class { 'consul':
     bin_dir         => $_bin_dir,
     config_defaults => $config_defaults,
     config_dir      => $config_dir,
@@ -105,7 +105,7 @@ class profiles::orchestration::consul (
           {
             http     => $sd_service_endpoint,
             interval => $sd_service_check_interval,
-          }
+          },
         ],
         port   => 8500,
         tags   => $sd_service_tags,
@@ -122,7 +122,7 @@ class profiles::orchestration::consul (
     }
     profiles::bootstrap::firewall::entry { '100 allow consul DNS TCP':
       port     => 8600,
-      protocol => 'tcp'
+      protocol => 'tcp',
     }
     profiles::bootstrap::firewall::entry { '100 allow consul DNS UDP':
       port     => 8600,

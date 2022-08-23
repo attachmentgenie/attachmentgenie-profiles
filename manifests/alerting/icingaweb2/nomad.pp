@@ -11,7 +11,6 @@ class profiles::alerting::icingaweb2::nomad (
   String $git_repository   = 'https://github.com/attachmentgenie/icingaweb2-module-nomad.git',
   Optional[String]  $git_revision     = undef,
 ) inherits profiles::alerting::icingaweb2 {
-
   icingaweb2::module { 'nomad':
     ensure         => $ensure,
     git_repository => $git_repository,

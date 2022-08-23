@@ -5,8 +5,7 @@
 #
 define profiles::testing::jenkins::plugin (
   Optional[String] $version = undef,
-){
-
+) {
   ::jenkins::plugin { $title:
     version   => $version,
   }

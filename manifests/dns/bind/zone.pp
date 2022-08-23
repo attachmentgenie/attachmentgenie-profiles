@@ -5,7 +5,7 @@
 #
 define profiles::dns::bind::zone (
   Boolean $reverse = false,
-  String $soa = $::fqdn,
+  String $soa = $facts['networking']['fqdn'],
   Optional[Stdlib::IP::Address::V4] $soaip = undef,
   Optional[Dns::UpdatePolicy] $update_policy = undef,
 ) {

@@ -19,7 +19,7 @@ class profiles::monitoring::carbon_relay (
 ) {
   case $relay_type {
     'carbon-c-relay': {
-      class { '::carbon_c_relay':
+      class { 'carbon_c_relay':
         config_clusters => $carbon_caches,
         config_matches  => $config_matches,
         interface       => $listen_address,
@@ -27,7 +27,7 @@ class profiles::monitoring::carbon_relay (
       }
     }
     'carbon-relay-ng': {
-      class { '::carbon_relay_ng':
+      class { 'carbon_relay_ng':
         admin_addr  => $admin_address,
         http_addr   => $http_address,
         listen_addr => $listen_address,

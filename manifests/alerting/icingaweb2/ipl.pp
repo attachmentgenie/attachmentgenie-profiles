@@ -9,8 +9,7 @@
 class profiles::alerting::icingaweb2::ipl (
   String $version = 'v0.5.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::ipl':
+  class { 'icingaweb2::module::ipl':
     git_revision => $version,
     require      => [
       Package['git'],

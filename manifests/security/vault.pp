@@ -21,14 +21,14 @@ class profiles::security::vault (
   Boolean $manage_sd_service = false,
   Boolean $manage_storage_dir = false,
   String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:8200",
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['facts["networking"]["ip"]']}:8200",
   String $sd_service_name = 'vault-ui',
   Array $sd_service_tags = ['metrics'],
-  Hash $storage = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' }},
+  Hash $storage = { 'consul' => { 'address' => '127.0.0.1:8500', 'path' => 'vault/' } },
   Optional[Hash] $telemetry = undef,
   String $version = '1.10.3',
-){
-  if $install_method == 'archive'{
+) {
+  if $install_method == 'archive' {
     if ! defined(Package['unzip']) {
       package { 'unzip':
         ensure => present,
@@ -43,7 +43,7 @@ class profiles::security::vault (
     $_bin_dir = $bin_dir
   }
 
-  class {'vault':
+  class { 'vault':
     bin_dir             => $_bin_dir,
     config_dir          => $config_dir,
     enable_ui           => $enable_ui,
@@ -72,7 +72,7 @@ class profiles::security::vault (
         {
           http     => $sd_service_endpoint,
           interval => $sd_service_check_interval,
-        }
+        },
       ],
       port   => 8200,
       tags   => $sd_service_tags,

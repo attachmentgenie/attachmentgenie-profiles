@@ -8,11 +8,11 @@
 class profiles::testing (
   Boolean $develop = false,
   Boolean $jenkins = false,
-){
+) {
   if $develop {
-    class { '::profiles::testing::develop': }
+    class { 'profiles::testing::develop': }
   }
   if $jenkins {
-    class { '::profiles::testing::jenkins': }
+    class { 'profiles::testing::jenkins': }
   }
 }

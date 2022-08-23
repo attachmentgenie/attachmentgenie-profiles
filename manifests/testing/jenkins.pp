@@ -10,46 +10,46 @@ class profiles::testing::jenkins (
     jenkins => {
       agentProtocols => [
         'JNLP4-connect',
-        'Ping'
+        'Ping',
       ],
       authorizationStrategy => {
         loggedInUsersCanDoAnything => {
-          allowAnonymousRead => false
-        }
+          allowAnonymousRead => false,
+        },
       },
       crumbIssuer => {
         standard => {
-          excludeClientIPFromCrumb => true
-        }
+          excludeClientIPFromCrumb => true,
+        },
       },
       disableRememberMe => true,
       numExecutors  => $::processors['count'],
       remotingSecurity => {
-        enabled => true
+        enabled => true,
       },
       securityRealm => {
         local => {
           allowsSignup => false,
           enableCaptcha => false,
           users => [
-            { id => 'admin', password => 'secret'},
-            { id => 'slave', password => 'secret'},
-          ]
-        }
+            { id => 'admin', password => 'secret' },
+            { id => 'slave', password => 'secret' },
+          ],
+        },
       },
       slaveAgentPort => 44444,
       systemMessage => "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n",
     },
     security => {
       globalJobDslSecurityConfiguration => {
-        useScriptSecurity => false
-      }
+        useScriptSecurity => false,
+      },
     },
     unclassified => {
       location => {
-        url => "http://${::fqdn}",
-      }
-    }
+        url => "http://${facts['facts["networking"]["fqdn"]']}",
+      },
+    },
   },
   String $casc_reload_token = 'supersecret',
   Hash $config_hash = {},
@@ -60,7 +60,7 @@ class profiles::testing::jenkins (
   Boolean $manage_sd_service = false,
   Boolean $manage_repo = false,
   Boolean $master = true,
-  String $master_url = "http://${::fqdn}",
+  String $master_url = "http://${facts['facts["networking"]["fqdn"]']}",
   Hash $plugins = {},
   Hash $plugins_default = {
     ace-editor => {},
@@ -182,7 +182,7 @@ class profiles::testing::jenkins (
       'JENKINS_PORT' => { 'value' => "${port}" },  # lint:ignore:only_variable_string
     }
 
-    class { '::jenkins':
+    class { 'jenkins':
       cli                => false,
       config_hash        => deep_merge($config_hash, $_listen_config, $_casc_java_args),
       configure_firewall => false,
@@ -195,19 +195,19 @@ class profiles::testing::jenkins (
     if $casc {
       $_casc_config = deep_merge($casc_config_default, $casc_config)
 
-      file { "${::jenkins::localstatedir}/jenkins.yaml":
+      file { "${facts['jenkins::localstatedir']}/jenkins.yaml":
         content => template('profiles/testing/jenkins/jenkins.yaml.erb'),
         group   => $::jenkins::group,
         owner   => $::jenkins::user,
-        before  => Service[jenkins],
+        before  => Service['jenkins'],
       }
 
       exec { 'jenkins casc reload':
         command     => "curl -XPOST http://${listen_address}:${port}/reload-configuration-as-code/?casc-reload-token=${casc_reload_token}",
         path        => '/bin:/usr/bin',
-        subscribe   => File["${::jenkins::localstatedir}/jenkins.yaml"],
+        subscribe   => File["${facts['jenkins::localstatedir']}/jenkins.yaml"],
         refreshonly => true,
-        require     => Service[jenkins],
+        require     => Service['jenkins'],
         tries       => 3,
         try_sleep   => 10,
       }
@@ -230,7 +230,7 @@ class profiles::testing::jenkins (
           {
             tcp      => "${listen_address}:8080",
             interval => '10s'
-          }
+          },
         ],
         port   => 8080,
         tags   => $sd_service_tags,

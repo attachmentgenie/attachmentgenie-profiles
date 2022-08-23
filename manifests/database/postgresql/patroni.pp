@@ -21,7 +21,7 @@ class profiles::database::postgresql::patroni (
     mode    => '0755',
     require => Package['postgresql-server'],
   }
-  -> class { '::patroni':
+  -> class { 'patroni':
     config_path             => '/etc/patroni/patroni.yml',
     pgsql_data_dir          => $pgsql_data_dir,
     consul_register_service => $use_consul,

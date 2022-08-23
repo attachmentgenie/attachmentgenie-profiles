@@ -8,6 +8,6 @@ class profiles::scheduling (
   Boolean $nomad = false,
 ) {
   if $nomad {
-    class { '::profiles::scheduling::nomad': }
+    class { 'profiles::scheduling::nomad': }
   }
 }

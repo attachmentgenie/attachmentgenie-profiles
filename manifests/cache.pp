@@ -8,6 +8,6 @@ class profiles::cache (
   Boolean $memcached = false,
 ) {
   if $memcached {
-    class { '::profiles::cache::memcached': }
+    class { 'profiles::cache::memcached': }
   }
 }

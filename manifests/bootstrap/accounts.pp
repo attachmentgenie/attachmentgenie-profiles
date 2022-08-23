@@ -19,12 +19,12 @@ class profiles::bootstrap::accounts (
     create_resources('group', $groups)
   }
 
-  if (length($accounts) > 0) and (length($groups) > 0)  {
+  if (length($accounts) > 0) and (length($groups) > 0) {
     Group<||> -> User<||>
   }
 
   if length($sudo_confs) > 0 {
-    class { '::sudo':
+    class { 'sudo':
       config_file_replace => false,
       purge               => false,
     }

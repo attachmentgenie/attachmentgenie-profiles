@@ -9,8 +9,7 @@
 class profiles::alerting::icingaweb2::reactbundle (
   String $version = 'v0.8.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::reactbundle':
+  class { 'icingaweb2::module::reactbundle':
     git_revision => $version,
     require      => [
       Package['git'],

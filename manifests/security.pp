@@ -9,10 +9,10 @@ class profiles::security (
   Boolean $vault = false,
 ) {
   if $selinux {
-    class { '::profiles::security::selinux': }
+    class { 'profiles::security::selinux': }
   }
 
   if $vault {
-    class { '::profiles::security::vault': }
+    class { 'profiles::security::vault': }
   }
 }

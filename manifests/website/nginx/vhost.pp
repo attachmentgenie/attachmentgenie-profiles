@@ -15,7 +15,6 @@ define profiles::website::nginx::vhost (
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
 ) {
-
   ::nginx::resource::server { $name:
     fastcgi       => $fastcgi,
     fastcgi_index => $fastcgi_index,
@@ -33,9 +32,9 @@ define profiles::website::nginx::vhost (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "${protocol}://${::ipaddress}:${port}",
+          http     => "${protocol}://${facts['facts["networking"]["ip"]']}:${port}",
           interval => '10s'
-        }
+        },
       ],
       port   => $port,
       tags   => $sd_service_tags,

@@ -9,12 +9,12 @@ class profiles::bootstrap::time (
   Array $restrict          = [],
   Boolean $set_timezone    = false,
 ) {
-  class { '::ntp':
+  class { 'ntp':
     servers  => $ntp_servers,
     restrict => $restrict,
   }
   if $set_timezone {
-    class { '::timezone':
+    class { 'timezone':
       default_timezone => $default_timezone,
     }
   }

@@ -7,7 +7,7 @@ class profiles::dns::bind (
   Boolean $forward_consul = false,
   Hash $zones = {},
 ) {
-  class { '::dns': }
+  class { 'dns': }
 
   if ($forward_consul) {
     dns::zone { 'consul':

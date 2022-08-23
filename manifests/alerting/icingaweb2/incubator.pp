@@ -9,8 +9,7 @@
 class profiles::alerting::icingaweb2::incubator (
   String $version = 'v0.6.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::incubator':
+  class { 'icingaweb2::module::incubator':
     git_revision => $version,
     require      => [
       Package['git'],

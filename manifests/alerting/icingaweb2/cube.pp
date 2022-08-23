@@ -9,8 +9,7 @@
 class profiles::alerting::icingaweb2::cube (
   String $version = 'v1.1.1',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::cube':
+  class { 'icingaweb2::module::cube':
     git_revision => $version,
     require      => [
       Package['git'],

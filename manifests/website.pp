@@ -24,32 +24,32 @@ class profiles::website (
   Boolean $traefik     = false,
   Boolean $traefik2    = false,
   Boolean $uwsgi       = false,
-){
+) {
   if $apache {
-    class { '::profiles::website::apache': }
+    class { 'profiles::website::apache': }
   }
 
   if $haproxy {
-    class { '::profiles::website::haproxy': }
+    class { 'profiles::website::haproxy': }
   }
 
   if $letsencrypt {
-    class { '::profiles::website::letsencrypt': }
+    class { 'profiles::website::letsencrypt': }
   }
 
   if $nginx {
-    class { '::profiles::website::nginx': }
+    class { 'profiles::website::nginx': }
   }
 
   if $traefik {
-    class { '::profiles::website::traefik': }
+    class { 'profiles::website::traefik': }
   }
 
   if $traefik2 {
-    class { '::profiles::website::traefik2': }
+    class { 'profiles::website::traefik2': }
   }
 
   if $uwsgi {
-    class { '::profiles::website::uwsgi': }
+    class { 'profiles::website::uwsgi': }
   }
 }

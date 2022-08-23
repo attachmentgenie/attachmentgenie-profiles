@@ -18,7 +18,7 @@ class profiles::database::mysql (
   Hash $users = {},
 ) {
   $_listen_address = { 'mysqld' => { 'bind-address' => $listen_address } }
-  class { '::mysql::server':
+  class { 'mysql::server':
     override_options        => deep_merge($override_options, $_listen_address),
     root_password           => $root_password,
     remove_default_accounts => true,
@@ -27,10 +27,10 @@ class profiles::database::mysql (
   create_resources(::profiles::database::mysql::db, $databases)
   create_resources(::profiles::database::mysql::user, $users)
 
-  class { '::mysql::client': }
+  class { 'mysql::client': }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'mysql data disk':
+    ::profiles::bootstrap::disk::mount { 'mysql data disk':
       device    => $device,
       mountpath => $data_path,
       before    => Package['mysql-server'],
@@ -47,7 +47,7 @@ class profiles::database::mysql (
         {
           tcp      => "${listen_address}:3306",
           interval => '10s'
-        }
+        },
       ],
       port   => 3306,
       tags   => $sd_service_tags,

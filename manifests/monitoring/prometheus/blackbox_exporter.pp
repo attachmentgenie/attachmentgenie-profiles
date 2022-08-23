@@ -11,7 +11,7 @@ class profiles::monitoring::prometheus::blackbox_exporter (
   Array $sd_service_tags = ['metrics'],
   String $version = '0.19.0',
 ) {
-  class { '::prometheus::blackbox_exporter':
+  class { 'prometheus::blackbox_exporter':
     modules => $modules,
     version => $version,
   }
@@ -22,7 +22,7 @@ class profiles::monitoring::prometheus::blackbox_exporter (
         {
           http     => 'http://localhost:9115',
           interval => '10s'
-        }
+        },
       ],
       port   => 9115,
       tags   => $sd_service_tags,

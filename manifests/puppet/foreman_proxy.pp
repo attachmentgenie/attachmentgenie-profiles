@@ -33,7 +33,7 @@ class profiles::puppet::foreman_proxy (
     $port = 8000
     $ssl  = false
   }
-  class { '::foreman_proxy':
+  class { 'foreman_proxy':
     bmc                   => $manage_bmc,
     dhcp                  => $manage_dhcp,
     dns                   => $manage_dns,
@@ -49,12 +49,12 @@ class profiles::puppet::foreman_proxy (
     puppetca_listen_on    => $protocol,
     puppet                => $puppet,
     puppet_listen_on      => $protocol,
-    registered_name       => $::fqdn,
-    registered_proxy_url  => "${protocol}://${::fqdn}:${port}",
+    registered_name       => $facts['networking']['fqdn'],
+    registered_proxy_url  => "${protocol}://${facts['facts["networking"]["fqdn"]']}:${port}",
     ssl                   => $ssl,
     ssl_port              => 8443,
     tftp                  => $tftp,
-    trusted_hosts         => [$::fqdn, $foreman_host],
+    trusted_hosts         => [$facts['networking']['fqdn'], $foreman_host],
     version               => $version,
   }
 

@@ -13,7 +13,7 @@ class profiles::orchestration::rundeck::puppetdb (
   $rundeck_user,
   $user,
   $version,
-){
+) {
   wget::fetch { 'install puppetdb plugin':
     source      => "https://github.com/rundeck-plugins/rundeck-puppetenterprise-nodes-plugin/releases/download/v${version}/rundeck-puppetenterprise-nodes-plugin-${version}.jar",
     destination => '/var/lib/rundeck/libext/',

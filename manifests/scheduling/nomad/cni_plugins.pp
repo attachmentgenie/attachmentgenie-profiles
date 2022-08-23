@@ -17,11 +17,11 @@ class profiles::scheduling::nomad::cni_plugins (
       $install_path = '/opt/cni/bin'
       $real_download_url = pick($download_url, "${download_url_base}/${version}/${package_name}-linux-${arch}-${version}.${download_extension}") # lint:ignore:140chars
 
-      include '::archive'
+      include 'archive'
       file { [
-        '/opt/cni',
+          '/opt/cni',
         '/opt/cni/bin']:
-        ensure => directory,
+          ensure => directory,
       }
       -> archive { "${install_path}/cni_plugins.${download_extension}":
         ensure       => present,

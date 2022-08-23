@@ -23,7 +23,7 @@ class profiles::puppet::puppetdb (
   Array $sd_service_tags = [],
   String $ssl_listen_address = '0.0.0.0',
 ) {
-  class { '::puppetdb::server':
+  class { 'puppetdb::server':
     database_host      => $database_host,
     database_name      => $database_name,
     database_password  => $database_password,
@@ -65,9 +65,9 @@ class profiles::puppet::puppetdb (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}:8081",
+          http     => "http://${facts['facts["networking"]["ip"]']}:8081",
           interval => '10s'
-        }
+        },
       ],
       port   => 8081,
       tags   => $sd_service_tags,

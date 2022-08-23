@@ -6,7 +6,7 @@
 class profiles::bootstrap::network (
   Boolean $enable_networkmanager = true,
 ) {
-  if $::operatingsystemmajrelease == '7' {
+  if $facts['os']['release']['major'] == '7' {
     $ensure = $enable_networkmanager ? {
       true    => running,
       default => stopped,

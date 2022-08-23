@@ -41,7 +41,6 @@
 * [`profiles::dashboard`](#profilesdashboard): This class can be used install dashboard.
 * [`profiles::dashboard::icinga2`](#profilesdashboardicinga2): This class can be used install the icinga2 dashboard: https://github.com/dnsmichi/dashing-icinga2  ex: profile::dashboard::icinga2::docker_en
 * [`profiles::dashboard::smashing`](#profilesdashboardsmashing): This class can be used install user smashing properties
-* [`profiles::dashboard::statping`](#profilesdashboardstatping): A short summary of the purpose of this class
 * [`profiles::database`](#profilesdatabase): This class can be used install metrics.
 * [`profiles::database::influxdb`](#profilesdatabaseinfluxdb): This class can be used install influxdb
 * [`profiles::database::mongodb`](#profilesdatabasemongodb): This class can be used install mongodb
@@ -64,6 +63,7 @@
 * [`profiles::monitoring`](#profilesmonitoring): This class can be used install monitoring components
 * [`profiles::monitoring::carbon_relay`](#profilesmonitoringcarbon_relay): This class can be used install carbon_relay properties
 * [`profiles::monitoring::collectd`](#profilesmonitoringcollectd): This class can be used install collectd
+* [`profiles::monitoring::grafana_agent`](#profilesmonitoringgrafana_agent): A short summary of the purpose of this class
 * [`profiles::monitoring::icinga2`](#profilesmonitoringicinga2): This class can be used to setup icinga2.
 * [`profiles::monitoring::icinga2::slack`](#profilesmonitoringicinga2slack): Class to manage icinga2 slack integration.  Dont include this class directly.
 * [`profiles::monitoring::logstash`](#profilesmonitoringlogstash): This class can be used install logstash
@@ -299,7 +299,7 @@ Data type: `String`
 
 Version to install
 
-Default value: `'0.22.2'`
+Default value: `'0.23.0'`
 
 ##### <a name="cluster"></a>`cluster`
 
@@ -311,11 +311,11 @@ Default value: ``false``
 
 ##### <a name="extra_options"></a>`extra_options`
 
-Data type: `String`
+Data type: `Optional[String[1]]`
 
 
 
-Default value: `''`
+Default value: ``undef``
 
 ##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
@@ -2487,7 +2487,6 @@ The following parameters are available in the `profiles::dashboard` class:
 
 * [`smashing`](#smashing)
 * [`icinga2`](#icinga2)
-* [`statping`](#statping)
 
 ##### <a name="smashing"></a>`smashing`
 
@@ -2502,14 +2501,6 @@ Default value: ``false``
 Data type: `Boolean`
 
 Mange icinga2web on this node.
-
-Default value: ``false``
-
-##### <a name="statping"></a>`statping`
-
-Data type: `Boolean`
-
-
 
 Default value: ``false``
 
@@ -2623,108 +2614,6 @@ Data type: `String`
 Package provider
 
 Default value: `'gem'`
-
-### <a name="profilesdashboardstatping"></a>`profiles::dashboard::statping`
-
-A description of what this class does
-
-#### Examples
-
-##### 
-
-```puppet
-include profiles::dashboard::statping
-```
-
-#### Parameters
-
-The following parameters are available in the `profiles::dashboard::statping` class:
-
-* [`archive_source`](#archive_source)
-* [`config`](#config)
-* [`http_addr`](#http_addr)
-* [`http_port`](#http_port)
-* [`install_method`](#install_method)
-* [`manage_firewall_entry`](#manage_firewall_entry)
-* [`manage_sd_service`](#manage_sd_service)
-* [`sd_service_tags`](#sd_service_tags)
-
-##### <a name="archive_source"></a>`archive_source`
-
-Data type: `String`
-
-
-
-Default value: `'https://github.com/statping/statping/releases/download/v0.90.74/statping-linux-amd64.tar.gz'`
-
-##### <a name="config"></a>`config`
-
-Data type: `Hash`
-
-
-
-Default value: `{
-    'connection'     => 'sqlite3',
-    'language'       => 'en',
-    'allow_reports'  => 'true', # lint:ignore:quoted_booleans
-    'location'       => '/etc/statping',
-    'sqlfile'        => '/etc/statping/statping.db',
-    'disable_http'   => 'false', # lint:ignore:quoted_booleans
-    'demo_mode'      => 'false', # lint:ignore:quoted_booleans
-    'disable_logs'   => 'false', # lint:ignore:quoted_booleans
-    'use_assets'     => 'false', # lint:ignore:quoted_booleans
-    'sample_data'    => 'false', # lint:ignore:quoted_booleans
-    'use_cdn'        => 'false', # lint:ignore:quoted_booleans
-    'disable_colors' => 'false', # lint:ignore:quoted_booleans
-  }`
-
-##### <a name="http_addr"></a>`http_addr`
-
-Data type: `String`
-
-
-
-Default value: `'127.0.0.1'`
-
-##### <a name="http_port"></a>`http_port`
-
-Data type: `Stdlib::Port`
-
-
-
-Default value: `8080`
-
-##### <a name="install_method"></a>`install_method`
-
-Data type: `Enum['archive','package']`
-
-
-
-Default value: `'package'`
-
-##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
-
-Data type: `Boolean`
-
-
-
-Default value: ``true``
-
-##### <a name="manage_sd_service"></a>`manage_sd_service`
-
-Data type: `Boolean`
-
-
-
-Default value: ``false``
-
-##### <a name="sd_service_tags"></a>`sd_service_tags`
-
-Data type: `Array`
-
-
-
-Default value: `[]`
 
 ### <a name="profilesdatabase"></a>`profiles::database`
 
@@ -3977,7 +3866,7 @@ Data type: `String`
 
 
 
-Default value: `'v2.3.0'`
+Default value: `'v2.4.1'`
 
 ### <a name="profilesmail"></a>`profiles::mail`
 
@@ -4662,7 +4551,7 @@ Data type: `String`
 
 Version to install.
 
-Default value: `'8.1.2'`
+Default value: `'8.3.2'`
 
 ##### <a name="db_grant"></a>`db_grant`
 
@@ -4807,6 +4696,7 @@ The following parameters are available in the `profiles::monitoring` class:
 
 * [`carbon_relay`](#carbon_relay)
 * [`collectd`](#collectd)
+* [`grafana_agent`](#grafana_agent)
 * [`icinga2`](#icinga2)
 * [`logstash`](#logstash)
 * [`prometheus`](#prometheus)
@@ -4826,6 +4716,14 @@ Default value: ``false``
 Data type: `Boolean`
 
 Manage collectd on this node.
+
+Default value: ``false``
+
+##### <a name="grafana_agent"></a>`grafana_agent`
+
+Data type: `Boolean`
+
+Manage grafana_agent on this node.
 
 Default value: ``false``
 
@@ -5010,6 +4908,77 @@ Data type: `Boolean`
 Purge default config file.
 
 Default value: ``false``
+
+### <a name="profilesmonitoringgrafana_agent"></a>`profiles::monitoring::grafana_agent`
+
+A description of what this class does
+
+#### Examples
+
+##### 
+
+```puppet
+include profiles::monitoring::grafana_agent
+```
+
+#### Parameters
+
+The following parameters are available in the `profiles::monitoring::grafana_agent` class:
+
+* [`intergrations_config_hash`](#intergrations_config_hash)
+* [`loki_config_hash`](#loki_config_hash)
+* [`prometheus_config_hash`](#prometheus_config_hash)
+* [`server_config_hash`](#server_config_hash)
+* [`tempo_config_hash`](#tempo_config_hash)
+* [`version`](#version)
+
+##### <a name="intergrations_config_hash"></a>`intergrations_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="loki_config_hash"></a>`loki_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="prometheus_config_hash"></a>`prometheus_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="server_config_hash"></a>`server_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="tempo_config_hash"></a>`tempo_config_hash`
+
+Data type: `Optional[Hash]`
+
+
+
+Default value: ``undef``
+
+##### <a name="version"></a>`version`
+
+Data type: `String[1]`
+
+
+
+Default value: `'v0.26.1'`
 
 ### <a name="profilesmonitoringicinga2"></a>`profiles::monitoring::icinga2`
 
@@ -5707,7 +5676,7 @@ Data type: `String`
 
 
 
-Default value: `'2.29.1'`
+Default value: `'2.31.1'`
 
 ### <a name="profilesmonitoringprometheusblackbox_exporter"></a>`profiles::monitoring::prometheus::blackbox_exporter`
 
@@ -5840,7 +5809,7 @@ Data type: `String`
 
 
 
-Default value: `'0.10.1'`
+Default value: `'0.12.0'`
 
 ### <a name="profilesmonitoringprometheusnode_exporter"></a>`profiles::monitoring::prometheus::node_exporter`
 
@@ -5911,7 +5880,7 @@ Data type: `String`
 
 
 
-Default value: `'1.2.0'`
+Default value: `'1.3.1'`
 
 ### <a name="profilesmonitoringprometheuspushgateway"></a>`profiles::monitoring::prometheus::pushgateway`
 
@@ -5964,7 +5933,7 @@ Data type: `String`
 
 
 
-Default value: `'1.4.1'`
+Default value: `'1.4.2'`
 
 ### <a name="profilesmonitoringprometheusstatsd_exporter"></a>`profiles::monitoring::prometheus::statsd_exporter`
 
@@ -6026,7 +5995,7 @@ Data type: `String`
 
 
 
-Default value: `'0.21.0'`
+Default value: `'0.22.4'`
 
 ### <a name="profilesmonitoringpromtail"></a>`profiles::monitoring::promtail`
 
@@ -6066,7 +6035,7 @@ Data type: `String[1]`
 
 
 
-Default value: `'9ca9f0bf63bec77664d3b62110107d2430c43137943a70713c6f11fa23d48130'`
+Default value: `'978391a174e71cfef444ab9dc012f95d5d7eae0d682eaf1da2ea18f793452031'`
 
 ##### <a name="manage_firewall_entry"></a>`manage_firewall_entry`
 
@@ -6161,7 +6130,7 @@ Data type: `String[1]`
 
 
 
-Default value: `'v2.3.0'`
+Default value: `'v2.4.1'`
 
 ### <a name="profilesmonitoringstatsd"></a>`profiles::monitoring::statsd`
 
@@ -6683,7 +6652,7 @@ Data type: `String`
 
 
 
-Default value: `'1.10.1'`
+Default value: `'1.12.0'`
 
 ##### <a name="ui"></a>`ui`
 
@@ -8766,7 +8735,7 @@ Data type: `String`
 
 
 
-Default value: `'1.0.4'`
+Default value: `'1.3.0'`
 
 ### <a name="profilesschedulingnomadcni_plugins"></a>`profiles::scheduling::nomad::cni_plugins`
 
@@ -9083,7 +9052,7 @@ Data type: `String`
 
 
 
-Default value: `'1.7.0'`
+Default value: `'1.10.3'`
 
 ### <a name="profilesstorage"></a>`profiles::storage`
 
@@ -10142,7 +10111,7 @@ Data type: `Stdlib::Port`
 
 
 
-Default value: `3100`
+Default value: `3200`
 
 ##### <a name="sd_service_name"></a>`sd_service_name`
 
@@ -10166,7 +10135,7 @@ Data type: `String`
 
 
 
-Default value: `'1.0.1'`
+Default value: `'1.2.1'`
 
 ##### <a name="compactor_config_hash"></a>`compactor_config_hash`
 
@@ -10925,7 +10894,7 @@ Data type: `String`
 
 
 
-Default value: `'2.4.5'`
+Default value: `'2.6.6'`
 
 ### <a name="profileswebsiteuwsgi"></a>`profiles::website::uwsgi`
 
@@ -12021,16 +11990,7 @@ This class can be used to install a jenkins plugin
 
 The following parameters are available in the `profiles::testing::jenkins::plugin` defined type:
 
-* [`extension`](#extension)
 * [`version`](#version)
-
-##### <a name="extension"></a>`extension`
-
-Data type: `Enum['hpi', 'jpi']`
-
-
-
-Default value: `'hpi'`
 
 ##### <a name="version"></a>`version`
 

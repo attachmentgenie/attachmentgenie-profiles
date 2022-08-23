@@ -35,7 +35,7 @@ class profiles::bootstrap::example (
 ) {
   $_config = deep_merge($config_default, $config)
 
-  class {'::example':
+  class { 'example':
     #client  => $client,
     #config  => $_config,
     #runmode => $runmode,
@@ -51,7 +51,7 @@ class profiles::bootstrap::example (
   }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'example':
+    ::profiles::bootstrap::disk::mount { 'example':
       device    => $device,
       mountpath => $data_path,
       before    => Package['example'],
@@ -77,7 +77,7 @@ class profiles::bootstrap::example (
             {
               http     => $_check_endpoint,
               interval => $sd_service_check_interval,
-            }
+            },
           ],
           port   => $port,
           tags   => $sd_service_tags,
@@ -93,6 +93,6 @@ class profiles::bootstrap::example (
   #if $manage_sudoersd {}
 
   if $manage_sysctl {
-    ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-arptables':}
+    ::profiles::bootstrap::sysctl::entry { 'net.bridge.bridge-nf-call-arptables': }
   }
 }

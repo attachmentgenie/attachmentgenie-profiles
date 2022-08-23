@@ -13,8 +13,8 @@ class profiles::mail::mailhog (
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'mailhog',
   Array $sd_service_tags = [],
-){
-  class { '::mailhog':
+) {
+  class { 'mailhog':
     config         => $config,
     install_method => $install_method,
     archive_source => $archive_source,
@@ -26,7 +26,7 @@ class profiles::mail::mailhog (
         {
           http     => 'http://localhost:8025',
           interval => '10s'
-        }
+        },
       ],
       port   => 8025,
       tags   => $sd_service_tags,

@@ -63,7 +63,7 @@ class profiles::runtime::php (
   Boolean $install_fpm = true,
   Boolean $manage_repo = false,
   Array $modules = [],
-  String $resource_tag = $::fqdn,
+  String $resource_tag = $facts['networking']['fqdn'],
   Hash $settings = {},
   Hash $settings_default = {
     'Date/date.timezone'          => 'Europe/Amsterdam',
@@ -112,8 +112,8 @@ class profiles::runtime::php (
     'scream'                        => 0,
   },
 ) {
-  if $manage_repo{
-    class { '::profiles::runtime::php::repo':
+  if $manage_repo {
+    class { 'profiles::runtime::php::repo':
       version => $version,
     }
   }
@@ -141,7 +141,7 @@ class profiles::runtime::php (
     }
   }
 
-  class { '::php':
+  class { 'php':
     manage_repos     => false,
     fpm              => $install_fpm,
     fpm_package      => $fpm_package,
@@ -154,10 +154,10 @@ class profiles::runtime::php (
   }
 
   if $install_cachetool {
-    include ::profiles::runtime::php::cachetool
+    include profiles::runtime::php::cachetool
   }
   if $install_composer {
-    class { '::composer':
+    class { 'composer':
       target_dir => '/usr/local/bin',
     }
   }
@@ -176,4 +176,3 @@ class profiles::runtime::php (
     Profiles::Runtime::Php::Pool <<| tag == $resource_tag and env == $::environment |>>
   }
 }
-

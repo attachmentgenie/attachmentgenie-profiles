@@ -22,27 +22,27 @@ class profiles::monitoring (
   Boolean $statsd = false,
 ) {
   if $carbon_relay {
-    class { '::profiles::monitoring::carbon_relay': }
+    class { 'profiles::monitoring::carbon_relay': }
   }
   if $collectd {
-    class { '::profiles::monitoring::collectd': }
+    class { 'profiles::monitoring::collectd': }
   }
   if $grafana_agent {
-    class { '::profiles::monitoring::grafana_agent': }
+    class { 'profiles::monitoring::grafana_agent': }
   }
   if $icinga2 {
-    class { '::profiles::monitoring::icinga2': }
+    class { 'profiles::monitoring::icinga2': }
   }
   if $logstash {
-    class { '::profiles::monitoring::logstash': }
+    class { 'profiles::monitoring::logstash': }
   }
   if $prometheus {
-    class { '::profiles::monitoring::prometheus': }
+    class { 'profiles::monitoring::prometheus': }
   }
   if $promtail {
-    class { '::profiles::monitoring::promtail': }
+    class { 'profiles::monitoring::promtail': }
   }
   if $statsd {
-    class { '::profiles::monitoring::statsd': }
+    class { 'profiles::monitoring::statsd': }
   }
 }

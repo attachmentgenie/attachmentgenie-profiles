@@ -12,12 +12,12 @@ class profiles::orchestration (
   Boolean $rundeck     = false,
 ) {
   if $consul {
-    class { '::profiles::orchestration::consul': }
+    class { 'profiles::orchestration::consul': }
   }
   if $mcollective {
-    class { '::profiles::orchestration::mcollective': }
+    class { 'profiles::orchestration::mcollective': }
   }
   if $rundeck {
-    class { '::profiles::orchestration::rundeck': }
+    class { 'profiles::orchestration::rundeck': }
   }
 }

@@ -4,5 +4,5 @@
 #  class { '::profiles::tools::compile': }
 #
 class profiles::tools::compile {
-  class { '::gcc': }
+  class { 'gcc': }
 }

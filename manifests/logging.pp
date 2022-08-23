@@ -11,12 +11,12 @@ class profiles::logging (
   Boolean $loki = false,
 ) {
   if $elasticsearch {
-    class { '::profiles::logging::elasticsearch': }
+    class { 'profiles::logging::elasticsearch': }
   }
   if $kibana {
-    class { '::profiles::logging::kibana': }
+    class { 'profiles::logging::kibana': }
   }
   if $loki {
-    class { '::profiles::logging::loki': }
+    class { 'profiles::logging::loki': }
   }
 }

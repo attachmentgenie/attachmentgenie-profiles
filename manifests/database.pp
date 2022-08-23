@@ -16,18 +16,18 @@ class profiles::database (
   Boolean $postgresql = false,
 ) {
   if $influxdb {
-    class { '::profiles::database::influxdb':}
+    class { 'profiles::database::influxdb': }
   }
   if $mongodb {
-    class { '::profiles::database::mongodb':}
+    class { 'profiles::database::mongodb': }
   }
   if $mysql {
-    class { '::profiles::database::mysql':}
+    class { 'profiles::database::mysql': }
   }
   if $neo4j {
-    class { '::profiles::database::neo4j': }
+    class { 'profiles::database::neo4j': }
   }
   if $postgresql {
-    class { '::profiles::database::postgresql':}
+    class { 'profiles::database::postgresql': }
   }
 }

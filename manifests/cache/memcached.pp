@@ -9,7 +9,7 @@ class profiles::cache::memcached (
   Optional[Stdlib::Compat::Ip_address] $listen_ip = '127.0.0.1',
   Variant[Integer, String] $max_memory = '50%',
 ) {
-  class { '::memcached':
+  class { 'memcached':
     listen_ip  => $listen_ip,
     max_memory => $max_memory,
   }

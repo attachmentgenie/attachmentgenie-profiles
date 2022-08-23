@@ -12,12 +12,12 @@ class profiles::metrics (
   Boolean $graphite_web = false,
 ) {
   if $carbon {
-    class { '::profiles::metrics::carbon': }
+    class { 'profiles::metrics::carbon': }
   }
   if $grafana {
-    class { '::profiles::metrics::grafana': }
+    class { 'profiles::metrics::grafana': }
   }
   if $graphite_web {
-    class { '::profiles::metrics::graphite_web': }
+    class { 'profiles::metrics::graphite_web': }
   }
 }

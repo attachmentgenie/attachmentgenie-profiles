@@ -14,19 +14,19 @@ class profiles::bootstrap::repositories (
   Boolean $puppetlabs_deps = false,
   Boolean $remi            = false,
   Hash $repositories       = {},
-){
+) {
   if $epel {
-    class { '::epel': }
+    class { 'epel': }
     Yumrepo['epel'] -> Package <||>
   }
   if $hashicorp {
-    class { '::hashi_stack::repo': }
+    class { 'hashi_stack::repo': }
     Yumrepo['HashiCorp'] -> Package <||>
   }
   if $puppetlabs_deps {
     yumrepo { 'puppetlabs-deps':
       descr    => 'Puppet Labs Packages',
-      baseurl  => "http://yum.puppetlabs.com/el/${::operatingsystemmajrelease}/dependencies/\$basearch",
+      baseurl  => "http://yum.puppetlabs.com/el/${facts['facts["os"]["release"]["major"]']}/dependencies/\$basearch",
       enabled  => 1,
       gpgcheck => 0,
     }
@@ -34,9 +34,9 @@ class profiles::bootstrap::repositories (
   }
   if $remi {
     yumrepo { 'remi':
-      descr      => "Remi's RPM repository for Enterprise Linux ${::operatingsystemmajrelease} - \$basearch",
+      descr      => "Remi's RPM repository for Enterprise Linux ${facts['facts["os"]["release"]["major"]']} - \$basearch",
       baseurl    => 'absent',
-      mirrorlist => "http://rpms.remirepo.net/enterprise/${::operatingsystemmajrelease}/remi/mirror",
+      mirrorlist => "http://rpms.remirepo.net/enterprise/${facts['facts["os"]["release"]["major"]']}/remi/mirror",
       enabled    => 1,
       gpgcheck   => 0,
     }

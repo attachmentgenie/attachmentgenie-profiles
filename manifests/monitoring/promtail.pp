@@ -13,23 +13,23 @@ class profiles::monitoring::promtail (
     {
       'job_name' => 'system_secure',
       'static_configs' => [{
-        'targets' => ['localhost'],
-        'labels'  => {
-          'job'  => 'var_log_secure',
-          'host' => $::fqdn,
-          '__path__' => '/var/log/secure'
-        }
+          'targets' => ['localhost'],
+          'labels'  => {
+            'job'  => 'var_log_secure',
+            'host' => $facts['networking']['fqdn'],
+            '__path__' => '/var/log/secure',
+          }
       }]
     },
     {
       'job_name' => 'system_messages',
       'static_configs' => [{
-        'targets' => ['localhost'],
-        'labels'  => {
-          'job'  => 'var_log_messages',
-          'host' => $::fqdn,
-          '__path__' => '/var/log/messages'
-        }
+          'targets' => ['localhost'],
+          'labels'  => {
+            'job'  => 'var_log_messages',
+            'host' => $facts['networking']['fqdn'],
+            '__path__' => '/var/log/messages',
+          }
       }]
     },
     {
@@ -38,8 +38,8 @@ class profiles::monitoring::promtail (
         'max_age' => '12h',
         'labels' => {
           'job'  => 'systemd_journal',
-          'host' => $::fqdn,
-        }
+          'host' => $facts['networking']['fqdn'],
+        },
       },
       'relabel_configs' => [
         {
@@ -53,16 +53,15 @@ class profiles::monitoring::promtail (
   Array $sd_service_tags = ['metrics'],
   String[1] $version = 'v2.4.1',
 ) {
-
-  $_clients_config_hash = { 'clients' => $client_urls}
-  $_positions_config_hash = { 'positions' => { 'filename' => $positions_file} }
-  $_scrape_configs_hash = { 'scrape_configs' => $scrape_configs}
-  class { '::promtail':
+  $_clients_config_hash = { 'clients' => $client_urls }
+  $_positions_config_hash = { 'positions' => { 'filename' => $positions_file } }
+  $_scrape_configs_hash = { 'scrape_configs' => $scrape_configs }
+  class { 'promtail':
     checksum              => $checksum,
     clients_config_hash   => $_clients_config_hash,
     positions_config_hash => $_positions_config_hash,
     scrape_configs_hash   => $_scrape_configs_hash,
-    server_config_hash    => { 'server' => { 'http_listen_port' => 9080 , 'grpc_listen_port' => 0}},
+    server_config_hash    => { 'server' => { 'http_listen_port' => 9080 , 'grpc_listen_port' => 0 } },
     service_ensure        => 'running',
     version               => $version,
   }
@@ -73,7 +72,7 @@ class profiles::monitoring::promtail (
         {
           http     => 'http://localhost:9080',
           interval => '10s'
-        }
+        },
       ],
       port   => 9080,
       tags   => $sd_service_tags,

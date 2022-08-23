@@ -26,7 +26,7 @@ class profiles::storage::minio (
 ) {
   $_config = deep_merge($config_default, $config)
 
-  class { '::minio':
+  class { 'minio':
     configuration          => $_config,
     checksum               => $checksum,
     checksum_type          => 'sha256',
@@ -38,7 +38,7 @@ class profiles::storage::minio (
   }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'minio':
+    ::profiles::bootstrap::disk::mount { 'minio':
       device    => $device,
       mountpath => $data_path,
       before    => [File[$data_path],Service['minio']],
@@ -55,9 +55,9 @@ class profiles::storage::minio (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          tcp      => "${::ipaddress}:${port}",
+          tcp      => "${facts['facts["networking"]["ip"]']}:${port}",
           interval => '10s'
-        }
+        },
       ],
       port   => $port,
       tags   => $sd_service_tags,

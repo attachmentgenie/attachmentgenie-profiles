@@ -11,7 +11,7 @@ class profiles::puppet::r10k (
   Boolean $mcollective = false,
   Optional[String] $puppet_repo_url = undef,
 ) {
-  class { '::r10k':
+  class { 'r10k':
     manage_modulepath => false,
     mcollective       => $mcollective,
     r10k_basedir      => $basedir,
@@ -20,7 +20,7 @@ class profiles::puppet::r10k (
         'remote'  => $puppet_repo_url,
         'basedir' => $basedir,
         'prefix'  => false,
-      }
+      },
     },
   }
 }

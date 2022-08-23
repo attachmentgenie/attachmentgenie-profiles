@@ -12,17 +12,17 @@ class profiles::alerting::icingaweb2::auth (
   String $ldap_filter    = '',
   Integer $port           = 389,
 ) {
-  ::icingaweb2::config::resource{'ldap-resource':
+  ::icingaweb2::config::resource { 'ldap-resource':
     type            => $auth_type,
     host            => $hostname,
     port            => $port,
     ldap_encryption => $encryption,
     ldap_root_dn    => $root_dn,
     ldap_bind_dn    => $bind_dn,
-    ldap_bind_pw    => $bind_pw
+    ldap_bind_pw    => $bind_pw,
   }
 
-  ::icingaweb2::config::authmethod {'ldap-auth':
+  ::icingaweb2::config::authmethod { 'ldap-auth':
     backend                  => $auth_type,
     resource                 => 'ldap-resource',
     ldap_user_class          => $ldap_userclass,

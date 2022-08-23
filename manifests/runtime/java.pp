@@ -9,7 +9,7 @@ class profiles::runtime::java (
   String $package = 'java-11-openjdk-devel',
   Optional[String] $package_options = undef,
 ) {
-  class { '::java':
+  class { 'java':
     package         => $package,
     package_options => $package_options,
   }

@@ -26,7 +26,7 @@ class profiles::orchestration::rundeck (
     },
   },
   Array $auth_types         = ['file'],
-  String $grails_server_url = "http://${::fqdn}",
+  String $grails_server_url = "http://${facts['facts["networking"]["fqdn"]']}",
   String $group             = 'rundeck',
   String $jvm_args          = '',
   $listen_address           = '127.0.0.1',
@@ -44,7 +44,7 @@ class profiles::orchestration::rundeck (
   String $user              = 'rundeck',
 ) {
   $_jvm_args = "${jvm_args} -Dserver.http.host=${listen_address}"
-  class { '::rundeck':
+  class { 'rundeck':
     auth_config       => $auth_config,
     auth_types        => $auth_types,
     grails_server_url => $grails_server_url,
@@ -77,7 +77,7 @@ class profiles::orchestration::rundeck (
         {
           http     => "http://${listen_address}:4440",
           interval => '10s'
-        }
+        },
       ],
       port   => 4440,
       tags   => $sd_service_tags,

@@ -25,7 +25,7 @@ class profiles::tracing::tempo (
   Optional[Hash] $query_frontend_config_hash = undef,
   Optional[Hash] $querier_config_hash = undef,
 ) {
-  class { '::tempo':
+  class { 'tempo':
     compactor_config_hash      => $compactor_config_hash,
     distributor_config_hash    => $distributor_config_hash,
     ingester_config_hash       => $ingester_config_hash,
@@ -39,7 +39,7 @@ class profiles::tracing::tempo (
   }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'tempo':
+    ::profiles::bootstrap::disk::mount { 'tempo':
       device    => $device,
       mountpath => $data_path,
       before    => [File[$data_path],Service['tempo']],
@@ -61,7 +61,7 @@ class profiles::tracing::tempo (
         {
           http     => "http://localhost:${port_tcp}/ready",
           interval => '10s'
-        }
+        },
       ],
       port   => $port_tcp,
       tags   => $sd_service_tags,

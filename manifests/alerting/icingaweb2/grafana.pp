@@ -16,12 +16,10 @@ class profiles::alerting::icingaweb2::grafana (
   String $git_url            = 'https://github.com/Mikesch-mp/icingaweb2-module-grafana',
   String $version            = 'v1.3.6',
 ) inherits profiles::alerting::icingaweb2 {
-
   $conf_dir        = $::icingaweb2::params::conf_dir
   $module_conf_dir = "${conf_dir}/modules/grafana"
 
-
-  $_settings     =  {
+  $_settings     = {
     'grafana'    => {
       'target'   => "${module_conf_dir}/grafana.ini",
       'settings' => {
@@ -42,8 +40,8 @@ class profiles::alerting::icingaweb2::grafana (
         'debug'                   => '0',
         'ssl_verifypeer'          => '0',
         'ssl_verifyhost'          => '0',
-      }
-    }
+      },
+    },
   }
 
   icingaweb2::module { 'grafana':

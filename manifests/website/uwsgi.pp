@@ -36,8 +36,7 @@ class profiles::website::uwsgi (
   String $service_provider = 'systemd',
   Optional[String] $socket = undef,
   String $user = 'uwgsi',
-){
-
+) {
   # @todo needs to be in class uwsgi
   package { $plugins:
     ensure => present,

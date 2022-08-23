@@ -8,6 +8,6 @@ class profiles::tracing (
   Boolean $tempo = false,
 ) {
   if $tempo {
-    class { '::profiles::tracing::tempo': }
+    class { 'profiles::tracing::tempo': }
   }
 }

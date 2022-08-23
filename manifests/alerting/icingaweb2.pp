@@ -38,7 +38,7 @@ class profiles::alerting::icingaweb2 (
   Hash $roles = {},
   Hash $resources = {},
 ) {
-  class {'icingaweb2':
+  class { 'icingaweb2':
     manage_repo   => $manage_repo,
     module_path   => '/usr/share/icingaweb2/modules:/usr/share/icinga2-modules',
     import_schema => true,
@@ -50,34 +50,34 @@ class profiles::alerting::icingaweb2 (
     db_password   => $database_password,
   }
 
-  class {'icingaweb2::module::monitoring':
+  class { 'icingaweb2::module::monitoring':
     commandtransports => {
       icinga2 => {
         transport => 'api',
         username  => $api_user,
         password  => $api_password,
         host      => $api_endpoint,
-      }
+      },
     },
     ido_type          => 'pgsql',
     ido_host          => $ido_database_host,
-    ido_port          =>  5432,
+    ido_port          => 5432,
     ido_db_name       => $ido_database_name,
     ido_db_username   => $ido_database_user,
     ido_db_password   => $ido_database_password,
   }
 
-  if ( $modules != [] ) {
+  if ( $modules != []) {
     $modules.each | $module | {
       ensure_packages( ['git'], { 'ensure' => 'present' })
       class { "::profiles::alerting::icingaweb2::${module}":; }
     }
   }
 
-  if ( $roles!= {} ) {
+  if ( $roles!= {}) {
     create_resources( ::icingaweb2::config::role, $roles )
   }
-  if ( $resources != {} ) {
+  if ( $resources != {}) {
     create_resources( ::icingaweb2::config::resource, $resources )
   }
 
@@ -92,9 +92,9 @@ class profiles::alerting::icingaweb2 (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          tcp      => "${::ipaddress}:80",
+          tcp      => "${facts['facts["networking"]["ip"]']}:80",
           interval => '10s'
-        }
+        },
       ],
       port   => 80,
       tags   => $sd_service_tags,

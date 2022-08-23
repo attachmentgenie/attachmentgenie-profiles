@@ -18,8 +18,8 @@ class profiles::monitoring::logstash (
   String $repo_version = '7.x',
   String $user = 'root',
   Boolean $version = false,
-){
-  class { '::logstash':
+) {
+  class { 'logstash':
     ensure         => $ensure,
     logstash_group => $group,
     logstash_user  => $user,
@@ -30,7 +30,7 @@ class profiles::monitoring::logstash (
   create_resources(::logstash::configfile, $config_files)
 
   if $manage_repo {
-    if $::osfamily == 'RedHat' {
+    if $facts['os']['family'] == 'RedHat' {
       Yumrepo['elastic'] -> Package['logstash']
     }
   }

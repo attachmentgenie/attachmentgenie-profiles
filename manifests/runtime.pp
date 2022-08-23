@@ -22,27 +22,27 @@ class profiles::runtime (
   Boolean $scala  = false,
 ) {
   if $docker {
-    class { '::profiles::runtime::docker': }
+    class { 'profiles::runtime::docker': }
   }
   if $java {
-    class { '::profiles::runtime::java': }
+    class { 'profiles::runtime::java': }
   }
   if $golang {
-    class { '::profiles::runtime::golang': }
+    class { 'profiles::runtime::golang': }
   }
   if $nodejs {
-    class { '::profiles::runtime::nodejs': }
+    class { 'profiles::runtime::nodejs': }
   }
   if $php {
-    class { '::profiles::runtime::php': }
+    class { 'profiles::runtime::php': }
   }
   if $python {
-    class { '::profiles::runtime::python': }
+    class { 'profiles::runtime::python': }
   }
   if $ruby {
-    class { '::profiles::runtime::ruby': }
+    class { 'profiles::runtime::ruby': }
   }
   if $scala {
-    class { '::profiles::runtime::scala': }
+    class { 'profiles::runtime::scala': }
   }
 }

@@ -33,13 +33,13 @@ class profiles::logging::loki (
   Optional[Enum['all', 'querier', 'table-manager', 'ingester', 'distributor']] $target = undef,
   Optional[Hash] $tracing_config_hash = undef,
   String $version = 'v2.4.1',
-){
+) {
   if !defined(Package['unzip']) {
     package { 'unzip':
       ensure => present,
     }
   }
-  class { '::loki':
+  class { 'loki':
     auth_enabled                => $auth_enabled,
     chunk_store_config_hash     => $chunk_store_config_hash,
     compactor_config_hash       => $compactor_config_hash,
@@ -62,7 +62,7 @@ class profiles::logging::loki (
   }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'loki':
+    ::profiles::bootstrap::disk::mount { 'loki':
       device    => $device,
       mountpath => $data_path,
       before    => [File[$data_path],Service['loki']],
@@ -84,7 +84,7 @@ class profiles::logging::loki (
         {
           http     => "http://localhost:${port_tcp}/ready",
           interval => '10s'
-        }
+        },
       ],
       port   => $port_tcp,
       tags   => $sd_service_tags,

@@ -9,7 +9,7 @@ class profiles::monitoring::prometheus::pushgateway (
   Array $sd_service_tags = ['metrics'],
   String $version = '1.4.2',
 ) {
-  class { '::prometheus::pushgateway':
+  class { 'prometheus::pushgateway':
     version => $version,
   }
 
@@ -19,7 +19,7 @@ class profiles::monitoring::prometheus::pushgateway (
         {
           http     => 'http://localhost:9091',
           interval => '10s'
-        }
+        },
       ],
       port   => 9091,
       tags   => $sd_service_tags,

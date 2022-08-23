@@ -7,7 +7,7 @@ class profiles::bootstrap::dnsmasq (
   Stdlib::Host $consul_client_address = '127.0.0.1',
   Boolean $forward_consul = false,
 ) {
-  class { '::dnsmasq': }
+  class { 'dnsmasq': }
 
   if $forward_consul {
     dnsmasq::conf { 'consul':

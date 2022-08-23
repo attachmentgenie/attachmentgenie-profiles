@@ -12,14 +12,14 @@ class profiles::database::neo4j (
   Boolean $manage_package_repo = false,
   String $version = 'installed'
 ) {
-  class { '::neo4j' :
+  class { 'neo4j' :
     install_method => $install_method,
     manage_repo    => $manage_package_repo,
     version        => $version,
   }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'neo4j data disk':
+    ::profiles::bootstrap::disk::mount { 'neo4j data disk':
       device    => $device,
       mountpath => $data_path,
       before    => Package['neo4j'],

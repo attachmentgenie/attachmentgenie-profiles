@@ -10,7 +10,7 @@ class profiles::bootstrap::keepalive (
   String[1] $script_user = 'root',
   Hash $processes = {},
 ) {
-  class { '::keepalived': }
+  class { 'keepalived': }
   -> class { 'keepalived::global_defs':
     script_user => $script_user,
   }

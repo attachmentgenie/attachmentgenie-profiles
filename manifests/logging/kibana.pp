@@ -14,7 +14,7 @@ class profiles::logging::kibana (
   Array $sd_service_tags = [],
   String $version = present,
 ) {
-  class { '::kibana':
+  class { 'kibana':
     ensure      => $version,
     config      => $config,
     manage_repo => $manage_repo,
@@ -29,9 +29,9 @@ class profiles::logging::kibana (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}:5601",
+          http     => "http://${facts['facts["networking"]["ip"]']}:5601",
           interval => '10s'
-        }
+        },
       ],
       port   => 5601,
       tags   => $sd_service_tags,

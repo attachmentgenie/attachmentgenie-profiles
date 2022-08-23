@@ -9,8 +9,7 @@
 class profiles::alerting::icingaweb2::fileshipper (
   String $version = 'v1.2.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::fileshipper':
+  class { 'icingaweb2::module::fileshipper':
     git_revision => $version,
     require      => [
       Package['git'],

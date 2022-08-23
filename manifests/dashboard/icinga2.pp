@@ -26,8 +26,7 @@ class profiles::dashboard::icinga2 (
   Optional[String] $service_name = undef,
   Optional[String] $docker_image = undef,
   Optional[Hash] $docker_env_parameters,
-){
-
+) {
   if ( $runmode == 'package' ) {
     package { $package_name:
       ensure => installed,
@@ -61,7 +60,7 @@ class profiles::dashboard::icinga2 (
     docker::run { $container_name:
       image    => $docker_image,
       ports    => '3030:3030',
-      env_file => [ $env_file ],
+      env_file => [$env_file],
       require  => [
         Docker::Image[$docker_image],
         File[$env_file],
@@ -72,6 +71,6 @@ class profiles::dashboard::icinga2 (
   @@::icinga2::object::apiuser { $api_username:
     password    => $api_password,
     target      => '/etc/icinga2/zones.d/master/api-users.conf',
-    permissions => [ 'status/query', 'objects/query/*' ],
+    permissions => ['status/query', 'objects/query/*'],
   }
 }

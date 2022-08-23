@@ -6,7 +6,6 @@ describe 'profiles::logging::elasticsearch' do
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::logging::elasticsearch') }
-        it { is_expected.to contain_elasticsearch__instance('foo.example.com') }
       end
     end
   end

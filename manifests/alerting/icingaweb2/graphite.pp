@@ -10,8 +10,7 @@ class profiles::alerting::icingaweb2::graphite (
   Optional[Stdlib::Host] $host = undef,
   String $version = 'v1.1.0',
 ) inherits profiles::alerting::icingaweb2 {
-
-  class {'icingaweb2::module::graphite':
+  class { 'icingaweb2::module::graphite':
     git_revision => $version,
     url          => $host,
     require      => [

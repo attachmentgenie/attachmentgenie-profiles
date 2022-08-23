@@ -19,7 +19,7 @@ class profiles::database::mongodb (
   Boolean $use_enterprise_repo = false,
   String $version             = '5.0.2',
 ) {
-  class { '::mongodb::globals':
+  class { 'mongodb::globals':
     bind_ip             => $bind_ip,
     client_package_name => $client_package_name,
     manage_package_repo => $manage_package_repo,
@@ -27,17 +27,17 @@ class profiles::database::mongodb (
     use_enterprise_repo => $use_enterprise_repo,
     version             => $version,
   }
-  -> class { '::mongodb::server':
+  -> class { 'mongodb::server':
     smallfiles      => $smallfiles,
     replset         => $replset,
     replset_members => $replset_members,
   }
   create_resources(::profiles::database::mongodb::db, $databases)
 
-  class { '::mongodb::client': }
+  class { 'mongodb::client': }
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'mongodb data disk':
+    ::profiles::bootstrap::disk::mount { 'mongodb data disk':
       device    => $device,
       fs_type   => 'xfs',
       mountpath => $data_path,

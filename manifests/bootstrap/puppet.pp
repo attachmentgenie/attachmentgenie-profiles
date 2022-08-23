@@ -72,7 +72,7 @@ class profiles::bootstrap::puppet (
   String $srv_domain = 'example.org',
   Boolean $use_srv_records = false,
 ) {
-  class { '::puppet':
+  class { 'puppet':
     allow_any_crl_auth             => $allow_any_crl_auth,
     autosign                       => $autosign,
     autosign_entries               => $autosign_domains,
@@ -111,7 +111,7 @@ class profiles::bootstrap::puppet (
         content => template('profiles/hiera.yaml.erb'),
         path    => '/etc/puppetlabs/puppet/hiera.yaml',
       }
-      Class['::puppet']
+      Class['puppet']
       -> File['hiera.yaml']
     }
 
@@ -126,7 +126,7 @@ class profiles::bootstrap::puppet (
         repo     => 'stable',
       }
       Foreman::Install::Repos['foreman']
-      -> Class['::puppet']
+      -> Class['puppet']
     }
 
     if $install_toml {
@@ -154,9 +154,9 @@ class profiles::bootstrap::puppet (
       ::profiles::orchestration::consul::service { $sd_service_name:
         checks => [
           {
-            tcp      => "${::ipaddress}:8140",
+            tcp      => "${facts['facts["networking"]["ip"]']}:8140",
             interval => '10s'
-          }
+          },
         ],
         port   => 8140,
         tags   => $sd_service_tags,

@@ -11,7 +11,7 @@ class profiles::runtime::python (
   Hash $packages = {},
   Hash $pip_packages = {},
 ) {
-  class { '::python' :
+  class { 'python' :
     dev         => 'present',
     gunicorn    => 'absent',
     pip         => 'present',

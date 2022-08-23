@@ -25,9 +25,7 @@ fixtures:
     dns: 'theforeman/dns'
     docker: 'puppetlabs/docker'
     dnsmasq: 'saz/dnsmasq'
-    elasticsearch:
-      repo: 'elastic/elasticsearch'
-      ref: '5.5.0'
+    elasticsearch: 'puppet/elasticsearch'
     epel: 'puppet/epel'
     extlib: 'puppet/extlib'
     fail2ban: 'puppet/fail2ban'

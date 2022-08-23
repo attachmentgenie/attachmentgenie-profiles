@@ -11,11 +11,11 @@ class profiles::runtime::ruby (
   Hash $packages = {},
   String $rubygems_package = 'rubygems',
 ) {
-  class { '::ruby':
+  class { 'ruby':
     gems_version     => 'installed',
     rubygems_package => $rubygems_package,
   }
-  class  { '::ruby::dev': }
+  class { 'ruby::dev': }
   $gem_package_defaults = {
     provider => 'gem',
   }

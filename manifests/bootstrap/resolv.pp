@@ -9,7 +9,7 @@ class profiles::bootstrap::resolv (
   Array $name_servers = ['127.0.0.1'],
   Array $searchpath = [],
 ) {
-  class { '::resolv_conf':
+  class { 'resolv_conf':
     domainname  => $domain,
     nameservers => $name_servers,
     searchpath  => $searchpath,

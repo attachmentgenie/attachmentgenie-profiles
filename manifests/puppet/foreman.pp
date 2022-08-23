@@ -35,7 +35,7 @@ class profiles::puppet::foreman (
   Boolean $db_manage_rake = true,
   Boolean $expose_metrics = false,
   String $foreman_admin_password = 'secret',
-  String $foreman_host  = $::fqdn,
+  String $foreman_host  = $facts['networking']['fqdn'],
   String $foreman_repo = '2.3',
   Boolean $manage_database = true,
   Boolean $manage_firewall_entry = true,
@@ -50,8 +50,8 @@ class profiles::puppet::foreman (
   Boolean $selinux = false,
   String $server_ssl_ca = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
   String $server_ssl_chain = '/etc/puppetlabs/puppet/ssl/certs/ca.pem',
-  String $server_ssl_cert = "/etc/puppetlabs/puppet/ssl/certs/${::fqdn}.pem",
-  String $server_ssl_key = "/etc/puppetlabs/puppet/ssl/private_keys/${::fqdn}.pem",
+  String $server_ssl_cert = "/etc/puppetlabs/puppet/ssl/certs/${facts['facts["networking"]["fqdn"]']}.pem",
+  String $server_ssl_key = "/etc/puppetlabs/puppet/ssl/private_keys/${facts['facts["networking"]["fqdn"]']}.pem",
   String $server_ssl_crl = '/etc/puppetlabs/puppet/ssl/ca/ca_crl.pem',
   Hash $settings = {},
   Boolean $unattended = true,
@@ -65,7 +65,7 @@ class profiles::puppet::foreman (
   class { 'foreman::repo':
     repo => $foreman_repo,
   }
-  -> class { '::foreman':
+  -> class { 'foreman':
     db_database                  => $database_name,
     db_host                      => $database_host,
     db_manage                    => false,
@@ -87,7 +87,7 @@ class profiles::puppet::foreman (
     unattended                   => $unattended,
     user_groups                  => $user_groups,
   }
-  class { '::foreman::cli':
+  class { 'foreman::cli':
     foreman_url => "${protocol}://${foreman_host}",
     username    => 'admin',
     password    => $foreman_admin_password,
@@ -121,9 +121,9 @@ class profiles::puppet::foreman (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}",
+          http     => "http://${facts['facts["networking"]["ip"]']}",
           interval => '10s'
-        }
+        },
       ],
       port   => 80,
       tags   => $sd_service_tags,

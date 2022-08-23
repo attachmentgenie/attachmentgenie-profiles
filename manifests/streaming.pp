@@ -12,15 +12,15 @@ class profiles::streaming (
   Boolean $zookeeper = false,
 ) {
   if $flink {
-    class { '::profiles::streaming::flink':}
+    class { 'profiles::streaming::flink': }
   }
   if $kafka {
-    class {'::profiles::streaming::kafka':}
+    class { 'profiles::streaming::kafka': }
     if $zookeeper {
       Class['zookeeper::service'] -> Class['kafka::broker::service']
     }
   }
   if $zookeeper {
-    class { '::profiles::streaming::zookeeper':}
+    class { 'profiles::streaming::zookeeper': }
   }
 }

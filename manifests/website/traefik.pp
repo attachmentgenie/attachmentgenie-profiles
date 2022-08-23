@@ -28,14 +28,13 @@ class profiles::website::traefik (
     'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',       # TLS 1.2
     'TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256', # TLS 1.2
     'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',       # TLS 1.2
-    'TLS_FALLBACK_SCSV'
+    'TLS_FALLBACK_SCSV',
   ],
   Enum['VersionTLS12','VersionTLS13'] $tls_min_version = 'VersionTLS12',
   Boolean $tls_sni_strict =true,
   Boolean $use_consul = true,
   String $version = '1.7.26',
 ) {
-
   if $protocol == 'https' {
     $entrypoints = { 'defaultEntryPoints' => ['http','https'] }
     $firewall_ports = [80,443]
@@ -46,7 +45,7 @@ class profiles::website::traefik (
           'address'  => ':80',
           'redirect' => {
             'entryPoint' => 'https',
-          }
+          },
         },
         'https' => {
           'address' => ':443',
@@ -67,7 +66,7 @@ class profiles::website::traefik (
         'entryPoint'    => 'https',
         'httpChallenge' => {
           'entryPoint' => 'http',
-        }
+        },
       },
     }
   } else {
@@ -92,7 +91,7 @@ class profiles::website::traefik (
   traefik::config::section { 'accessLog':
     hash => {
       'filePath' => '/var/log/traefik/access.log',
-    }
+    },
   }
 
   traefik::config::section { 'retry':
@@ -101,8 +100,8 @@ class profiles::website::traefik (
 
   traefik::config::section { 'traefikLog':
     hash => {
-      'filePath' => '/var/log/traefik/traefik.log'
-    }
+      'filePath' => '/var/log/traefik/traefik.log',
+    },
   }
 
   if $manage_firewall_entry {
@@ -116,7 +115,7 @@ class profiles::website::traefik (
       hash => {
         'domain'           => $consul_domain,
         'endpoint'         => $consul_endpoint,
-        'exposedByDefault' => false
+        'exposedByDefault' => false,
       },
     }
   }
@@ -137,9 +136,9 @@ class profiles::website::traefik (
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              http     => "http://${::ipaddress}:8080",
+              http     => "http://${facts['facts["networking"]["ip"]']}:8080",
               interval => '10s'
-            }
+            },
           ],
           port   => 8080,
           tags   => $sd_service_tags,

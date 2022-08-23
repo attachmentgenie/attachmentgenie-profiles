@@ -10,7 +10,7 @@ class profiles::monitoring::prometheus::graphite_exporter (
   Array $sd_service_tags_exporter = ['metrics'],
   String $version = '0.12.0',
 ) {
-  class { '::prometheus::graphite_exporter':
+  class { 'prometheus::graphite_exporter':
     version => $version,
   }
 
@@ -20,7 +20,7 @@ class profiles::monitoring::prometheus::graphite_exporter (
         {
           http     => 'http://localhost:9108',
           interval => '10s'
-        }
+        },
       ],
       port   => 9108,
       tags   => $sd_service_tags_exporter,
@@ -30,7 +30,7 @@ class profiles::monitoring::prometheus::graphite_exporter (
         {
           tcp      => 'localhost:9109',
           interval => '10s'
-        }
+        },
       ],
       port   => 9109,
       tags   => $sd_service_tags,

@@ -17,8 +17,8 @@ class profiles::monitoring::prometheus (
               'labels'      => { 'severity' => 'page' },
               'annotations' => {
                 'summary'     => 'Instance {{ $labels.instance }} down',
-                'description' =>
-                '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.'
+                'description' => 
+                  '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
               },
             },
           ],
@@ -28,7 +28,7 @@ class profiles::monitoring::prometheus (
   },
   Array $alertmanager_configs = [
     {
-      'static_configs' => [{'targets' => ['localhost:9093']}],
+      'static_configs' => [{ 'targets' => ['localhost:9093'] }],
     },
   ],
   Boolean $blackbox = false,
@@ -42,22 +42,22 @@ class profiles::monitoring::prometheus (
   Boolean $manage_sd_service = false,
   String $sd_service_name = 'prometheus',
   Boolean $pushgateway = false,
-  Array $scrape_configs = [ {
-    'job_name'        => 'prometheus',
-    'scrape_interval' => '10s',
-    'scrape_timeout'  => '10s',
-    'static_configs'  => [
-      {
-        'targets' => ['localhost:9090'],
-      }
-    ],
-  } ],
+  Array $scrape_configs = [{
+      'job_name'        => 'prometheus',
+      'scrape_interval' => '10s',
+      'scrape_timeout'  => '10s',
+      'static_configs'  => [
+        {
+          'targets' => ['localhost:9090'],
+        }
+      ],
+  }],
   Array $sd_service_tags = ['metrics'],
   Boolean $server = false,
   String $prometheus_version = '2.31.1',
 ) {
   if $server {
-    class { '::prometheus':
+    class { 'prometheus':
       alertmanagers_config           => $alertmanager_configs,
       extra_alerts                   => $alerts,
       include_default_scrape_configs => false,
@@ -81,7 +81,7 @@ class profiles::monitoring::prometheus (
           {
             http     => 'http://localhost:9090',
             interval => '10s'
-          }
+          },
         ],
         port   => 9090,
         tags   => $sd_service_tags,
@@ -95,25 +95,25 @@ class profiles::monitoring::prometheus (
     }
 
     if $blackbox {
-      class { '::profiles::monitoring::prometheus::blackbox_exporter':
+      class { 'profiles::monitoring::prometheus::blackbox_exporter':
         manage_firewall_entry => $manage_firewall_entry,
         manage_sd_service     => $manage_sd_service,
       }
     }
 
     if $pushgateway {
-      class { '::profiles::monitoring::prometheus::pushgateway':
+      class { 'profiles::monitoring::prometheus::pushgateway':
         manage_firewall_entry => $manage_firewall_entry,
         manage_sd_service     => $manage_sd_service,
       }
     }
 
     if $graphite_exporters {
-      class { '::profiles::monitoring::prometheus::graphite_exporter':
+      class { 'profiles::monitoring::prometheus::graphite_exporter':
         manage_firewall_entry => $manage_firewall_entry,
         manage_sd_service     => $manage_sd_service,
       }
-      class { '::profiles::monitoring::prometheus::statsd_exporter':
+      class { 'profiles::monitoring::prometheus::statsd_exporter':
         manage_firewall_entry => $manage_firewall_entry,
         manage_sd_service     => $manage_sd_service,
       }
@@ -127,7 +127,7 @@ class profiles::monitoring::prometheus (
         mode   => '0755',
       }
     }
-    class { '::profiles::monitoring::prometheus::node_exporter':
+    class { 'profiles::monitoring::prometheus::node_exporter':
       manage_firewall_entry => $manage_firewall_entry,
       manage_sd_service     => $manage_sd_service,
     }

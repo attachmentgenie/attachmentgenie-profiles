@@ -10,9 +10,9 @@ class profiles::alerting (
   Boolean $icingaweb2 = false,
 ) {
   if $alertmanager {
-    class { '::profiles::alerting::alertmanager': }
+    class { 'profiles::alerting::alertmanager': }
   }
   if $icingaweb2 {
-    class { '::profiles::alerting::icingaweb2': }
+    class { 'profiles::alerting::icingaweb2': }
   }
 }

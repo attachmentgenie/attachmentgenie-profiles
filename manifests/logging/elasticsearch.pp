@@ -7,14 +7,13 @@
 # @param manage_repo  Let profile install java.
 # @param repo_version Version family to install.
 class profiles::logging::elasticsearch (
-  Hash $instances = { "${::fqdn}" => {} },
   Boolean $manage_firewall_entry = true,
   Boolean $manage_repo = false,
   String $repo_version = '7.x',
   String $sd_service_name = 'postgresql',
   Array $sd_service_tags = [],
 ) {
-  class { '::elasticsearch':
+  class { 'elasticsearch':
     jvm_options       => [
       '#PrintGCDetails',
       '#PrintGCDateStamps',
@@ -27,9 +26,8 @@ class profiles::logging::elasticsearch (
       '#XX:UseConcMarkSweepGC',
     ],
     manage_repo       => $manage_repo,
-    restart_on_change => true
+    restart_on_change => true,
   }
-  create_resources('elasticsearch::instance', $instances)
 
   if $manage_firewall_entry {
     profiles::bootstrap::firewall::entry { '200 allow allow elasticsearch':

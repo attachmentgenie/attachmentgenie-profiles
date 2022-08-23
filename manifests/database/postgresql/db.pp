@@ -9,7 +9,6 @@ define profiles::database::postgresql::db (
   Boolean $encrypted = true,
   String $grant = 'ALL',
 ) {
-
   if $encrypted {
     $_password = postgresql::postgresql_password($user, $password)
   } else {

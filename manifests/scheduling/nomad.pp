@@ -22,22 +22,22 @@ class profiles::scheduling::nomad (
   Boolean $manage_sd_service = true,
   Boolean $manage_sysctl = true,
   String $sd_service_check_interval = '10s',
-  Stdlib::HTTPUrl $sd_service_endpoint = "http://${::ipaddress}:4646",
+  Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['facts["networking"]["ip"]']}:4646",
   String $sd_service_name = 'nomad-ui',
   Array $sd_service_tags = [],
   String $version = '1.3.0',
-){
+) {
   if $consul_connect {
-    include ::profiles::scheduling::nomad::cni_plugins
+    include profiles::scheduling::nomad::cni_plugins
 
     if $manage_sysctl {
-      ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-arptables':}
-      ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-ip6tables':}
-      ::profiles::bootstrap::sysctl::entry {'net.bridge.bridge-nf-call-iptables':}
+      ::profiles::bootstrap::sysctl::entry { 'net.bridge.bridge-nf-call-arptables': }
+      ::profiles::bootstrap::sysctl::entry { 'net.bridge.bridge-nf-call-ip6tables': }
+      ::profiles::bootstrap::sysctl::entry { 'net.bridge.bridge-nf-call-iptables': }
     }
   }
 
-  if $install_method == 'url'{
+  if $install_method == 'url' {
     if ! defined(Package['unzip']) {
       package { 'unzip':
         ensure => present,
@@ -52,7 +52,7 @@ class profiles::scheduling::nomad (
     $_bin_dir = $bin_dir
   }
 
-  class {'::nomad':
+  class { 'nomad':
     bin_dir         => $_bin_dir,
     config_defaults => $config_defaults,
     config_dir      => $config_dir,
@@ -83,7 +83,7 @@ class profiles::scheduling::nomad (
         {
           http     => $sd_service_endpoint,
           interval => $sd_service_check_interval,
-        }
+        },
       ],
       port   => 4646,
       tags   => $sd_service_tags,

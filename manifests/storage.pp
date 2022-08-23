@@ -8,6 +8,6 @@ class profiles::storage (
   Boolean $minio = false,
 ) {
   if $minio {
-    class { '::profiles::storage::minio': }
+    class { 'profiles::storage::minio': }
   }
 }

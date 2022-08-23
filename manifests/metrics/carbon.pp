@@ -33,7 +33,6 @@ class profiles::metrics::carbon (
   String $udp_receiver_interface = '0.0.0.0',
   String $use_whitelist = 'True',
 ) {
-
   member( ['carbon', 'go-carbon'], $carbon_type )
   member( ['carbon', 'carbon-c-relay','carbon-relay-ng'], $relay_type )
 

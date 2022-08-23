@@ -10,10 +10,10 @@
 class profiles::orchestration::mcollective (
   Boolean $client         = false,
   String $client_user     = 'vagrant',
-  Array $middleware_hosts = [$::fqdn],
+  Array $middleware_hosts = [$facts['networking']['fqdn']],
   Hash $users             = { 'vagrant' => {} },
 ) {
-  class { '::mcollective':
+  class { 'mcollective':
     client           => $client,
     middleware_hosts => $middleware_hosts,
   }

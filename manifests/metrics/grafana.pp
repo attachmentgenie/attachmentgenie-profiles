@@ -103,7 +103,7 @@ class profiles::metrics::grafana (
   String $smtp_host = 'localhost:25',
   String $version = '8.3.2',
 ) {
-  $default_cfg        =  {
+  $default_cfg        = {
     server            => {
       domain    => $domain,
       protocol  => 'http',
@@ -113,10 +113,10 @@ class profiles::metrics::grafana (
     'auth.anonymous'  => {
       enabled  => true,
       org_name => $default_org,
-      org_role => 'Viewer'
+      org_role => 'Viewer',
     },
     'auth.basic'      => {
-      enabled => true
+      enabled => true,
     },
     'auth.proxy'      => {
       enabled         => false,
@@ -178,12 +178,11 @@ class profiles::metrics::grafana (
       auto_assign_org      => $auto_assign_org,
       auth_assign_org_role => $auth_assign_org_role,
     },
-
   }
 
   $cfg = $default_cfg + $extra_cfg
 
-  class { '::grafana':
+  class { 'grafana':
     cfg                 => $cfg,
     install_method      => $install_method,
     manage_package_repo => $manage_repo,
@@ -212,7 +211,7 @@ class profiles::metrics::grafana (
         Profiles::Database::Postgresql::Db[$db_name] -> Service['grafana']
         Service['postgresqld'] -> Service['grafana']
       }
-      default: { fail("${db_type} is not supported")}
+      default: { fail("${db_type} is not supported") }
     }
   }
 
@@ -222,7 +221,7 @@ class profiles::metrics::grafana (
         {
           http     => "http://${http_addr}:3000",
           interval => '10s'
-        }
+        },
       ],
       port   => 3000,
       tags   => $sd_service_tags,

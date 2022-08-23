@@ -23,7 +23,6 @@ define profiles::website::nginx::proxy (
   String $sd_service_name = $name,
   Array $sd_service_tags = [],
 ) {
-
   ::nginx::resource::server { $name:
     client_max_body_size     => $client_max_body_size,
     listen_port              => $port,
@@ -45,9 +44,9 @@ define profiles::website::nginx::proxy (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "${protocol}://${::ipaddress}:${port}",
+          http     => "${protocol}://${facts['facts["networking"]["ip"]']}:${port}",
           interval => '10s'
-        }
+        },
       ],
       port   => $port,
       tags   => $sd_service_tags,

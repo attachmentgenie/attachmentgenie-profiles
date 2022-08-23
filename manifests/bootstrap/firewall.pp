@@ -11,7 +11,7 @@ class profiles::bootstrap::firewall (
   Hash $entries = {},
   Boolean $purge = true,
 ) {
-  class { '::firewall':
+  class { 'firewall':
     ensure => $ensure,
   }
 

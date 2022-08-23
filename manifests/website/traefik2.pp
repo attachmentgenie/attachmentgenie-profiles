@@ -24,7 +24,7 @@ class profiles::website::traefik2 (
     $firewall_ports = [80]
   }
 
-  class { '::traefik2':
+  class { 'traefik2':
     dynamic_config => $dynamic_config,
     version        => $version,
     static_config  => $static_config,
@@ -47,9 +47,9 @@ class profiles::website::traefik2 (
         ::profiles::orchestration::consul::service { $sd_service_name:
           checks => [
             {
-              http     => "http://${::ipaddress}:${traefik_api_port}/ping/",
+              http     => "http://${facts['facts["networking"]["ip"]']}:${traefik_api_port}/ping/",
               interval => '10s'
-            }
+            },
           ],
           port   => $traefik_api_port,
           tags   => $sd_service_tags,

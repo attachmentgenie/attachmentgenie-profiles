@@ -9,7 +9,7 @@ class profiles::website::haproxy (
   Hash $listeners = {},
   Hash $members = {},
 ) {
-  class { '::haproxy': }
+  class { 'haproxy': }
   create_resources('::haproxy::listen', $listeners)
   create_resources('@@haproxy::balancermember', $members)
 }

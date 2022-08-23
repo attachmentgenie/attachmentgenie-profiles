@@ -10,7 +10,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
   Array $sd_service_tags_exporter = ['metrics'],
   String $version = '0.22.4',
 ) {
-  class { '::prometheus::statsd_exporter':
+  class { 'prometheus::statsd_exporter':
     version => $version,
   }
 
@@ -20,7 +20,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
         {
           http     => 'http://localhost:9102',
           interval => '10s'
-        }
+        },
       ],
       port   => 9102,
       tags   => $sd_service_tags_exporter,
@@ -30,7 +30,7 @@ class profiles::monitoring::prometheus::statsd_exporter (
         {
           tcp      => 'localhost:9125',
           interval => '10s'
-        }
+        },
       ],
       port   => 9125,
       tags   => $sd_service_tags,

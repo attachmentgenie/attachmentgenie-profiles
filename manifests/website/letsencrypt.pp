@@ -11,7 +11,7 @@ class profiles::website::letsencrypt (
   String $email_registration = '',
   Boolean $unsafe_registration = false,
 ) {
-  class { '::letsencrypt':
+  class { 'letsencrypt':
     email               => $email_registration,
     unsafe_registration => $unsafe_registration,
   }

@@ -45,8 +45,8 @@ define profiles::runtime::php::pool (
       undef   => '/etc/cachetool.yml',
       default => "/${cachetool_config_dir}/.cachetool.yml",
     }
-    file {'cachetool config':
-      ensure  => 'present',
+    file { 'cachetool config':
+      ensure  => 'file',
       content => template('profiles/runtime/php/cachetool.yml.epp'),
       path    => $config_path,
     }

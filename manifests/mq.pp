@@ -8,6 +8,6 @@ class profiles::mq (
   Boolean $activemq = false,
 ) {
   if $activemq {
-    class { '::profiles::mq::activemq': }
+    class { 'profiles::mq::activemq': }
   }
 }

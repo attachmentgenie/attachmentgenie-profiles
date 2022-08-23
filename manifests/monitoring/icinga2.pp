@@ -51,7 +51,7 @@ class profiles::monitoring::icinga2 (
   String $database_name = 'icinga2',
   String $database_password = 'icinga2',
   String $database_user = 'icinga2',
-  Array $features = [ 'checker', 'command', 'mainlog', 'notification' ],
+  Array $features = ['checker', 'command', 'mainlog', 'notification'],
   Optional[Stdlib::Host] $graphite_host = undef,
   Optional[Stdlib::Port::Unprivileged] $graphite_port = undef,
   String $group = 'icinga',
@@ -83,32 +83,31 @@ class profiles::monitoring::icinga2 (
     }
     $zones = {
       'ZoneName' => {
-        'endpoints' => [ 'NodeName' ],
-      }
+        'endpoints' => ['NodeName'],
+      },
     }
   } else {
     $constants = {}
     $zones = {
       'ZoneName' => {
-        'endpoints' => [ 'NodeName' ],
+        'endpoints' => ['NodeName'],
         'parent'    => $parent_zone,
-      }
+      },
     }
   }
-
 
   package { 'nagios-plugins-all':
     name => $plugins_package,
   }
 
-  class { '::icinga2':
+  class { 'icinga2':
     confd        => $confd,
     constants    => $constants,
     features     => $features,
     manage_repos => $manage_repo,
   }
 
-  class { '::icinga2::feature::api':
+  class { 'icinga2::feature::api':
     accept_config   => true,
     accept_commands => true,
     pki             => $api_pki,
@@ -129,31 +128,29 @@ class profiles::monitoring::icinga2 (
   }
 
   if $client {
-
     if !($server) {
-      @@::icinga2::object::endpoint { $::fqdn:
-        host   => $::hostname,
-        target => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
+      @@::icinga2::object::endpoint { $facts['networking']['fqdn']:
+        host   => $facts['networking']['hostname'],
+        target => "/etc/icinga2/zones.d/${parent_zone}/${facts['facts["networking"]["hostname"]']}.conf",
       }
 
-      @@::icinga2::object::zone { $::fqdn:
-        endpoints => [ $::fqdn ],
+      @@::icinga2::object::zone { $facts['networking']['fqdn']:
+        endpoints => [$facts['networking']['fqdn']],
         parent    => $parent_zone,
-        target    => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
+        target    => "/etc/icinga2/zones.d/${parent_zone}/${facts['facts["networking"]["hostname"]']}.conf",
       }
     }
 
-    @@::icinga2::object::host { $::fqdn:
-      address      => $::ipaddress,
-      display_name => $::hostname,
+    @@::icinga2::object::host { $facts['networking']['fqdn']:
+      address      => $facts['networking']['ip'],
+      display_name => $facts['networking']['hostname'],
       import       => ['linux-host'],
-      target       => "/etc/icinga2/zones.d/${parent_zone}/${::hostname}.conf",
+      target       => "/etc/icinga2/zones.d/${parent_zone}/${facts['facts["networking"]["hostname"]']}.conf",
       vars         => $vars,
     }
   }
 
   if $server {
-
     class { 'icinga2::feature::idopgsql':
       host          => $database_host,
       user          => $database_user,
@@ -164,7 +161,7 @@ class profiles::monitoring::icinga2 (
 
     ::icinga2::object::apiuser { $api_user:
       password    => $api_password,
-      permissions => [ '*' ],
+      permissions => ['*'],
       target      => "/etc/icinga2/zones.d/${parent_zone}/api-users.conf",
     }
 
@@ -178,23 +175,23 @@ class profiles::monitoring::icinga2 (
     }
 
     file { ['/etc/icinga2/zones.d/master',
-      '/etc/icinga2/zones.d/linux-commands',
+        '/etc/icinga2/zones.d/linux-commands',
       '/etc/icinga2/zones.d/global-templates']:
-      ensure => directory,
-      owner  => 'icinga',
-      group  => 'icinga',
-      mode   => '0750',
-      tag    => 'icinga2::config::file',
+        ensure => directory,
+        owner  => 'icinga',
+        group  => 'icinga',
+        mode   => '0750',
+        tag    => 'icinga2::config::file',
     }
 
     if $ship_metrics {
-      class { '::icinga2::feature::graphite':
+      class { 'icinga2::feature::graphite':
         host => $graphite_host,
         port => $graphite_port,
       }
     }
     if $slack {
-      class { '::profiles::monitoring::icinga2::slack':
+      class { 'profiles::monitoring::icinga2::slack':
         icinga_endpoint => $api_endpoint,
         slack_channel   => $slack_channel,
         slack_webhook   => $slack_webhook,

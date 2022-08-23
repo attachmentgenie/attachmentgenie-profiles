@@ -14,14 +14,14 @@ class profiles::repo::nexus (
   Array $sd_service_tags = [],
   String $version = '3.32.0',
 ) {
-  class{ '::nexus':
+  class { 'nexus':
     version       => $version,
     revision      => $revision,
     download_site => 'http://download.sonatype.com/nexus/3',
     nexus_type    => 'unix',
   }
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'nexus data disk':
+    ::profiles::bootstrap::disk::mount { 'nexus data disk':
       device    => $device,
       mountpath => $data_path,
       before    => Exec['nexus-untar'],
@@ -36,9 +36,9 @@ class profiles::repo::nexus (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          http     => "http://${::ipaddress}:8081",
+          http     => "http://${facts['facts["networking"]["ip"]']}:8081",
           interval => '10s'
-        }
+        },
       ],
       port   => 8081,
       tags   => $sd_service_tags,

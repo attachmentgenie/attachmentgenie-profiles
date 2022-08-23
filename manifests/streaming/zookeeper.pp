@@ -24,7 +24,7 @@ class profiles::streaming::zookeeper (
   String $service_name = 'zookeeper',
   String $zoo_dir = '/opt/zookeeper'
 ) {
-  class { '::zookeeper':
+  class { 'zookeeper':
     cdhver               => $cdhver,
     cfg_dir              => $cfg_dir,
     cleanup_sh           => $cleanup_sh,

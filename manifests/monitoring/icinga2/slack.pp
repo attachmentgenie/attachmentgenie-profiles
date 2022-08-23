@@ -14,14 +14,13 @@ class profiles::monitoring::icinga2::slack (
   $slack_channel = '#icinga',
   $username = 'slack',
 ) {
-
   package { 'icinga2-slack-notifications':
     name => $package,
   }
 
   icinga2::object::user { $username:
     display_name => 'slack',
-    groups       => [ 'icingaadmins' ],
+    groups       => ['icingaadmins'],
     target       => '/etc/icinga2/zones.d/global-templates/users.conf',
   }
 

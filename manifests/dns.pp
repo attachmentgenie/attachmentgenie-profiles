@@ -9,6 +9,6 @@ class profiles::dns (
   Boolean $bind = false,
 ) {
   if $bind {
-    class { '::profiles::dns::bind': }
+    class { 'profiles::dns::bind': }
   }
 }

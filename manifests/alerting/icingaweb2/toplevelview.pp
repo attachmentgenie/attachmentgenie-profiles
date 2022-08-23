@@ -11,7 +11,6 @@ class profiles::alerting::icingaweb2::toplevelview (
   String $git_repository   = 'https://github.com/Icinga/icingaweb2-module-toplevelview.git',
   Optional[String]  $git_revision     = 'v0.3.1',
 ) inherits profiles::alerting::icingaweb2 {
-
   icingaweb2::module { 'toplevelview':
     ensure         => $ensure,
     git_repository => $git_repository,

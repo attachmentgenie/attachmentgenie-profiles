@@ -6,7 +6,7 @@
 class profiles::runtime::docker (
   Hash $registries = {},
 ) {
-  class { '::docker': }
+  class { 'docker': }
 
   create_resources('::docker::registry', $registries)
 }
