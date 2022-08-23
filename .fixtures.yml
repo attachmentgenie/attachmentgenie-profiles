@@ -119,7 +119,6 @@ fixtures:
     puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
     ssh: 'https://github.com/attachmentgenie/attachmentgenie-ssh.git'
     timezone: 'https://github.com/attachmentgenie/attachmentgenie-timezone.git'
-    statping: 'https://github.com/attachmentgenie/attachmentgenie-statping.git'
     traefik: 'https://github.com/attachmentgenie/puppet-traefik.git'
     traefik2: 'https://github.com/attachmentgenie/attachmentgenie-traefik2.git'
     tempo: 'https://github.com/attachmentgenie/attachmentgenie-tempo.git'
