@@ -3,8 +3,13 @@
 # @example when declaring the mailhog class
 #  class { '::profiles::mail::mailhog': }
 #
-# @param install_method How to install.
-# @param wget_source    Location to download mailhog.
+# @param archive_source Archive url
+# @param config String of configuration parameters
+# @param install_method Install method
+# @param manage_firewall_entry Manage firewall entry
+# @param manage_sd_service Manage consul service
+# @param sd_service_name Consul service name
+# @param sd_service_tags Consul service tags
 class profiles::mail::mailhog (
   String $archive_source = 'https://github.com/mailhog/MailHog/releases/download/v1.0.1/MailHog_linux_amd64',
   String $config = '-ui-bind-addr=127.0.0.1:8025 -api-bind-addr=127.0.0.1:8025',
