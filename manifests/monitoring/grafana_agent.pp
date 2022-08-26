@@ -4,6 +4,13 @@
 #
 # @example
 #   include profiles::monitoring::grafana_agent
+#
+# @param intergrations_config_hash Section config
+# @param loki_config_hash Section config
+# @param prometheus_config_hash Section config
+# @param server_config_hash Section config
+# @param tempo_config_hash Section config
+# @param version Version to install
 class profiles::monitoring::grafana_agent (
   Optional[Hash] $intergrations_config_hash = undef,
   Optional[Hash] $loki_config_hash = undef,

@@ -3,6 +3,23 @@
 # @example when declaring the prometheus class
 #  class { '::profiles::monitoring::prometheus': }
 #
+# @param alerts Alert configuration
+# @param alertmanager_configs Alertmanager configuration
+# @param blackbox Install blackbox exporter
+# @param client Install node_exporter
+# @param data_path Path to prometheus storage
+# @param device Storage device to storage data_path
+# @param graphite_exporters Install graphite_exporter
+# @param install_method How to install Enum['url', 'package', 'none']
+# @param manage_disk Configure device to store data_path
+# @param manage_firewall_entry Manage firewall entry
+# @param manage_sd_service Manage Consul service
+# @param sd_service_name Consul service name
+# @param pushgateway Install pushgateway
+# @param scrape_configs Endpoints to scrap
+# @param sd_service_tags Consule service tags
+# @param server Install prometheus
+# @param prometheus_version Version to install
 class profiles::monitoring::prometheus (
   Hash $alerts = {
     'node_exporter' => {
@@ -17,8 +34,7 @@ class profiles::monitoring::prometheus (
               'labels'      => { 'severity' => 'page' },
               'annotations' => {
                 'summary'     => 'Instance {{ $labels.instance }} down',
-                'description' => 
-                  '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
+                'description' => '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
               },
             },
           ],

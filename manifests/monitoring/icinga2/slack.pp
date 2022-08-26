@@ -8,11 +8,11 @@
 # @param slack_channel    Slack channel
 # @param username         Username
 class profiles::monitoring::icinga2::slack (
-  $icinga_endpoint,
-  $slack_webhook,
-  $package = 'icinga2-slack-notifications',
-  $slack_channel = '#icinga',
-  $username = 'slack',
+  String $icinga_endpoint,
+  String $slack_webhook,
+  String $package = 'icinga2-slack-notifications',
+  String $slack_channel = '#icinga',
+  String $username = 'slack',
 ) {
   package { 'icinga2-slack-notifications':
     name => $package,

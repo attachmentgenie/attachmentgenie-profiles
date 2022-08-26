@@ -3,6 +3,11 @@
 # @example when declaring the carbon_relay class
 #  class { '::profiles::monitoring::prometheus::statsd_exporter': }
 #
+# @param manage_firewall_entry Manage firewall entry
+# @param manage_sd_service Manage consul service
+# @param sd_service_tags Consul service tags
+# @param sd_service_tags_exporter Consul service tags for statsd endpoint
+# @param version Version to install
 class profiles::monitoring::prometheus::statsd_exporter (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,

@@ -3,6 +3,15 @@
 # @example when declaring the promtail class
 #  class { '::profiles::monitoring::promtail': }
 #
+# @param client_urls Client config
+# @param checksum Checksum of download package
+# @param manage_firewall_entry Manage firewall entry
+# @param manage_sd_service Manage consul service
+# @param positions_file Location of position file
+# @param scrape_configs Scrape config
+# @param sd_service_name Consul service name
+# @param sd_service_tags Consul service tags
+# @param version Version to install
 class profiles::monitoring::promtail (
   Array[Hash] $client_urls,
   String[1] $checksum = '978391a174e71cfef444ab9dc012f95d5d7eae0d682eaf1da2ea18f793452031',

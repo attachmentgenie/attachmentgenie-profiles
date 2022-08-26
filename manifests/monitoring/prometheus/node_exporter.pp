@@ -3,6 +3,12 @@
 # @example when declaring the carbon_relay class
 #  class { '::profiles::monitoring::prometheus::node_exporter': }
 #
+# @param collectors Enable the following collectors
+# @param group Owner of textfile collector
+# @param manage_firewall_entry Manage firewall entry
+# @param manage_sd_service Manage consul service
+# @param sd_service_tags Consul service tags
+# @param version Version to install
 class profiles::monitoring::prometheus::node_exporter (
   Array[String] $collectors = ['tcpstat'],
   String $group = 'node-exporter',

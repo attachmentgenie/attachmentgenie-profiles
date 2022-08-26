@@ -11,15 +11,18 @@
 # @param checkcommands                  List of checks
 # @param client                         Is this a icinga client.
 # @param confd                          Include conf.d directory or specify your own.
+# @param database_grant                 Db permisions
 # @param database_host                  Db host.
 # @param database_name                  Db name.
 # @param database_password              Db password.
 # @param database_user                  Db user.
 # @param features                       Enabled features.
+# @param graphite_host                  Graphite endpoint
+# @param graphite_port                  Graphite port
 # @param fragments                      Custom configuration fragments.
 # @param group                          Group
 # @param hostgroups                     Host groups
-# @param ipaddress                      Primary ipaddress.
+# @param manage_database                Manage icinga database
 # @param manage_repo                    Manage icinga repository.
 # @param notifications                  Notification objects to generate.
 # @param owner                          Owner
@@ -27,6 +30,7 @@
 # @param parent_zone                    Icinga zone.
 # @param plugins_package                Package with plugins to install.
 # @param server                         Is this a icinga masters.
+# @param ship_metrics                   Ship metrics to graphite
 # @param servicegroups                  Servicegroups
 # @param services                       services
 # @param slack                          Slack integration.

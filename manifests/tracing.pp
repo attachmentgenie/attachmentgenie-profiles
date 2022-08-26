@@ -4,6 +4,8 @@
 #
 # @example
 #   include profiles::tracing
+#
+# @param tempo Manage tempo on this node.
 class profiles::tracing (
   Boolean $tempo = false,
 ) {
