@@ -16,10 +16,10 @@
 # @param grafana_url      Grafana endpoint.
 # @param grafana_user     Grafana admin user.
 define profiles::metrics::grafana::dashboard (
-  Optional[String]$content = undef,
-  Optional[String]$grafana_password = undef,
-  Optional[String]$grafana_url = undef,
-  Optional[String]$grafana_user = undef,
+  Optional[String] $content = undef,
+  Optional[String] $grafana_password = undef,
+  Optional[String] $grafana_url = undef,
+  Optional[String] $grafana_user = undef,
 ) {
   grafana_dashboard { $name:
     content          => template( $content ),

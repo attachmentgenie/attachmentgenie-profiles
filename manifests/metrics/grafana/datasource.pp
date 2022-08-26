@@ -16,16 +16,16 @@
 # @param url              Backend location.
 # @param user             Backend credential.
 define profiles::metrics::grafana::datasource (
-  Optional[String]$access_mode = undef,
-  Optional[String]$database = undef,
-  Optional[String]$grafana_password = undef,
-  Optional[String]$grafana_url = undef,
-  Optional[String]$grafana_user = undef,
-  Optional[Boolean]$is_default = false,
-  Optional[String]$password = undef,
-  Optional[String]$type = undef,
-  Optional[String]$url = undef,
-  Optional[String]$user = undef,
+  Optional[String] $access_mode = undef,
+  Optional[String] $database = undef,
+  Optional[String] $grafana_password = undef,
+  Optional[String] $grafana_url = undef,
+  Optional[String] $grafana_user = undef,
+  Optional[Boolean] $is_default = false,
+  Optional[String] $password = undef,
+  Optional[String] $type = undef,
+  Optional[String] $url = undef,
+  Optional[String] $user = undef,
 ) {
   grafana_datasource { $name:
     access_mode      => $access_mode,

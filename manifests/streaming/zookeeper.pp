@@ -20,7 +20,7 @@ class profiles::streaming::zookeeper (
   Boolean $initialize_datastore = false,
   String $install_method = 'package',
   Array $packages = ['zookeeper'],
-  Optional[String]$repo = undef,
+  Optional[String] $repo = undef,
   String $service_name = 'zookeeper',
   String $zoo_dir = '/opt/zookeeper'
 ) {

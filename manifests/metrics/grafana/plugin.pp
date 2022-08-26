@@ -5,8 +5,8 @@
 # @example
 #   profiles::metrics::grafana::plugin { 'namevar': }
 define profiles::metrics::grafana::plugin (
-  Optional[Stdlib::HTTPUrl]$plugin_url = undef,
-  Optional[Stdlib::HTTPUrl]$repo = undef,
+  Optional[Stdlib::HTTPUrl] $plugin_url = undef,
+  Optional[Stdlib::HTTPUrl] $repo = undef,
 ) {
   grafana_plugin { $name:
     plugin_url => $plugin_url,

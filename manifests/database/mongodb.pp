@@ -14,7 +14,7 @@ class profiles::database::mongodb (
   Boolean $manage_package_repo = false,
   Optional[String] $replset = undef,
   Optional[Array] $replset_members = undef,
-  Optional[String]$server_package_name = undef,
+  Optional[String] $server_package_name = undef,
   Optional[Boolean] $smallfiles = undef,
   Boolean $use_enterprise_repo = false,
   String $version             = '5.0.2',
