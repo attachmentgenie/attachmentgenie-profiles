@@ -20,6 +20,7 @@ class profiles::scheduling::nomad (
   Boolean $manage_firewall_entry = true,
   Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = true,
+  Boolean $manage_service_file = true,
   Boolean $manage_sysctl = true,
   String $sd_service_check_interval = '10s',
   Stdlib::HTTPUrl $sd_service_endpoint = "http://${facts['networking']['ip']}:4646",
@@ -53,13 +54,14 @@ class profiles::scheduling::nomad (
   }
 
   class { 'nomad':
-    bin_dir         => $_bin_dir,
-    config_defaults => $config_defaults,
-    config_dir      => $config_dir,
-    config_hash     => $config,
-    install_method  => $install_method,
-    manage_repo     => $manage_package_repo,
-    version         => $version,
+    bin_dir             => $_bin_dir,
+    config_defaults     => $config_defaults,
+    config_dir          => $config_dir,
+    config_hash         => $config,
+    install_method      => $install_method,
+    manage_repo         => $manage_package_repo,
+    manage_service_file => $manage_service_file,
+    version             => $version,
   }
 
   if $manage_firewall_entry {
