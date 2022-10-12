@@ -15,8 +15,11 @@ class profiles::scheduling::nomad (
   },
   Stdlib::Absolutepath $config_dir = '/etc/nomad.d',
   Boolean $consul_connect = false,
+  Stdlib::Absolutepath $data_path = '/opt/nomad',
+  Optional[Stdlib::Absolutepath] $device = undef,
   Enum['url', 'package', 'none'] $install_method = 'url',
   String $job_port_range = '20000-32000',
+  Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_package_repo = false,
   Boolean $manage_sd_service = true,
@@ -64,6 +67,13 @@ class profiles::scheduling::nomad (
     version             => $version,
   }
 
+  if $manage_disk {
+    ::profiles::bootstrap::disk::mount { 'nomad data disk':
+      device    => $device,
+      mountpath => $data_path,
+      before    => Service['nomad'],
+    }
+  }
   if $manage_firewall_entry {
     # https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports
     ::profiles::bootstrap::firewall::entry { '200 allow Nomad services':
