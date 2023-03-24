@@ -11,6 +11,8 @@
 class profiles::puppet (
   $foreman = false,
   $foreman_proxy = false,
+  $g10k = false,
+  $puppetboard = false,
   $puppetdb = false,
   $puppetmaster = false,
   $r10k = false,
@@ -21,6 +23,12 @@ class profiles::puppet (
       Class['foreman']
       -> Class['foreman_proxy::register']
     }
+  }
+  if $g10k {
+    class { '::profiles::puppet::g10k': }
+  }
+  if $puppetboard {
+    class { '::profiles::puppet::puppetboard': }
   }
   if $puppetdb {
     class { 'profiles::puppet::puppetdb': }
