@@ -25,13 +25,17 @@ class profiles::puppet::puppetdb (
   String $ssl_listen_address     = '0.0.0.0',
 ) {
   class { 'puppetdb::server':
-    database_host      => $database_host,
-    database_name      => $database_name,
-    database_password  => $database_password,
-    database_username  => $database_user,
-    listen_address     => $listen_address,
-    manage_firewall    => false,
-    ssl_listen_address => $ssl_listen_address,
+    database_host           => $database_host,
+    database_name           => $database_name,
+    database_password       => $database_password,
+    database_username       => $database_user,
+    listen_address          => $listen_address,
+    manage_firewall         => false,
+    read_database_host      => $database_host,
+    read_database_name      => $database_name,
+    read_database_password  => $database_password,
+    read_database_username  => $database_user,
+    ssl_listen_address      => $ssl_listen_address,
   }
 
   if $install_client_tools {

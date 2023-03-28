@@ -25,7 +25,7 @@ class profiles::database::postgresql (
   class { 'postgresql::globals':
     datadir             => $data_path,
     encoding            => $encoding,
-    manage_datadir      => ! $manage_disk,
+    manage_datadir      => !$manage_disk,
     manage_package_repo => $manage_package_repo,
     version             => $version,
   }
