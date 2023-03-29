@@ -6,6 +6,8 @@
 # @param allow_any_crl_auth          Allow certificate signing by proxied requests.
 # @param autosign                    Autosigning requests.
 # @param autosign_domains            List of domains to trust while autosigning.
+# @param autosign_mode               mode of the autosign file/script
+# @param ca_server                   Use a different ca server.
 # @param dns_alt_names               List of additional dns names to sign into certificate.
 # @param environment                 Environment for node.
 # @param foreman_repo                Manage foreman repository,
@@ -27,7 +29,6 @@
 # @param server_parser               Puppet parser name.
 # @param server_puppetdb_host        Puppetdb fqdn.
 # @param server_reports              How to store reports.
-# @param server_storeconfigs_backend Puppetdb version option.
 # @param show_diff                   Show diff in puppet report.
 # @param splay                       Start puppet at random time to spread load.
 # @param splaylimit                  Splay with this timeframe.
@@ -37,6 +38,8 @@ class profiles::bootstrap::puppet (
   Boolean $allow_any_crl_auth = true,
   Variant[Boolean, Stdlib::Absolutepath] $autosign = true,
   Array $autosign_domains = ['*.vagrant'],
+  Pattern[/^[0-9]{3,4}$/] $autosign_mode = '0664',
+  Optional[Variant[String, Boolean]] $ca_server = false,
   Array $dns_alt_names = [],
   String $environment = $::environment,
   Boolean $foreman_repo = false,
@@ -76,6 +79,8 @@ class profiles::bootstrap::puppet (
     allow_any_crl_auth             => $allow_any_crl_auth,
     autosign                       => $autosign,
     autosign_entries               => $autosign_domains,
+    autosign_mode                  => $autosign_mode,
+    ca_server                      => $ca_server,
     dns_alt_names                  => $dns_alt_names,
     environment                    => $environment,
     puppetmaster                   => $puppetmaster,
