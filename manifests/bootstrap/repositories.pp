@@ -21,17 +21,26 @@ class profiles::bootstrap::repositories (
 ) {
   if $epel {
     class { 'epel': }
-    Yumrepo['epel'] -> Package <||>
+
+    if $facts['os']['family'] == 'RedHat' {
+      Yumrepo['epel'] -> Package <||>
+    }
   }
   if $foreman {
     class { 'foreman::repo':
       repo => $foreman_repo,
     }
-    Yumrepo['epel'] -> Package <||>
+
+    if $facts['os']['family'] == 'RedHat' {
+      Yumrepo['epel'] -> Package <||>
+    }
   }
   if $hashicorp {
     class { 'hashi_stack::repo': }
-    Yumrepo['HashiCorp'] -> Package <||>
+
+    if $facts['os']['family'] == 'RedHat' {
+      Yumrepo['HashiCorp'] -> Package <||>
+    }
   }
   if $puppetlabs_deps {
     yumrepo { 'puppetlabs-deps':
@@ -40,7 +49,10 @@ class profiles::bootstrap::repositories (
       enabled  => 1,
       gpgcheck => 0,
     }
-    Yumrepo['puppetlabs-deps'] -> Package <||>
+
+    if $facts['os']['family'] == 'RedHat' {
+      Yumrepo['puppetlabs-deps'] -> Package <||>
+    }
   }
   if $remi {
     yumrepo { 'remi':
@@ -50,7 +62,10 @@ class profiles::bootstrap::repositories (
       enabled    => 1,
       gpgcheck   => 0,
     }
-    Yumrepo['remi'] -> Package <||>
+
+    if $facts['os']['family'] == 'RedHat' {
+      Yumrepo['remi'] -> Package <||>
+    }
   }
 
   # add extra repositories

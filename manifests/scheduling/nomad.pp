@@ -3,6 +3,7 @@
 # @example when declaring the nomad class
 #  class { '::profiles::scheduling::nomad': }
 #
+# @param package_name Only valid when the install_method == package. Defaults to `consul`.
 class profiles::scheduling::nomad (
   Stdlib::Absolutepath $bin_dir                  = '/usr/local/bin',
   Hash $config                                   = {},
@@ -25,6 +26,7 @@ class profiles::scheduling::nomad (
   Boolean $manage_sd_service                     = true,
   Boolean $manage_service_file                   = true,
   Boolean $manage_sysctl                         = true,
+  String[1] $package_name                        = 'nomad',
   String $sd_service_check_interval              = '10s',
   Stdlib::HTTPUrl $sd_service_endpoint           = "http://${facts['networking']['ip']}:4646",
   String $sd_service_name                        = 'nomad-ui',
@@ -64,6 +66,7 @@ class profiles::scheduling::nomad (
     install_method      => $install_method,
     manage_repo         => $manage_package_repo,
     manage_service_file => $manage_service_file,
+    package_name        => $package_name,
     version             => $version,
   }
 

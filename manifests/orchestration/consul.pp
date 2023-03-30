@@ -3,6 +3,7 @@
 # @example when declaring the consul class
 #  class { '::profiles::orchestration::consul': }
 #
+# @param package_name Only valid when the install_method == package. Defaults to `consul`.
 class profiles::orchestration::consul (
   Stdlib::Absolutepath $bin_dir                            = '/usr/local/bin',
   Hash $checks                                             = {},
@@ -21,6 +22,7 @@ class profiles::orchestration::consul (
   Boolean $manage_package_repo                             = false,
   Boolean $manage_sd_service                               = false,
   String $options                                          = '-enable-script-checks -syslog',
+  String[1] $package_name                                  = 'consul',
   Hash $prepared_queries                                   = {},
   String $sd_service_check_interval                        = '10s',
   Stdlib::HTTPUrl $sd_service_endpoint                     = "http://${facts['networking']['ip']}:8500",
@@ -73,6 +75,7 @@ class profiles::orchestration::consul (
     install_method  => $install_method,
     join_wan        => $join_wan,
     manage_repo     => $manage_package_repo,
+    package_name    => $package_name,
     version         => $version,
   }
 

@@ -3,6 +3,7 @@
 # @example when declaring the vault class
 #  class { '::profiles::security::vault': }
 #
+# @param package_name Only valid when the install_method == package. Defaults to `consul`.
 class profiles::security::vault (
   Stdlib::Absolutepath $bin_dir           = '/usr/local/bin',
   $config_dir                             = '/etc/vault.d',
@@ -21,6 +22,7 @@ class profiles::security::vault (
   Boolean $manage_package_repo            = false,
   Boolean $manage_sd_service              = false,
   Boolean $manage_storage_dir             = false,
+  String[1] $package_name                 = 'vault',
   String $sd_service_check_interval       = '10s',
   Stdlib::HTTPUrl $sd_service_endpoint    = "http://${facts['networking']['ip']}:8200",
   String $sd_service_name                 = 'vault-ui',
@@ -54,6 +56,7 @@ class profiles::security::vault (
     manage_repo         => $manage_package_repo,
     manage_service_file => true,
     manage_storage_dir  => $manage_storage_dir,
+    package_name        => $package_name,
     storage             => $storage,
     telemetry           => $telemetry,
     version             => $version,
