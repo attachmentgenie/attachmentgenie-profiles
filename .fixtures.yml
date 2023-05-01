@@ -38,6 +38,7 @@ fixtures:
     foreman_proxy:
       repo: 'theforeman/foreman_proxy'
       ref: '19.0.0'
+    g10k: 'landcareresearch/g10k'
     gcc: 'puppetlabs/gcc'
     git: 'puppetlabs/git'
     gitlab: 'puppet/gitlab'
@@ -87,12 +88,14 @@ fixtures:
     ruby: 'puppetlabs/ruby'
     rundeck: 'puppet/rundeck'
     selinux: 'puppet/selinux'
+    selinux_core:
+      repo: 'puppetlabs/selinux_core'
+      puppet_version: ">= 6.0.0"
     staging: 'puppet/staging'
     stdlib: 'puppetlabs/stdlib'
     sudo: 'saz/sudo'
     statsd: 'jdowning/statsd'
     systemd: 'puppet/systemd'
-    sysctl: 'thias/sysctl'
     transition: 'puppetlabs/transition'
     vault: 'jsok/vault'
     wget: 'puppet/wget'

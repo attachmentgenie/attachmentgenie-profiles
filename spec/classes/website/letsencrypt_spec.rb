@@ -5,6 +5,11 @@ describe 'profiles::website::letsencrypt' do
       let(:facts) do
         facts.merge(puppet_vardir: '/var/lib/puppet')
       end
+      let(:params) do
+        {
+          email_registration: 'foo@bar.bbq',
+        }
+      end
 
       context 'with defaults for all parameters' do
         it { is_expected.to contain_class('profiles::website::letsencrypt') }

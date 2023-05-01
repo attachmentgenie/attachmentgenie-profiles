@@ -3,7 +3,6 @@
 # @example when declaring the elasticsearch class
 #  class { '::profiles::logging::elasticsearch': }
 #
-# @param instances    ES instances to start.
 # @param manage_repo  Let profile install java.
 # @param repo_version Version family to install.
 class profiles::logging::elasticsearch (

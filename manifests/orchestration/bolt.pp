@@ -8,7 +8,7 @@ class profiles::orchestration::bolt (
   Hash $default_config = {},
   Stdlib::Absolutepath $default_config_path = '/etc/puppetlabs/bolt',
   String $package = 'puppet-bolt',
-){
+) {
   package { 'bolt':
     ensure => installed,
     name   => $package,

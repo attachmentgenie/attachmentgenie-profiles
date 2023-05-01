@@ -13,8 +13,9 @@
 # @param foreman_repo                Manage foreman repository,
 # @param hiera_yaml_datadir (String) Hiera directory
 # @param install_toml                Install toml gem.
-# @param install_vault                Install toml gem.
+# @param install_vault               Install toml gem.
 # @param puppetmaster                Puppetmaster fqdn
+# @param purge_csr_attributes        Cleanup the purge_csr_attributes.yaml file.
 # @param runmode                     How to run puppet
 # @param runinterval                 Run interval.
 # @param server                      Is this a puppetmaster.
@@ -39,16 +40,17 @@ class profiles::bootstrap::puppet (
   Variant[Boolean, Stdlib::Absolutepath] $autosign = true,
   Array $autosign_domains = ['*.vagrant'],
   Pattern[/^[0-9]{3,4}$/] $autosign_mode = '0664',
-  Optional[Variant[String, Boolean]] $ca_server = false,
+  Variant[String, Boolean] $ca_server = false,
   Array $dns_alt_names = [],
-  String $environment = $::environment,
+  String $environment = $facts['environment'],
   Boolean $foreman_repo = false,
   String $hiera_yaml_datadir = '/var/lib/hiera',
   Boolean $install_toml = false,
   Boolean $install_vault = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,
-  Optional[String] $puppetmaster ='puppet',
+  String $puppetmaster ='puppet',
+  Boolean $purge_csr_attributes = true,
   String $runmode = 'service',
   Integer $runinterval = 1800,
   String $sd_service_name = 'puppet',
@@ -108,7 +110,7 @@ class profiles::bootstrap::puppet (
     use_srv_records                => $use_srv_records,
   }
   if $server {
-    if versioncmp($::puppetversion, '4.0.0') <= 0 {
+    if versioncmp($facts['puppetversion'], '4.0.0') <= 0 {
       file { 'hiera.yaml':
         mode    => '0644',
         owner   => 'puppet',
@@ -169,9 +171,11 @@ class profiles::bootstrap::puppet (
     }
   }
 
-  file { 'csr_attributes.yaml':
-    ensure => absent,
-    backup => false,
-    path   => "${settings::confdir}/csr_attributes.yaml",
+  if $purge_csr_attributes {
+    file { 'csr_attributes.yaml':
+      ensure => absent,
+      backup => false,
+      path   => "${settings::confdir}/csr_attributes.yaml",
+    }
   }
 }

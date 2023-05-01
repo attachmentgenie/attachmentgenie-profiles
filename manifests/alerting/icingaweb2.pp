@@ -69,7 +69,7 @@ class profiles::alerting::icingaweb2 (
 
   if ( $modules != []) {
     $modules.each | $module | {
-      ensure_packages( ['git'], { 'ensure' => 'present' })
+      ensure_packages(['git'], { 'ensure' => 'present' })
       class { "::profiles::alerting::icingaweb2::${module}":; }
     }
   }

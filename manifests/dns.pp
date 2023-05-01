@@ -4,7 +4,6 @@
 #  class { '::profiles::dns': }
 #
 # @param bind Manage bind on this node.
-# @param dnsmasq  Mange dnsmasqweb on this node.
 class profiles::dns (
   Boolean $bind = false,
 ) {

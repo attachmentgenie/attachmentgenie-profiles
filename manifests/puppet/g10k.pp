@@ -5,7 +5,7 @@
 # @example
 #   include profiles::puppet::g10k
 class profiles::puppet::g10k (
-  String $puppet_repo_url = undef,
+  String $puppet_repo_url,
   String $basedir         = '/etc/puppetlabs/code/environments',
   String $source_name     = 'puppet-tree',
   String $version         = '0.9.7',
@@ -14,7 +14,7 @@ class profiles::puppet::g10k (
     ensure => directory,
     mode   => '0755',
   }
-  -> class { '::g10k':
+  -> class { 'g10k':
     source_name    => $source_name,
     source_remote  => $puppet_repo_url,
     source_basedir => $basedir,

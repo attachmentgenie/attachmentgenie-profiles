@@ -12,7 +12,7 @@ class profiles::storage::ceph (
 ) {
   class { 'ceph::conf': }
   if $mon {
-    ceph::mon { $::hostname:
+    ceph::mon { $facts['networking']['hostname']:
       authentication_type => 'none',
     }
   }

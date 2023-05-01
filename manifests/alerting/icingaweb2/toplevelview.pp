@@ -8,8 +8,8 @@
 #
 class profiles::alerting::icingaweb2::toplevelview (
   Enum['absent', 'present'] $ensure = 'present',
-  String $git_repository   = 'https://github.com/Icinga/icingaweb2-module-toplevelview.git',
-  Optional[String]  $git_revision     = 'v0.3.1',
+  String $git_repository = 'https://github.com/Icinga/icingaweb2-module-toplevelview.git',
+  String $git_revision = 'v0.3.1',
 ) inherits profiles::alerting::icingaweb2 {
   icingaweb2::module { 'toplevelview':
     ensure         => $ensure,

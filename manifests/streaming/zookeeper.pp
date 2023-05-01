@@ -8,7 +8,6 @@
 # @param cleanup_sh           Location to zkCleanup.sh
 # @param initialize_datastore Create datastore.
 # @param install_method       Install method.
-# @param manage_service_file  Manage service file.
 # @param packages             List of pacakages to install.
 # @param repo                 Repository name.
 # @param service_name         Service name.

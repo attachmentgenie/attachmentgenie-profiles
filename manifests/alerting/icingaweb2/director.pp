@@ -6,10 +6,10 @@
 # @example when including it
 #   class { '::profiles::alerting::icingaweb2::director': }
 #
-# @param db_name      Database name for the director db
-# @param db_username  User for the database
-# @param db_password  The password for the user
-# @param db_host      The host where the database lives
+# @param database_name      Database name for the director db
+# @param database_username  User for the database
+# @param database_password  The password for the user
+# @param database_host      The host where the database lives
 # @param api_user     User for connecting to the api
 # @param api_password The api user's password
 # @param api_host     The host where the api lives
@@ -26,7 +26,7 @@ class profiles::alerting::icingaweb2::director (
   String $endpoint = $facts['networking']['fqdn'],
   Boolean $daemon_enable = true,
   Boolean $manage_database = true,
-  Optional[String] $version = 'v1.8.0',
+  String $version = 'v1.8.0',
 ) inherits profiles::alerting::icingaweb2 {
   class { 'icingaweb2::module::director':
     db_name       => $database_name,

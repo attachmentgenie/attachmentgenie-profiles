@@ -10,10 +10,10 @@ class profiles::storage (
   Boolean $minio = false,
 ) {
   if $ceph {
-    class { '::profiles::storage::ceph': }
+    class { 'profiles::storage::ceph': }
   }
   if $gluster {
-    class { '::profiles::storage::gluster': }
+    class { 'profiles::storage::gluster': }
   }
   if $minio {
     class { 'profiles::storage::minio': }

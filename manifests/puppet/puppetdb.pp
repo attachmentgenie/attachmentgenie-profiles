@@ -6,7 +6,6 @@
 # @param database_host      Db host.
 # @param database_password  Db password.
 # @param listen_address     Interface to bind to.
-# @param manage_firewall    Manage firewall entries.
 # @param ssl_listen_address Interface to bind ssl to.
 class profiles::puppet::puppetdb (
   Array $certificate_whitelist   = [],
@@ -25,21 +24,21 @@ class profiles::puppet::puppetdb (
   String $ssl_listen_address     = '0.0.0.0',
 ) {
   class { 'puppetdb::server':
-    database_host           => $database_host,
-    database_name           => $database_name,
-    database_password       => $database_password,
-    database_username       => $database_user,
-    listen_address          => $listen_address,
-    manage_firewall         => false,
-    read_database_host      => $database_host,
-    read_database_name      => $database_name,
-    read_database_password  => $database_password,
-    read_database_username  => $database_user,
-    ssl_listen_address      => $ssl_listen_address,
+    database_host          => $database_host,
+    database_name          => $database_name,
+    database_password      => $database_password,
+    database_username      => $database_user,
+    listen_address         => $listen_address,
+    manage_firewall        => false,
+    read_database_host     => $database_host,
+    read_database_name     => $database_name,
+    read_database_password => $database_password,
+    read_database_username => $database_user,
+    ssl_listen_address     => $ssl_listen_address,
   }
 
   if $install_client_tools {
-    if versioncmp($::puppetversion, '6.0.0') >= 0 {
+    if versioncmp($facts['puppetversion'], '6.0.0') >= 0 {
       package { 'puppetdb_cli':
         ensure          => installed,
         install_options => ['--bindir', '/opt/puppetlabs/bin'],

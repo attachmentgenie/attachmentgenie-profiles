@@ -16,7 +16,7 @@ class profiles::alerting::icingaweb2::grafana (
   String $git_url            = 'https://github.com/Mikesch-mp/icingaweb2-module-grafana',
   String $version            = 'v1.3.6',
 ) inherits profiles::alerting::icingaweb2 {
-  $conf_dir        = $::icingaweb2::params::conf_dir
+  $conf_dir        = $icingaweb2::params::conf_dir
   $module_conf_dir = "${conf_dir}/modules/grafana"
 
   $_settings     = {

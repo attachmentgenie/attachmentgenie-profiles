@@ -21,7 +21,7 @@ define profiles::metrics::grafana::datasource (
   Optional[String] $grafana_password = undef,
   Optional[String] $grafana_url = undef,
   Optional[String] $grafana_user = undef,
-  Optional[Boolean] $is_default = false,
+  Optional[Boolean] $is_default = undef,
   Optional[String] $password = undef,
   Optional[String] $type = undef,
   Optional[String] $url = undef,

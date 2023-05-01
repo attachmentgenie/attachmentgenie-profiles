@@ -6,8 +6,8 @@
 # @param package_name Only valid when the install_method == package. Defaults to `consul`.
 class profiles::security::vault (
   Stdlib::Absolutepath $bin_dir           = '/usr/local/bin',
-  $config_dir                             = '/etc/vault.d',
-  $enable_ui                              = true,
+  String $config_dir                             = '/etc/vault.d',
+  Boolean $enable_ui                              = true,
   Variant[Hash, Array[Hash]] $listener    = {
     'tcp' => {
       'address'         => '127.0.0.1:8200',
@@ -15,8 +15,10 @@ class profiles::security::vault (
       'tls_disable'     => 1,
     },
   },
-  Hash $extra_config                      = { 'api_addr' => 'https://127.0.0.1:8200', 'cluster_addr' =>
-  'https://127.0.0.1:8201' },
+  Hash $extra_config                      = {
+    'api_addr' => 'https://127.0.0.1:8200',
+    'cluster_addr' => 'https://127.0.0.1:8201',
+  },
   Enum['archive', 'repo'] $install_method = 'archive',
   Boolean $manage_firewall_entry          = true,
   Boolean $manage_package_repo            = false,

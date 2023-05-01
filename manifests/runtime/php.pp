@@ -173,6 +173,6 @@ class profiles::runtime::php (
   create_resources('::profiles::runtime::php::pool', $fpm_pools, $pool_defaults)
 
   if $collect_resources {
-    Profiles::Runtime::Php::Pool <<| tag == $resource_tag and env == $::environment |>>
+    Profiles::Runtime::Php::Pool <<| tag == $resource_tag and env == $facts['environment'] |>>
   }
 }

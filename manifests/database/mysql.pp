@@ -7,7 +7,7 @@ class profiles::database::mysql (
   Hash $databases = {},
   Stdlib::Absolutepath $data_path = '/var/lib/mysql',
   Optional[Stdlib::Absolutepath] $device = undef,
-  $listen_address = 'localhost',
+  String $listen_address = 'localhost',
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_sd_service = false,

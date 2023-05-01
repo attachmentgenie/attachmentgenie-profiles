@@ -17,7 +17,7 @@
 # @param rundeck_user      Username for the rundeck user.
 # @param user              Rundeck user
 class profiles::orchestration::rundeck (
-  Hash $auth_config         = {
+  Hash $auth_config = {
     'file' => {
       'admin_user'     => 'admin',
       'admin_password' => 'secret',
@@ -25,23 +25,23 @@ class profiles::orchestration::rundeck (
       'file'           => '/etc/rundeck/realm.properties',
     },
   },
-  Array $auth_types         = ['file'],
+  Array $auth_types = ['file'],
   String $grails_server_url = "http://${facts['networking']['fqdn']}",
-  String $group             = 'rundeck',
-  String $jvm_args          = '',
-  $listen_address           = '127.0.0.1',
+  String $group = 'rundeck',
+  String $jvm_args = '', # lint:ignore:params_empty_string_assignment
+  String $listen_address = '127.0.0.1',
   Boolean $manage_firewall_entry = true,
-  Boolean $manage_repo      = false,
+  Boolean $manage_repo = false,
   Boolean $manage_sd_service = false,
-  String $package           = '3.3.8.20210111',
-  Hash $projects            = {},
-  Boolean $puppetdb         = false,
+  String $package = '3.3.8.20210111',
+  Hash $projects = {},
+  Boolean $puppetdb = false,
   String $puppetdb_template = 'profiles/defaultMapping.json.erb',
-  String $puppetdb_version  = '0.9.5',
-  String $rundeck_user      = 'rundeck',
+  String $puppetdb_version = '0.9.5',
+  String $rundeck_user = 'rundeck',
   String $sd_service_name = 'rundeck',
   Array $sd_service_tags = [],
-  String $user              = 'rundeck',
+  String $user = 'rundeck',
 ) {
   $_jvm_args = "${jvm_args} -Dserver.http.host=${listen_address}"
   class { 'rundeck':

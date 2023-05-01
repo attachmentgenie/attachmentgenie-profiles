@@ -3,17 +3,14 @@
 # @example when declaring the foreman class
 #  class { '::profiles::puppet::foreman': }
 #
-# @param db_host                Db host.
-# @param db_manage              Manage the DB backend.
+# @param database_host          Db host.
 # @param db_manage_rake         Manage the DB rake jobs.
-# @param db_password            Db password.
+# @param database_password      Db password.
 # @param foreman_admin_password Foreman admin password.
 # @param foreman_host           Foreman fqdn.
 # @param foreman_repo           Foreman repo to use.
-# @param locations_enabled      Enable locations.
 # @param oauth_consumer_key     oauth_consumer_key.
 # @param oauth_consumer_secret  oauth_consumer_secret.
-# @param organizations_enabled  Enable organizations.
 # @param plugins                Foreman plugins to install.
 # @param protocol               Protocol to reach Foreman.
 # @param selinux                Install foreman-selinux.

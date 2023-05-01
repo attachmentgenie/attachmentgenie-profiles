@@ -6,13 +6,13 @@
 #   include profiles::puppet::puppetboard
 class profiles::puppet::puppetboard (
   Enum['docker'] $install_method = 'docker',
-  Optional[String] $docker_image = 'ghcr.io/voxpupuli/puppetboard',
+  String $docker_image = 'ghcr.io/voxpupuli/puppetboard',
   Tuple $docker_env_parameters = [
     'PUPPETDB_HOST=127.0.0.1',
     'PUPPETDB_PORT=8080',
     'PUPPETBOARD_PORT=8088',
   ],
-){
+) {
   case $install_method {
     'docker': {
       docker::image { $docker_image: }

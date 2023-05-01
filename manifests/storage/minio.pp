@@ -6,9 +6,9 @@
 #   include profiles::storage::minio
 class profiles::storage::minio (
   String $checksum                                   =
-  'b665126482965f5c9d46189b21545221ea59b9caa051660adbf2e911464e6768',
+    'b665126482965f5c9d46189b21545221ea59b9caa051660adbf2e911464e6768',
   String $client_checksum                            =
-  '43f5a8ea5b0387c56f6c81f42bf6cc05942a5956eba9c088d0fe351b3e990b07',
+    '43f5a8ea5b0387c56f6c81f42bf6cc05942a5956eba9c088d0fe351b3e990b07',
   String $client_version                             = 'RELEASE.2021-09-02T09-21-27Z',
   Hash $config                                       = {},
   Hash $config_default                               = {
@@ -23,13 +23,12 @@ class profiles::storage::minio (
   Boolean $manage_firewall_entry                     = true,
   Boolean $manage_sd_service                         = false,
   Stdlib::Host $listen_address                       = '127.0.0.1',
-  Optional[Stdlib::Port::Unprivileged] $port_api     = 9090,
-  Optional[Stdlib::Port::Unprivileged] $port_console = 9091,
+  Stdlib::Port::Unprivileged $port_api               = 9090,
+  Stdlib::Port::Unprivileged $port_console           = 9091,
   String $sd_service_name                            = 'minio',
   Array $sd_service_tags                             = ['metrics'],
   String $version                                    = 'RELEASE.2021-09-09T21-37-07Z',
 ) {
-
   $console_config = {
     'MINIO_OPTS' => "--console-address ${listen_address}:${port_console}",
   }

@@ -8,11 +8,11 @@
 # @param version          What version to install.
 # @param user             Rundeck user
 class profiles::orchestration::rundeck::puppetdb (
-  $group,
-  $template,
-  $rundeck_user,
-  $user,
-  $version,
+  String $group,
+  String $template,
+  String $rundeck_user,
+  String $user,
+  String $version,
 ) {
   wget::fetch { 'install puppetdb plugin':
     source      => "https://github.com/rundeck-plugins/rundeck-puppetenterprise-nodes-plugin/releases/download/v${version}/rundeck-puppetenterprise-nodes-plugin-${version}.jar",

@@ -5,7 +5,7 @@
 #
 define profiles::website::nginx::proxy (
   Stdlib::HTTPUrl $proxy_url,
-  $client_max_body_size = undef,
+  Optional[String] $client_max_body_size = undef,
   Boolean $manage_firewall_entry = false,
   Boolean $manage_sd_service = false,
   Stdlib::Port $port = 80,

@@ -21,10 +21,10 @@ class profiles::storage::gluster (
   String[1] $version = '9.3',
   Hash $volumes = {},
 ) {
-  class { '::gluster::repo':
+  class { 'gluster::repo':
     release => $release,
   }
-  -> class { '::gluster':
+  -> class { 'gluster':
     server                 => true,
     client                 => true,
     repo                   => $manage_repo,
@@ -37,14 +37,14 @@ class profiles::storage::gluster (
 
   $peers_defaults = {
     pool    => $pool,
-    require => Class[::gluster::service],
+    require => Class[gluster::service],
   }
   create_resources('gluster::peer', $peers, $peers_defaults)
 
   create_resources('gluster::volume', $volumes)
 
   if $manage_disk {
-    ::profiles::bootstrap::disk::mount {'gluster':
+    ::profiles::bootstrap::disk::mount { 'gluster':
       device    => $device,
       mountpath => $data_path,
     }
@@ -61,14 +61,14 @@ class profiles::storage::gluster (
     ::profiles::orchestration::consul::service { $sd_service_name:
       checks => [
         {
-          tcp      => "${::ipaddress}:24007",
+          tcp      => "${facts['networking']['ip']}:24007",
           interval => '10s'
         },
         {
           script   => '/bin/bash -c "sudo -n /usr/sbin/gluster pool list |grep -v UUID|grep -v localhost|grep Connected"',
           interval => '10s',
           timeout  => '5s'
-        }
+        },
       ],
       port   => 24007,
       tags   => $sd_service_tags,

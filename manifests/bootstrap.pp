@@ -15,6 +15,7 @@ class profiles::bootstrap (
   Boolean $repos = false,
   Boolean $resolv = false,
   Boolean $ssh = false,
+  Boolean $systemd = false,
 ) {
   if $accounts {
     class { 'profiles::bootstrap::accounts': }
@@ -48,5 +49,8 @@ class profiles::bootstrap (
   }
   if $ssh {
     class { 'profiles::bootstrap::ssh': }
+  }
+  if $systemd {
+    class { 'profiles::bootstrap::systemd': }
   }
 }

@@ -5,7 +5,6 @@
 #    value => 'foo'
 #  }
 #
-# @param value plugin value.
 define profiles::puppet::foreman::plugin (
   String[1] $package = "${facts['foreman::plugin_prefix']}${title}",
 ) {

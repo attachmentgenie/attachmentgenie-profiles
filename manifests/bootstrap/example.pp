@@ -25,7 +25,7 @@ class profiles::bootstrap::example (
   Boolean $manage_sd_service = false,
   Boolean $manage_sudoersd = false,
   Boolean $manage_sysctl = false,
-  Optional[Stdlib::Port::Unprivileged] $port = 8080,
+  Stdlib::Port::Unprivileged $port = 8080,
   Optional[String] $runmode = undef,
   String $sd_service_check_interval = '10s',
   Optional[Stdlib::HTTPUrl] $sd_service_endpoint = undef,

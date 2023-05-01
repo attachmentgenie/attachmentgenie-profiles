@@ -14,7 +14,7 @@ class profiles::orchestration (
   Boolean $rundeck     = false,
 ) {
   if $bolt {
-    class { '::profiles::orchestration::bolt': }
+    class { 'profiles::orchestration::bolt': }
   }
   if $consul {
     class { 'profiles::orchestration::consul': }

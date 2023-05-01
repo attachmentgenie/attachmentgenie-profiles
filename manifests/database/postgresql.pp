@@ -4,13 +4,13 @@
 #  class { '::profiles::database::postgresql': }
 #
 class profiles::database::postgresql (
-  $databases = {},
+  Hash $databases = {},
   Stdlib::Absolutepath $data_path = '/var/lib/pgsql/data',
   Optional[Stdlib::Absolutepath] $device = undef,
-  $encoding = 'UTF-8',
+  String $encoding = 'UTF-8',
   Optional[Hash] $hba_rules = undef,
-  $ip_mask_allow_all_users = '127.0.0.1/32',
-  $listen_address = 'localhost',
+  String $ip_mask_allow_all_users = '127.0.0.1/32',
+  String $listen_address = 'localhost',
   Boolean $manage_disk = false,
   Boolean $manage_firewall_entry = true,
   Boolean $manage_package_repo = false,
@@ -19,7 +19,7 @@ class profiles::database::postgresql (
   String $sd_service_name = 'postgresql',
   Array $sd_service_tags = ['metrics'],
   String $superuser_password = 'changeme',
-  $version = '13',
+  String $version = '13',
 ) {
   $_service_ensure = $patroni ? { true => 'stopped', default => 'running' }
   class { 'postgresql::globals':

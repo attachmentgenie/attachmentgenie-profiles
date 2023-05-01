@@ -9,13 +9,13 @@
 # @param puppetmaster  Manage puppetmaster on this node.
 # @param r10k          Manage r10k on this node.
 class profiles::puppet (
-  $foreman = false,
-  $foreman_proxy = false,
-  $g10k = false,
-  $puppetboard = false,
-  $puppetdb = false,
-  $puppetmaster = false,
-  $r10k = false,
+  Boolean $foreman = false,
+  Boolean $foreman_proxy = false,
+  Boolean $g10k = false,
+  Boolean $puppetboard = false,
+  Boolean $puppetdb = false,
+  Boolean $puppetmaster = false,
+  Boolean $r10k = false,
 ) {
   if $foreman {
     class { 'profiles::puppet::foreman': }
@@ -25,10 +25,10 @@ class profiles::puppet (
     }
   }
   if $g10k {
-    class { '::profiles::puppet::g10k': }
+    class { 'profiles::puppet::g10k': }
   }
   if $puppetboard {
-    class { '::profiles::puppet::puppetboard': }
+    class { 'profiles::puppet::puppetboard': }
   }
   if $puppetdb {
     class { 'profiles::puppet::puppetdb': }

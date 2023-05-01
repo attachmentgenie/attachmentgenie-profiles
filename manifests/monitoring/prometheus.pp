@@ -34,8 +34,7 @@ class profiles::monitoring::prometheus (
               'labels'      => { 'severity' => 'page' },
               'annotations' => {
                 'summary'     => 'Instance {{ $labels.instance }} down',
-                'description' =>
-                '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
+                'description' => '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes.',
               },
             },
           ],
@@ -60,14 +59,14 @@ class profiles::monitoring::prometheus (
   String $sd_service_name                        = 'prometheus',
   Boolean $pushgateway                           = false,
   Array $scrape_configs                          = [{
-    'job_name'        => 'prometheus',
-    'scrape_interval' => '10s',
-    'scrape_timeout'  => '10s',
-    'static_configs'  => [
-      {
-        'targets' => ['localhost:9090'],
-      }
-    ],
+      'job_name'        => 'prometheus',
+      'scrape_interval' => '10s',
+      'scrape_timeout'  => '10s',
+      'static_configs'  => [
+        {
+          'targets' => ['localhost:9090'],
+        }
+      ],
   }],
   Array $sd_service_tags                         = ['metrics'],
   Boolean $server                                = false,

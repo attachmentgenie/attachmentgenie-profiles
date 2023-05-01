@@ -7,8 +7,8 @@
 # @param email_registration  Email address to register with
 # @param unsafe_registration Make request anonymous.
 class profiles::website::letsencrypt (
+  String[1] $email_registration, # lint:ignore:params_empty_string_assignment
   Hash $certs = {},
-  String $email_registration = '',
   Boolean $unsafe_registration = false,
 ) {
   class { 'letsencrypt':

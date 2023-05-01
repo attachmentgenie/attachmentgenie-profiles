@@ -7,10 +7,10 @@ class profiles::alerting::icingaweb2::auth (
   String $hostname,
   String $ldap_userclass,
   String $root_dn,
-  String $auth_type      = 'ldap',
-  String $encryption     = 'none',
-  String $ldap_filter    = '',
-  Integer $port           = 389,
+  String $auth_type = 'ldap',
+  String $encryption = 'none',
+  Optional[String] $ldap_filter = undef,
+  Integer $port = 389,
 ) {
   ::icingaweb2::config::resource { 'ldap-resource':
     type            => $auth_type,

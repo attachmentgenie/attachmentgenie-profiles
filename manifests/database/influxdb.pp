@@ -3,7 +3,7 @@
 # @example when declaring the influxdb class
 #  class { '::profiles::database::influxdb': }
 #
-# @param manage_repo Manage repositories.
+# @param manage_package_repo Manage repositories.
 class profiles::database::influxdb (
   Stdlib::Absolutepath $data_path = '/var/lib/influxdb',
   Optional[Stdlib::Absolutepath] $device = undef,

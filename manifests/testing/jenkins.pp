@@ -23,7 +23,7 @@ class profiles::testing::jenkins (
         },
       },
       disableRememberMe => true,
-      numExecutors  => $::processors['count'],
+      numExecutors  => $facts['processors']['count'],
       remotingSecurity => {
         enabled => true,
       },
@@ -161,7 +161,7 @@ class profiles::testing::jenkins (
   Array $sd_service_tags = [],
   Boolean $slave = false,
   Boolean $slave_disable_ssl_verification = true,
-  Integer $slave_executors = $::processors['count'],
+  Integer $slave_executors = $facts['processors']['count'],
   String $slave_user = 'slave',
   String $slave_password = 'secret',
   String $slave_version = '3.27',
@@ -197,8 +197,8 @@ class profiles::testing::jenkins (
 
       file { "${jenkins::localstatedir}/jenkins.yaml":
         content => template('profiles/testing/jenkins/jenkins.yaml.erb'),
-        group   => $::jenkins::group,
-        owner   => $::jenkins::user,
+        group   => $jenkins::group,
+        owner   => $jenkins::user,
         before  => Service['jenkins'],
       }
 
