@@ -45,6 +45,21 @@ lookup_options:
   profiles::monitoring::icinga2::templates:
     merge:
       strategy: hash
+  profiles::monitoring::grafana_agent::intergrations_config_hash:
+    merge:
+      strategy: hash
+  profiles::monitoring::grafana_agent::loki_config_hash:
+    merge:
+      strategy: hash
+  profiles::monitoring::grafana_agent::prometheus_config_hash:
+    merge:
+      strategy: hash
+  profiles::monitoring::grafana_agent::server_config_hash:
+    merge:
+      strategy: hash
+  profiles::monitoring::grafana_agent::tempo_config_hash:
+    merge:
+      strategy: hash
   profiles::scheduling::nomad::config:
     merge:
       strategy: deep
