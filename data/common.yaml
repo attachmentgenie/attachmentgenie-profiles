@@ -47,20 +47,37 @@ lookup_options:
       strategy: hash
   profiles::monitoring::grafana_agent::intergrations_config_hash:
     merge:
-      strategy: hash
+      strategy: deep
+      merge_hash_arrays: true
   profiles::monitoring::grafana_agent::loki_config_hash:
     merge:
-      strategy: hash
+      strategy: deep
+      merge_hash_arrays: true
   profiles::monitoring::grafana_agent::prometheus_config_hash:
     merge:
-      strategy: hash
+      strategy: deep
+      merge_hash_arrays: true
   profiles::monitoring::grafana_agent::server_config_hash:
     merge:
-      strategy: hash
+      strategy: deep
+      merge_hash_arrays: true
   profiles::monitoring::grafana_agent::tempo_config_hash:
     merge:
-      strategy: hash
+      strategy: deep
+      merge_hash_arrays: true
   profiles::scheduling::nomad::config:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profiles::scheduling::nomad::host_volumes:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profiles::website::traefik2::dynamic_config:
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+  profiles::website::traefik2::static_config:
     merge:
       strategy: deep
       merge_hash_arrays: true
@@ -236,4 +253,3 @@ profiles::monitoring::icinga2::timeperiods:
       'friday': '00:00-24:00'
       'saturday': '00:00-24:00'
       'sunday': '00:00-24:00'
-

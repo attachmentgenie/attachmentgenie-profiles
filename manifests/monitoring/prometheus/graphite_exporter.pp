@@ -50,8 +50,8 @@ class profiles::monitoring::prometheus::graphite_exporter (
       port => 9109,
     }
     ::profiles::bootstrap::firewall::entry { '200 allow graphite udp':
-      port     => 9109,
-      protocol => 'udp',
+      port  => 9109,
+      proto => 'udp',
     }
   }
 }

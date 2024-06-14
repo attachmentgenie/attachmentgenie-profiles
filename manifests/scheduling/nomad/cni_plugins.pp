@@ -14,21 +14,27 @@ class profiles::scheduling::nomad::cni_plugins (
 ) {
   case $install_method {
     'url': {
-      $install_path = '/opt/cni/bin'
+      $install_path = '/opt/cni'
       $real_download_url = pick($download_url, "${download_url_base}/${version}/${package_name}-linux-${arch}-${version}.${download_extension}") # lint:ignore:140chars
 
       include 'archive'
       file { [
-          '/opt/cni',
-        '/opt/cni/bin']:
+          $install_path,
+        "${install_path}/${package_name}-${version}"]:
           ensure => directory,
       }
-      -> archive { "${install_path}/cni_plugins.${download_extension}":
+      -> archive { "${install_path}/${package_name}-${version}.${download_extension}":
         ensure       => present,
         source       => $real_download_url,
         extract      => true,
-        extract_path => $install_path,
-        creates      => "${install_path}/bridge",
+        extract_path => "${install_path}/${package_name}-${version}",
+        creates      => "${install_path}/${package_name}-${version}/bridge",
+      }
+      -> file { "${install_path}/bin":
+        ensure => link,
+        force  => true,
+        notify => Service['nomad'],
+        target => "${install_path}/${package_name}-${version}",
       }
     }
     'none': {}

@@ -20,12 +20,18 @@ class profiles::bootstrap::firewall (
   }
 
   profiles::bootstrap::firewall::entry { '000 related,established':
-    protocol => 'all',
-    state    => [
+    proto => 'all',
+    state => [
       'RELATED',
       'ESTABLISHED',
     ],
   }
 
   create_resources( '::profiles::bootstrap::firewall::entry', $entries)
+
+  firewallchain { 'INPUT:filter:IPv4':
+    ensure => present,
+    policy => drop,
+    before => undef,
+  }
 }

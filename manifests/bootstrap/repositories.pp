@@ -9,6 +9,7 @@
 # @param hashicorp       Configure hashicorp.
 # @param puppetlabs_deps Configure puppetlabs_deps.
 # @param remi            Configure remi repository.
+# @param repo_confs      repo config to set.
 # @param repositories    Repositories to configure.
 class profiles::bootstrap::repositories (
   Boolean $epel            = false,
@@ -17,6 +18,7 @@ class profiles::bootstrap::repositories (
   Boolean $hashicorp       = false,
   Boolean $puppetlabs_deps = false,
   Boolean $remi            = false,
+  Hash $repo_confs         = {},
   Hash $repositories       = {},
 ) {
   if $epel {
@@ -69,9 +71,15 @@ class profiles::bootstrap::repositories (
   }
 
   # add extra repositories
-  $yum_defaults = {
-    enabled  => 1,
-    gpgcheck => 1,
+  if $facts['os']['family'] == 'Debian' {
+    class { 'profiles::bootstrap::repositories::apt':
+      apt_confs    => $repo_confs,
+      repositories => $repositories,
+    }
   }
-  create_resources( 'yumrepo', $repositories, $yum_defaults )
+  if $facts['os']['family'] == 'RedHat' {
+    class { 'profiles::bootstrap::repositories::yum':
+      repositories => $repositories,
+    }
+  }
 }

@@ -9,8 +9,8 @@ class profiles::bootstrap (
   Boolean $fail2ban = false,
   Boolean $firewall = false,
   Boolean $keepalive = false,
-  Boolean $network = false,
   Boolean $ntp = false,
+  Boolean $packages = true,
   Boolean $puppet = false,
   Boolean $repos = false,
   Boolean $resolv = false,
@@ -32,11 +32,11 @@ class profiles::bootstrap (
   if $keepalive {
     class { 'profiles::bootstrap::keepalive': }
   }
-  if $network {
-    class { 'profiles::bootstrap::network': }
-  }
   if $ntp {
     class { 'profiles::bootstrap::time': }
+  }
+  if $packages {
+    class { 'profiles::bootstrap::packages': }
   }
   if $puppet {
     class { 'profiles::bootstrap::puppet': }
