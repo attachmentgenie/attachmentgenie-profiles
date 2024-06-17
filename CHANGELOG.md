@@ -1,5 +1,44 @@
 # Changelog
 
+## 4.0.0
+
+- Update tp PDK 2.7
+- Adding deep merge strategies for consul, icinga and grafana_agent
+- Added version layer to hiera data
+- Added incinga director
+- Added sd and firewall settings for alertmanager
+- icingaweb improvements
+- Icingaweb plugin implementations
+- Adding keepalived, network and systemd management
+- Disk mount defined type
+- Added example profile
+- Added systctl entry defined type
+- removed etcd profile
+- Added sd and firewall settings for mongodb
+- Added mongodb db defined type
+- Added sd and firewall settings for mysql
+- Added mysql db and user defined types
+- Added sd and firewall settings for neo4j
+- Added disk, sd and firewall settings for postgresql
+- Added pgsql db and user defined types
+- Added Loki and grafana-agent profile
+- prometheus profile improvements
+- blackbox_exporter profile
+- graphite_exporter profile
+- node_exporter profile
+- pushgateway profile
+- statsd_exporter profile
+- promtail profile
+- bolt profile
+- consul profile improvements
+- g10k and puppetboard profiles
+- foreman profile improvements
+- puppetdb improvements
+- nexus profile
+- runtime profile improvements
+- nomad profile improvements
+- template improvements
+
 ## 3.1.0
 
 - Splitting resolv from dnsmasq.
