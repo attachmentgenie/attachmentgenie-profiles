@@ -4,9 +4,14 @@
 #  class { '::profiles::runtime::docker': }
 #
 class profiles::runtime::docker (
+  Optional[Variant[String,Array]] $dns_servers = undef,
   Hash $registries = {},
 ) {
-  class { 'docker': }
+  include systemd
+
+  class { 'docker':
+    dns => $dns_servers,
+  }
 
   create_resources('::docker::registry', $registries)
 }

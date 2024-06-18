@@ -50,8 +50,8 @@ class profiles::monitoring::prometheus::statsd_exporter (
       port => 9125,
     }
     ::profiles::bootstrap::firewall::entry { '200 allow statsd udp':
-      port     => 9125,
-      protocol => 'udp',
+      port  => 9125,
+      proto => 'udp',
     }
   }
 }

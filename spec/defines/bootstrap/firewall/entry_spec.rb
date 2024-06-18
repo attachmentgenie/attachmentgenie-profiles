@@ -7,7 +7,7 @@ describe 'profiles::bootstrap::firewall::entry' do
       context 'with foo set to bar' do
         let(:title) { 'foo' }
 
-        it { is_expected.to contain_firewall('foo').with_action('accept') }
+        it { is_expected.to contain_firewall('foo').with_jump('accept') }
       end
     end
   end

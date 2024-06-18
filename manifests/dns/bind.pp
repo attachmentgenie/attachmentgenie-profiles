@@ -21,11 +21,11 @@ class profiles::dns::bind (
   create_resources( '::profiles::dns::bind::zone', $zones )
 
   profiles::bootstrap::firewall::entry { '200 allow Bind TCP':
-    port     => [53],
-    protocol => 'tcp',
+    port  => [53],
+    proto => 'tcp',
   }
   profiles::bootstrap::firewall::entry { '200 allow Bind UDP':
-    port     => [53],
-    protocol => 'udp',
+    port  => [53],
+    proto => 'udp',
   }
 }

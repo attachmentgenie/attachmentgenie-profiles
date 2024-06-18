@@ -2,13 +2,11 @@
 
 require 'spec_helper'
 
-describe 'profiles::database::postgresql::db' do
-  let(:pre_condition) { "class {'profiles::database::postgresql': manage_package_repo => true}" }
+describe 'profiles::scheduling::nomad::host_volume' do
   let(:title) { 'namevar' }
   let(:params) do
     {
-      'password' => 'secret',
-      'user'     => 'root'
+      'data_path' => '/opt/nomad'
     }
   end
 

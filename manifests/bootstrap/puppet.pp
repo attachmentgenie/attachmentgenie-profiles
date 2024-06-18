@@ -41,6 +41,7 @@ class profiles::bootstrap::puppet (
   Array $autosign_domains = ['*.vagrant'],
   Pattern[/^[0-9]{3,4}$/] $autosign_mode = '0664',
   Variant[String, Boolean] $ca_server = false,
+  Boolean $deploy_gc_collect_puppetdb = false,
   Array $dns_alt_names = [],
   String $environment = $facts['environment'],
   Boolean $foreman_repo = false,
@@ -75,9 +76,11 @@ class profiles::bootstrap::puppet (
   Boolean $splay = true,
   String $splaylimit = '1800s',
   String $srv_domain = 'example.org',
+  Boolean $use_cache_on_failure = false,
   Boolean $use_srv_records = false,
 ) {
   class { 'puppet':
+    agent_server_hostname          => $puppetmaster,
     allow_any_crl_auth             => $allow_any_crl_auth,
     autosign                       => $autosign,
     autosign_entries               => $autosign_domains,
@@ -85,7 +88,6 @@ class profiles::bootstrap::puppet (
     ca_server                      => $ca_server,
     dns_alt_names                  => $dns_alt_names,
     environment                    => $environment,
-    puppetmaster                   => $puppetmaster,
     runmode                        => $runmode,
     runinterval                    => $runinterval,
     server                         => $server,
@@ -107,6 +109,7 @@ class profiles::bootstrap::puppet (
     splay                          => $splay,
     splaylimit                     => $splaylimit,
     srv_domain                     => $srv_domain,
+    usecacheonfailure              => $use_cache_on_failure,
     use_srv_records                => $use_srv_records,
   }
   if $server {
@@ -176,6 +179,16 @@ class profiles::bootstrap::puppet (
       ensure => absent,
       backup => false,
       path   => "${settings::confdir}/csr_attributes.yaml",
+    }
+  }
+
+  if $deploy_gc_collect_puppetdb {
+    file { 'gc_collect_puppetdb':
+      mode   => '0755',
+      owner  => 'puppet',
+      group  => 'puppet',
+      source => "puppet:///modules/${module_name}/bootstrap/gc_collect_puppetdb",
+      path   => '/opt/puppetlabs/bin/gc_collect_puppetdb',
     }
   }
 }

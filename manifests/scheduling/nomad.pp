@@ -18,14 +18,16 @@ class profiles::scheduling::nomad (
   Boolean $consul_connect                        = false,
   Stdlib::Absolutepath $data_path                = '/opt/nomad',
   Optional[Stdlib::Absolutepath] $device         = undef,
+  Hash $host_volumes                             = {},
   Enum['url', 'package', 'none'] $install_method = 'url',
   String $job_port_range                         = '20000-32000',
   Boolean $manage_disk                           = false,
   Boolean $manage_firewall_entry                 = true,
   Boolean $manage_package_repo                   = false,
-  Boolean $manage_sd_service                     = true,
+  Boolean $manage_sd_service                     = false,
   Boolean $manage_service_file                   = true,
   Boolean $manage_sysctl                         = true,
+  Boolean $nomad_device_nvidia                   = false,
   String[1] $package_name                        = 'nomad',
   String $sd_service_check_interval              = '10s',
   Stdlib::HTTPUrl $sd_service_endpoint           = "http://${facts['networking']['ip']}:4646",
@@ -54,6 +56,8 @@ class profiles::scheduling::nomad (
 
   if $install_method == 'package' {
     $_bin_dir = '/bin'
+
+    Package[$package_name] -> Profiles::Scheduling::Nomad::Host_volume <||>
   } else {
     $_bin_dir = $bin_dir
   }
@@ -70,18 +74,41 @@ class profiles::scheduling::nomad (
     version             => $version,
   }
 
+  $host_volume_defaults = {
+    data_path => $data_path,
+  }
+  create_resources( '::profiles::scheduling::nomad::host_volume', $host_volumes, $host_volume_defaults)
+
   if $manage_disk {
     ::profiles::bootstrap::disk::mount { 'nomad data disk':
       device    => $device,
       mountpath => $data_path,
       before    => Service['nomad'],
     }
+
+    Profiles::Bootstrap::Disk::Mount['nomad data disk'] -> Profiles::Scheduling::Nomad::Host_volume <||>
   }
   if $manage_firewall_entry {
     # https://www.nomadproject.io/docs/job-specification/network.html#dynamic-ports
-    ::profiles::bootstrap::firewall::entry { '200 allow Nomad services':
-      port => [$job_port_range],
+    # Nomad adds rules to route traffic to it's containers in the nat preroute table.
+    # This is a problem because it means the ports exposed by Nomad's containers aren't
+    # covered by normal firewall rules.
+    ::profiles::bootstrap::firewall::entry { '200 deny public TCP connections to Nomad services':
+      table       => 'raw',
+      jump        => 'drop',
+      chain       => 'PREROUTING',
+      destination => $facts["ipaddress"],
+      port        => [$job_port_range],
     }
+    ::profiles::bootstrap::firewall::entry { '200 deny public UDP connections to Nomad services':
+      table       => 'raw',
+      jump        => 'drop',
+      chain       => 'PREROUTING',
+      destination => $facts["ipaddress"],
+      port        => [$job_port_range],
+      proto       => 'udp',
+    }
+
     ::profiles::bootstrap::firewall::entry { '200 allow Nomad http':
       port => [4646],
     }
@@ -103,5 +130,9 @@ class profiles::scheduling::nomad (
       port   => 4646,
       tags   => $sd_service_tags,
     }
+  }
+
+  if $nomad_device_nvidia {
+    class { 'profiles::scheduling::nomad::plugins::nomad_device_nvidia': }
   }
 }

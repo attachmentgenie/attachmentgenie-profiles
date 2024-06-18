@@ -61,8 +61,10 @@ class profiles::orchestration::consul (
   }
 
   if $install_method == 'package' {
+    $_package_ensure = $version
     $_bin_dir = '/bin'
   } else {
+    $_package_ensure = 'installed'
     $_bin_dir = $bin_dir
   }
 
@@ -75,6 +77,7 @@ class profiles::orchestration::consul (
     install_method  => $install_method,
     join_wan        => $join_wan,
     manage_repo     => $manage_package_repo,
+    package_ensure  => $_package_ensure,
     package_name    => $package_name,
     version         => $version,
   }
@@ -124,12 +127,12 @@ class profiles::orchestration::consul (
       port => 8502,
     }
     profiles::bootstrap::firewall::entry { '100 allow consul DNS TCP':
-      port     => 8600,
-      protocol => 'tcp',
+      port  => 8600,
+      proto => 'tcp',
     }
     profiles::bootstrap::firewall::entry { '100 allow consul DNS UDP':
-      port     => 8600,
-      protocol => 'udp',
+      port  => 8600,
+      proto => 'udp',
     }
   }
 

@@ -10,12 +10,13 @@
 /coverage/
 /bin/
 /doc/
+/Gemfile.local
 /Gemfile.lock
 /junit/
 /log/
 /pkg/
 /spec/fixtures/manifests/
-/spec/fixtures/modules/
+/spec/fixtures/modules/*
 /tmp/
 /vendor/
 /convert_report.txt
